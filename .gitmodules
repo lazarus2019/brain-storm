@@ -1,0 +1,3 @@
+[submodule "nix-flake-samples"]
+	path = nix-flake-samples
+	url = https://github.com/lazarus2019/nix-flake-samples
