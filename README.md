@@ -24,6 +24,14 @@ Study notes for edge computing, runtime constraints, storage primitives, and fro
 - [Deep dive guide](cloudflare/docs/CLOUDFLARE_WORKER.md)
 - [Brainstorm prompt](cloudflare/docs/BRAIN_STORM.md)
 
+### GitHub Actions
+
+Study notes for CI/CD automation, deployment pipelines, release engineering, and platform engineering with GitHub Actions.
+
+- [Concept overview](github/README.md)
+- [Deep dive guide](github/docs/GITHUB_ACTION.md)
+- [Brainstorm prompt](github/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
