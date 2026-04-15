@@ -16,6 +16,14 @@ Study notes for reproducible development environments, multi-shell setups, proje
 - [Deep dive guide](nix-flake-samples/docs/NIX_FLAKE.md)
 - [Brainstorm prompt](nix-flake-samples/docs/BRAIN_STORM.md)
 
+### Cloudflare Workers
+
+Study notes for edge computing, runtime constraints, storage primitives, and frontend-to-edge architecture.
+
+- [Concept overview](cloudflare/README.md)
+- [Deep dive guide](cloudflare/docs/CLOUDFLARE_WORKER.md)
+- [Brainstorm prompt](cloudflare/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
