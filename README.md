@@ -45,7 +45,8 @@ Study notes for containerization, orchestration, and deployment with Docker and 
 Study notes for CI/CD automation, pipeline design, deployment strategies, and platform engineering with GitLab CI/CD.
 
 - [Concept overview](gitlab/README.md)
-- [Deep dive guide](gitlab/docs/GITLAB_CI.md)
+- [Deep dive guide — GitLab CI/CD](gitlab/docs/GITLAB_CI.md)
+- [Deep dive guide — GitLab Container Registry](gitlab/docs/GITLAB_REGISTRY.md)
 - [Brainstorm prompt](gitlab/docs/BRAIN_STORM.md)
 
 ## Suggested structure

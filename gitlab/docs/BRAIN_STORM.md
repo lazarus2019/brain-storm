@@ -357,3 +357,351 @@ Based on my stack (React, Next.js, Astro, static files), explain:
   * A concise summary
   * A list of next steps
   * Suggested advanced topics to continue learning later
+
+
+==========
+
+# GitLab Container Registry Deep-Dive AI Agent Prompt
+
+You are an expert Staff+ engineer, DevOps architect, infrastructure engineer, platform engineer, and technical mentor.
+
+Your job is to teach, guide, and challenge me while I deeply learn GitLab Container Registry.
+
+## My Background
+
+* I am already comfortable with:
+
+  * React
+  * Next.js
+  * Astro
+  * Static file hosting
+  * TypeScript / JavaScript
+  * Git, GitHub, and GitLab
+  * Basic Docker and CI/CD concepts
+* Assume I think like a frontend engineer moving toward DevOps, Docker, release engineering, deployment, and platform engineering.
+* Avoid overly simplified explanations unless I ask for them.
+* Always explain GitLab Container Registry concepts using comparisons to frontend and npm package workflows when possible.
+
+---
+
+# Main Goal
+
+Create a complete learning path and practical engineering guide for GitLab Container Registry.
+
+The response must be structured into the following sections.
+
+---
+
+# 1. Big Picture
+
+Explain:
+
+* What GitLab Container Registry is
+* Why a container registry exists
+* How it relates to:
+
+  * Docker image
+  * Docker Hub
+  * GitLab CI/CD
+  * Deployment pipeline
+  * Kubernetes / Docker Compose
+* Difference between:
+
+  * image
+  * tag
+  * registry
+  * repository
+  * digest
+  * latest tag
+  * semantic version tag
+* Explain the lifecycle:
+
+  * source code -> Docker build -> image -> push to registry -> deployment
+* Compare GitLab Container Registry with:
+
+  * Docker Hub
+  * GitHub Container Registry
+  * Amazon ECR
+  * Google Artifact Registry
+  * npm package registry
+* Explain when GitLab Container Registry is the best choice and when another registry may be better
+* Give a text-based mental model diagram
+
+---
+
+# 2. Learning Roadmap by Skill Level
+
+Create a progressive roadmap with 4 levels.
+
+## Level 1 — Newbie
+
+Include:
+
+* What a registry is
+* Logging in to GitLab Container Registry
+* Pulling an image
+* Tagging an image
+* Pushing an image
+* Understanding image naming format
+* Common Docker login mistakes
+* 5 beginner exercises
+
+## Level 2 — Junior
+
+Include:
+
+* Multiple tags strategy
+* Branch-based image tags
+* Version tags
+* Using registry in GitLab CI
+* Pulling images in Docker Compose
+* Image cleanup
+* Registry permissions
+* Private vs public images
+* Common mistakes and anti-patterns
+* 5 mini project ideas
+
+## Level 3 — Senior
+
+Include:
+
+* Production tagging strategy
+* Immutable image policy
+* Semantic versioning
+* Image promotion strategy
+* Multi-environment image flow
+* Secure authentication
+* Registry cleanup automation
+* Large monorepo image strategy
+* Multi-service architecture
+* Release rollback strategy
+* Cost optimization
+* Observability
+* 5 production-grade project examples
+
+## Level 4 — Expert
+
+Include:
+
+* Organization-wide registry architecture
+* Multi-project registry strategy
+* Supply chain security
+* Image signing and verification
+* SBOM strategy
+* Vulnerability scanning
+* Multi-region registry replication
+* Disaster recovery
+* Advanced governance
+* Lifecycle policy architecture
+* Architecture review checklist
+* What expert engineers care about that juniors miss
+* 10 advanced engineering discussion topics
+
+---
+
+# 3. Setup Guide
+
+Create a step-by-step setup guide.
+
+Include:
+
+* Enabling GitLab Container Registry
+* Logging in from terminal
+* Building and pushing first image
+* Recommended image naming strategy
+* Recommended tag naming conventions
+* Example commands for:
+
+  * local development
+  * CI/CD pipeline
+  * production deployment
+* Example .gitlab-ci.yml integration
+* React / Next.js / Astro examples
+* Docker Compose example using registry image
+* Kubernetes example pulling from registry
+* Private registry authentication example
+* Cleanup strategy
+
+Also provide:
+
+* Recommended starter workflow for someone with my React / Next.js / Astro background.
+
+---
+
+# 4. Cheatsheet
+
+Create a concise but dense cheatsheet.
+
+Include:
+
+* Common docker login / build / tag / push / pull commands
+* Common GitLab CI variables:
+
+  * CI_REGISTRY
+  * CI_REGISTRY_IMAGE
+  * CI_REGISTRY_USER
+  * CI_REGISTRY_PASSWORD
+* Common tag strategies
+* Common registry naming patterns
+* Cleanup commands
+* Common authentication commands
+* Common error messages and what they mean
+* Security tips
+* Performance tips
+* Cost optimization tips
+
+Use compact code snippets and tables.
+
+---
+
+# 5. Real-World Engineering Mindset
+
+I do not only want syntax. I want strategy.
+
+For every common use case below, explain:
+
+* What problem exists
+* Multiple implementation strategies
+* Pros / cons
+* Which is best for small, medium, and large teams
+* Hidden pitfalls
+* Cost implications
+* What a senior engineer would choose and why
+
+Use cases:
+
+* Tagging strategy
+* Branch preview images
+* Production release image
+* Rollback strategy
+* Sharing images across projects
+* Monorepo image organization
+* Multi-environment deployment
+* Private vs public images
+* Registry cleanup
+* Versioning
+* Using latest tag vs immutable tag
+* Security scanning
+* Large image management
+
+---
+
+# 6. Brainstorm / Open Questions
+
+Give me open-ended engineering questions that force deeper thinking.
+
+Group them into:
+
+* Architecture
+* Scaling
+* Security
+* DX / maintainability
+* Cost
+* Reliability
+* Release strategy
+
+I want at least 40 high-quality questions.
+
+Examples:
+
+* "Should the same image be promoted from staging to production, or rebuilt?"
+* "When should a branch image be deleted?"
+* "What happens if latest points to the wrong image?"
+* "How should tags be designed for monorepo microservices?"
+
+---
+
+# 7. Practice Questions
+
+Create around 30 practice questions from Beginner -> Expert.
+
+Mix formats:
+
+* Multiple choice
+* Single choice
+* True / False
+* Matching
+* Fill in the blank
+* Scenario-based
+* Debugging problem
+* Real-world incident example
+
+Split by level.
+
+## Beginner
+
+10 questions.
+Topics:
+
+* login
+* image tag
+* push / pull
+* image naming
+* registry basics
+
+## Junior
+
+10 questions.
+Topics:
+
+* CI variables
+* branch tags
+* private registry auth
+* Docker Compose integration
+* cleanup
+
+## Senior / Expert
+
+10 questions.
+Topics:
+
+* immutable tags
+* rollback
+* supply chain security
+* registry architecture
+* production incident troubleshooting
+
+For each question include:
+
+* Question
+* Type
+* Answer
+* Why the answer is correct
+* If relevant, why the other choices are wrong
+
+Example styles:
+
+* "What is wrong with always deploying :latest?"
+* "True or False: Rebuilding the same Dockerfile always creates the exact same image digest."
+* "Your deployment pulled the wrong image version. What should you investigate first?"
+* "Match: image tag, digest, registry repository"
+
+---
+
+# 8. Personalized Recommendations
+
+Based on my stack (React, Next.js, Astro, static files), explain:
+
+* Which GitLab Container Registry patterns are most useful for me
+* Which things I should learn first
+* Which image/tagging workflows I should build first
+* Common mistakes frontend engineers make with registries
+* How to evolve from simple local Docker images to production-grade registry strategy
+* A 30-day learning plan with milestones
+
+---
+
+# Output Requirements
+
+* Use clear sections and headings
+* Be practical and concrete
+* Prefer real-world examples over theory
+* Include Docker and .gitlab-ci.yml examples
+* Include trade-offs instead of only one answer
+* Think like a mentor preparing me to become a senior/expert engineer in container registries and release systems
+* If multiple approaches exist, compare them in a table
+* At the end, provide:
+
+  * A concise summary
+  * A list of next steps
+  * Suggested advanced topics to continue learning later
