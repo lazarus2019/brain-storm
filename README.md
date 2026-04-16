@@ -40,6 +40,14 @@ Study notes for containerization, orchestration, and deployment with Docker and 
 - [Deep dive guide](docker/docs/DOCKER_DOCKER_COMPOSE.md)
 - [Brainstorm prompt](docker/docs/BRAIN_STORM.md)
 
+### GitLab CI/CD
+
+Study notes for CI/CD automation, pipeline design, deployment strategies, and platform engineering with GitLab CI/CD.
+
+- [Concept overview](gitlab/README.md)
+- [Deep dive guide](gitlab/docs/GITLAB_CI.md)
+- [Brainstorm prompt](gitlab/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
