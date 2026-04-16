@@ -32,6 +32,14 @@ Study notes for CI/CD automation, deployment pipelines, release engineering, and
 - [Deep dive guide](github/docs/GITHUB_ACTION.md)
 - [Brainstorm prompt](github/docs/BRAIN_STORM.md)
 
+### Docker / Docker Compose
+
+Study notes for containerization, orchestration, and deployment with Docker and Docker Compose.
+
+- [Concept overview](docker/README.md)
+- [Deep dive guide](docker/docs/DOCKER_DOCKER_COMPOSE.md)
+- [Brainstorm prompt](docker/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
