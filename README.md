@@ -49,6 +49,14 @@ Study notes for CI/CD automation, pipeline design, deployment strategies, and pl
 - [Deep dive guide — GitLab Container Registry](gitlab/docs/GITLAB_REGISTRY.md)
 - [Brainstorm prompt](gitlab/docs/BRAIN_STORM.md)
 
+### React Core
+
+Study notes for React internals, rendering model, fiber architecture, concurrent rendering, state architecture, and production-grade frontend engineering.
+
+- [Concept overview](react/README.md)
+- [Deep dive guide](react/docs/CORE_REACT.md)
+- [Brainstorm prompt](react/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
