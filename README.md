@@ -57,6 +57,14 @@ Study notes for React internals, rendering model, fiber architecture, concurrent
 - [Deep dive guide](react/docs/CORE_REACT.md)
 - [Brainstorm prompt](react/docs/BRAIN_STORM.md)
 
+### TypeScript
+
+Comprehensive learning path and engineering guide for TypeScript: from beginner concepts to compiler-level mental models and large-scale architecture thinking.
+
+- [Concept overview](typescript/README.md)
+- [Ultimate deep-dive guide](typescript/docs/TS_ULTIMATE.md)
+- [Brainstorm prompt](typescript/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
