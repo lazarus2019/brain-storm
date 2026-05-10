@@ -46,6 +46,7 @@ Study notes for CI/CD automation, pipeline design, deployment strategies, and pl
 
 - [Concept overview](gitlab/README.md)
 - [Deep dive guide — GitLab CI/CD](gitlab/docs/GITLAB_CI.md)
+- [Roadmap — GitLab CI Roadmap](gitlab/docs/GITLAB_CI_ROADMAP.md)
 - [Deep dive guide — GitLab Container Registry](gitlab/docs/GITLAB_REGISTRY.md)
 - [Brainstorm prompt](gitlab/docs/BRAIN_STORM.md)
 

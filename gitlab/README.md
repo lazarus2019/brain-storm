@@ -5,6 +5,7 @@ Study notes for CI/CD automation, pipeline design, deployment strategies, and pl
 ## Contents
 
 - [Deep dive guide — GitLab CI/CD](docs/GITLAB_CI.md) — Complete engineering guide covering pipeline architecture, `.gitlab-ci.yml` syntax, runners, stages, jobs, artifacts, caching, environments, deployment strategies, monorepo patterns, security scanning, and organization-scale governance.
+- [Roadmap — GitLab CI Roadmap](docs/GITLAB_CI_ROADMAP.md) — Roadmap and step-by-step guide from basics to production-grade pipelines, patterns, and recommendations.
 - [Deep dive guide — GitLab Container Registry](docs/GITLAB_REGISTRY.md) — Complete engineering guide covering container image storage, tagging strategies, CI integration, image promotion, security scanning, cleanup policies, monorepo image organization, and supply chain security.
 - [Brainstorm prompt](docs/BRAIN_STORM.md) — The prompts used to generate the deep dive guides.
 
