@@ -92,6 +92,14 @@ Complete engineering guide for Vite: from beginner usage to build-system archite
 - [Deep dive guide](vite/docs/VITE.md)
 - [Brainstorm prompt](vite/docs/BRAIN_STORM.md)
 
+### Browser — Web Vitals
+
+Comprehensive engineering guide to Core Web Vitals (LCP, CLS, INP), supporting metrics, browser rendering pipeline, React/Next.js/Astro optimization, performance tooling, and production monitoring strategy.
+
+- [Concept overview](browser/README.md)
+- [Deep dive guide — Web Vitals](browser/docs/WEB_VITALS.md)
+- [Brainstorm prompt](browser/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
