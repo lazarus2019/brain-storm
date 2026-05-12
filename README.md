@@ -84,6 +84,14 @@ Study notes for frontend system design, accessibility (A11Y), monorepo architect
 - [Deep dive — Monorepo](system-design/frontend/docs/MONOREPO.md)
 - [Brainstorm prompt](system-design/frontend/docs/BRAIN_STORM.md)
 
+### Vite
+
+Complete engineering guide for Vite: from beginner usage to build-system architecture, plugin development, HMR internals, module graph algorithms, and tooling engineer mindset.
+
+- [Concept overview](vite/README.md)
+- [Deep dive guide](vite/docs/VITE.md)
+- [Brainstorm prompt](vite/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
