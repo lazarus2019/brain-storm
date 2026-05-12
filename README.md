@@ -66,6 +66,24 @@ Comprehensive learning path and engineering guide for TypeScript: from beginner 
 - [Ultimate deep-dive guide](typescript/docs/TS_ULTIMATE.md)
 - [Brainstorm prompt](typescript/docs/BRAIN_STORM.md)
 
+### Frontend System Design — Monorepo Architecture
+
+Complete engineering guide for monorepo architecture: dependency graphs, build orchestration, incremental builds, remote caching, CI optimization, and organization-scale patterns.
+
+- [Concept overview](system-design/frontend/README.md)
+- [Deep dive guide — Monorepo](system-design/frontend/docs/MONOREPO.md)
+- [Deep dive guide — Accessibility](system-design/frontend/docs/ACCESSIBILITY.md)
+- [Brainstorm prompt](system-design/frontend/docs/BRAIN_STORM.md)
+
+### System Design — Frontend
+
+Study notes for frontend system design, accessibility (A11Y), monorepo architecture, and production-grade frontend engineering.
+
+- [Concept overview](system-design/frontend/README.md)
+- [Deep dive — Accessibility](system-design/frontend/docs/ACCESSIBILITY.md)
+- [Deep dive — Monorepo](system-design/frontend/docs/MONOREPO.md)
+- [Brainstorm prompt](system-design/frontend/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
