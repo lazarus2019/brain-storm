@@ -100,6 +100,16 @@ Comprehensive engineering guide to Core Web Vitals (LCP, CLS, INP), supporting m
 - [Deep dive guide — Web Vitals](browser/docs/WEB_VITALS.md)
 - [Brainstorm prompt](browser/docs/BRAIN_STORM.md)
 
+### Browser Performance & Rendering
+
+Study notes for browser rendering internals, Critical Rendering Path, layout/paint/compositing pipeline, Core Web Vitals, GPU acceleration, and production-grade frontend performance engineering.
+
+- [Concept overview](browser/README.md)
+- [Deep dive — Critical Rendering Path](browser/docs/CRITICAL_RENDER_PATH.md)
+- [Deep dive — Layout, Paint, Composite & Layers](browser/docs/LAYOUT_PAINT_COMPOSITE_LAYER.md)
+- [Deep dive — Web Vitals](browser/docs/WEB_VITALS.md)
+- [Brainstorm prompt](browser/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index

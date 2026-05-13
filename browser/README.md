@@ -1,24 +1,27 @@
-# Browser
+# Browser Performance & Rendering
 
-Study notes for browser internals, rendering pipeline, performance, and Web Vitals.
+Study notes for browser rendering internals, Critical Rendering Path, layout/paint/compositing pipeline, Core Web Vitals, and production-grade frontend performance engineering.
 
 ## Topics
 
-### Critical Rendering Path
+### Critical Rendering Path (CRP)
 
-Deep dive into DOM parsing, CSSOM construction, render tree, layout, paint, and compositing.
+Complete engineering guide for browser rendering: parsing pipeline, render tree construction, layout/paint/compositing, GPU acceleration, frame budgets, and performance optimization.
 
 - [Deep dive guide](docs/CRITICAL_RENDER_PATH.md)
-
-### Layout, Paint, Composite & Layers
-
-Deep dive into browser rendering stages: layout calculation, paint operations, compositing, and GPU layer management.
-
-- [Deep dive guide](docs/LAYOUT_PAINT_COMPOSITE_LAYER.md)
-
-### Web Vitals
-
-Comprehensive engineering guide to Core Web Vitals (LCP, CLS, INP), supporting metrics, browser rendering implications, React/Next.js/Astro optimization, performance tooling, and production monitoring.
-
-- [Deep dive guide](docs/WEB_VITALS.md)
+- [Layout, Paint, Composite & Layers](docs/LAYOUT_PAINT_COMPOSITE_LAYER.md)
+- [Web Vitals](docs/WEB_VITALS.md)
 - [Brainstorm prompt](docs/BRAIN_STORM.md)
+
+## Key Concepts
+
+- HTML parsing & DOM construction
+- CSSOM & render-blocking behavior
+- Render tree, layout, paint, compositing
+- GPU acceleration & layer promotion
+- Core Web Vitals (LCP, CLS, INP)
+- React hydration & streaming SSR
+- Island architecture (Astro)
+- Performance profiling & debugging
+- Browser threading & scheduling
+- Frame budget engineering (60fps)
