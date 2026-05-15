@@ -11,6 +11,7 @@ Complete engineering guide for browser rendering: parsing pipeline, render tree 
 - [Deep dive guide](docs/CRITICAL_RENDER_PATH.md)
 - [Layout, Paint, Composite & Layers](docs/LAYOUT_PAINT_COMPOSITE_LAYER.md)
 - [Web Vitals](docs/WEB_VITALS.md)
+- [Layout paint composite layer](docs/LAYOUT_PAINT_COMPOSITE_LAYER.md)
 - [Brainstorm prompt](docs/BRAIN_STORM.md)
 
 ## Key Concepts
