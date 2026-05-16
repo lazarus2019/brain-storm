@@ -86,10 +86,11 @@ Study notes for frontend system design, accessibility (A11Y), monorepo architect
 
 ### Vite
 
-Complete engineering guide for Vite: from beginner usage to build-system architecture, plugin development, HMR internals, module graph algorithms, and tooling engineer mindset.
+Complete engineering guide for Vite (including Vite 8 and Rolldown): from beginner usage to build-system architecture, plugin development, HMR internals, module graph algorithms, and tooling engineering mindset.
 
 - [Concept overview](vite/README.md)
 - [Deep dive guide](vite/docs/VITE.md)
+- [Rolldown code splitting deep dive](vite/docs/ROLLDOWN_CODE_SPLITTING.md)
 - [Brainstorm prompt](vite/docs/BRAIN_STORM.md)
 
 ### Browser — Web Vitals
