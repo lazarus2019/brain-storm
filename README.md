@@ -110,11 +110,23 @@ Study notes for browser rendering internals, Critical Rendering Path, layout/pai
 - [Deep dive — Web Vitals](browser/docs/WEB_VITALS.md)
 - [Brainstorm prompt](browser/docs/BRAIN_STORM.md)
 
+### Security
+
+Study notes for web and application security: common browser attack vectors, defenses, and operational guidance.
+
+- [Concept overview](security/README.md)
+- [CORS & Proxy guide](security/docs/CORS_AND_PROXY.md)
+- [CORS & Proxy — Quizzes](security/docs/CORS_AND_PROXY_QUIZS.md)
+- [Content Security Policy (CSP)](security/docs/CSP.md)
+- [Cross-Site Request Forgery (CSRF)](security/docs/CSRF.md)
+- [Cross-Site Scripting (XSS)](security/docs/XSS.md)
+- [Brainstorm prompt](security/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
 - <topic>/README.md — concept overview
-- <topic>/docs/*.md — detailed research notes
+- <topic>/docs/\*.md — detailed research notes
 - <topic>/assets/ — diagrams, screenshots, and reference images
 
 ## How to use this repo
