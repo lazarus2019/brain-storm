@@ -1,3 +1,30 @@
+---
+title: Accessibility (A11Y) — Complete Deep-Dive Guide
+description: Accessibility A11Y — Complete Deep-Dive Guide. Practical guide explaining
+  accessibility a11y — complete deep-dive guide with clear examples, best practices...
+slug: accessibility
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- frontend
+- accessibility
+categories:
+- frontend
+seo:
+  title: Accessibility (A11Y) — Complete Deep-Dive Guide
+  description: Accessibility A11Y — Complete Deep-Dive Guide. Practical guide explaining
+    accessibility a11y — complete deep-dive guide with clear examples, best practices...
+  canonical: https://feel-free.com/blogs/accessibility
+  keywords:
+  - frontend
+  - accessibility
+author: lazarus2019
+lang: en
+relatedPosts:
+- monorepo
+---
+
 # Accessibility (A11Y) — Complete Deep-Dive Guide
 
 A comprehensive learning path and engineering guide for Web Accessibility, written for frontend engineers moving toward senior/staff-level accessibility architecture.

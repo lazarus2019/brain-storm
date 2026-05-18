@@ -1,3 +1,31 @@
+---
+title: 🚀 GitLab CI/CD — Roadmap & Deep Dive Guide
+description: An end-to-end engineering guide to mastering GitLab CI/CD, from foundational pipelines to enterprise-grade DevOps workflows. Covers runners, stages, caching, artifacts, environments, Docker integration, deployment strategies, monorepo patterns, security scanning, optimization, and scalable automation architecture.
+slug: gitlab-ci-roadmap
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- gitlab
+- ci
+- roadmap
+categories:
+- gitlab
+seo:
+  title: 🚀 GitLab CI/CD — Roadmap & Deep Dive Guide
+  description: An end-to-end engineering guide to mastering GitLab CI/CD, from foundational pipelines to enterprise-grade DevOps workflows. Covers runners, stages, caching, artifacts, environments, Docker integration, deployment strategies, monorepo patterns, security scanning, optimization, and scalable automation architecture.
+  canonical: https://feel-free.com/blogs/gitlab-ci-roadmap
+  keywords:
+  - gitlab
+  - ci
+  - roadmap
+author: lazarus2019
+lang: en
+relatedPosts:
+- gitlab-ci
+- gitlab-registry
+---
+
 # 🚀 GitLab CI/CD — Roadmap & Deep Dive Guide
 
 > **Author**: Special thanks to [anIcedAntFA](https://github.com/anIcedAntFA)\

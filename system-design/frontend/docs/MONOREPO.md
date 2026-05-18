@@ -1,3 +1,28 @@
+---
+title: Monorepo Architecture — Complete Engineering Guide
+description: A comprehensive learning path and practical engineering guide for Monorepo architecture, from fundamentals to organization-scale systems.
+slug: monorepo
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- frontend
+- monorepo
+categories:
+- frontend
+seo:
+  title: Monorepo Architecture — Complete Engineering Guide
+  description: A comprehensive learning path and practical engineering guide for Monorepo architecture, from fundamentals to organization-scale systems.
+  canonical: https://feel-free.com/blogs/monorepo
+  keywords:
+  - frontend
+  - monorepo
+author: lazarus2019
+lang: en
+relatedPosts:
+- accessibility
+---
+
 # Monorepo Architecture — Complete Engineering Guide
 
 A comprehensive learning path and practical engineering guide for Monorepo architecture, from fundamentals to organization-scale systems.

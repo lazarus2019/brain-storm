@@ -1,3 +1,31 @@
+---
+title: GitLab Container Registry — Complete Deep-Dive Engineering Guide
+description: GitLab Container Registry — Complete Deep-Dive Engineering Guide. Practical
+  guide explaining gitlab container registry — complete deep-dive engineering guide...
+slug: gitlab-registry
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- gitlab
+- registry
+categories:
+- gitlab
+seo:
+  title: GitLab Container Registry — Complete Deep-Dive Engineering Guide
+  description: GitLab Container Registry — Complete Deep-Dive Engineering Guide. Practical
+    guide explaining gitlab container registry — complete deep-dive engineering guide...
+  canonical: https://feel-free.com/blogs/gitlab-registry
+  keywords:
+  - gitlab
+  - registry
+author: lazarus2019
+lang: en
+relatedPosts:
+- gitlab-ci
+- gitlab-ci-roadmap
+---
+
 # GitLab Container Registry — Complete Deep-Dive Engineering Guide
 
 > For a frontend engineer (React / Next.js / Astro / TypeScript) moving toward DevOps, Docker, release engineering, deployment, and platform engineering.

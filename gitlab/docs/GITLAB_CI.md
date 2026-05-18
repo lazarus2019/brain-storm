@@ -1,3 +1,33 @@
+---
+title: GitLab CI/CD — Complete Deep-Dive Engineering Guide
+description: GitLab CI/CD — Complete Deep-Dive Engineering Guide. Practical guide
+  explaining gitlab ci/cd — complete deep-dive engineering guide with clear examples,
+  best...
+slug: gitlab-ci
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- gitlab
+- ci
+categories:
+- gitlab
+seo:
+  title: GitLab CI/CD — Complete Deep-Dive Engineering Guide
+  description: GitLab CI/CD — Complete Deep-Dive Engineering Guide. Practical guide
+    explaining gitlab ci/cd — complete deep-dive engineering guide with clear examples,
+    best...
+  canonical: https://feel-free.com/blogs/gitlab-ci
+  keywords:
+  - gitlab
+  - ci
+author: lazarus2019
+lang: en
+relatedPosts:
+- gitlab-ci-roadmap
+- gitlab-registry
+---
+
 # GitLab CI/CD — Complete Deep-Dive Engineering Guide
 
 > For a frontend engineer (React / Next.js / Astro / TypeScript) moving toward DevOps, CI/CD, release engineering, automation, and platform engineering.

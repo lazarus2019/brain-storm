@@ -1,3 +1,33 @@
+---
+title: Critical Rendering Path (CRP) — Ultimate Deep-Dive Guide
+description: A complete deep dive into how browsers transform HTML, CSS, and JavaScript into pixels on screen. Learn the internals of parsing, rendering, layout, paint, compositing, resource prioritization, render-blocking behavior, Core Web Vitals optimization, and advanced frontend performance engineering techniques.
+slug: critical-render-path
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- browser
+- critical
+- render
+- path
+categories:
+- browser
+seo:
+  title: Critical Rendering Path (CRP) — Ultimate Deep-Dive Guide
+  description: A complete deep dive into how browsers transform HTML, CSS, and JavaScript into pixels on screen. Learn the internals of parsing, rendering, layout, paint, compositing, resource prioritization, render-blocking behavior, Core Web Vitals optimization, and advanced frontend performance engineering techniques.
+  canonical: https://feel-free.com/blogs/critical-render-path
+  keywords:
+  - browser
+  - critical
+  - render
+  - path
+author: lazarus2019
+lang: en
+relatedPosts:
+- layout-paint-composite-layer
+- web-vitals
+---
+
 # Critical Rendering Path (CRP) — Ultimate Deep-Dive Guide
 
 ## Table of Contents

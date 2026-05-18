@@ -1,3 +1,36 @@
+---
+title: '🔐 Deep Dive: CORS & PROXY — Toàn bộ kiến thức từ cơ bản đến nâng cao'
+description: 🔐 Deep Dive CORS & PROXY — Toàn bộ kiến thức từ cơ bản đến nâng cao.
+  Practical guide explaining 🔐 deep dive cors & proxy — toàn bộ kiến thức từ cơ bản
+  đến...
+slug: cors-and-proxy
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- security
+- cors
+- and
+- proxy
+categories:
+- security
+seo:
+  title: '🔐 Deep Dive: CORS & PROXY — Toàn bộ kiến thức từ cơ bản đến nâng cao'
+  description: A full-stack deep dive into CORS, proxies, and browser networking security. Learn how browsers enforce cross-origin policies, how preflight requests work, reverse proxies, API gateways, authentication flows, development proxy setups, debugging strategies, and real-world production architectures.
+  canonical: https://feel-free.com/blogs/cors-and-proxy
+  keywords:
+  - security
+  - cors
+  - and
+  - proxy
+author: lazarus2019
+lang: vi
+relatedPosts:
+- cors-and-proxy-quizs
+- csp
+- csrf
+---
+
 # 🔐 Deep Dive: CORS & PROXY — Toàn bộ kiến thức từ cơ bản đến nâng cao
 
 > **Author**: Special thanks to [anIcedAntFA](https://github.com/anIcedAntFA)\

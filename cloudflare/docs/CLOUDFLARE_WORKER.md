@@ -1,3 +1,30 @@
+---
+title: Cloudflare Workers — Complete Deep-Dive Engineering Guide
+description: Cloudflare Workers — Complete Deep-Dive Engineering Guide. Practical
+  guide explaining cloudflare workers — complete deep-dive engineering guide with
+  clear...
+slug: cloudflare-worker
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- cloudflare
+- worker
+categories:
+- cloudflare
+seo:
+  title: Cloudflare Workers — Complete Deep-Dive Engineering Guide
+  description: Cloudflare Workers — Complete Deep-Dive Engineering Guide. Practical
+    guide explaining cloudflare workers — complete deep-dive engineering guide with
+    clear...
+  canonical: https://feel-free.com/blogs/cloudflare-worker
+  keywords:
+  - cloudflare
+  - worker
+author: lazarus2019
+lang: en
+---
+
 # Cloudflare Workers — Complete Deep-Dive Engineering Guide
 
 > **Audience:** Frontend engineer (React / Next.js / Astro) moving toward backend, edge computing, and platform engineering.

@@ -1,3 +1,35 @@
+---
+title: Rolldown Code Splitting Deep Dive — Vite 8 + React
+description: Rolldown Code Splitting Deep Dive — Vite 8 + React. Practical guide explaining
+  rolldown code splitting deep dive — vite 8 + react with clear examples, best...
+slug: rolldown-code-splitting
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- vite
+- rolldown
+- code
+- splitting
+categories:
+- vite
+seo:
+  title: Rolldown Code Splitting Deep Dive — Vite 8 + React
+  description: Rolldown Code Splitting Deep Dive — Vite 8 + React. Practical guide
+    explaining rolldown code splitting deep dive — vite 8 + react with clear examples,
+    best...
+  canonical: https://feel-free.com/blogs/rolldown-code-splitting
+  keywords:
+  - vite
+  - rolldown
+  - code
+  - splitting
+author: lazarus2019
+lang: en
+relatedPosts:
+- vite
+---
+
 # Rolldown Code Splitting Deep Dive — Vite 8 + React
 
 > **Author**: Special thanks to [anIcedAntFA](https://github.com/anIcedAntFA)\

@@ -1,3 +1,28 @@
+---
+title: GitHub Actions — Complete Deep-Dive Engineering Guide
+description: GitHub Actions — Complete Deep-Dive Engineering Guide. Practical guide
+  explaining github actions — complete deep-dive engineering guide with clear examples,...
+slug: github-action
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- github
+- action
+categories:
+- github
+seo:
+  title: GitHub Actions — Complete Deep-Dive Engineering Guide
+  description: GitHub Actions — Complete Deep-Dive Engineering Guide. Practical guide
+    explaining github actions — complete deep-dive engineering guide with clear examples,...
+  canonical: https://feel-free.com/blogs/github-action
+  keywords:
+  - github
+  - action
+author: lazarus2019
+lang: en
+---
+
 # GitHub Actions — Complete Deep-Dive Engineering Guide
 
 > For a frontend engineer (React / Next.js / Astro / TypeScript) moving toward DevOps, CI/CD, automation, release engineering, and platform engineering.
