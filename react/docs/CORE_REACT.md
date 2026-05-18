@@ -1,3 +1,26 @@
+---
+title: React Core — Complete Deep-Dive Engineering Guide
+description: A comprehensive exploration of React internals and modern application architecture. Understand rendering, reconciliation, Fiber, hooks, state management, concurrency, server rendering, performance optimization, component patterns, and how React works under the hood in production-scale systems.
+slug: core-react
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- react
+- core
+categories:
+- react
+seo:
+  title: React Core — Complete Deep-Dive Engineering Guide
+  description: A comprehensive exploration of React internals and modern application architecture. Understand rendering, reconciliation, Fiber, hooks, state management, concurrency, server rendering, performance optimization, component patterns, and how React works under the hood in production-scale systems.
+  canonical: https://feel-free.com/blogs/core-react
+  keywords:
+  - react
+  - core
+author: lazarus2019
+lang: en
+---
+
 # React Core — Complete Deep-Dive Engineering Guide
 
 > For a frontend engineer moving from "React developer" into senior frontend engineer, React architecture expert, framework-level thinker, and performance-focused engineer.

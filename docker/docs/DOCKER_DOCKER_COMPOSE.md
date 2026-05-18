@@ -1,3 +1,28 @@
+---
+title: Docker & Docker Compose — Complete Deep-Dive Engineering Guide
+description: Docker & Docker Compose — Complete Deep-Dive Engineering Guide. Practical
+  guide explaining docker & docker compose — complete deep-dive engineering guide...
+slug: docker-docker-compose
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- docker
+- compose
+categories:
+- docker
+seo:
+  title: Docker & Docker Compose — Complete Deep-Dive Engineering Guide
+  description: Docker & Docker Compose — Complete Deep-Dive Engineering Guide. Practical
+    guide explaining docker & docker compose — complete deep-dive engineering guide...
+  canonical: https://feel-free.com/blogs/docker-docker-compose
+  keywords:
+  - docker
+  - compose
+author: lazarus2019
+lang: en
+---
+
 # Docker & Docker Compose — Complete Deep-Dive Engineering Guide
 
 > For a frontend engineer (React / Next.js / Astro / TypeScript) moving toward backend, DevOps, infrastructure, deployment, and platform engineering.

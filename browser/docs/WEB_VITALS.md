@@ -1,3 +1,31 @@
+---
+title: Web Vitals — Ultimate Deep-Dive Guide
+description: 'A comprehensive engineering guide to Web Vitals: from beginner concepts to browser-engine-level performance architecture and real-world production optimization...'
+slug: web-vitals
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- browser
+- web
+- vitals
+categories:
+- browser
+seo:
+  title: Web Vitals — Ultimate Deep-Dive Guide
+  description: 'A comprehensive engineering guide to Web Vitals: from beginner concepts to browser-engine-level performance architecture and real-world production optimization...'
+  canonical: https://feel-free.com/blogs/web-vitals
+  keywords:
+  - browser
+  - web
+  - vitals
+author: lazarus2019
+lang: en
+relatedPosts:
+- critical-render-path
+- layout-paint-composite-layer
+---
+
 # Web Vitals — Ultimate Deep-Dive Guide
 
 A comprehensive engineering guide to Web Vitals: from beginner concepts to browser-engine-level performance architecture and real-world production optimization strategy.

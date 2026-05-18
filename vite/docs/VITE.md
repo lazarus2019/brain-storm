@@ -1,3 +1,29 @@
+---
+title: Vite — Ultimate Deep-Dive Guide
+description: Vite — Ultimate Deep-Dive Guide. Practical guide explaining vite — ultimate
+  deep-dive guide with clear examples, best practices and common pitfalls for...
+slug: vite
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- vite
+categories:
+- vite
+seo:
+  title: Vite — Ultimate Deep-Dive Guide
+  description: Vite — Ultimate Deep-Dive Guide. Practical guide explaining vite —
+    ultimate deep-dive guide with clear examples, best practices and common pitfalls
+    for...
+  canonical: https://feel-free.com/blogs/vite
+  keywords:
+  - vite
+author: lazarus2019
+lang: en
+relatedPosts:
+- rolldown-code-splitting
+---
+
 # Vite — Ultimate Deep-Dive Guide
 
 > From beginner usage to build-system architecture and tooling internals.

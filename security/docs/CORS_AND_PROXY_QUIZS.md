@@ -1,3 +1,40 @@
+---
+title: CORS & PROXY — Quiz & Practice
+description: CORS & PROXY — Quiz & Practice. Practical guide explaining cors &
+  proxy — quiz & practice with clear examples, best practices and common pitfalls
+  for...
+slug: cors-and-proxy-quizs
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- security
+- cors
+- and
+- proxy
+- quizs
+categories:
+- security
+seo:
+  title: CORS & PROXY — Quiz & Practice
+  description: CORS & PROXY — Quiz & Practice. Practical guide explaining cors
+    & proxy — quiz & practice with clear examples, best practices and common pitfalls
+    for...
+  canonical: https://feel-free.com/blogs/cors-and-proxy-quizs
+  keywords:
+  - security
+  - cors
+  - and
+  - proxy
+  - quizs
+author: lazarus2019
+lang: en
+relatedPosts:
+- cors-and-proxy
+- csp
+- csrf
+---
+
 # 🧠 CORS & PROXY — Quiz & Practice
 
 > **Author**: Special thanks to [anIcedAntFA](https://github.com/anIcedAntFA)\

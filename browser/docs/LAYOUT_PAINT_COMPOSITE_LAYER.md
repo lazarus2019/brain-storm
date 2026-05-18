@@ -1,3 +1,35 @@
+---
+title: Layout / Paint / Composite / Layers — ULTIMATE Deep-Dive Guide
+description: 'Complete engineering guide for browser rendering internals: layout calculation, paint operations, GPU compositing, rendering layers, frame production, and performance optimization — from beginner concepts to browser-engine-level mental models.'
+slug: layout-paint-composite-layer
+modifiedDate: '2026-05-17'
+draft: true
+featured: false
+tags:
+- browser
+- layout
+- paint
+- composite
+- layer
+categories:
+- browser
+seo:
+  title: Layout / Paint / Composite / Layers — ULTIMATE Deep-Dive Guide
+  description: 'Complete engineering guide for browser rendering internals: layout calculation, paint operations, GPU compositing, rendering layers, frame production, and performance optimization — from beginner concepts to browser-engine-level mental models.'
+  canonical: https://feel-free.com/blogs/layout-paint-composite-layer
+  keywords:
+  - browser
+  - layout
+  - paint
+  - composite
+  - layer
+author: lazarus2019
+lang: en
+relatedPosts:
+- critical-render-path
+- web-vitals
+---
+
 # Layout / Paint / Composite / Layers — ULTIMATE Deep-Dive Guide
 
 Complete engineering guide for browser rendering internals: layout calculation, paint operations, GPU compositing, rendering layers, frame production, and performance optimization — from beginner concepts to browser-engine-level mental models.
