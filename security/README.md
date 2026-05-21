@@ -7,7 +7,7 @@ Study notes for web and application security: browser and server attack vectors,
 - [Deep dive guide — Security](security/docs/BRAIN_STORM.md) — Outline and deep-dive prompts for a comprehensive security guide.
 - [CORS & Proxy guide](security/docs/CORS_AND_PROXY.md)
 - [CORS & Proxy — Quizzes](security/docs/CORS_AND_PROXY_QUIZS.md)
-- [Content Security Policy (CSP)](security/docs/CSP.md)
+- [Content Security Policy (CSP) — Ultimate Deep-Dive Guide](security/docs/CSP.md)
 - [Cross-Site Request Forgery (CSRF) — Ultimate Deep-Dive Guide](security/docs/CSRF.md)
 - [Cross-Site Scripting (XSS) — Ultimate Deep-Dive Guide](security/docs/XSS.md)
 - [Brainstorm prompt](security/docs/BRAIN_STORM.md)

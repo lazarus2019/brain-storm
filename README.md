@@ -118,7 +118,7 @@ Study notes for web and application security: common browser attack vectors, def
 - [Concept overview](security/README.md)
 - [CORS & Proxy guide](security/docs/CORS_AND_PROXY.md)
 - [CORS & Proxy — Quizzes](security/docs/CORS_AND_PROXY_QUIZS.md)
-- [Content Security Policy (CSP)](security/docs/CSP.md)
+- [Content Security Policy (CSP) — Ultimate Deep-Dive Guide](security/docs/CSP.md)
 - [Cross-Site Request Forgery (CSRF)](security/docs/CSRF.md)
 - [Cross-Site Scripting (XSS)](security/docs/XSS.md)
 - [Brainstorm prompt](security/docs/BRAIN_STORM.md)
