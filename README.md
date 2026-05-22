@@ -123,6 +123,14 @@ Study notes for web and application security: common browser attack vectors, def
 - [Cross-Site Scripting (XSS)](security/docs/XSS.md)
 - [Brainstorm prompt](security/docs/BRAIN_STORM.md)
 
+### Mindset & Engineering Leadership
+
+Study notes for technical thinking, decision-making frameworks, architecture governance, and Staff+/Principal engineering concepts.
+
+- [Concept overview](mindset/README.md)
+- [Architecture Decision Records (ADRs) — Ultimate Deep-Dive Guide](mindset/docs/ADRs-Architecture-decision-records.md)
+- [Brainstorm prompt](mindset/docs/BRAIN_STORM.md)
+
 ## Suggested structure
 
 - README.md — repository home and concept index
