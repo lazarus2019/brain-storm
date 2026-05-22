@@ -125,10 +125,11 @@ Study notes for web and application security: common browser attack vectors, def
 
 ### Mindset & Engineering Leadership
 
-Study notes for technical thinking, decision-making frameworks, architecture governance, and Staff+/Principal engineering concepts.
+Comprehensive study materials for technical thinking, decision-making frameworks, architecture governance, Staff+/Principal engineering concepts, and organizational alignment patterns.
 
 - [Concept overview](mindset/README.md)
 - [Architecture Decision Records (ADRs) — Ultimate Deep-Dive Guide](mindset/docs/ADRs-Architecture-decision-records.md)
+- [RFCs (Request for Comments) — Ultimate Deep-Dive Guide](mindset/docs/RFCs.md)
 - [SDKs (Software Development Kits) — Ultimate Deep-Dive Guide](mindset/docs/SDK.md)
 - [Brainstorm prompt](mindset/docs/BRAIN_STORM.md)
 

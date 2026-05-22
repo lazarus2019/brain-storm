@@ -13,9 +13,9 @@ Comprehensive guide for Architecture Decision Records: technical decision-making
 
 ### RFCs
 
-Study notes for Request for Comments and technical proposal frameworks.
+Comprehensive guide for Request for Comments and technical proposal frameworks: governance, organizational alignment, Staff+ mindset, decision-making, communication, and enterprise-scale architecture governance.
 
-- [Deep dive guide](docs/RFCs.md)
+- [Deep dive guide — RFCs (Request for Comments) — Ultimate Deep-Dive Guide](docs/RFCs.md)
 - [Brainstorm prompt](docs/BRAIN_STORM.md)
 
 ### SDKs (Software Development Kits)
