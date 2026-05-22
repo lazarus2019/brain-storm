@@ -24,6 +24,14 @@ Study notes for edge computing, runtime constraints, storage primitives, and fro
 - [Deep dive guide](cloudflare/docs/CLOUDFLARE_WORKER.md)
 - [Brainstorm prompt](cloudflare/docs/BRAIN_STORM.md)
 
+### Git Internals
+
+Comprehensive engineering guide to Git internals: object database, content-addressable storage, .git folder, packfiles, distributed systems, performance engineering, and monorepo scaling.
+
+- [Concept overview](git/README.md)
+- [Git Internals — Ultimate Deep-Dive Guide](git/docs/GIT.md)
+- [Brainstorm prompt](git/docs/BRAIN_STORM.md)
+
 ### GitHub Actions
 
 Study notes for CI/CD automation, deployment pipelines, release engineering, and platform engineering with GitHub Actions.
