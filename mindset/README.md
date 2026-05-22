@@ -18,9 +18,9 @@ Study notes for Request for Comments and technical proposal frameworks.
 - [Deep dive guide](docs/RFCs.md)
 - [Brainstorm prompt](docs/BRAIN_STORM.md)
 
-### SDK Design
+### SDKs (Software Development Kits)
 
-Study notes for SDK design, API governance, and developer experience at scale.
+Comprehensive guide for SDK engineering: architecture, API design, runtime abstractions, TypeScript systems, developer experience, packaging, and platform governance.
 
-- [Deep dive guide](docs/SDK.md)
-- [Brainstorm prompt](docs/BRAIN_STORM.md)
+- [Deep dive guide — SDKs (Software Development Kits) — Ultimate Deep-Dive Guide](docs/SDK.md)
+- [Brainstorm prompt](TEMP.md)

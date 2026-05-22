@@ -129,6 +129,7 @@ Study notes for technical thinking, decision-making frameworks, architecture gov
 
 - [Concept overview](mindset/README.md)
 - [Architecture Decision Records (ADRs) — Ultimate Deep-Dive Guide](mindset/docs/ADRs-Architecture-decision-records.md)
+- [SDKs (Software Development Kits) — Ultimate Deep-Dive Guide](mindset/docs/SDK.md)
 - [Brainstorm prompt](mindset/docs/BRAIN_STORM.md)
 
 ## Suggested structure
