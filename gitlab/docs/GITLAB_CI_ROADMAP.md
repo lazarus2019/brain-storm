@@ -3,27 +3,27 @@ title: 🚀 GitLab CI/CD — Roadmap & Deep Dive Guide
 description: An end-to-end engineering guide to mastering GitLab CI/CD, from foundational pipelines to enterprise-grade DevOps workflows. Covers runners, stages, caching, artifacts, environments, Docker integration, deployment strategies, monorepo patterns, security scanning, optimization, and scalable automation architecture.
 slug: gitlab-ci-roadmap
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- gitlab
-- ci
-- roadmap
+  - gitlab
+  - ci
+  - roadmap
 categories:
-- gitlab
+  - gitlab
 seo:
   title: 🚀 GitLab CI/CD — Roadmap & Deep Dive Guide
   description: An end-to-end engineering guide to mastering GitLab CI/CD, from foundational pipelines to enterprise-grade DevOps workflows. Covers runners, stages, caching, artifacts, environments, Docker integration, deployment strategies, monorepo patterns, security scanning, optimization, and scalable automation architecture.
   canonical: https://feel-free.com/blogs/gitlab-ci-roadmap
   keywords:
-  - gitlab
-  - ci
-  - roadmap
+    - gitlab
+    - ci
+    - roadmap
 author: lazarus2019
 lang: en
 relatedPosts:
-- gitlab-ci
-- gitlab-registry
+  - gitlab-ci
+  - gitlab-registry
 ---
 
 # 🚀 GitLab CI/CD — Roadmap & Deep Dive Guide
@@ -363,6 +363,7 @@ script:
   - echo $CI_PIPELINE_SOURCE # merge_request_event
   - echo $CI_PROJECT_DIR # /builds/corp/feel-free
   - echo $CI_COMMIT_SHORT_SHA # a1b2c3d4
+
 
 # ④ Protected variables (Settings > CI/CD > Variables)
 # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY
@@ -2063,6 +2064,7 @@ job:
     B: 'overridden' # Override B
     C: '3' # Thêm C
 
+
 # Kết quả:
 # variables: { A: "1", B: "overridden", C: "3" }  ← Hash → deep merge
 ```
@@ -2120,6 +2122,7 @@ job2:
   cache:
     <<: *default_cache # Merge tất cả từ anchor
     policy: pull-push # Override policy
+
 
 # Kết quả job2.cache:
 # key: { files: [bun.lock] }, paths: [node_modules], policy: pull-push
@@ -2737,7 +2740,7 @@ Failed to extract cache
 | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
 | `Checking cache for 0_bun-59499af...-non_protected`        | Runner tìm cache archive với key = `0_` + hash(`bun.lock`) + suffix                                                |
 | `0_`                                                       | Prefix index — tăng mỗi khi "Clear runner caches" từ UI (0 = chưa clear lần nào)                                   |
-| `bun-randomUUID`             | SHA-1 hash của nội dung file `bun.lock` (cấu hình `key.files: [bun.lock]`)                                         |
+| `bun-randomUUID`                                           | SHA-1 hash của nội dung file `bun.lock` (cấu hình `key.files: [bun.lock]`)                                         |
 | `-non_protected`                                           | Suffix bảo mật. MR branch `chore/upgrade-vite-pipeline` **không phải protected branch** → suffix = `non_protected` |
 | `WARNING: file does not exist` + `Failed to extract cache` | **Cache MISS** — chưa có ai upload cache với key này lên runner/distributed storage                                |
 
@@ -3059,33 +3062,33 @@ Deploy job cần IAM user/role với các permissions sau:
 
 ```json
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Sid": "S3Deploy",
-			"Effect": "Allow",
-			"Action": [
-				"s3:ListBucket",
-				"s3:GetObject",
-				"s3:PutObject",
-				"s3:DeleteObject"
-			],
-			"Resource": [
-				"arn:aws:s3:::my-feel-free",
-				"arn:aws:s3:::my-feel-free/*",
-				"arn:aws:s3:::stg-feel-free",
-				"arn:aws:s3:::stg-feel-free/*",
-				"arn:aws:s3:::live-feel-free",
-				"arn:aws:s3:::live-feel-free/*"
-			]
-		},
-		{
-			"Sid": "CloudFrontInvalidation",
-			"Effect": "Allow",
-			"Action": "cloudfront:CreateInvalidation",
-			"Resource": "arn:aws:cloudfront::ACCOUNT_ID:distribution/*"
-		}
-	]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "S3Deploy",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket",
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my-feel-free",
+        "arn:aws:s3:::my-feel-free/*",
+        "arn:aws:s3:::stg-feel-free",
+        "arn:aws:s3:::stg-feel-free/*",
+        "arn:aws:s3:::live-feel-free",
+        "arn:aws:s3:::live-feel-free/*"
+      ]
+    },
+    {
+      "Sid": "CloudFrontInvalidation",
+      "Effect": "Allow",
+      "Action": "cloudfront:CreateInvalidation",
+      "Resource": "arn:aws:cloudfront::ACCOUNT_ID:distribution/*"
+    }
+  ]
 }
 ```
 
@@ -3580,6 +3583,7 @@ dev_build_app:
     policy: pull-push
     unprotect: true # ← MỚI: lưu vào unscoped cache → MR có thể đọc
 
+
 # Quality + MR build — Chỉ đọc cache
 # Kế thừa .node_base → policy: pull + unprotect: true (read shared cache, cannot write)
 ```
@@ -4008,7 +4012,7 @@ RUN aws --version                                 # ⑥
 
 | #   | Dòng                           | Mục đích                                                                                    |
 | --- | ------------------------------ | ------------------------------------------------------------------------------------------- |
-| ①   | `FROM docker.com/alpine` | Alpine Linux — image siêu nhẹ (~5MB). Chỉ cần cho deploy, không cần Node.js                 |
+| ①   | `FROM docker.com/alpine`       | Alpine Linux — image siêu nhẹ (~5MB). Chỉ cần cho deploy, không cần Node.js                 |
 | ②   | `apk add bash python3 py3-pip` | `bash`: shell cho scripts. `python3 + pip`: runtime để cài AWS CLI                          |
 | ③   | `pip install awscli`           | Cài AWS CLI — tool duy nhất cần cho deploy (`aws s3 cp`, `aws cloudfront`)                  |
 | ④   | `--break-system-packages`      | Python 3.11+ cần flag này để pip cài vào system (thay vì bắt dùng venv). OK trong container |
@@ -4182,16 +4186,16 @@ Nếu cả 2 đều thay đổi        → hash D (tạo cache mới)
 
 ```json
 {
-	"name": "real-world-fe", // ← thay đổi name → cache invalidate!
-	"version": "1.2.0", // ← bump version → cache invalidate!
-	"scripts": {
-		"build": "vite build", // ← thay đổi build command → cache invalidate!
-		"lint": "eslint ." // ← thay đổi lint command → cache invalidate!
-	},
-	"dependencies": {
-		// ← thay đổi deps → OK, nên invalidate
-		"react": "^19.0.0"
-	}
+  "name": "real-world-fe", // ← thay đổi name → cache invalidate!
+  "version": "1.2.0", // ← bump version → cache invalidate!
+  "scripts": {
+    "build": "vite build", // ← thay đổi build command → cache invalidate!
+    "lint": "eslint ." // ← thay đổi lint command → cache invalidate!
+  },
+  "dependencies": {
+    // ← thay đổi deps → OK, nên invalidate
+    "react": "^19.0.0"
+  }
 }
 ```
 

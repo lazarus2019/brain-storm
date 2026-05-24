@@ -1,24 +1,26 @@
 ---
 title: GitHub Actions — Complete Deep-Dive Engineering Guide
-description: GitHub Actions — Complete Deep-Dive Engineering Guide. Practical guide
+description:
+  GitHub Actions — Complete Deep-Dive Engineering Guide. Practical guide
   explaining github actions — complete deep-dive engineering guide with clear examples,...
 slug: github-action
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- github
-- action
+  - github
+  - action
 categories:
-- github
+  - github
 seo:
   title: GitHub Actions — Complete Deep-Dive Engineering Guide
-  description: GitHub Actions — Complete Deep-Dive Engineering Guide. Practical guide
+  description:
+    GitHub Actions — Complete Deep-Dive Engineering Guide. Practical guide
     explaining github actions — complete deep-dive engineering guide with clear examples,...
   canonical: https://feel-free.com/blogs/github-action
   keywords:
-  - github
-  - action
+    - github
+    - action
 author: lazarus2019
 lang: en
 ---
@@ -55,14 +57,14 @@ It is **not** just CI. It is a general-purpose workflow automation platform that
 
 ### 1.2 How GitHub Actions Differ From Things You Already Know
 
-| Tool / Pattern | What it does | Where it runs | Key difference from GitHub Actions |
-|---|---|---|---|
-| **Local scripts** (`./deploy.sh`) | One-off automation | Your laptop | Not shared, not auditable, not triggered by Git events, not reproducible across machines |
-| **npm scripts** (`npm run build`) | Project commands | Wherever you run them | Single-process, single-machine; Actions orchestrates many jobs across isolated VMs |
-| **Husky** (Git hooks) | Pre-commit / pre-push checks | Developer machine | Runs *before* push on *your* machine; Actions runs *after* push on *GitHub's* machines; Husky can be skipped with `--no-verify` |
-| **CI/CD tools** (Jenkins, CircleCI) | Automated pipelines | Their own infrastructure | Actions is natively integrated into GitHub — no separate platform to manage, no webhook glue |
-| **Cron jobs** | Time-based scheduling | A server you maintain | Actions supports `schedule` triggers, but also reacts to every Git event; no server to maintain |
-| **Traditional deployment pipelines** | Stage-gated release flows | Centralized infra | Actions is decentralized (per-repo YAML), composable (reusable workflows), and version-controlled alongside code |
+| Tool / Pattern                       | What it does                 | Where it runs            | Key difference from GitHub Actions                                                                                              |
+| ------------------------------------ | ---------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Local scripts** (`./deploy.sh`)    | One-off automation           | Your laptop              | Not shared, not auditable, not triggered by Git events, not reproducible across machines                                        |
+| **npm scripts** (`npm run build`)    | Project commands             | Wherever you run them    | Single-process, single-machine; Actions orchestrates many jobs across isolated VMs                                              |
+| **Husky** (Git hooks)                | Pre-commit / pre-push checks | Developer machine        | Runs _before_ push on _your_ machine; Actions runs _after_ push on _GitHub's_ machines; Husky can be skipped with `--no-verify` |
+| **CI/CD tools** (Jenkins, CircleCI)  | Automated pipelines          | Their own infrastructure | Actions is natively integrated into GitHub — no separate platform to manage, no webhook glue                                    |
+| **Cron jobs**                        | Time-based scheduling        | A server you maintain    | Actions supports `schedule` triggers, but also reacts to every Git event; no server to maintain                                 |
+| **Traditional deployment pipelines** | Stage-gated release flows    | Centralized infra        | Actions is decentralized (per-repo YAML), composable (reusable workflows), and version-controlled alongside code                |
 
 **The React/Next.js analogy:**
 
@@ -190,18 +192,18 @@ An encrypted value stored at the repository, environment, or organization level.
 
 ### 1.5 Comparison With Other CI/CD Systems
 
-| Dimension | GitHub Actions | GitLab CI/CD | Jenkins | CircleCI | Azure DevOps | Vercel deployment |
-|---|---|---|---|---|---|---|
-| **Config format** | YAML per repo | `.gitlab-ci.yml` | Jenkinsfile (Groovy) or UI | `.circleci/config.yml` | `azure-pipelines.yml` | Zero-config / `vercel.json` |
-| **Where it runs** | GitHub-hosted VMs or self-hosted | GitLab runners | Self-hosted (always) | CircleCI cloud or self-hosted | Azure-hosted or self-hosted | Vercel's edge infra |
-| **Native SCM** | GitHub | GitLab | Any (via plugins) | GitHub, Bitbucket | Azure Repos, GitHub | GitHub, GitLab, Bitbucket |
-| **Marketplace** | 20,000+ actions | Templates | 1,800+ plugins | Orbs | Extensions | N/A |
-| **Pricing model** | Free minutes + per-minute overage | Free tier + per-minute | Free (self-host cost) | Free tier + per-minute | Free tier + per-minute | Free tier + per-seat |
-| **Best for** | GitHub-centric teams of any size | GitLab-centric teams | Heavy customization / legacy | Fast CI for product teams | Microsoft-centric enterprise | Frontend-first apps |
-| **Biggest weakness** | YAML complexity at scale | Ecosystem size | Maintenance burden | Separate platform | Heavier UX | Not general-purpose |
-| **Learning curve** | Moderate | Moderate | High | Moderate | Moderate-High | Very Low |
+| Dimension            | GitHub Actions                    | GitLab CI/CD           | Jenkins                      | CircleCI                      | Azure DevOps                 | Vercel deployment           |
+| -------------------- | --------------------------------- | ---------------------- | ---------------------------- | ----------------------------- | ---------------------------- | --------------------------- |
+| **Config format**    | YAML per repo                     | `.gitlab-ci.yml`       | Jenkinsfile (Groovy) or UI   | `.circleci/config.yml`        | `azure-pipelines.yml`        | Zero-config / `vercel.json` |
+| **Where it runs**    | GitHub-hosted VMs or self-hosted  | GitLab runners         | Self-hosted (always)         | CircleCI cloud or self-hosted | Azure-hosted or self-hosted  | Vercel's edge infra         |
+| **Native SCM**       | GitHub                            | GitLab                 | Any (via plugins)            | GitHub, Bitbucket             | Azure Repos, GitHub          | GitHub, GitLab, Bitbucket   |
+| **Marketplace**      | 20,000+ actions                   | Templates              | 1,800+ plugins               | Orbs                          | Extensions                   | N/A                         |
+| **Pricing model**    | Free minutes + per-minute overage | Free tier + per-minute | Free (self-host cost)        | Free tier + per-minute        | Free tier + per-minute       | Free tier + per-seat        |
+| **Best for**         | GitHub-centric teams of any size  | GitLab-centric teams   | Heavy customization / legacy | Fast CI for product teams     | Microsoft-centric enterprise | Frontend-first apps         |
+| **Biggest weakness** | YAML complexity at scale          | Ecosystem size         | Maintenance burden           | Separate platform             | Heavier UX                   | Not general-purpose         |
+| **Learning curve**   | Moderate                          | Moderate               | High                         | Moderate                      | Moderate-High                | Very Low                    |
 
-**Key insight for a frontend engineer:** Vercel gives you the *best DX* for deploying Next.js — zero config, instant previews, automatic production. GitHub Actions gives you the *most control* — you decide every step, can add security scanning, multi-platform testing, release gating, and deployment to any target. Most real teams use both: Vercel for deployment, Actions for everything else (lint, test, release, automation).
+**Key insight for a frontend engineer:** Vercel gives you the _best DX_ for deploying Next.js — zero config, instant previews, automatic production. GitHub Actions gives you the _most control_ — you decide every step, can add security scanning, multi-platform testing, release gating, and deployment to any target. Most real teams use both: Vercel for deployment, Actions for everything else (lint, test, release, automation).
 
 ### 1.6 Mental Model Diagram
 
@@ -255,7 +257,7 @@ An encrypted value stored at the repository, environment, or organization level.
 
 #### What a workflow file is
 
-A workflow file is a YAML document that lives in `.github/workflows/`. It tells GitHub: "When *this event* happens, run *these jobs* on *these machines*."
+A workflow file is a YAML document that lives in `.github/workflows/`. It tells GitHub: "When _this event_ happens, run _these jobs_ on _these machines_."
 
 You already manage config files — `next.config.js`, `tsconfig.json`, `tailwind.config.ts`. A workflow file is another config file, but for your automation pipeline instead of your app.
 
@@ -286,6 +288,7 @@ branches: [main, develop]
 ```
 
 **Critical YAML rules:**
+
 - Indentation is **spaces only** — never tabs.
 - Indentation level defines structure (like Python).
 - Colons need a space after them: `key: value` not `key:value`.
@@ -393,15 +396,15 @@ jobs:
 
 #### Common mistakes at this level
 
-| Mistake | What happens | Fix |
-|---|---|---|
-| Tabs in YAML | Parse error | Use spaces (2-space indent recommended) |
-| Missing `actions/checkout` | Commands fail — no source code | Always checkout first |
-| Using `npm install` | Lockfile may change, non-deterministic | Use `npm ci` |
-| Wrong Node version | Package incompatibilities | Match your local version |
-| Typo in branch name | Workflow never triggers | Check `on.push.branches` carefully |
-| Running in wrong directory | `command not found` or missing files | Use `working-directory:` if needed |
-| Assuming env vars exist | Undefined variables, empty strings | Explicitly set `env:` or use `secrets` |
+| Mistake                    | What happens                           | Fix                                     |
+| -------------------------- | -------------------------------------- | --------------------------------------- |
+| Tabs in YAML               | Parse error                            | Use spaces (2-space indent recommended) |
+| Missing `actions/checkout` | Commands fail — no source code         | Always checkout first                   |
+| Using `npm install`        | Lockfile may change, non-deterministic | Use `npm ci`                            |
+| Wrong Node version         | Package incompatibilities              | Match your local version                |
+| Typo in branch name        | Workflow never triggers                | Check `on.push.branches` carefully      |
+| Running in wrong directory | `command not found` or missing files   | Use `working-directory:` if needed      |
+| Assuming env vars exist    | Undefined variables, empty strings     | Explicitly set `env:` or use `secrets`  |
 
 #### 5 small practice exercises
 
@@ -470,7 +473,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, test]    # ← waits for all three
+    needs: [lint, typecheck, test] # ← waits for all three
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -497,13 +500,13 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false          # ← don't cancel others if one fails
+      fail-fast: false # ← don't cancel others if one fails
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [18, 20, 22]
         exclude:
           - os: macos-latest
-            node-version: 18    # ← skip this combination
+            node-version: 18 # ← skip this combination
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -525,7 +528,7 @@ The `actions/setup-node` action has built-in caching:
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-    cache: npm           # ← caches based on package-lock.json hash
+    cache: npm # ← caches based on package-lock.json hash
 
 # pnpm
 - uses: pnpm/action-setup@v4
@@ -534,13 +537,13 @@ The `actions/setup-node` action has built-in caching:
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-    cache: pnpm          # ← caches based on pnpm-lock.yaml hash
+    cache: pnpm # ← caches based on pnpm-lock.yaml hash
 
 # yarn
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-    cache: yarn           # ← caches based on yarn.lock hash
+    cache: yarn # ← caches based on yarn.lock hash
 ```
 
 **What gets cached?** Not `node_modules` itself — the package manager's global cache directory. On cache hit, `npm ci` / `pnpm install` still runs but reads from local cache instead of the network.
@@ -571,18 +574,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      DEPLOY_TARGET: staging       # ← job-level env
+      DEPLOY_TARGET: staging # ← job-level env
     steps:
       - name: Deploy
         env:
-          API_TOKEN: ${{ secrets.API_TOKEN }}    # ← step-level, from secrets
-          DEPLOY_URL: ${{ vars.DEPLOY_URL }}     # ← from repository variables
+          API_TOKEN: ${{ secrets.API_TOKEN }} # ← step-level, from secrets
+          DEPLOY_URL: ${{ vars.DEPLOY_URL }} # ← from repository variables
         run: |
           echo "Deploying to $DEPLOY_TARGET"
           ./deploy.sh
 ```
 
 **Secret rules:**
+
 - Secrets are encrypted at rest and masked in logs.
 - They cannot be read back from the UI after creation.
 - Use environment-scoped secrets for production credentials.
@@ -695,16 +699,16 @@ deploy:
 
 #### Common mistakes and anti-patterns
 
-| Anti-pattern | Why it is bad | Better approach |
-|---|---|---|
+| Anti-pattern                      | Why it is bad                                 | Better approach                                                |
+| --------------------------------- | --------------------------------------------- | -------------------------------------------------------------- |
 | One giant workflow for everything | Hard to read, slow feedback, hard to maintain | Split into focused workflows (ci.yml, deploy.yml, release.yml) |
-| Duplicating YAML across repos | Drift, inconsistency, maintenance pain | Use reusable workflows or composite actions |
-| Not caching dependencies | Slow installs on every run | Use built-in cache in `actions/setup-node` |
-| Deploying from every branch | Broken previews, wasted resources | Deploy only from main or tagged releases |
-| Hardcoding secrets in YAML | Security disaster | Use `secrets` context |
-| Ignoring `needs` graph | Jobs run in wrong order or waste time | Design explicit dependency chains |
-| Using `npm install` | Non-deterministic, modifies lockfile | Use `npm ci` |
-| Not requiring CI checks for merge | Broken code lands in main | Set up branch protection with required status checks |
+| Duplicating YAML across repos     | Drift, inconsistency, maintenance pain        | Use reusable workflows or composite actions                    |
+| Not caching dependencies          | Slow installs on every run                    | Use built-in cache in `actions/setup-node`                     |
+| Deploying from every branch       | Broken previews, wasted resources             | Deploy only from main or tagged releases                       |
+| Hardcoding secrets in YAML        | Security disaster                             | Use `secrets` context                                          |
+| Ignoring `needs` graph            | Jobs run in wrong order or waste time         | Design explicit dependency chains                              |
+| Using `npm install`               | Non-deterministic, modifies lockfile          | Use `npm ci`                                                   |
+| Not requiring CI checks for merge | Broken code lands in main                     | Set up branch protection with required status checks           |
 
 #### Level 2 success criteria
 
@@ -733,10 +737,10 @@ Hotfix branch   → Fast-track CI + deploy to production
 
 ```yaml
 on:
-  pull_request:         # ← feature branches
+  pull_request: # ← feature branches
   push:
-    branches: [main]    # ← staging deploy trigger
-    tags: ['v*']        # ← production deploy trigger
+    branches: [main] # ← staging deploy trigger
+    tags: ['v*'] # ← production deploy trigger
 ```
 
 #### Monorepo workflows with path filters
@@ -895,19 +899,20 @@ steps:
 
 #### Reusable workflow vs composite action — decision table
 
-| Question | Reusable workflow | Composite action |
-|---|---|---|
-| Can define multiple jobs? | Yes | No |
-| Can define triggers? | Yes (`workflow_call`) | No |
-| Can be called cross-repo? | Yes | Yes (with checkout or reference) |
-| Can share step-level logic? | Indirectly | Yes — this is the purpose |
-| Can define `environment:`? | Yes | No |
-| Can use `secrets:`? | Yes (declared) | No (pass via inputs) |
-| Best for | Full pipeline patterns | Shared setup / utility steps |
+| Question                    | Reusable workflow      | Composite action                 |
+| --------------------------- | ---------------------- | -------------------------------- |
+| Can define multiple jobs?   | Yes                    | No                               |
+| Can define triggers?        | Yes (`workflow_call`)  | No                               |
+| Can be called cross-repo?   | Yes                    | Yes (with checkout or reference) |
+| Can share step-level logic? | Indirectly             | Yes — this is the purpose        |
+| Can define `environment:`?  | Yes                    | No                               |
+| Can use `secrets:`?         | Yes (declared)         | No (pass via inputs)             |
+| Best for                    | Full pipeline patterns | Shared setup / utility steps     |
 
 #### Self-hosted runners
 
 Use them when you need:
+
 - Private network access (VPN, internal APIs)
 - Heavy compute (large Docker builds, ML jobs)
 - Specialized hardware (GPU, ARM)
@@ -915,6 +920,7 @@ Use them when you need:
 - Cost control at scale
 
 **Runner management rules:**
+
 - Use ephemeral runners when possible (fresh VM per job).
 - Never store long-lived secrets on runner machines.
 - Patch and update regularly.
@@ -923,15 +929,15 @@ Use them when you need:
 
 #### Secure secret management
 
-| Practice | Why | Priority |
-|---|---|---|
-| Use OIDC for cloud access | Short-lived tokens, no static keys | High |
-| Scope secrets to environments | Production creds only available in production jobs | High |
-| Use environment protection rules | Require approval before production deploy | High |
-| Audit secret access | Know who can read what | Medium |
-| Rotate secrets regularly | Limit blast radius | Medium |
-| Never echo secrets | Even masked, transformed values can leak | Critical |
-| Pin third-party actions | Prevents supply chain injection | High |
+| Practice                         | Why                                                | Priority |
+| -------------------------------- | -------------------------------------------------- | -------- |
+| Use OIDC for cloud access        | Short-lived tokens, no static keys                 | High     |
+| Scope secrets to environments    | Production creds only available in production jobs | High     |
+| Use environment protection rules | Require approval before production deploy          | High     |
+| Audit secret access              | Know who can read what                             | Medium   |
+| Rotate secrets regularly         | Limit blast radius                                 | Medium   |
+| Never echo secrets               | Even masked, transformed values can leak           | Critical |
+| Pin third-party actions          | Prevents supply chain injection                    | High     |
 
 **OIDC example — deploying to AWS without static keys:**
 
@@ -950,13 +956,13 @@ steps:
 
 #### Deployment strategies
 
-| Strategy | How it works | When to use | Risk | Cost |
-|---|---|---|---|---|
-| **Direct deploy** | Replace current version immediately | Small apps, static sites | Instant rollback needed | Low |
-| **Rolling** | Replace instances gradually | Stateless services | Slow convergence | Low |
-| **Blue-green** | Run two environments, switch traffic | Critical apps needing instant rollback | Double infrastructure during deploy | Medium |
-| **Canary** | Route small % of traffic to new version | Risk-sensitive releases | Complex routing setup | Medium |
-| **Feature flags** | Deploy code dark, enable via flag | Product experimentation | Flag governance overhead | Low |
+| Strategy          | How it works                            | When to use                            | Risk                                | Cost   |
+| ----------------- | --------------------------------------- | -------------------------------------- | ----------------------------------- | ------ |
+| **Direct deploy** | Replace current version immediately     | Small apps, static sites               | Instant rollback needed             | Low    |
+| **Rolling**       | Replace instances gradually             | Stateless services                     | Slow convergence                    | Low    |
+| **Blue-green**    | Run two environments, switch traffic    | Critical apps needing instant rollback | Double infrastructure during deploy | Medium |
+| **Canary**        | Route small % of traffic to new version | Risk-sensitive releases                | Complex routing setup               | Medium |
+| **Feature flags** | Deploy code dark, enable via flag       | Product experimentation                | Flag governance overhead            | Low    |
 
 #### Release automation
 
@@ -1003,7 +1009,7 @@ jobs:
 
 #### Rollback strategy
 
-**Rule:** Define rollback *before* you define deploy. If you cannot answer "how do I undo this?", you are not ready to ship.
+**Rule:** Define rollback _before_ you define deploy. If you cannot answer "how do I undo this?", you are not ready to ship.
 
 Approaches:
 
@@ -1044,16 +1050,16 @@ jobs:
 
 #### CI optimization
 
-| Technique | Impact | Effort |
-|---|---|---|
-| Cache dependencies | 30-60% faster installs | Low |
-| Parallel jobs | Faster overall pipeline | Low |
-| Path filters | Skip unchanged packages | Medium |
-| Skip CI on docs changes | Save minutes | Low |
-| Smaller Docker base images | Faster pulls | Medium |
-| Incremental builds (`.next/cache`) | Faster builds | Medium |
-| Fan out with matrix only where needed | Right-sized coverage | Low |
-| Combine small steps | Reduce overhead | Low |
+| Technique                             | Impact                  | Effort |
+| ------------------------------------- | ----------------------- | ------ |
+| Cache dependencies                    | 30-60% faster installs  | Low    |
+| Parallel jobs                         | Faster overall pipeline | Low    |
+| Path filters                          | Skip unchanged packages | Medium |
+| Skip CI on docs changes               | Save minutes            | Low    |
+| Smaller Docker base images            | Faster pulls            | Medium |
+| Incremental builds (`.next/cache`)    | Faster builds           | Medium |
+| Fan out with matrix only where needed | Right-sized coverage    | Low    |
+| Combine small steps                   | Reduce overhead         | Low    |
 
 #### Notifications and incident handling
 
@@ -1098,6 +1104,7 @@ At this level you are not writing one workflow — you are designing the system 
 #### Building an internal CI/CD platform
 
 Your platform provides:
+
 - Standardized reusable workflows for every language and framework.
 - Opinionated defaults (Node version, package manager, test framework, deploy target).
 - Escape hatches for teams that need customization.
@@ -1131,14 +1138,14 @@ This prevents breaking changes from propagating instantly.
 
 #### Governance and policy enforcement
 
-| Policy | Implementation |
-|---|---|
-| All repos must run CI before merge | Branch protection rules with required status checks |
-| Workflow files cannot be modified without review | CODEOWNERS file protecting `.github/` |
-| Third-party actions must be audited | Organization-level allow list for actions |
-| Production secrets only available with approval | Environment protection rules |
-| All deployments must be traceable | Require deployment environments with history |
-| Security scans must run on all PRs | Organization-level required workflow |
+| Policy                                           | Implementation                                      |
+| ------------------------------------------------ | --------------------------------------------------- |
+| All repos must run CI before merge               | Branch protection rules with required status checks |
+| Workflow files cannot be modified without review | CODEOWNERS file protecting `.github/`               |
+| Third-party actions must be audited              | Organization-level allow list for actions           |
+| Production secrets only available with approval  | Environment protection rules                        |
+| All deployments must be traceable                | Require deployment environments with history        |
+| Security scans must run on all PRs               | Organization-level required workflow                |
 
 #### Multi-repository automation
 
@@ -1208,6 +1215,7 @@ deploy-production:
 ```
 
 **Key architectural decisions:**
+
 - Ephemeral runners for isolation (no state between jobs).
 - Separate pools by trust boundary.
 - Autoscale based on queue depth.
@@ -1216,15 +1224,15 @@ deploy-production:
 
 #### Security hardening
 
-| Threat | Mitigation |
-|---|---|
-| Compromised third-party action | Pin actions to commit SHA, audit on update |
-| Secret exfiltration via logs | Mask secrets, avoid echoing transformed values |
-| PR from fork running dangerous code | Use `pull_request_target` carefully, limit permissions |
-| Runner compromise | Ephemeral runners, least-privilege, network segmentation |
-| Supply chain attack | Sign artifacts, verify provenance, scan dependencies |
-| Credential theft | OIDC for cloud access, short-lived tokens, environment scoping |
-| Workflow injection | Validate inputs, avoid `${{ github.event.*.body }}` in `run:` |
+| Threat                              | Mitigation                                                     |
+| ----------------------------------- | -------------------------------------------------------------- |
+| Compromised third-party action      | Pin actions to commit SHA, audit on update                     |
+| Secret exfiltration via logs        | Mask secrets, avoid echoing transformed values                 |
+| PR from fork running dangerous code | Use `pull_request_target` carefully, limit permissions         |
+| Runner compromise                   | Ephemeral runners, least-privilege, network segmentation       |
+| Supply chain attack                 | Sign artifacts, verify provenance, scan dependencies           |
+| Credential theft                    | OIDC for cloud access, short-lived tokens, environment scoping |
+| Workflow injection                  | Validate inputs, avoid `${{ github.event.*.body }}` in `run:`  |
 
 **Action pinning — SHA vs. tag:**
 
@@ -1280,13 +1288,13 @@ steps:
 
 #### Disaster recovery for CI/CD systems
 
-| Risk | Mitigation |
-|---|---|
-| GitHub outage | Document manual deploy procedure, keep deployment scripts runnable locally |
-| Lost workflow definitions | Version control (they are in the repo), backup org-level configs |
-| Runner fleet failure | Autoscaling with health checks, fallback to GitHub-hosted runners |
-| Secret rotation failure | Documented rotation procedure, monitoring for expiring credentials |
-| Broken shared workflow | Version pinning, canary rollout of shared workflow updates |
+| Risk                      | Mitigation                                                                 |
+| ------------------------- | -------------------------------------------------------------------------- |
+| GitHub outage             | Document manual deploy procedure, keep deployment scripts runnable locally |
+| Lost workflow definitions | Version control (they are in the repo), backup org-level configs           |
+| Runner fleet failure      | Autoscaling with health checks, fallback to GitHub-hosted runners          |
+| Secret rotation failure   | Documented rotation procedure, monitoring for expiring credentials         |
+| Broken shared workflow    | Version pinning, canary rollout of shared workflow updates                 |
 
 #### Architecture review checklist
 
@@ -1307,18 +1315,18 @@ Use this when reviewing any production workflow:
 
 #### What expert engineers care about that juniors miss
 
-| Expert concern | Why it matters | Junior blind spot |
-|---|---|---|
-| Drift between workflow intent and runtime | Workflows silently change behavior | "It passed, ship it" |
-| Secret sprawl | Unused secrets accumulate, increasing risk | "Just add another secret" |
-| Auditability | Who deployed what, when, and why | No deployment logs |
-| Recovery time objectives | How fast can we fix a bad deploy? | No rollback plan |
-| Reproducible builds | Same code should produce same artifact | Node version drift, unpinned deps |
-| Policy as code | Governance should be automated, not manual | "Trust the team" |
-| Supply chain integrity | Every action/dependency is an attack surface | "It's from the marketplace, it's fine" |
-| Cost per deployment | CI minutes add up at scale | "It's free" |
-| Fleet management | Runners need ops like any infrastructure | "GitHub hosts it" |
-| Organizational consistency | Teams should not reinvent basic CI | "Each team owns their workflow" |
+| Expert concern                            | Why it matters                               | Junior blind spot                      |
+| ----------------------------------------- | -------------------------------------------- | -------------------------------------- |
+| Drift between workflow intent and runtime | Workflows silently change behavior           | "It passed, ship it"                   |
+| Secret sprawl                             | Unused secrets accumulate, increasing risk   | "Just add another secret"              |
+| Auditability                              | Who deployed what, when, and why             | No deployment logs                     |
+| Recovery time objectives                  | How fast can we fix a bad deploy?            | No rollback plan                       |
+| Reproducible builds                       | Same code should produce same artifact       | Node version drift, unpinned deps      |
+| Policy as code                            | Governance should be automated, not manual   | "Trust the team"                       |
+| Supply chain integrity                    | Every action/dependency is an attack surface | "It's from the marketplace, it's fine" |
+| Cost per deployment                       | CI minutes add up at scale                   | "It's free"                            |
+| Fleet management                          | Runners need ops like any infrastructure     | "GitHub hosts it"                      |
+| Organizational consistency                | Teams should not reinvent basic CI           | "Each team owns their workflow"        |
 
 #### 10 advanced engineering discussion topics
 
@@ -1345,17 +1353,17 @@ mkdir -p .github/workflows
 
 ### Step 2: Use clear naming conventions
 
-| File | Purpose |
-|---|---|
-| `ci.yml` | Main CI pipeline (lint, test, typecheck, build) |
-| `deploy-preview.yml` | Preview deployment on PRs |
-| `deploy-production.yml` | Production deployment on merge/tag |
-| `release.yml` | Automated release and changelog |
-| `nightly.yml` | Scheduled nightly builds or checks |
-| `security.yml` | Security scanning workflow |
-| `dependabot-merge.yml` | Auto-merge safe dependency updates |
+| File                    | Purpose                                         |
+| ----------------------- | ----------------------------------------------- |
+| `ci.yml`                | Main CI pipeline (lint, test, typecheck, build) |
+| `deploy-preview.yml`    | Preview deployment on PRs                       |
+| `deploy-production.yml` | Production deployment on merge/tag              |
+| `release.yml`           | Automated release and changelog                 |
+| `nightly.yml`           | Scheduled nightly builds or checks              |
+| `security.yml`          | Security scanning workflow                      |
+| `dependabot-merge.yml`  | Auto-merge safe dependency updates              |
 
-**Convention:** Name files by *intent* (what they do), not by *implementation* (how they do it).
+**Convention:** Name files by _intent_ (what they do), not by _implementation_ (how they do it).
 
 ### Step 3: Basic workflow structure
 
@@ -1672,13 +1680,13 @@ steps:
 
 ### Step 6: Caching strategy
 
-| What to cache | How | Key strategy |
-|---|---|---|
-| npm global cache | `actions/setup-node` with `cache: npm` | Based on `package-lock.json` hash |
-| pnpm store | `actions/setup-node` with `cache: pnpm` | Based on `pnpm-lock.yaml` hash |
-| Next.js build cache | `actions/cache` targeting `.next/cache` | Based on lockfile + source hash |
-| Playwright browsers | `actions/cache` targeting `~/.cache/ms-playwright` | Based on Playwright version |
-| Docker layers | Docker buildx cache | Based on Dockerfile + source hash |
+| What to cache       | How                                                | Key strategy                      |
+| ------------------- | -------------------------------------------------- | --------------------------------- |
+| npm global cache    | `actions/setup-node` with `cache: npm`             | Based on `package-lock.json` hash |
+| pnpm store          | `actions/setup-node` with `cache: pnpm`            | Based on `pnpm-lock.yaml` hash    |
+| Next.js build cache | `actions/cache` targeting `.next/cache`            | Based on lockfile + source hash   |
+| Playwright browsers | `actions/cache` targeting `~/.cache/ms-playwright` | Based on Playwright version       |
+| Docker layers       | Docker buildx cache                                | Based on Dockerfile + source hash |
 
 **Cache key design:**
 
@@ -1699,14 +1707,14 @@ The `restore-keys` enable partial cache hits — better than no cache, even if n
 
 **Common secrets:**
 
-| Secret | Purpose |
-|---|---|
-| `VERCEL_TOKEN` | Deploy to Vercel |
-| `CLOUDFLARE_API_TOKEN` | Deploy to Cloudflare |
-| `DEPLOY_TOKEN` | General deployment credential |
-| `SLACK_WEBHOOK` | Failure notifications |
-| `NPM_TOKEN` | Publish to npm |
-| `CODECOV_TOKEN` | Coverage reporting |
+| Secret                 | Purpose                       |
+| ---------------------- | ----------------------------- |
+| `VERCEL_TOKEN`         | Deploy to Vercel              |
+| `CLOUDFLARE_API_TOKEN` | Deploy to Cloudflare          |
+| `DEPLOY_TOKEN`         | General deployment credential |
+| `SLACK_WEBHOOK`        | Failure notifications         |
+| `NPM_TOKEN`            | Publish to npm                |
+| `CODECOV_TOKEN`        | Coverage reporting            |
 
 ### Step 8: Environment setup
 
@@ -1795,20 +1803,20 @@ jobs:
 
 ### Triggers (events)
 
-| Trigger | Syntax | Use case |
-|---|---|---|
-| Push | `on: push` | CI on every commit |
-| Push to branch | `on: push: branches: [main]` | CI on specific branches |
-| Push with path filter | `on: push: paths: ['src/**']` | Monorepo selective CI |
-| Pull request | `on: pull_request` | PR validation |
-| PR types | `on: pull_request: types: [opened, synchronize]` | Specific PR events |
-| Manual | `on: workflow_dispatch` | Manual trigger with inputs |
-| Schedule | `on: schedule: - cron: '0 2 * * *'` | Nightly builds |
-| Tag | `on: push: tags: ['v*']` | Release automation |
-| Release | `on: release: types: [published]` | Post-release actions |
-| Workflow call | `on: workflow_call` | Reusable workflow |
-| Repository dispatch | `on: repository_dispatch` | External/cross-repo trigger |
-| Workflow run | `on: workflow_run` | Chain after another workflow |
+| Trigger               | Syntax                                           | Use case                     |
+| --------------------- | ------------------------------------------------ | ---------------------------- |
+| Push                  | `on: push`                                       | CI on every commit           |
+| Push to branch        | `on: push: branches: [main]`                     | CI on specific branches      |
+| Push with path filter | `on: push: paths: ['src/**']`                    | Monorepo selective CI        |
+| Pull request          | `on: pull_request`                               | PR validation                |
+| PR types              | `on: pull_request: types: [opened, synchronize]` | Specific PR events           |
+| Manual                | `on: workflow_dispatch`                          | Manual trigger with inputs   |
+| Schedule              | `on: schedule: - cron: '0 2 * * *'`              | Nightly builds               |
+| Tag                   | `on: push: tags: ['v*']`                         | Release automation           |
+| Release               | `on: release: types: [published]`                | Post-release actions         |
+| Workflow call         | `on: workflow_call`                              | Reusable workflow            |
+| Repository dispatch   | `on: repository_dispatch`                        | External/cross-repo trigger  |
+| Workflow run          | `on: workflow_run`                               | Chain after another workflow |
 
 ### Expressions
 
@@ -1911,7 +1919,7 @@ strategy:
 - uses: actions/setup-node@v4
   with:
     node-version: 20
-    cache: npm       # or pnpm, yarn
+    cache: npm # or pnpm, yarn
 
 # Manual cache
 - uses: actions/cache@v4
@@ -1939,7 +1947,7 @@ strategy:
     name: build-output
     path: dist/
     retention-days: 7
-    if-no-files-found: error    # fail if nothing to upload
+    if-no-files-found: error # fail if nothing to upload
 
 # Download (in a later job)
 - uses: actions/download-artifact@v4
@@ -1992,88 +2000,88 @@ jobs:
 
 ### Common marketplace actions
 
-| Action | Version | Purpose |
-|---|---|---|
-| `actions/checkout` | `@v4` | Clone repository |
-| `actions/setup-node` | `@v4` | Install Node.js + cache |
-| `actions/cache` | `@v4` | Manual cache control |
-| `actions/upload-artifact` | `@v4` | Persist build outputs |
-| `actions/download-artifact` | `@v4` | Retrieve artifacts |
-| `actions/upload-pages-artifact` | `@v3` | GitHub Pages deploy artifact |
-| `actions/deploy-pages` | `@v4` | Deploy to GitHub Pages |
-| `actions/configure-pages` | `@v5` | Configure GitHub Pages |
-| `pnpm/action-setup` | `@v4` | Install pnpm |
-| `softprops/action-gh-release` | `@v2` | Create GitHub Releases |
-| `slackapi/slack-github-action` | `@v2` | Slack notifications |
-| `dorny/paths-filter` | `@v3` | Detect changed paths |
-| `peter-evans/create-pull-request` | `@v7` | Auto-create PRs |
-| `github/codeql-action` | `@v3` | Security analysis |
-| `aws-actions/configure-aws-credentials` | `@v4` | AWS OIDC auth |
-| `google-github-actions/auth` | `@v2` | GCP OIDC auth |
+| Action                                  | Version | Purpose                      |
+| --------------------------------------- | ------- | ---------------------------- |
+| `actions/checkout`                      | `@v4`   | Clone repository             |
+| `actions/setup-node`                    | `@v4`   | Install Node.js + cache      |
+| `actions/cache`                         | `@v4`   | Manual cache control         |
+| `actions/upload-artifact`               | `@v4`   | Persist build outputs        |
+| `actions/download-artifact`             | `@v4`   | Retrieve artifacts           |
+| `actions/upload-pages-artifact`         | `@v3`   | GitHub Pages deploy artifact |
+| `actions/deploy-pages`                  | `@v4`   | Deploy to GitHub Pages       |
+| `actions/configure-pages`               | `@v5`   | Configure GitHub Pages       |
+| `pnpm/action-setup`                     | `@v4`   | Install pnpm                 |
+| `softprops/action-gh-release`           | `@v2`   | Create GitHub Releases       |
+| `slackapi/slack-github-action`          | `@v2`   | Slack notifications          |
+| `dorny/paths-filter`                    | `@v3`   | Detect changed paths         |
+| `peter-evans/create-pull-request`       | `@v7`   | Auto-create PRs              |
+| `github/codeql-action`                  | `@v3`   | Security analysis            |
+| `aws-actions/configure-aws-credentials` | `@v4`   | AWS OIDC auth                |
+| `google-github-actions/auth`            | `@v2`   | GCP OIDC auth                |
 
 ### Debugging tips
 
-| Technique | How |
-|---|---|
-| Print context | `echo "${{ toJSON(github) }}"` |
-| Print env vars | `env \| sort` |
-| List files | `ls -la` or `find . -type f` |
-| Check Node/npm | `node --version && npm --version` |
-| Enable debug logs | Re-run with "Enable debug logging" or set `ACTIONS_STEP_DEBUG: true` |
-| Inspect event payload | `cat $GITHUB_EVENT_PATH \| jq .` |
-| SSH into runner | Use `mxschmitt/action-tmate` for interactive debugging |
-| Test locally | Use `act` (https://github.com/nektos/act) to run workflows locally |
+| Technique             | How                                                                  |
+| --------------------- | -------------------------------------------------------------------- |
+| Print context         | `echo "${{ toJSON(github) }}"`                                       |
+| Print env vars        | `env \| sort`                                                        |
+| List files            | `ls -la` or `find . -type f`                                         |
+| Check Node/npm        | `node --version && npm --version`                                    |
+| Enable debug logs     | Re-run with "Enable debug logging" or set `ACTIONS_STEP_DEBUG: true` |
+| Inspect event payload | `cat $GITHUB_EVENT_PATH \| jq .`                                     |
+| SSH into runner       | Use `mxschmitt/action-tmate` for interactive debugging               |
+| Test locally          | Use `act` (https://github.com/nektos/act) to run workflows locally   |
 
 ### Common errors and fixes
 
-| Error message | Cause | Fix |
-|---|---|---|
-| `unexpected value 'workflow_call'` | Wrong event type or indentation | Check `on:` syntax |
-| `No hosted provisioner` | Invalid `runs-on` label | Use `ubuntu-latest`, `macos-latest`, or `windows-latest` |
-| `Resource not accessible by integration` | Insufficient token permissions | Add `permissions:` block |
-| `Process completed with exit code 1` | Command failed | Read the output above this line |
-| `npm ERR! could not determine executable to run` | Wrong npx/package setup | Check package.json scripts |
-| `Error: No files were found with the provided path` | Upload artifact path wrong | Verify build output directory |
-| `The workflow is not valid` | YAML syntax error | Use YAML linter, check indentation |
-| Cache not restoring | Key mismatch | Check `hashFiles()` patterns and key format |
+| Error message                                       | Cause                           | Fix                                                      |
+| --------------------------------------------------- | ------------------------------- | -------------------------------------------------------- |
+| `unexpected value 'workflow_call'`                  | Wrong event type or indentation | Check `on:` syntax                                       |
+| `No hosted provisioner`                             | Invalid `runs-on` label         | Use `ubuntu-latest`, `macos-latest`, or `windows-latest` |
+| `Resource not accessible by integration`            | Insufficient token permissions  | Add `permissions:` block                                 |
+| `Process completed with exit code 1`                | Command failed                  | Read the output above this line                          |
+| `npm ERR! could not determine executable to run`    | Wrong npx/package setup         | Check package.json scripts                               |
+| `Error: No files were found with the provided path` | Upload artifact path wrong      | Verify build output directory                            |
+| `The workflow is not valid`                         | YAML syntax error               | Use YAML linter, check indentation                       |
+| Cache not restoring                                 | Key mismatch                    | Check `hashFiles()` patterns and key format              |
 
 ### YAML pitfalls
 
-| Pitfall | Example | Fix |
-|---|---|---|
-| `on` is a boolean | `on:` becomes `true:` | Always quote: `'on':` or use full form |
-| Tabs vs spaces | Mix of indent types | Use only spaces (2-space recommended) |
-| Unquoted special values | `version: 3.10` → `3.1` | Quote: `version: '3.10'` |
-| Multi-line gotcha | `run: echo "hello\nworld"` | Use `run: \|` for multi-line |
-| Boolean strings | `yes`, `no`, `true`, `false` | Quote if you mean strings |
+| Pitfall                 | Example                      | Fix                                    |
+| ----------------------- | ---------------------------- | -------------------------------------- |
+| `on` is a boolean       | `on:` becomes `true:`        | Always quote: `'on':` or use full form |
+| Tabs vs spaces          | Mix of indent types          | Use only spaces (2-space recommended)  |
+| Unquoted special values | `version: 3.10` → `3.1`      | Quote: `version: '3.10'`               |
+| Multi-line gotcha       | `run: echo "hello\nworld"`   | Use `run: \|` for multi-line           |
+| Boolean strings         | `yes`, `no`, `true`, `false` | Quote if you mean strings              |
 
 ### Performance optimization
 
-| Optimization | Expected impact | Effort |
-|---|---|---|
-| Enable dependency caching | 30–60% faster installs | Trivial |
-| Parallel jobs for lint/test/build | 2–3× faster pipeline | Low |
-| Path filters for monorepos | Skip 50–80% of runs | Low |
-| Concurrency cancellation | Stop redundant runs | Trivial |
-| Skip CI on docs changes | Save all minutes for non-code PRs | Low |
-| Cache `.next/cache` | 20–40% faster Next.js builds | Low |
-| Use `actions/upload-artifact` + `download-artifact` instead of rebuilding | Avoid double builds | Medium |
-| Smaller runner images | Faster boot | Medium |
+| Optimization                                                              | Expected impact                   | Effort  |
+| ------------------------------------------------------------------------- | --------------------------------- | ------- |
+| Enable dependency caching                                                 | 30–60% faster installs            | Trivial |
+| Parallel jobs for lint/test/build                                         | 2–3× faster pipeline              | Low     |
+| Path filters for monorepos                                                | Skip 50–80% of runs               | Low     |
+| Concurrency cancellation                                                  | Stop redundant runs               | Trivial |
+| Skip CI on docs changes                                                   | Save all minutes for non-code PRs | Low     |
+| Cache `.next/cache`                                                       | 20–40% faster Next.js builds      | Low     |
+| Use `actions/upload-artifact` + `download-artifact` instead of rebuilding | Avoid double builds               | Medium  |
+| Smaller runner images                                                     | Faster boot                       | Medium  |
 
 ### Security best practices
 
-| Practice | Priority |
-|---|---|
-| Minimize `permissions:` to what is needed | Critical |
-| Use OIDC for cloud access instead of static keys | High |
-| Pin critical actions to commit SHA | High |
-| Use environment protection for production | High |
-| Never echo or transform secrets | Critical |
-| Protect `.github/` with CODEOWNERS | High |
-| Audit third-party actions before use | Medium |
-| Rotate secrets on a schedule | Medium |
-| Use `pull_request` (not `pull_request_target`) unless you need write access | High |
-| Set `concurrency` to prevent abuse | Medium |
+| Practice                                                                    | Priority |
+| --------------------------------------------------------------------------- | -------- |
+| Minimize `permissions:` to what is needed                                   | Critical |
+| Use OIDC for cloud access instead of static keys                            | High     |
+| Pin critical actions to commit SHA                                          | High     |
+| Use environment protection for production                                   | High     |
+| Never echo or transform secrets                                             | Critical |
+| Protect `.github/` with CODEOWNERS                                          | High     |
+| Audit third-party actions before use                                        | Medium   |
+| Rotate secrets on a schedule                                                | Medium   |
+| Use `pull_request` (not `pull_request_target`) unless you need write access | High     |
+| Set `concurrency` to prevent abuse                                          | Medium   |
 
 ---
 
@@ -2085,18 +2093,20 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Description | Pros | Cons |
-|---|---|---|---|
-| **Single job** | lint → typecheck → test → build in sequence | Simple, minimal YAML | Slower total time, no parallel feedback |
-| **Parallel jobs** | lint, typecheck, test run in parallel; build depends on all | Faster feedback on each dimension | More YAML, repeated installs |
-| **Parallel + shared setup** | Composite action for checkout/install; parallel validation | Best balance | Slightly more setup |
+| Strategy                    | Description                                                 | Pros                              | Cons                                    |
+| --------------------------- | ----------------------------------------------------------- | --------------------------------- | --------------------------------------- |
+| **Single job**              | lint → typecheck → test → build in sequence                 | Simple, minimal YAML              | Slower total time, no parallel feedback |
+| **Parallel jobs**           | lint, typecheck, test run in parallel; build depends on all | Faster feedback on each dimension | More YAML, repeated installs            |
+| **Parallel + shared setup** | Composite action for checkout/install; parallel validation  | Best balance                      | Slightly more setup                     |
 
 **By team size:**
+
 - **Small (1–3):** Single job is fine. Simplicity wins.
 - **Medium (4–15):** Parallel jobs with caching. Speed matters now.
 - **Large (15+):** Reusable workflows, shared composite actions, path filters.
 
 **Hidden pitfalls:**
+
 - Tests that pass locally but fail in CI due to timezone, locale, or font issues.
 - Flaky tests eroding team trust in CI.
 - Build cache invalidation causing stale behavior.
@@ -2113,13 +2123,13 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **GitHub Pages** (via `actions/deploy-pages`) | Free, integrated, simple | Limited to static, no server-side |
-| **Cloudflare Pages** (via `cloudflare/pages-action`) | Edge CDN, fast, generous free tier | Cloudflare-specific |
-| **Vercel** (native or via action) | Great DX, instant previews | Less control over pipeline |
-| **AWS S3 + CloudFront** | Full control, scalable | More setup, more ops |
-| **Netlify** (via action) | Good DX, form handling | Platform lock-in |
+| Strategy                                             | Pros                               | Cons                              |
+| ---------------------------------------------------- | ---------------------------------- | --------------------------------- |
+| **GitHub Pages** (via `actions/deploy-pages`)        | Free, integrated, simple           | Limited to static, no server-side |
+| **Cloudflare Pages** (via `cloudflare/pages-action`) | Edge CDN, fast, generous free tier | Cloudflare-specific               |
+| **Vercel** (native or via action)                    | Great DX, instant previews         | Less control over pipeline        |
+| **AWS S3 + CloudFront**                              | Full control, scalable             | More setup, more ops              |
+| **Netlify** (via action)                             | Good DX, form handling             | Platform lock-in                  |
 
 **Senior choice:** For simple static sites (Astro, Vite), Cloudflare Pages or GitHub Pages. For Next.js with server-side features, Vercel. For maximum control, S3 + CloudFront with OIDC auth.
 
@@ -2131,13 +2141,14 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **Let Vercel handle it natively** | Zero config, automatic previews, instant rollback | Less control, harder to add custom steps |
-| **Use GitHub Actions + Vercel CLI** | Full pipeline control, add scans/checks before deploy | More setup, you manage the integration |
-| **Hybrid: Vercel for deploy, Actions for CI** | Best of both — Actions validates, Vercel deploys | Two systems to understand |
+| Strategy                                      | Pros                                                  | Cons                                     |
+| --------------------------------------------- | ----------------------------------------------------- | ---------------------------------------- |
+| **Let Vercel handle it natively**             | Zero config, automatic previews, instant rollback     | Less control, harder to add custom steps |
+| **Use GitHub Actions + Vercel CLI**           | Full pipeline control, add scans/checks before deploy | More setup, you manage the integration   |
+| **Hybrid: Vercel for deploy, Actions for CI** | Best of both — Actions validates, Vercel deploys      | Two systems to understand                |
 
 **Hidden pitfalls:**
+
 - Vercel auto-deploys on push. If you also deploy from Actions, you get double deployments.
 - To use Actions-only, disable Vercel's GitHub integration and use the CLI.
 
@@ -2151,10 +2162,10 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **Cloudflare native Git integration** | Simple, automatic previews | Less pipeline customization |
-| **Actions + Wrangler CLI** | Full control, multi-step validation | More YAML to maintain |
+| Strategy                              | Pros                                | Cons                        |
+| ------------------------------------- | ----------------------------------- | --------------------------- |
+| **Cloudflare native Git integration** | Simple, automatic previews          | Less pipeline customization |
+| **Actions + Wrangler CLI**            | Full control, multi-step validation | More YAML to maintain       |
 
 ```yaml
 # Deploy Astro to Cloudflare Pages
@@ -2210,11 +2221,11 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **GitHub-hosted runner + buildx cache** | Simple, good caching | Slow for very large images |
-| **Self-hosted runner + persistent cache** | Fastest builds | Runner maintenance |
-| **Multi-stage Dockerfile** | Smaller images, faster deploys | Dockerfile complexity |
+| Strategy                                  | Pros                           | Cons                       |
+| ----------------------------------------- | ------------------------------ | -------------------------- |
+| **GitHub-hosted runner + buildx cache**   | Simple, good caching           | Slow for very large images |
+| **Self-hosted runner + persistent cache** | Fastest builds                 | Runner maintenance         |
+| **Multi-stage Dockerfile**                | Smaller images, faster deploys | Dockerfile complexity      |
 
 **Senior choice:** GitHub-hosted runner with `docker/build-push-action` and `cache-from: type=gha` for most teams. Move to self-hosted when build times exceed 10 minutes.
 
@@ -2226,11 +2237,11 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **Platform-native** (Vercel/Cloudflare) | Zero config, automatic | Platform-specific |
-| **GitHub Pages per branch** | Free | Only static, complex setup |
-| **Ephemeral environment per PR** | Full runtime fidelity | Expensive, complex teardown |
+| Strategy                                | Pros                   | Cons                        |
+| --------------------------------------- | ---------------------- | --------------------------- |
+| **Platform-native** (Vercel/Cloudflare) | Zero config, automatic | Platform-specific           |
+| **GitHub Pages per branch**             | Free                   | Only static, complex setup  |
+| **Ephemeral environment per PR**        | Full runtime fidelity  | Expensive, complex teardown |
 
 **Senior choice:** Use platform-native previews (Vercel, Cloudflare). For full-stack apps, spin up ephemeral environments only for critical PRs.
 
@@ -2242,11 +2253,11 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **Path filters** (`on.push.paths`) | Simple | Misses shared dependency changes |
-| **Change detection** (`dorny/paths-filter`) | More precise, can detect transitive deps | More setup |
-| **Turborepo/Nx integration** | Build-tool aware, understands dependency graph | Tool-specific |
+| Strategy                                    | Pros                                           | Cons                             |
+| ------------------------------------------- | ---------------------------------------------- | -------------------------------- |
+| **Path filters** (`on.push.paths`)          | Simple                                         | Misses shared dependency changes |
+| **Change detection** (`dorny/paths-filter`) | More precise, can detect transitive deps       | More setup                       |
+| **Turborepo/Nx integration**                | Build-tool aware, understands dependency graph | Tool-specific                    |
 
 ```yaml
 # Using dorny/paths-filter
@@ -2277,12 +2288,12 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **Manual tags** | Simple, explicit | Error-prone, easy to forget |
-| **Semantic release** | Fully automated from commit messages | Requires conventional commit discipline |
-| **Release PRs** (e.g., `release-please`) | Auditable, reviewable release process | Extra step in the flow |
-| **Tag + GitHub Release** | Good for libraries | Less structured |
+| Strategy                                 | Pros                                  | Cons                                    |
+| ---------------------------------------- | ------------------------------------- | --------------------------------------- |
+| **Manual tags**                          | Simple, explicit                      | Error-prone, easy to forget             |
+| **Semantic release**                     | Fully automated from commit messages  | Requires conventional commit discipline |
+| **Release PRs** (e.g., `release-please`) | Auditable, reviewable release process | Extra step in the flow                  |
+| **Tag + GitHub Release**                 | Good for libraries                    | Less structured                         |
 
 ```yaml
 # Using Google's release-please
@@ -2311,11 +2322,11 @@ jobs:
 
 **Strategies:**
 
-| Strategy | How it works | Risk |
-|---|---|---|
-| **Migrate before deploy** | Run migrations first, then deploy new code | If deploy fails, migration is already applied |
-| **Deploy then migrate** | Deploy new code, then run migrations | App may error if it expects new schema |
-| **Expand/contract** | Backward-compatible schema changes in two phases | Safest but requires discipline |
+| Strategy                  | How it works                                     | Risk                                          |
+| ------------------------- | ------------------------------------------------ | --------------------------------------------- |
+| **Migrate before deploy** | Run migrations first, then deploy new code       | If deploy fails, migration is already applied |
+| **Deploy then migrate**   | Deploy new code, then run migrations             | App may error if it expects new schema        |
+| **Expand/contract**       | Backward-compatible schema changes in two phases | Safest but requires discipline                |
 
 **Senior choice:** Expand/contract migrations. Make schema changes backward-compatible so old and new code can coexist. Deploy code first, then apply schema changes. This is the only safe approach for zero-downtime systems.
 
@@ -2375,7 +2386,7 @@ name: Security
 on:
   pull_request:
   schedule:
-    - cron: '0 6 * * 1'   # weekly Monday 6 AM
+    - cron: '0 6 * * 1' # weekly Monday 6 AM
 
 jobs:
   codeql:
@@ -2407,15 +2418,15 @@ jobs:
 # .github/labeler.yml
 frontend:
   - changed-files:
-    - any-glob-to-any-file: ['src/components/**', 'src/pages/**']
+      - any-glob-to-any-file: ['src/components/**', 'src/pages/**']
 
 docs:
   - changed-files:
-    - any-glob-to-any-file: ['docs/**', '*.md']
+      - any-glob-to-any-file: ['docs/**', '*.md']
 
 ci:
   - changed-files:
-    - any-glob-to-any-file: ['.github/**']
+      - any-glob-to-any-file: ['.github/**']
 ```
 
 ```yaml
@@ -2441,12 +2452,12 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Tool | Pros | Cons |
-|---|---|---|---|
-| Manual | None | Accurate | Time-consuming, inconsistent |
-| From PR labels | `release-please` | Auditable | Requires label discipline |
-| From conventional commits | `semantic-release` | Fully automated | Requires commit message discipline |
-| GitHub auto-generated | Built-in release notes | Zero config | Less structured |
+| Strategy                  | Tool                   | Pros            | Cons                               |
+| ------------------------- | ---------------------- | --------------- | ---------------------------------- |
+| Manual                    | None                   | Accurate        | Time-consuming, inconsistent       |
+| From PR labels            | `release-please`       | Auditable       | Requires label discipline          |
+| From conventional commits | `semantic-release`     | Fully automated | Requires commit message discipline |
+| GitHub auto-generated     | Built-in release notes | Zero config     | Less structured                    |
 
 **Senior choice:** Conventional commits + automated generation for mature teams. GitHub auto-generated release notes for small teams.
 
@@ -2516,12 +2527,12 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Recovery time | Requirement |
-|---|---|---|
-| **Re-deploy previous artifact** | 2–5 minutes | Artifact retention |
-| **Traffic switch** (blue-green) | Seconds | Two environments running |
-| **Git revert + pipeline** | 5–10 minutes | Fast CI pipeline |
-| **Feature flag disable** | Seconds | Flag infrastructure |
+| Strategy                        | Recovery time | Requirement              |
+| ------------------------------- | ------------- | ------------------------ |
+| **Re-deploy previous artifact** | 2–5 minutes   | Artifact retention       |
+| **Traffic switch** (blue-green) | Seconds       | Two environments running |
+| **Git revert + pipeline**       | 5–10 minutes  | Fast CI pipeline         |
+| **Feature flag disable**        | Seconds       | Flag infrastructure      |
 
 ```yaml
 # Manual rollback trigger
@@ -2565,7 +2576,7 @@ name: Nightly
 
 on:
   schedule:
-    - cron: '0 2 * * *'    # 2 AM UTC daily
+    - cron: '0 2 * * *' # 2 AM UTC daily
 
 jobs:
   nightly:
@@ -2589,12 +2600,12 @@ jobs:
 
 **Cron syntax quick reference:**
 
-| Schedule | Cron | Notes |
-|---|---|---|
-| Every day at 2 AM UTC | `0 2 * * *` | Common for nightly builds |
-| Every Monday at 6 AM UTC | `0 6 * * 1` | Weekly security scans |
-| Every 6 hours | `0 */6 * * *` | Frequent checks |
-| First of every month | `0 0 1 * *` | Monthly maintenance |
+| Schedule                 | Cron          | Notes                     |
+| ------------------------ | ------------- | ------------------------- |
+| Every day at 2 AM UTC    | `0 2 * * *`   | Common for nightly builds |
+| Every Monday at 6 AM UTC | `0 6 * * 1`   | Weekly security scans     |
+| Every 6 hours            | `0 */6 * * *` | Frequent checks           |
+| First of every month     | `0 0 1 * *`   | Monthly maintenance       |
 
 **Pitfall:** Scheduled workflows only run on the default branch. If your workflow is on a feature branch, it won't trigger on schedule.
 
@@ -2606,10 +2617,10 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| **Nightly full matrix** | Maximum coverage | Expensive |
-| **Nightly smoke tests** | Cheap, fast | Lower coverage |
+| Strategy                      | Pros                      | Cons                         |
+| ----------------------------- | ------------------------- | ---------------------------- |
+| **Nightly full matrix**       | Maximum coverage          | Expensive                    |
+| **Nightly smoke tests**       | Cheap, fast               | Lower coverage               |
 | **Nightly release candidate** | Tests the release process | Needs release infrastructure |
 
 **Senior choice:** Run the broadest matrix nightly. Run the focused matrix on PRs. Alert the team on Slack/email if the nightly fails.
@@ -2752,12 +2763,12 @@ jobs:
 
 **Q7. Matching:** Match each concept to its meaning.
 
-| Concept | Meaning |
-|---|---|
-| A. workflow | 1. A reusable unit of pipeline logic |
-| B. step | 2. A file or directory persisted from a run |
-| C. action | 3. A single command or action invocation |
-| D. artifact | 4. The full automation definition in YAML |
+| Concept     | Meaning                                     |
+| ----------- | ------------------------------------------- |
+| A. workflow | 1. A reusable unit of pipeline logic        |
+| B. step     | 2. A file or directory persisted from a run |
+| C. action   | 3. A single command or action invocation    |
+| D. artifact | 4. The full automation definition in YAML   |
 
 <details><summary>Answer</summary>A→4, B→3, C→1, D→2</details>
 
@@ -2800,7 +2811,7 @@ jobs:
 
 ---
 
-**Q13. Fill in the blank:** The cache key should usually be tied to the ________.
+**Q13. Fill in the blank:** The cache key should usually be tied to the **\_\_\_\_**.
 
 <details><summary>Answer</summary>Lockfile hash — e.g., <code>hashFiles('package-lock.json')</code>. This ensures the cache is invalidated when dependencies change.</details>
 
@@ -2825,11 +2836,11 @@ jobs:
 
 **Q16. Matching:** Match the package manager to its lockfile and cache mode.
 
-| Package manager | Lockfile | Setup-node cache value |
-|---|---|---|
-| A. npm | 1. `yarn.lock` | X. `pnpm` |
-| B. pnpm | 2. `pnpm-lock.yaml` | Y. `npm` |
-| C. yarn | 3. `package-lock.json` | Z. `yarn` |
+| Package manager | Lockfile               | Setup-node cache value |
+| --------------- | ---------------------- | ---------------------- |
+| A. npm          | 1. `yarn.lock`         | X. `pnpm`              |
+| B. pnpm         | 2. `pnpm-lock.yaml`    | Y. `npm`               |
+| C. yarn         | 3. `package-lock.json` | Z. `yarn`              |
 
 <details><summary>Answer</summary>A→3,Y | B→2,X | C→1,Z</details>
 
@@ -2889,7 +2900,7 @@ jobs:
 
 ---
 
-**Q23. Fill in the blank:** A workflow reused across repositories via `workflow_call` is called a ________ workflow.
+**Q23. Fill in the blank:** A workflow reused across repositories via `workflow_call` is called a **\_\_\_\_** workflow.
 
 <details><summary>Answer</summary>Reusable</details>
 
@@ -2936,11 +2947,11 @@ jobs:
 
 **Q28. Matching:** Match each deployment strategy to its description.
 
-| Strategy | Description |
-|---|---|
-| A. Rolling | 1. Route a small % of traffic to the new version first |
-| B. Blue-green | 2. Gradually replace instances one by one |
-| C. Canary | 3. Maintain two full environments, switch traffic instantly |
+| Strategy      | Description                                                 |
+| ------------- | ----------------------------------------------------------- |
+| A. Rolling    | 1. Route a small % of traffic to the new version first      |
+| B. Blue-green | 2. Gradually replace instances one by one                   |
+| C. Canary     | 3. Maintain two full environments, switch traffic instantly |
 
 <details><summary>Answer</summary>A→2, B→3, C→1</details>
 
@@ -2975,7 +2986,7 @@ jobs:
 
 ---
 
-**Q32. Fill in the blank:** Production secrets should be stored in a GitHub ________ with protection rules.
+**Q32. Fill in the blank:** Production secrets should be stored in a GitHub **\_\_\_\_** with protection rules.
 
 <details><summary>Answer</summary>Environment</details>
 
@@ -3046,30 +3057,30 @@ When you observe:<br>
 
 #### Which workflows to build first
 
-| Order | Workflow | Why |
-|---|---|---|
-| 1st | `ci.yml` — lint, typecheck, test, build | Your foundation — everything else depends on this |
-| 2nd | `deploy.yml` — deploy to staging/production | Close the loop — code changes reach users |
-| 3rd | `preview.yml` — preview deployment on PR | Better code review — reviewers can see the change |
-| 4th | `dependabot-merge.yml` — auto-merge patches | Reduce dependency noise |
-| 5th | `release.yml` — automated versioning | Professional release process |
-| 6th | `nightly.yml` — scheduled full test suite | Catch issues PR-CI misses |
-| 7th | `security.yml` — CodeQL + dependency review | Security posture |
+| Order | Workflow                                    | Why                                               |
+| ----- | ------------------------------------------- | ------------------------------------------------- |
+| 1st   | `ci.yml` — lint, typecheck, test, build     | Your foundation — everything else depends on this |
+| 2nd   | `deploy.yml` — deploy to staging/production | Close the loop — code changes reach users         |
+| 3rd   | `preview.yml` — preview deployment on PR    | Better code review — reviewers can see the change |
+| 4th   | `dependabot-merge.yml` — auto-merge patches | Reduce dependency noise                           |
+| 5th   | `release.yml` — automated versioning        | Professional release process                      |
+| 6th   | `nightly.yml` — scheduled full test suite   | Catch issues PR-CI misses                         |
+| 7th   | `security.yml` — CodeQL + dependency review | Security posture                                  |
 
 #### Mistakes frontend engineers commonly make in CI/CD
 
-| Mistake | Why it happens | Better approach |
-|---|---|---|
+| Mistake                                    | Why it happens                  | Better approach                                                                        |
+| ------------------------------------------ | ------------------------------- | -------------------------------------------------------------------------------------- |
 | Treating CI as "just run my local scripts" | Mental model from `npm run dev` | Design CI as a production system with isolation, reproducibility, and failure handling |
-| No caching | "It works without it" | Always cache — the speed difference compounds |
-| Deploying from every branch | Copy-paste from a tutorial | Deploy only from `main` or tags |
-| Mixing preview and production deploys | Not understanding environments | Use separate jobs with `environment:` and conditions |
-| Ignoring rollback | "We'll fix forward" | Define rollback before you define deploy |
-| Using `npm install` | Habit | `npm ci` is always correct in CI |
-| Hardcoding values | Quick and dirty | Use secrets, variables, and inputs |
-| Not setting up branch protection | "We trust the team" | Branch protection catches mistakes trust cannot |
-| Ignoring CI speed | "It only takes 5 minutes" | Slow CI kills iteration speed; optimize early |
-| Not testing the workflow | "YAML is just config" | Workflow code is production code — test it |
+| No caching                                 | "It works without it"           | Always cache — the speed difference compounds                                          |
+| Deploying from every branch                | Copy-paste from a tutorial      | Deploy only from `main` or tags                                                        |
+| Mixing preview and production deploys      | Not understanding environments  | Use separate jobs with `environment:` and conditions                                   |
+| Ignoring rollback                          | "We'll fix forward"             | Define rollback before you define deploy                                               |
+| Using `npm install`                        | Habit                           | `npm ci` is always correct in CI                                                       |
+| Hardcoding values                          | Quick and dirty                 | Use secrets, variables, and inputs                                                     |
+| Not setting up branch protection           | "We trust the team"             | Branch protection catches mistakes trust cannot                                        |
+| Ignoring CI speed                          | "It only takes 5 minutes"       | Slow CI kills iteration speed; optimize early                                          |
+| Not testing the workflow                   | "YAML is just config"           | Workflow code is production code — test it                                             |
 
 #### How to evolve from simple to production-grade
 
@@ -3109,53 +3120,53 @@ Phase 10: Platform
 
 **Week 1: Foundations (Days 1–7)**
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 1 | Read this guide sections 1–2 Level 1 | Mental model of concepts |
-| 2 | Create first `ci.yml`: print Node version, run lint | Working workflow |
-| 3 | Add test and build steps | Complete single-job CI |
-| 4 | Break the workflow intentionally, study logs | Debugging confidence |
-| 5 | Split into parallel jobs (lint, test, build) | Multi-job workflow |
-| 6 | Add `actions/setup-node` with caching | Faster installs |
-| 7 | Add trigger for `pull_request` and push to `main` | Proper trigger config |
+| Day | Task                                                | Deliverable              |
+| --- | --------------------------------------------------- | ------------------------ |
+| 1   | Read this guide sections 1–2 Level 1                | Mental model of concepts |
+| 2   | Create first `ci.yml`: print Node version, run lint | Working workflow         |
+| 3   | Add test and build steps                            | Complete single-job CI   |
+| 4   | Break the workflow intentionally, study logs        | Debugging confidence     |
+| 5   | Split into parallel jobs (lint, test, build)        | Multi-job workflow       |
+| 6   | Add `actions/setup-node` with caching               | Faster installs          |
+| 7   | Add trigger for `pull_request` and push to `main`   | Proper trigger config    |
 
 **Week 2: Team workflows (Days 8–14)**
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 8 | Add typecheck job | Full validation pipeline |
-| 9 | Configure secrets and environment variables | Secure config |
-| 10 | Add a deployment job (Vercel or Cloudflare) | Working deployment |
-| 11 | Add environment protection for production | Safe production deploy |
-| 12 | Set up branch protection requiring CI | Enforced quality gate |
-| 13 | Add concurrency cancellation | No wasted runs |
-| 14 | Add Dependabot config + auto-merge workflow | Dependency automation |
+| Day | Task                                        | Deliverable              |
+| --- | ------------------------------------------- | ------------------------ |
+| 8   | Add typecheck job                           | Full validation pipeline |
+| 9   | Configure secrets and environment variables | Secure config            |
+| 10  | Add a deployment job (Vercel or Cloudflare) | Working deployment       |
+| 11  | Add environment protection for production   | Safe production deploy   |
+| 12  | Set up branch protection requiring CI       | Enforced quality gate    |
+| 13  | Add concurrency cancellation                | No wasted runs           |
+| 14  | Add Dependabot config + auto-merge workflow | Dependency automation    |
 
 **Week 3: Production readiness (Days 15–21)**
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 15 | Create a preview deployment workflow for PRs | Preview URLs on PRs |
-| 16 | Add `.next/cache` or build cache | Faster builds |
-| 17 | Add release automation (release-please or manual) | Versioned releases |
-| 18 | Add Slack/Discord notification on failure | Team awareness |
-| 19 | Create a composite action for project setup | Reusable setup logic |
-| 20 | Add CodeQL or dependency review | Security scanning |
-| 21 | Review and document your workflows | Maintainable system |
+| Day | Task                                              | Deliverable          |
+| --- | ------------------------------------------------- | -------------------- |
+| 15  | Create a preview deployment workflow for PRs      | Preview URLs on PRs  |
+| 16  | Add `.next/cache` or build cache                  | Faster builds        |
+| 17  | Add release automation (release-please or manual) | Versioned releases   |
+| 18  | Add Slack/Discord notification on failure         | Team awareness       |
+| 19  | Create a composite action for project setup       | Reusable setup logic |
+| 20  | Add CodeQL or dependency review                   | Security scanning    |
+| 21  | Review and document your workflows                | Maintainable system  |
 
 **Week 4: Advanced patterns (Days 22–30)**
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 22 | Study reusable workflows; convert CI to reusable | Shareable pipeline |
-| 23 | Add path filters for a monorepo setup | Selective CI |
-| 24 | Create a rollback workflow with `workflow_dispatch` | Recovery mechanism |
-| 25 | Study OIDC; replace a static key with OIDC | Better security |
-| 26 | Add a nightly workflow with broader testing | Extended coverage |
-| 27 | Study self-hosted runners conceptually | Architecture knowledge |
-| 28 | Audit all workflows against the security checklist | Security hardening |
-| 29 | Review cost — minutes used, cache efficiency | Cost awareness |
-| 30 | Write an architecture decision record for your CI/CD | Documentation |
+| Day | Task                                                 | Deliverable            |
+| --- | ---------------------------------------------------- | ---------------------- |
+| 22  | Study reusable workflows; convert CI to reusable     | Shareable pipeline     |
+| 23  | Add path filters for a monorepo setup                | Selective CI           |
+| 24  | Create a rollback workflow with `workflow_dispatch`  | Recovery mechanism     |
+| 25  | Study OIDC; replace a static key with OIDC           | Better security        |
+| 26  | Add a nightly workflow with broader testing          | Extended coverage      |
+| 27  | Study self-hosted runners conceptually               | Architecture knowledge |
+| 28  | Audit all workflows against the security checklist   | Security hardening     |
+| 29  | Review cost — minutes used, cache efficiency         | Cost awareness         |
+| 30  | Write an architecture decision record for your CI/CD | Documentation          |
 
 ---
 
@@ -3183,20 +3194,20 @@ The key mindset shift: your pipeline is production infrastructure. Treat it with
 
 ### Suggested advanced topics to continue learning
 
-| Topic | Why it matters |
-|---|---|
-| Reusable workflows at organization scale | Consistency and governance across many repos |
-| OIDC-based cloud authentication | Eliminate static cloud credentials |
-| Ephemeral self-hosted runners (ARC) | Cost-effective, secure runner infrastructure |
-| Release automation with semantic versioning | Professional, traceable releases |
-| Supply chain security and action pinning | Protect against compromised dependencies |
-| Monorepo pipeline orchestration | Efficient CI for large codebases |
-| Canary and blue-green deployment design | Safe production releases |
-| CI/CD observability and failure analytics | Data-driven pipeline improvement |
-| Artifact provenance and signing | Build integrity and compliance |
-| Internal developer platform design | CI/CD as a product for your organization |
-| GitHub Actions + Terraform/Pulumi | Infrastructure as code in your pipeline |
-| Multi-cloud deployment strategies | Deploy to AWS, GCP, Azure from one pipeline |
-| Performance testing in CI | Catch regressions before production |
-| E2E testing with Playwright in Actions | Full browser testing in CI |
-| Custom GitHub Actions development | Build and publish your own actions |
+| Topic                                       | Why it matters                               |
+| ------------------------------------------- | -------------------------------------------- |
+| Reusable workflows at organization scale    | Consistency and governance across many repos |
+| OIDC-based cloud authentication             | Eliminate static cloud credentials           |
+| Ephemeral self-hosted runners (ARC)         | Cost-effective, secure runner infrastructure |
+| Release automation with semantic versioning | Professional, traceable releases             |
+| Supply chain security and action pinning    | Protect against compromised dependencies     |
+| Monorepo pipeline orchestration             | Efficient CI for large codebases             |
+| Canary and blue-green deployment design     | Safe production releases                     |
+| CI/CD observability and failure analytics   | Data-driven pipeline improvement             |
+| Artifact provenance and signing             | Build integrity and compliance               |
+| Internal developer platform design          | CI/CD as a product for your organization     |
+| GitHub Actions + Terraform/Pulumi           | Infrastructure as code in your pipeline      |
+| Multi-cloud deployment strategies           | Deploy to AWS, GCP, Azure from one pipeline  |
+| Performance testing in CI                   | Catch regressions before production          |
+| E2E testing with Playwright in Actions      | Full browser testing in CI                   |
+| Custom GitHub Actions development           | Build and publish your own actions           |

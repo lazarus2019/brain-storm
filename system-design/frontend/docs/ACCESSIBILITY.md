@@ -1,28 +1,30 @@
 ---
 title: Accessibility (A11Y) — Complete Deep-Dive Guide
-description: Accessibility A11Y — Complete Deep-Dive Guide. Practical guide explaining
+description:
+  Accessibility A11Y — Complete Deep-Dive Guide. Practical guide explaining
   accessibility a11y — complete deep-dive guide with clear examples, best practices...
 slug: accessibility
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- frontend
-- accessibility
+  - frontend
+  - accessibility
 categories:
-- frontend
+  - frontend
 seo:
   title: Accessibility (A11Y) — Complete Deep-Dive Guide
-  description: Accessibility A11Y — Complete Deep-Dive Guide. Practical guide explaining
+  description:
+    Accessibility A11Y — Complete Deep-Dive Guide. Practical guide explaining
     accessibility a11y — complete deep-dive guide with clear examples, best practices...
   canonical: https://feel-free.com/blogs/accessibility
   keywords:
-  - frontend
-  - accessibility
+    - frontend
+    - accessibility
 author: lazarus2019
 lang: en
 relatedPosts:
-- monorepo
+  - monorepo
 ---
 
 # Accessibility (A11Y) — Complete Deep-Dive Guide
@@ -38,12 +40,14 @@ A comprehensive learning path and engineering guide for Web Accessibility, writt
 Accessibility (A11Y) is the practice of designing and engineering products so that people with disabilities can perceive, understand, navigate, interact with, and contribute to the web. It is not a feature — it is a quality attribute of software, like performance or security.
 
 **Why it matters:**
+
 - ~15–20% of the global population has some form of disability (WHO)
 - Accessibility lawsuits have increased dramatically (ADA Title III cases exceed 4,000/year in the US alone)
 - Accessible products reach larger audiences, improve SEO, and produce better-structured code
 - Many accessibility improvements benefit ALL users (captions in noisy environments, keyboard power users, users with temporary injuries)
 
 **Who accessibility helps:**
+
 - Blind or low-vision users (screen readers, magnifiers)
 - Deaf or hard-of-hearing users (captions, transcripts)
 - Motor-impaired users (keyboard-only, switch devices, voice control)
@@ -56,11 +60,11 @@ Accessibility (A11Y) is the practice of designing and engineering products so th
 
 ### Accessibility vs Usability vs Inclusive Design
 
-| Concept | Definition | Scope |
-|---------|-----------|-------|
-| **Accessibility** | Can people with disabilities use this product? | Compliance, technical implementation |
-| **Usability** | Is this product easy and efficient to use? | User experience for all users |
-| **Inclusive Design** | Was this product designed considering diverse human abilities from the start? | Design methodology |
+| Concept              | Definition                                                                    | Scope                                |
+| -------------------- | ----------------------------------------------------------------------------- | ------------------------------------ |
+| **Accessibility**    | Can people with disabilities use this product?                                | Compliance, technical implementation |
+| **Usability**        | Is this product easy and efficient to use?                                    | User experience for all users        |
+| **Inclusive Design** | Was this product designed considering diverse human abilities from the start? | Design methodology                   |
 
 ### Semantic HTML
 
@@ -110,6 +114,7 @@ DOM Tree                    Accessibility Tree
 ### Screen Readers and UI Interpretation
 
 Screen readers traverse the accessibility tree, not the DOM. They:
+
 1. Announce the **role** (button, link, heading, region)
 2. Announce the **name** (accessible name from text content, label, aria-label)
 3. Announce the **state** (expanded, selected, checked, disabled)
@@ -133,16 +138,19 @@ ARIA adds semantic information to elements that lack it. The first rule of ARIA:
 > **Don't use ARIA if you can use native HTML instead.**
 
 ARIA consists of:
+
 - **Roles**: `role="dialog"`, `role="tablist"`, `role="alert"`
 - **Properties**: `aria-label`, `aria-describedby`, `aria-required`
 - **States**: `aria-expanded`, `aria-selected`, `aria-checked`, `aria-hidden`
 
 **When ARIA is useful:**
+
 - Custom widgets with no native HTML equivalent (tabs, combobox, tree view)
 - Dynamic content updates (live regions)
 - Enhancing existing semantics (aria-label for icon buttons)
 
 **When ARIA becomes dangerous:**
+
 - Using wrong roles creates worse experience than no ARIA
 - `aria-hidden="true"` on focusable elements traps screen reader users
 - Overusing `role="presentation"` strips semantics users need
@@ -151,6 +159,7 @@ ARIA consists of:
 ### Color Contrast
 
 WCAG requires minimum contrast ratios:
+
 - **AA**: 4.5:1 for normal text, 3:1 for large text
 - **AAA**: 7:1 for normal text, 4.5:1 for large text
 - Non-text UI components: 3:1 against adjacent colors
@@ -161,7 +170,9 @@ Some users experience motion sickness, seizures, or vestigo from animations. Use
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
@@ -171,6 +182,7 @@ Some users experience motion sickness, seizures, or vestigo from animations. Use
 ### Focus Management
 
 Focus management is one of the hardest accessibility problems in SPAs:
+
 - When a modal opens → move focus into it
 - When a modal closes → return focus to the trigger
 - When navigating routes in SPA → announce new page, move focus to main content or heading
@@ -199,6 +211,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 ## Level 1 — Newbie
 
 ### Concepts to Master
+
 - Use semantic HTML: `<button>`, `<a>`, `<nav>`, `<main>`, `<header>`, `<footer>`, `<section>`, `<article>`, `<h1>`–`<h6>`
 - Every `<img>` needs `alt` text (or `alt=""` for decorative images)
 - Every form input needs a `<label>` with matching `for`/`id`
@@ -208,6 +221,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 - Never remove `outline` without providing a visible focus style
 
 ### Common Beginner Mistakes
+
 1. Using `<div onClick>` instead of `<button>`
 2. Removing `:focus` outlines with `outline: none` and no replacement
 3. Missing `alt` on images
@@ -218,6 +232,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 8. Non-descriptive link text ("Click here")
 
 ### 5 Beginner Exercises
+
 1. Build a navigation bar using only semantic HTML (`<nav>`, `<ul>`, `<li>`, `<a>`) — no divs
 2. Create a form with proper labels, error messages, and required field indicators — keyboard test it
 3. Take an existing page and fix all the contrast issues using browser DevTools
@@ -229,6 +244,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 ## Level 2 — Junior
 
 ### Concepts to Master
+
 - ARIA roles, states, properties — and when NOT to use them
 - Accessible modal: focus trap, escape to close, return focus to trigger
 - Accessible dropdown/menu: arrow key navigation, escape to close
@@ -239,6 +255,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 - Screen reader testing basics: enable VoiceOver (macOS) or NVDA (Windows), navigate with it
 
 ### Common Anti-Patterns
+
 1. `role="button"` on a `<div>` instead of using `<button>`
 2. `aria-label` that contradicts visible text
 3. `aria-hidden="true"` on elements that contain focusable children
@@ -249,6 +266,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 8. Click handlers without keyboard equivalents
 
 ### 5 Mini Project Ideas
+
 1. Build an accessible modal from scratch — focus trap, escape, focus restoration
 2. Build an accessible accordion using `<button>`, `aria-expanded`, and `aria-controls`
 3. Build a toast notification system with `role="status"` and `aria-live="polite"`
@@ -260,6 +278,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 ## Level 3 — Senior
 
 ### Concepts to Master
+
 - **Accessibility architecture**: building accessibility into component APIs, not bolting it on after
 - **Design system accessibility**: every component in the system must have accessibility baked in — focus styles, keyboard interactions, ARIA contracts, screen reader announcements
 - **Advanced focus management**: managing focus across route changes, dynamic content, portals, multi-step flows
@@ -271,6 +290,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 - **Multi-language accessibility**: `lang` attribute on elements, RTL support, translations of ARIA labels
 
 ### 5 Production-Grade Project Examples
+
 1. Build an accessible data table with sorting, filtering, pagination, and screen reader announcements
 2. Build an accessible combobox/autocomplete following WAI-ARIA APG patterns
 3. Build an accessible tab interface with dynamic tab panels and keyboard navigation
@@ -282,6 +302,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 ## Level 4 — Expert
 
 ### Concepts to Master
+
 - **Accessibility tree deep dive**: how browsers compute accessible names, roles, and states; name computation algorithm (accname spec)
 - **Browser accessibility APIs**: MSAA, UIA, ATK/AT-SPI, AX API (macOS) — the platform APIs that screen readers consume
 - **Cross-screen-reader inconsistencies**: NVDA vs JAWS vs VoiceOver behavior differences in tables, live regions, and ARIA roles
@@ -290,6 +311,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 - **Platform-level accessibility systems**: how to build an accessibility layer across an entire design system, multiple teams, multiple apps
 
 ### What Expert Engineers Care About That Juniors Miss
+
 1. **Accessible name computation** — understanding how browsers resolve `aria-labelledby` > `aria-label` > `<label>` > text content > `title` > `placeholder`
 2. **Timing** — screen reader announcements are asynchronous; rapid DOM updates can swallow announcements
 3. **Virtual buffer** — screen readers in "browse mode" intercept keystrokes; your keyboard handlers may not fire
@@ -300,6 +322,7 @@ Live regions announce dynamic content changes to screen readers without moving f
 8. **Performance intersection** — long loading states, skeleton screens, and lazy loading all have accessibility implications
 
 ### 10 Advanced Discussion Topics
+
 1. How should a design system enforce accessibility contracts across consuming teams?
 2. When is it acceptable to deviate from WAI-ARIA APG patterns?
 3. How do you handle accessibility in micro-frontend architectures where each fragment owns its own focus management?
@@ -351,7 +374,7 @@ This catches at dev time: missing alt text, missing labels, invalid ARIA, intera
 ```tsx
 // Use semantic HTML in components
 const Button = ({ children, ...props }: ButtonProps) => (
-  <button {...props}>{children}</button>  // Not <div role="button">
+  <button {...props}>{children}</button> // Not <div role="button">
 );
 
 // Use useId for label associations (React 18+)
@@ -373,30 +396,42 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>(
     <div ref={ref} role="dialog" aria-modal="true" {...props}>
       {children}
     </div>
-  )
+  ),
 );
 ```
 
 ### Next.js Accessibility Setup
 
 Next.js provides some built-in accessibility features:
+
 - `next/link` renders a semantic `<a>` tag
 - `next/image` requires `alt` prop
 - Route announcements on navigation (built-in `<RouteAnnouncer>`)
 
 Add to your Next.js project:
+
 ```tsx
 // app/layout.tsx
 export const metadata = {
-  title: 'My App',  // Page <title> is critical for accessibility
+  title: 'My App', // Page <title> is critical for accessibility
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en">  {/* lang attribute is essential */}
+    <html lang="en">
+      {' '}
+      {/* lang attribute is essential */}
       <body>
-        <a href="#main-content" className="skip-link">Skip to main content</a>
-        <header><nav aria-label="Main">...</nav></header>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+        <header>
+          <nav aria-label="Main">...</nav>
+        </header>
         <main id="main-content">{children}</main>
         <footer>...</footer>
       </body>
@@ -435,13 +470,13 @@ Astro generates static HTML by default, which gives a strong semantic foundation
 
 ### Screen Reader Testing Workflow
 
-| Platform | Screen Reader | Shortcut |
-|----------|--------------|----------|
-| macOS | VoiceOver | Cmd + F5 |
-| Windows | NVDA | Free download from nvaccess.org |
-| Windows | JAWS | Commercial |
-| iOS | VoiceOver | Settings → Accessibility → VoiceOver |
-| Android | TalkBack | Settings → Accessibility → TalkBack |
+| Platform | Screen Reader | Shortcut                             |
+| -------- | ------------- | ------------------------------------ |
+| macOS    | VoiceOver     | Cmd + F5                             |
+| Windows  | NVDA          | Free download from nvaccess.org      |
+| Windows  | JAWS          | Commercial                           |
+| iOS      | VoiceOver     | Settings → Accessibility → VoiceOver |
+| Android  | TalkBack      | Settings → Accessibility → TalkBack  |
 
 **Minimum testing matrix:** VoiceOver + Safari (macOS/iOS), NVDA + Firefox/Chrome (Windows)
 
@@ -452,6 +487,7 @@ pnpm add -D jest-axe @axe-core/playwright
 ```
 
 **Jest + jest-axe:**
+
 ```tsx
 import { render } from '@testing-library/react';
 import { axe, toHaveNoViolations } from 'jest-axe';
@@ -465,6 +501,7 @@ test('Button has no accessibility violations', async () => {
 ```
 
 **Playwright:**
+
 ```ts
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -537,22 +574,22 @@ src/
 
 ## Automated Testing Tools
 
-| Tool | Type | Catches | CI Integration | Free | Best For |
-|------|------|---------|---------------|------|----------|
-| **axe-core / axe DevTools** | Engine + Browser extension | ~30% of WCAG issues | Yes (jest-axe, Playwright) | Core: free, DevTools: freemium | Component & page-level testing |
-| **Lighthouse** | Audit tool (uses axe-core) | Same as axe + performance | Yes (Lighthouse CI) | Yes | Quick audits, CI budgets |
-| **WAVE** | Browser extension | Similar to axe, visual overlay | No (web API available) | Yes | Visual accessibility review |
-| **eslint-plugin-jsx-a11y** | Static analysis | Code-level issues at write time | Yes (ESLint) | Yes | Catching issues before runtime |
-| **Storybook a11y addon** | Component-level (uses axe-core) | Per-component violations | Indirectly | Yes | Design system development |
+| Tool                        | Type                            | Catches                         | CI Integration             | Free                           | Best For                       |
+| --------------------------- | ------------------------------- | ------------------------------- | -------------------------- | ------------------------------ | ------------------------------ |
+| **axe-core / axe DevTools** | Engine + Browser extension      | ~30% of WCAG issues             | Yes (jest-axe, Playwright) | Core: free, DevTools: freemium | Component & page-level testing |
+| **Lighthouse**              | Audit tool (uses axe-core)      | Same as axe + performance       | Yes (Lighthouse CI)        | Yes                            | Quick audits, CI budgets       |
+| **WAVE**                    | Browser extension               | Similar to axe, visual overlay  | No (web API available)     | Yes                            | Visual accessibility review    |
+| **eslint-plugin-jsx-a11y**  | Static analysis                 | Code-level issues at write time | Yes (ESLint)               | Yes                            | Catching issues before runtime |
+| **Storybook a11y addon**    | Component-level (uses axe-core) | Per-component violations        | Indirectly                 | Yes                            | Design system development      |
 
 ## Screen Readers
 
-| Screen Reader | Platform | Browser Pairing | Cost | Learning Curve | Market Share |
-|--------------|----------|----------------|------|---------------|-------------|
-| **NVDA** | Windows | Firefox, Chrome | Free | Medium | ~30% |
-| **JAWS** | Windows | Chrome, Edge | ~$1000/yr | High | ~40% |
-| **VoiceOver** | macOS, iOS | Safari | Free (built-in) | Medium | ~25% (mobile dominant) |
-| **TalkBack** | Android | Chrome | Free (built-in) | Medium | Growing |
+| Screen Reader | Platform   | Browser Pairing | Cost            | Learning Curve | Market Share           |
+| ------------- | ---------- | --------------- | --------------- | -------------- | ---------------------- |
+| **NVDA**      | Windows    | Firefox, Chrome | Free            | Medium         | ~30%                   |
+| **JAWS**      | Windows    | Chrome, Edge    | ~$1000/yr       | High           | ~40%                   |
+| **VoiceOver** | macOS, iOS | Safari          | Free (built-in) | Medium         | ~25% (mobile dominant) |
+| **TalkBack**  | Android    | Chrome          | Free (built-in) | Medium         | Growing                |
 
 ### When to Use What
 
@@ -569,45 +606,45 @@ src/
 
 ## Semantic HTML Quick Reference
 
-| Instead of | Use | Why |
-|-----------|-----|-----|
-| `<div onClick>` | `<button>` | Focusable, keyboard support, announced as button |
-| `<div class="link">` | `<a href>` | Announced as link, keyboard activatable |
-| `<div class="nav">` | `<nav>` | Creates navigation landmark |
-| `<div class="header">` | `<header>` | Creates banner landmark |
-| `<div class="main">` | `<main>` | Creates main landmark |
-| `<span class="heading">` | `<h1>`–`<h6>` | Creates heading structure for navigation |
-| `<div class="list">` | `<ul>` / `<ol>` | Screen reader announces "list, 5 items" |
-| `<input>` without label | `<label>` + `<input>` | Associates label with input for AT |
+| Instead of               | Use                   | Why                                              |
+| ------------------------ | --------------------- | ------------------------------------------------ |
+| `<div onClick>`          | `<button>`            | Focusable, keyboard support, announced as button |
+| `<div class="link">`     | `<a href>`            | Announced as link, keyboard activatable          |
+| `<div class="nav">`      | `<nav>`               | Creates navigation landmark                      |
+| `<div class="header">`   | `<header>`            | Creates banner landmark                          |
+| `<div class="main">`     | `<main>`              | Creates main landmark                            |
+| `<span class="heading">` | `<h1>`–`<h6>`         | Creates heading structure for navigation         |
+| `<div class="list">`     | `<ul>` / `<ol>`       | Screen reader announces "list, 5 items"          |
+| `<input>` without label  | `<label>` + `<input>` | Associates label with input for AT               |
 
 ## ARIA Quick Reference
 
-| ARIA | Purpose | Example |
-|------|---------|---------|
-| `aria-label` | Provides accessible name | `<button aria-label="Close">×</button>` |
-| `aria-labelledby` | References visible label element | `<div role="dialog" aria-labelledby="title-id">` |
-| `aria-describedby` | Associates descriptive text | `<input aria-describedby="error-id">` |
-| `aria-expanded` | Indicates expandable state | `<button aria-expanded="false">Menu</button>` |
-| `aria-hidden="true"` | Hides from accessibility tree | `<span aria-hidden="true">★</span>` |
-| `aria-live="polite"` | Announces content changes | `<div aria-live="polite">{status}</div>` |
-| `aria-current="page"` | Indicates current page in nav | `<a aria-current="page" href="/">Home</a>` |
-| `aria-required="true"` | Indicates required field | `<input aria-required="true">` |
-| `aria-invalid="true"` | Indicates validation error | `<input aria-invalid="true" aria-describedby="err">` |
-| `role="alert"` | Assertive live region | `<div role="alert">Error occurred</div>` |
-| `role="status"` | Polite live region | `<div role="status">3 results found</div>` |
+| ARIA                   | Purpose                          | Example                                              |
+| ---------------------- | -------------------------------- | ---------------------------------------------------- |
+| `aria-label`           | Provides accessible name         | `<button aria-label="Close">×</button>`              |
+| `aria-labelledby`      | References visible label element | `<div role="dialog" aria-labelledby="title-id">`     |
+| `aria-describedby`     | Associates descriptive text      | `<input aria-describedby="error-id">`                |
+| `aria-expanded`        | Indicates expandable state       | `<button aria-expanded="false">Menu</button>`        |
+| `aria-hidden="true"`   | Hides from accessibility tree    | `<span aria-hidden="true">★</span>`                  |
+| `aria-live="polite"`   | Announces content changes        | `<div aria-live="polite">{status}</div>`             |
+| `aria-current="page"`  | Indicates current page in nav    | `<a aria-current="page" href="/">Home</a>`           |
+| `aria-required="true"` | Indicates required field         | `<input aria-required="true">`                       |
+| `aria-invalid="true"`  | Indicates validation error       | `<input aria-invalid="true" aria-describedby="err">` |
+| `role="alert"`         | Assertive live region            | `<div role="alert">Error occurred</div>`             |
+| `role="status"`        | Polite live region               | `<div role="status">3 results found</div>`           |
 
 ## Keyboard Interaction Patterns
 
-| Widget | Keys | Behavior |
-|--------|------|----------|
-| Button | Enter, Space | Activate |
-| Link | Enter | Navigate |
-| Checkbox | Space | Toggle |
-| Radio group | Arrow keys | Move selection |
-| Tabs | Arrow keys | Switch tab; Tab moves to panel |
-| Menu | Arrow keys, Enter, Escape | Navigate, select, close |
-| Dialog | Tab (trapped), Escape | Navigate within, close |
-| Combobox | Arrow keys, Enter, Escape | Navigate options, select, close |
+| Widget      | Keys                      | Behavior                        |
+| ----------- | ------------------------- | ------------------------------- |
+| Button      | Enter, Space              | Activate                        |
+| Link        | Enter                     | Navigate                        |
+| Checkbox    | Space                     | Toggle                          |
+| Radio group | Arrow keys                | Move selection                  |
+| Tabs        | Arrow keys                | Switch tab; Tab moves to panel  |
+| Menu        | Arrow keys, Enter, Escape | Navigate, select, close         |
+| Dialog      | Tab (trapped), Escape     | Navigate within, close          |
+| Combobox    | Arrow keys, Enter, Escape | Navigate options, select, close |
 
 ## Focus Management Rules
 
@@ -628,7 +665,7 @@ const handleClose = () => {
 const handleKeyDown = (e: KeyboardEvent) => {
   if (e.key === 'Tab') {
     const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])',
     );
     if (!focusable?.length) return;
     const first = focusable[0];
@@ -754,12 +791,12 @@ const useAnnounce = () => {
 
 **Implementation strategies:**
 
-| Strategy | How | Pros | Cons |
-|----------|-----|------|------|
-| `aria-modal="true"` + `role="dialog"` | Browser hides background from AT | Clean, standard | Inconsistent screen reader support |
-| `inert` attribute on background | Makes background non-interactive | Native, simple | Browser support still growing |
-| Manual focus trap + `aria-hidden` on siblings | JS-managed containment | Works everywhere | Complex, fragile |
-| `<dialog>` element (native) | Built-in modal behavior | Focus trap, Escape, top-layer | Styling limitations, older browser support |
+| Strategy                                      | How                              | Pros                          | Cons                                       |
+| --------------------------------------------- | -------------------------------- | ----------------------------- | ------------------------------------------ |
+| `aria-modal="true"` + `role="dialog"`         | Browser hides background from AT | Clean, standard               | Inconsistent screen reader support         |
+| `inert` attribute on background               | Makes background non-interactive | Native, simple                | Browser support still growing              |
+| Manual focus trap + `aria-hidden` on siblings | JS-managed containment           | Works everywhere              | Complex, fragile                           |
+| `<dialog>` element (native)                   | Built-in modal behavior          | Focus trap, Escape, top-layer | Styling limitations, older browser support |
 
 **Senior engineer choice:** Use native `<dialog>` with `showModal()` for new projects. It provides focus trapping, Escape to close, top-layer rendering, and `inert` on background — all for free. Fall back to manual implementation only when `<dialog>` doesn't meet requirements.
 
@@ -768,6 +805,7 @@ const useAnnounce = () => {
 **Problem:** In SPAs, "page navigation" doesn't reload the page. Screen readers don't announce the new content. Users don't know the page changed.
 
 **Strategies:**
+
 1. **Live region announcement**: Announce new page title via `aria-live` region (Next.js does this)
 2. **Focus management**: Move focus to new page's `<h1>` or `<main>` on route change
 3. **Both**: Announce + move focus (most robust)
@@ -779,6 +817,7 @@ const useAnnounce = () => {
 **Problem:** Toasts appear visually but screen readers may miss them entirely.
 
 **Strategy:**
+
 - Use `role="status"` (polite) for informational toasts
 - Use `role="alert"` (assertive) ONLY for errors/urgent messages
 - Never put interactive elements (links, buttons) inside toasts — screen reader users can't navigate to them quickly enough before the toast disappears
@@ -789,6 +828,7 @@ const useAnnounce = () => {
 **Problem:** Infinite scrolling removes pagination landmarks. Screen readers can't determine content length. Focus management is unclear. Users can't reach the footer.
 
 **Senior engineer approach:**
+
 - Provide a "Load more" button (not automatic loading)
 - Announce loaded count: "Showing 20 of 156 results"
 - Ensure footer remains reachable
@@ -800,6 +840,7 @@ const useAnnounce = () => {
 **Problem:** If your design system components aren't accessible, every app using them inherits inaccessible patterns.
 
 **Strategy:**
+
 - **Every component has an accessibility spec** (keyboard interaction, ARIA, focus management)
 - **Component APIs enforce accessibility** (required `label` props, built-in keyboard handlers)
 - **Storybook a11y addon** runs on every story automatically
@@ -811,6 +852,7 @@ const useAnnounce = () => {
 **Problem:** Drag and drop is inherently a pointer-based interaction. Keyboard and screen reader users are completely excluded.
 
 **Strategy:**
+
 - Provide keyboard alternatives (arrow keys to reorder, or a "Move" menu)
 - Announce position changes: "Item 3, moved to position 1 of 5"
 - Use `aria-roledescription="sortable"` for drag handles
@@ -822,6 +864,7 @@ const useAnnounce = () => {
 # 7. Brainstorm / Open Questions
 
 ## Accessibility Architecture
+
 1. How should a component API enforce accessibility without being overly restrictive?
 2. Should accessible name be a required prop on every interactive component?
 3. How do you handle accessibility in server components vs client components?
@@ -832,6 +875,7 @@ const useAnnounce = () => {
 8. What is the right abstraction for a reusable focus trap hook?
 
 ## UX
+
 9. How do you decide between `aria-live="polite"` and `aria-live="assertive"`?
 10. Should error messages be announced immediately or on form submission?
 11. How should loading states be communicated to screen reader users?
@@ -842,6 +886,7 @@ const useAnnounce = () => {
 16. Should skeleton screens be announced to screen readers?
 
 ## Performance
+
 17. Does ARIA processing impact rendering performance?
 18. How do rapid React re-renders affect live region announcements?
 19. What is the accessibility cost of lazy loading content?
@@ -852,6 +897,7 @@ const useAnnounce = () => {
 24. How does concurrent React rendering interact with screen reader announcements?
 
 ## Assistive Technology Behavior
+
 25. Why do NVDA and VoiceOver behave differently with `aria-live` regions?
 26. How does VoiceOver's rotor differ from NVDA's elements list?
 27. What happens when screen readers switch between browse mode and forms mode?
@@ -862,6 +908,7 @@ const useAnnounce = () => {
 32. How do screen readers handle iframes?
 
 ## Design Systems
+
 33. How do you version accessibility APIs in a design system?
 34. Should design system components allow ARIA prop overrides?
 35. How do you test a design system component across multiple screen readers?
@@ -872,6 +919,7 @@ const useAnnounce = () => {
 40. What is the right testing strategy for composite components (combobox, data table)?
 
 ## Product Trade-offs
+
 41. How do you prioritize accessibility fixes — what's critical vs nice-to-have?
 42. Should you delay a feature launch for accessibility compliance?
 43. How do you handle third-party widgets that aren't accessible?
@@ -882,6 +930,7 @@ const useAnnounce = () => {
 48. How do you handle A/B tests that may introduce accessibility regressions?
 
 ## Testing Strategy
+
 49. What percentage of accessibility issues can automated tools catch?
 50. How do you set up accessibility regression testing in CI?
 51. When should you test with real screen readers vs automated tools?
@@ -892,6 +941,7 @@ const useAnnounce = () => {
 56. How do you test color contrast dynamically (dark mode, themes)?
 
 ## Enterprise Accessibility
+
 57. How should accessibility ownership be structured in an organization?
 58. What is a VPAT and when do you need one?
 59. How do you track accessibility debt?
@@ -908,6 +958,7 @@ const useAnnounce = () => {
 ## Beginner (20 Questions)
 
 ### Q1
+
 **Question:** What is the correct HTML element for a clickable action that does NOT navigate to a new page?
 **Type:** Single choice
 **Options:** A) `<a href="#">` B) `<div onClick>` C) `<button>` D) `<span role="button">`
@@ -915,12 +966,14 @@ const useAnnounce = () => {
 **Why:** `<button>` is natively focusable, activatable via Enter/Space, and announced as "button" by screen readers. All others require additional work to match this behavior.
 
 ### Q2
+
 **Question:** True or False: `alt=""` (empty alt) should be used for decorative images.
 **Type:** True/False
 **Answer:** True
 **Why:** Empty `alt` tells screen readers to skip the image entirely. Without `alt`, the screen reader may read the filename instead (e.g., "IMG_3847.jpg").
 
 ### Q3
+
 **Question:** Which of these conveys meaning using color alone and violates WCAG?
 **Type:** Single choice
 **Options:** A) Red border + error icon + error text B) Red border only C) Red border + error text D) Error icon + error text
@@ -928,6 +981,7 @@ const useAnnounce = () => {
 **Why:** Red border alone relies solely on color to convey the error state. Users who can't perceive color (colorblind, low vision) won't understand the meaning.
 
 ### Q4
+
 **Question:** What is the minimum color contrast ratio for normal text under WCAG AA?
 **Type:** Single choice
 **Options:** A) 2:1 B) 3:1 C) 4.5:1 D) 7:1
@@ -935,11 +989,13 @@ const useAnnounce = () => {
 **Why:** WCAG AA requires 4.5:1 for normal text, 3:1 for large text (18pt or 14pt bold). 7:1 is AAA level.
 
 ### Q5
+
 **Question:** What is the purpose of the `<label>` element?
 **Type:** Fill in the blank
 **Answer:** The `<label>` element creates a programmatic association between a text description and a form input, so screen readers can announce what the input is for, and clicking the label focuses/activates the input.
 
 ### Q6
+
 **Question:** What does `tabindex="0"` do?
 **Type:** Single choice
 **Options:** A) Removes element from tab order B) Adds element to natural tab order C) Makes element the first in tab order D) Makes element unfocusable
@@ -947,6 +1003,7 @@ const useAnnounce = () => {
 **Why:** `tabindex="0"` places the element in the tab order at its DOM position. `tabindex="-1"` makes it programmatically focusable only. Positive `tabindex` is an anti-pattern.
 
 ### Q7
+
 **Question:** Which HTML element creates a landmark that screen readers can jump to for the main content?
 **Type:** Single choice
 **Options:** A) `<div id="main">` B) `<section>` C) `<main>` D) `<article>`
@@ -954,12 +1011,14 @@ const useAnnounce = () => {
 **Why:** `<main>` creates a "main" landmark in the accessibility tree. Screen readers allow users to jump directly to it. `<div>` creates no landmark regardless of its id.
 
 ### Q8
+
 **Question:** True or False: Placeholder text is an acceptable replacement for a form label.
 **Type:** True/False
 **Answer:** False
 **Why:** Placeholder text disappears when the user types, has low contrast by default, and is not consistently exposed to assistive technologies as a label.
 
 ### Q9
+
 **Question:** What key combination should activate a `<button>`?
 **Type:** Multiple choice
 **Options:** A) Enter B) Space C) Tab D) Arrow keys
@@ -967,11 +1026,13 @@ const useAnnounce = () => {
 **Why:** Native `<button>` elements are activated by both Enter and Space. Tab moves focus. Arrow keys are for composite widgets.
 
 ### Q10
+
 **Question:** What is a "skip link"?
 **Type:** Fill in the blank
 **Answer:** A skip link is a visually hidden (until focused) link at the top of the page that lets keyboard users bypass navigation and jump directly to the main content.
 
 ### Q11
+
 **Question:** What does `aria-hidden="true"` do?
 **Type:** Single choice
 **Options:** A) Visually hides the element B) Removes the element from the accessibility tree C) Prevents keyboard focus D) Both B and C
@@ -979,6 +1040,7 @@ const useAnnounce = () => {
 **Why:** `aria-hidden="true"` removes the element from the accessibility tree but does NOT prevent keyboard focus or visual display. If a focusable element is inside `aria-hidden`, screen reader users can focus it but can't perceive it — a dangerous trap.
 
 ### Q12
+
 **Question:** Match the HTML element to its implicit ARIA role.
 **Type:** Matching
 | Element | Role |
@@ -991,17 +1053,20 @@ const useAnnounce = () => {
 | `<footer>` | contentinfo (when top-level) |
 
 ### Q13
+
 **Question:** True or False: Screen readers can read content styled with `display: none`.
 **Type:** True/False
 **Answer:** False
 **Why:** `display: none` removes the element from both the visual layout and the accessibility tree. Use the `.sr-only` pattern to hide content visually while keeping it accessible.
 
 ### Q14
+
 **Question:** What is wrong with this code? `<a href="#" onClick={handleSave}>Save</a>`
 **Type:** Scenario
 **Answer:** A link (`<a>`) should navigate to a URL. "Save" is an action, not navigation. This should be a `<button>`. Using `<a>` here announces "Save, link" to screen readers, misleading users into expecting navigation.
 
 ### Q15
+
 **Question:** Which attribute associates an error message with an input field for screen readers?
 **Type:** Single choice
 **Options:** A) `aria-label` B) `aria-describedby` C) `aria-errormessage` D) `aria-invalid`
@@ -1009,6 +1074,7 @@ const useAnnounce = () => {
 **Why:** `aria-describedby` associates additional descriptive text (including errors) with the input. `aria-invalid` marks the field as invalid but doesn't associate the error text. `aria-errormessage` exists but has limited support.
 
 ### Q16
+
 **Question:** What heading level should follow an `<h2>`?
 **Type:** Single choice
 **Options:** A) Only `<h3>` B) `<h3>` or another `<h2>` C) Any heading level D) `<h4>`
@@ -1016,17 +1082,20 @@ const useAnnounce = () => {
 **Why:** Headings should not skip levels going down (h2 → h4 is wrong). But you can have sibling headings at the same level (h2 → h2) or go to a child level (h2 → h3).
 
 ### Q17
+
 **Question:** True or False: Adding `role="button"` to a `<div>` makes it fully accessible as a button.
 **Type:** True/False
 **Answer:** False
 **Why:** `role="button"` only changes the announcement. You still need `tabindex="0"`, `onKeyDown` for Enter/Space, and focus styles. Use `<button>` instead.
 
 ### Q18
+
 **Question:** What is the purpose of the `lang` attribute on `<html>`?
 **Type:** Fill in the blank
 **Answer:** The `lang` attribute tells screen readers which language to use for pronunciation. Without it, a screen reader might read French text with English pronunciation rules.
 
 ### Q19
+
 **Question:** Which CSS property, when set to `none`, removes the visible focus indicator?
 **Type:** Single choice
 **Options:** A) `border` B) `outline` C) `visibility` D) `opacity`
@@ -1034,6 +1103,7 @@ const useAnnounce = () => {
 **Why:** `outline: none` removes the default browser focus indicator. This makes it impossible for keyboard users to see where focus is. Always provide an alternative visible focus style.
 
 ### Q20
+
 **Question:** What is the correct `alt` text for a company logo that also serves as a link to the homepage?
 **Type:** Scenario
 **Answer:** `alt="CompanyName homepage"` or `alt="CompanyName - Go to homepage"`. The alt text should describe the function (navigating home), not the appearance ("blue square logo").
@@ -1043,27 +1113,32 @@ const useAnnounce = () => {
 ## Junior (20 Questions)
 
 ### Q21
+
 **Question:** What is the difference between `aria-live="polite"` and `aria-live="assertive"`?
 **Type:** Fill in the blank
 **Answer:** `polite` waits until the screen reader finishes its current announcement before reading the new content. `assertive` interrupts the current announcement immediately. Use `assertive` only for critical alerts.
 
 ### Q22
+
 **Question:** Your modal opens but screen reader users can still read the background page content. What should you do?
 **Type:** Scenario
 **Answer:** Add `aria-modal="true"` to the dialog, and either use the `inert` attribute on background content or add `aria-hidden="true"` to sibling elements of the modal. Better yet, use the native `<dialog>` element with `showModal()`.
 
 ### Q23
+
 **Question:** True or False: Every ARIA role requires an accessible name.
 **Type:** True/False
 **Answer:** False
 **Why:** Some roles (like `presentation` or `none`) explicitly strip semantics. Landmark roles and interactive widget roles do require accessible names, but not every role does.
 
 ### Q24
+
 **Question:** What is a focus trap and when should you use one?
 **Type:** Fill in the blank
 **Answer:** A focus trap confines Tab/Shift+Tab cycling within a specific container (like a modal dialog), preventing focus from escaping to background content. Use it for modals, dialogs, and flyout panels while they are open.
 
 ### Q25
+
 **Question:** Which ARIA attribute should you toggle when a dropdown menu opens?
 **Type:** Single choice
 **Options:** A) `aria-pressed` B) `aria-expanded` C) `aria-selected` D) `aria-checked`
@@ -1071,47 +1146,56 @@ const useAnnounce = () => {
 **Why:** `aria-expanded` indicates that a triggering element controls the visibility of another element. The trigger button should have `aria-expanded="false"` when closed and `aria-expanded="true"` when open.
 
 ### Q26
+
 **Question:** You have a list of tabs. What keyboard interaction model should users expect?
 **Type:** Scenario
 **Answer:** Arrow left/right to move between tabs. Tab key moves focus from the tab list into the tab panel. The focused tab is activated (either on focus or on Enter/Space, depending on activation mode). Home/End go to first/last tab.
 
 ### Q27
+
 **Question:** What is the first rule of ARIA?
 **Type:** Fill in the blank
 **Answer:** Don't use ARIA if you can use native HTML instead. Native HTML elements (`<button>`, `<input>`, `<select>`, `<a>`, `<dialog>`) have built-in accessibility, keyboard support, and consistent behavior that ARIA cannot fully replicate.
 
 ### Q28
+
 **Question:** Your React app navigates to a new page via client-side routing. Screen reader users don't know the page changed. What's wrong?
 **Type:** Scenario
 **Answer:** SPAs don't trigger a page load, so screen readers don't announce the new page. You need to: 1) announce the new page title via an `aria-live` region, 2) move focus to the page's `<h1>` or `<main>`, and 3) update `document.title`. Next.js has a built-in `<RouteAnnouncer>` for this.
 
 ### Q29
+
 **Question:** What is `aria-describedby` and how does it differ from `aria-labelledby`?
 **Type:** Fill in the blank
 **Answer:** `aria-labelledby` provides the primary accessible name (what the element IS). `aria-describedby` provides supplementary description (additional context). Screen readers typically announce the label first, then the description after a pause.
 
 ### Q30
+
 **Question:** True or False: `role="alert"` is the same as `aria-live="assertive"`.
 **Type:** True/False
 **Answer:** Mostly true, with nuance.
 **Why:** `role="alert"` implicitly sets `aria-live="assertive"` and `aria-atomic="true"`. But `role="alert"` also has specific semantics — screen readers may prefix the announcement with "Alert:". They are functionally similar but semantically different.
 
 ### Q31
+
 **Question:** What is wrong with this pattern? `<div role="button" tabindex="0">Submit</div>`
 **Type:** Scenario
 **Answer:** While it's focusable and announced as "button", it's missing: 1) `onKeyDown` handler for Enter and Space, 2) no native form submission, 3) no disabled state handling. Just use `<button type="submit">Submit</button>`.
 
 ### Q32
+
 **Question:** What does `aria-controls` do, and does it actually work in screen readers?
 **Type:** Fill in the blank
 **Answer:** `aria-controls` declares a relationship between a trigger and the element it controls (e.g., a button that opens a dropdown). However, screen reader support for `aria-controls` is inconsistent — JAWS supports it, but NVDA and VoiceOver largely ignore it. Use it for correctness, but don't rely on it as the only mechanism.
 
 ### Q33
+
 **Question:** You build a custom `<Select>` component. What minimum accessibility requirements must it meet?
 **Type:** Scenario
 **Answer:** 1) `role="combobox"` or `role="listbox"` with proper structure, 2) Arrow key navigation, 3) Enter to select, 4) Escape to close, 5) Type-ahead search, 6) `aria-expanded`, `aria-activedescendant`, `aria-selected`, 7) Announce selected value, 8) Focus management. OR: just use native `<select>` whenever possible.
 
 ### Q34
+
 **Question:** What is `aria-atomic` and when do you need it?
 **Type:** Single choice
 **Options:** A) Makes an element non-interactive B) Controls whether the entire live region is re-announced on change C) Makes an element invisible D) Prevents focus
@@ -1119,38 +1203,44 @@ const useAnnounce = () => {
 **Why:** When `aria-atomic="true"`, the entire live region content is re-announced when any part changes. When `false` (default for `aria-live`), only the changed nodes are announced.
 
 ### Q35
+
 **Question:** How should error messages be handled in an accessible form?
 **Type:** Scenario
 **Answer:** 1) Set `aria-invalid="true"` on the invalid input, 2) Associate the error message via `aria-describedby`, 3) Use `role="alert"` or `aria-live` to announce the error, 4) Move focus to the first invalid field (on form submission), 5) Provide clear, actionable error text.
 
 ### Q36
+
 **Question:** What is the difference between `display: none`, `visibility: hidden`, and the `.sr-only` pattern?
 **Type:** Matching
 
-| Technique | Visual | Accessibility Tree | Focus |
-|-----------|--------|-------------------|-------|
-| `display: none` | Hidden | Removed | Not focusable |
-| `visibility: hidden` | Hidden | Removed | Not focusable |
-| `.sr-only` (clip pattern) | Hidden | Present | Focusable |
-| `aria-hidden="true"` | Visible | Removed | Still focusable (danger!) |
+| Technique                 | Visual  | Accessibility Tree | Focus                     |
+| ------------------------- | ------- | ------------------ | ------------------------- |
+| `display: none`           | Hidden  | Removed            | Not focusable             |
+| `visibility: hidden`      | Hidden  | Removed            | Not focusable             |
+| `.sr-only` (clip pattern) | Hidden  | Present            | Focusable                 |
+| `aria-hidden="true"`      | Visible | Removed            | Still focusable (danger!) |
 
 ### Q37
+
 **Question:** True or False: Screen readers always read content in DOM order, not visual order.
 **Type:** True/False
 **Answer:** True
 **Why:** Screen readers follow DOM order, not CSS visual order. CSS flexbox `order`, CSS Grid placement, and `position: absolute` can create visual order that differs from DOM order, confusing screen reader users.
 
 ### Q38
+
 **Question:** What is `aria-roledescription` and when would you use it?
 **Type:** Fill in the blank
 **Answer:** `aria-roledescription` overrides the screen reader's default role announcement. For example, `role="region" aria-roledescription="slide"` would announce "slide" instead of "region". Use it sparingly — only when the default role name doesn't match user expectations.
 
 ### Q39
+
 **Question:** Your live region isn't being announced by the screen reader. What should you investigate?
 **Type:** Scenario
 **Answer:** 1) Is the live region in the DOM BEFORE content changes? (It must be present on initial render), 2) Are you replacing the entire element or just the text content? (Replacing elements may not trigger announcements), 3) Is `aria-atomic` set correctly?, 4) Is the content actually changing? (Setting the same text won't trigger), 5) Are you updating too rapidly? (Screen readers may skip rapid changes).
 
 ### Q40
+
 **Question:** What is the purpose of `aria-current`?
 **Type:** Single choice
 **Options:** A) Marks the currently focused element B) Marks the current item in a set (e.g., current page in nav) C) Marks the currently active tab D) All of the above
@@ -1162,103 +1252,123 @@ const useAnnounce = () => {
 ## Senior / Expert (20 Questions)
 
 ### Q41
+
 **Question:** How does the accessible name computation algorithm work?
 **Type:** Fill in the blank
 **Answer:** Browsers resolve accessible names in this priority order: 1) `aria-labelledby` (references another element's text), 2) `aria-label` (inline string), 3) Native labeling (`<label>`, `alt`, `<caption>`, `<legend>`), 4) Text content (for elements like `<button>`), 5) `title` attribute, 6) `placeholder` (last resort, only for inputs). The first non-empty result wins.
 
 ### Q42
+
 **Question:** Your team uses React concurrent features (Suspense, transitions). What accessibility concerns arise?
 **Type:** Scenario
 **Answer:** 1) Suspense boundaries show fallback UI — screen readers may announce the fallback and then the resolved content, causing confusion. 2) `startTransition` defers updates — live region announcements may be delayed or lost. 3) Streaming SSR can send partial HTML — ARIA relationships (`aria-labelledby`, `aria-describedby`) may reference elements that haven't loaded yet. 4) Rapid state transitions may swallow announcements.
 
 ### Q43
+
 **Question:** True or False: Automated accessibility testing tools can catch the majority of WCAG violations.
 **Type:** True/False
 **Answer:** False
 **Why:** Studies consistently show automated tools catch approximately 30–40% of WCAG violations. Issues like logical reading order, meaningful alt text quality, keyboard interaction correctness, and cognitive accessibility require manual testing.
 
 ### Q44
+
 **Question:** Explain the difference between browse mode and forms/application mode in screen readers.
 **Type:** Fill in the blank
 **Answer:** In **browse mode** (default), screen readers intercept all keystrokes to provide navigation shortcuts (H for headings, K for links, etc.). In **forms/application mode**, keystrokes pass through to the web app. Screen readers switch to forms mode when focus enters a form control. `role="application"` forces application mode for its entire subtree — this is almost always wrong because it disables all screen reader navigation shortcuts.
 
 ### Q45
+
 **Question:** Your design system's Button component is used in 200+ places across 15 apps. You discover the keyboard interaction doesn't handle Space correctly in Safari. How do you approach the fix?
 **Type:** Scenario
 **Answer:** 1) Confirm the bug (Safari doesn't fire `click` on Space for `<button>` in some contexts — actually it does natively, but custom handlers may break it). 2) Fix in the design system component, not in consuming apps. 3) Add a regression test with `fireEvent.keyDown(button, { key: ' ' })`. 4) Add cross-browser a11y tests to CI. 5) Release a patch version. 6) This illustrates why accessibility belongs in the design system — one fix propagates everywhere.
 
 ### Q46
+
 **Question:** What are the accessibility implications of CSS `content-visibility: auto`?
 **Type:** Fill in the blank
 **Answer:** `content-visibility: auto` skips rendering of off-screen content for performance. However, screen readers may not be able to access content that isn't rendered. This means screen reader users might not be able to find content via heading navigation, search, or the elements list. The content is also excluded from find-in-page. Use with caution and test with screen readers.
 
 ### Q47
+
 **Question:** How should you architect accessibility in a micro-frontend system where each fragment is independently deployed?
 **Type:** Scenario
 **Answer:** Challenges: 1) Focus management across fragment boundaries, 2) Single heading hierarchy across fragments, 3) Landmark structure must be coordinated, 4) Skip links need to work across fragments, 5) Live region announcements may conflict. Solutions: Use a shell/host that owns the page-level accessibility structure (landmarks, skip links, heading hierarchy). Each fragment owns its internal accessibility. Define accessibility contracts between fragments.
 
 ### Q48
+
 **Question:** What is `aria-activedescendant` and why is it critical for combobox/listbox patterns?
 **Type:** Fill in the blank
 **Answer:** `aria-activedescendant` allows a composite widget (like a combobox) to keep DOM focus on the input while visually and semantically indicating which option is "active" in the list. The input remains focused (so the user can type), but `aria-activedescendant` points to the id of the currently highlighted option. Screen readers announce the active option without moving DOM focus.
 
 ### Q49
+
 **Question:** You need to make an interactive data visualization (chart) accessible. What strategies exist?
 **Type:** Scenario
 **Answer:** 1) **Text alternative**: Provide a summary/description of the chart's key insights, 2) **Data table**: Provide an accessible `<table>` with the same data, toggleable via a button, 3) **Keyboard navigation**: Allow arrow keys to navigate data points, announcing values, 4) **Sonification**: Audio representations of data trends, 5) **ARIA**: `role="img"` with `aria-label` for simple charts; `role="graphics-document"` for complex ones. The best approach combines a text summary + data table alternative.
 
 ### Q50
+
 **Question:** What is the WCAG principle "Robust" and why does it matter for React applications?
 **Type:** Fill in the blank
 **Answer:** "Robust" (WCAG Principle 4) means content must be robust enough to be interpreted reliably by a wide variety of user agents, including assistive technologies. For React: 1) Valid HTML output matters (React can produce invalid HTML via portals, fragments, and incorrect nesting), 2) ARIA attributes must be valid, 3) Custom components must map to correct roles, 4) The app must work across different screen readers and browsers.
 
 ### Q51
+
 **Question:** How does SSR hydration affect accessibility?
 **Type:** Scenario
 **Answer:** 1) Server-rendered HTML is immediately accessible — screen readers can read it before JS loads, 2) During hydration, React attaches event handlers — there's a window where interactive elements look clickable but aren't functional, 3) If hydration changes the DOM structure (mismatch), ARIA relationships can break, 4) `useId()` ensures consistent IDs between server and client for label associations, 5) Progressive enhancement means the page should be navigable even if JS fails.
 
 ### Q52
+
 **Question:** Your CI pipeline runs axe-core and passes, but users report accessibility issues. What's happening?
 **Type:** Scenario
 **Answer:** Axe-core catches ~30% of issues. Common misses: 1) Logical reading order (visual vs DOM mismatch), 2) Quality of alt text (axe checks existence, not quality), 3) Keyboard interaction correctness (axe doesn't test keyboard flows), 4) Focus management (axe doesn't test focus behavior), 5) Screen reader announcements (axe doesn't use a screen reader), 6) Cognitive accessibility (clear language, predictable patterns). Solution: Automated testing is necessary but not sufficient — add manual testing, screen reader testing, and accessibility audit cadence.
 
 ### Q53
+
 **Question:** What is the difference between WCAG 2.1 and WCAG 2.2, and what new criteria were added?
 **Type:** Fill in the blank
 **Answer:** WCAG 2.2 (2023) added: 1) **Focus Not Obscured (Minimum)** — focused element must not be entirely hidden by other content, 2) **Dragging Movements** — drag actions must have non-dragging alternatives, 3) **Target Size (Minimum)** — interactive targets must be at least 24×24 CSS pixels, 4) **Consistent Help** — help mechanisms must be in consistent locations, 5) **Redundant Entry** — don't ask users to re-enter information already provided. WCAG 2.2 also removed 4.1.1 Parsing.
 
 ### Q54
+
 **Question:** How would you implement an accessible combobox following WAI-ARIA APG?
 **Type:** Scenario
 **Answer:** Key requirements: 1) `role="combobox"` on the input, 2) `aria-expanded` to indicate popup state, 3) `aria-controls` pointing to the listbox, 4) `role="listbox"` on the options container, 5) `role="option"` on each option, 6) `aria-activedescendant` on the input pointing to the highlighted option, 7) Arrow keys to navigate options, 8) Enter to select, 9) Escape to close, 10) Type-ahead filtering, 11) Announce result count changes via live region. This is one of the most complex ARIA patterns — consider using a library like Downshift or React Aria.
 
 ### Q55
+
 **Question:** What is `inert` and how does it solve modal accessibility?
 **Type:** Fill in the blank
 **Answer:** The `inert` attribute makes an element and all its descendants non-interactive and invisible to assistive technologies. For modals: instead of manually adding `aria-hidden="true"` to all sibling content and managing focus traps, you can add `inert` to the `<main>` content behind the modal. The native `<dialog>` element with `showModal()` applies `inert` to background content automatically.
 
 ### Q56
+
 **Question:** True or False: `role="presentation"` and `role="none"` are functionally identical.
 **Type:** True/False
 **Answer:** True
 **Why:** `role="none"` was introduced as an alias for `role="presentation"` because the name is clearer. Both strip the element's implicit role from the accessibility tree. However, if the element is focusable or has ARIA attributes, the role is ignored (the "presentational role conflict resolution").
 
 ### Q57
+
 **Question:** How should you handle accessibility for dynamically loaded content behind "infinite scroll"?
 **Type:** Scenario
 **Answer:** 1) Replace infinite scroll with "Load more" button — gives users control, 2) Announce new content count: "10 more items loaded, 30 total", 3) Don't move focus — let users choose when to explore new content, 4) Provide a link to skip to the end/footer, 5) If using virtualized list, ensure items remain in the accessibility tree (or provide alternatives), 6) Add `role="feed"` with `aria-busy` during loading for proper semantics.
 
 ### Q58
+
 **Question:** What accessibility issues arise with React portals?
 **Type:** Scenario
 **Answer:** 1) DOM order differs from visual order — screen readers read content in DOM order, but portals are rendered at the end of `<body>`, 2) `aria-labelledby` / `aria-describedby` references may break across portal boundaries in some browsers, 3) Focus management must be explicitly handled — portals don't automatically trap or manage focus, 4) Landmark structure — portal content is outside the normal document flow, potentially outside `<main>`, 5) Tab order follows DOM, not visual layout.
 
 ### Q59
+
 **Question:** An enterprise client requires a VPAT (Voluntary Product Accessibility Template). What is your approach?
 **Type:** Scenario
 **Answer:** 1) Run comprehensive automated scans (axe, Lighthouse) across all pages/states, 2) Conduct manual audit against all WCAG 2.1 AA success criteria, 3) Test with multiple screen readers (NVDA + Chrome, VoiceOver + Safari), 4) Document conformance level for each criterion (Supports, Partially Supports, Does Not Support, Not Applicable), 5) Include remarks explaining exceptions and remediation plans, 6) VPAT follows the ITI template format, 7) Plan for annual re-evaluation, 8) Budget for 40–80 hours of audit work depending on app complexity.
 
 ### Q60
+
 **Question:** What is the "accessibility object model" (AOM) and why does it matter for the future of web accessibility?
 **Type:** Fill in the blank
 **Answer:** AOM is a proposed set of APIs that would allow JavaScript to directly interact with the accessibility tree, bypassing the need for ARIA attributes in HTML. Benefits: 1) Set accessibility properties without polluting HTML, 2) React to screen reader actions (e.g., increment/decrement), 3) Virtual accessibility nodes for canvas/WebGL rendering, 4) Better performance than DOM attribute updates. Status: partially implemented in browsers, still evolving. It would fundamentally change how frameworks handle accessibility.
@@ -1270,6 +1380,7 @@ const useAnnounce = () => {
 ## For Your Stack (React, Next.js, Astro, TypeScript)
 
 ### Most Important Concepts to Master First
+
 1. **Semantic HTML** — you probably use more `<div>`s than necessary. Audit your components.
 2. **Keyboard navigation** — tab through your apps weekly. Fix what's broken.
 3. **Focus management in SPAs** — route changes, modals, dynamic content. This is where React apps fail most.
@@ -1277,6 +1388,7 @@ const useAnnounce = () => {
 5. **Accessible forms** — labels, errors, validation. Every app has forms.
 
 ### Common Mistakes Frontend Engineers Make
+
 1. Using CSS to communicate meaning (hidden labels replaced by icons)
 2. Building custom controls when native HTML works
 3. Testing only with automated tools, never with keyboard/screen reader
@@ -1286,6 +1398,7 @@ const useAnnounce = () => {
 7. Not testing with zoom (200%) and reflow
 
 ### Tooling Best Fits for Your Stack
+
 - **eslint-plugin-jsx-a11y** — catches issues at write time in React/Next.js
 - **@testing-library/react** — queries by role enforce semantics
 - **jest-axe** — component-level automated checks
@@ -1295,12 +1408,12 @@ const useAnnounce = () => {
 
 ### 30-Day Learning Plan
 
-| Week | Focus | Milestone |
-|------|-------|-----------|
-| **Week 1** | Semantic HTML + keyboard navigation | Tab through 3 of your apps, fix all keyboard issues |
-| **Week 2** | ARIA basics + focus management | Build an accessible modal and accordion from scratch |
-| **Week 3** | Screen reader testing + automated testing | Set up jest-axe in a project, test with VoiceOver for 1 hour |
-| **Week 4** | Forms + live regions + SPA routing | Build an accessible form with validation, add route announcements to a Next.js app |
+| Week       | Focus                                     | Milestone                                                                          |
+| ---------- | ----------------------------------------- | ---------------------------------------------------------------------------------- |
+| **Week 1** | Semantic HTML + keyboard navigation       | Tab through 3 of your apps, fix all keyboard issues                                |
+| **Week 2** | ARIA basics + focus management            | Build an accessible modal and accordion from scratch                               |
+| **Week 3** | Screen reader testing + automated testing | Set up jest-axe in a project, test with VoiceOver for 1 hour                       |
+| **Week 4** | Forms + live regions + SPA routing        | Build an accessible form with validation, add route announcements to a Next.js app |
 
 ### Evolution Path
 
@@ -1323,12 +1436,14 @@ Fix obvious issues (alt, labels, contrast)
 # 10. Official Documentation & Reference Links
 
 ## Beginner
+
 - [MDN Web Accessibility](https://developer.mozilla.org/en-US/docs/Web/Accessibility) — best starting point
 - [The A11Y Project](https://www.a11yproject.com) — community-driven checklist and resources
 - [WebAIM Introduction to Accessibility](https://webaim.org/intro/) — clear fundamentals
 - [MDN ARIA Basics](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/WAI-ARIA_basics)
 
 ## Intermediate
+
 - [WAI-ARIA Authoring Practices Guide (APG)](https://www.w3.org/WAI/ARIA/apg/) — **essential** — keyboard patterns and ARIA for every widget type
 - [React Accessibility Docs](https://react.dev/reference/react-dom/components/common#accessibility)
 - [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
@@ -1338,6 +1453,7 @@ Fix obvious issues (alt, labels, contrast)
 - [Testing Library — ByRole queries](https://testing-library.com/docs/queries/byrole/)
 
 ## Advanced
+
 - [WCAG 2.1 Specification](https://www.w3.org/TR/WCAG21/)
 - [WCAG 2.2 Specification](https://www.w3.org/TR/WCAG22/)
 - [Accessible Name and Description Computation](https://www.w3.org/TR/accname-1.1/)
@@ -1348,6 +1464,7 @@ Fix obvious issues (alt, labels, contrast)
 - [Marcy Sutton's Work](https://marcysutton.com) — accessibility engineering and testing
 
 ## Expert / Assistive Technologies
+
 - [W3C WAI Resources](https://www.w3.org/WAI/)
 - [Accessibility Object Model (AOM) Explainer](https://wicg.github.io/aom/explainer.html)
 - [NVDA User Guide](https://www.nvaccess.org/files/nvda/documentation/userGuide.html)
@@ -1358,6 +1475,7 @@ Fix obvious issues (alt, labels, contrast)
 - [GOV.UK Design System](https://design-system.service.gov.uk/) — exemplary accessibility in practice
 
 ## Case Studies & Talks
+
 - [How GitHub Does Accessibility](https://github.blog/engineering/user-experience/improving-github-accessibility/)
 - [Accessibility at Spotify](https://engineering.atspotify.com)
 - [Léonie Watson's Talks](https://tink.uk) — screen reader user and accessibility expert
@@ -1371,11 +1489,11 @@ Fix obvious issues (alt, labels, contrast)
 
 The accessibility tree is a parallel representation of the DOM that browsers expose to assistive technologies via platform accessibility APIs:
 
-| Platform | API |
-|----------|-----|
-| Windows | UI Automation (UIA), MSAA/IAccessible2 |
-| macOS/iOS | NSAccessibility / AX API |
-| Linux | ATK/AT-SPI |
+| Platform  | API                                    |
+| --------- | -------------------------------------- |
+| Windows   | UI Automation (UIA), MSAA/IAccessible2 |
+| macOS/iOS | NSAccessibility / AX API               |
+| Linux     | ATK/AT-SPI                             |
 
 Each node in the tree has: **role**, **name**, **state**, **value**, **description**, **relationships**. Browsers compute these from HTML semantics + ARIA attributes.
 
@@ -1384,6 +1502,7 @@ Each node in the tree has: **role**, **name**, **state**, **value**, **descripti
 ## React Rendering and Accessibility Timing
 
 React's reconciliation affects accessibility:
+
 - **State updates** that change ARIA attributes are batched — screen readers may see intermediate states
 - **useEffect** runs after paint — if you move focus in useEffect, there's a frame where focus hasn't moved yet
 - **Concurrent features** (Suspense, transitions) can delay or split rendering, causing ARIA relationships to temporarily break
@@ -1400,6 +1519,7 @@ React's reconciliation affects accessibility:
 ## Accessibility Debt Management
 
 Accessibility debt accumulates silently:
+
 - Track accessibility issues in the same system as bugs (not a separate backlog)
 - Categorize by WCAG level (A = critical, AA = standard, AAA = aspirational)
 - Prioritize by user impact: can users complete core tasks?
@@ -1410,6 +1530,7 @@ Accessibility debt accumulates silently:
 ## Inclusive Design Systems
 
 An accessible design system should:
+
 1. **Enforce accessibility in component APIs** (required `label`, built-in keyboard handlers)
 2. **Document keyboard interaction model** for every component
 3. **Include focus management utilities** (useFocusTrap, useFocusReturn, useAnnounce)
@@ -1425,6 +1546,7 @@ An accessible design system should:
 Accessibility is not a checklist — it is a **quality attribute** like performance or security. It must be designed in, built in, tested for, and maintained continuously.
 
 **Key takeaways:**
+
 1. Start with semantic HTML — it solves 50%+ of accessibility for free
 2. Keyboard testing is the highest-ROI accessibility practice
 3. Automated tools catch ~30% of issues — manual testing is essential
@@ -1434,6 +1556,7 @@ Accessibility is not a checklist — it is a **quality attribute** like performa
 7. Screen reader testing with VoiceOver takes 30 minutes to learn and transforms your understanding
 
 ## Next Steps
+
 1. Tab through your current project — document what's broken
 2. Set up eslint-plugin-jsx-a11y and jest-axe
 3. Spend 30 minutes with VoiceOver navigating your app
@@ -1441,6 +1564,7 @@ Accessibility is not a checklist — it is a **quality attribute** like performa
 5. Read WAI-ARIA Authoring Practices Guide for your most common component patterns
 
 ## Advanced Topics to Continue Later
+
 - Accessibility Object Model (AOM)
 - Canvas/WebGL accessibility
 - Voice control accessibility

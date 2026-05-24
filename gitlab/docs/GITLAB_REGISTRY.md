@@ -1,29 +1,31 @@
 ---
 title: GitLab Container Registry — Complete Deep-Dive Engineering Guide
-description: GitLab Container Registry — Complete Deep-Dive Engineering Guide. Practical
+description:
+  GitLab Container Registry — Complete Deep-Dive Engineering Guide. Practical
   guide explaining gitlab container registry — complete deep-dive engineering guide...
 slug: gitlab-registry
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- gitlab
-- registry
+  - gitlab
+  - registry
 categories:
-- gitlab
+  - gitlab
 seo:
   title: GitLab Container Registry — Complete Deep-Dive Engineering Guide
-  description: GitLab Container Registry — Complete Deep-Dive Engineering Guide. Practical
+  description:
+    GitLab Container Registry — Complete Deep-Dive Engineering Guide. Practical
     guide explaining gitlab container registry — complete deep-dive engineering guide...
   canonical: https://feel-free.com/blogs/gitlab-registry
   keywords:
-  - gitlab
-  - registry
+    - gitlab
+    - registry
 author: lazarus2019
 lang: en
 relatedPosts:
-- gitlab-ci
-- gitlab-ci-roadmap
+  - gitlab-ci
+  - gitlab-ci-roadmap
 ---
 
 # GitLab Container Registry — Complete Deep-Dive Engineering Guide
@@ -95,20 +97,21 @@ Without a registry, there's no clean way for the deploy step to get the built ar
 #### Kubernetes / Docker Compose
 
 Both pull images from registries:
+
 - **Docker Compose:** `image: registry.gitlab.com/org/app:v1.2.0`
 - **Kubernetes:** Pod spec references the same image URL, plus an `imagePullSecret` for authentication.
 
 ### 1.4 Core Terminology
 
-| Term | Definition | npm Analogy |
-|---|---|---|
-| **Image** | A packaged, layered filesystem with your app and its runtime | An npm package tarball |
-| **Tag** | A human-readable label pointing to a specific image version | A version string like `18.2.0` |
-| **Registry** | The server that stores and serves images | `registry.npmjs.org` |
-| **Repository** | A collection of related image tags under one name | A package name like `react` |
-| **Digest** | A content-addressable SHA256 hash uniquely identifying an image | An npm integrity hash |
-| **`latest` tag** | A mutable tag that conventionally points to the newest image | `@latest` dist-tag in npm |
-| **Semantic version tag** | An immutable tag like `v1.2.3` following semver | `react@18.2.0` |
+| Term                     | Definition                                                      | npm Analogy                    |
+| ------------------------ | --------------------------------------------------------------- | ------------------------------ |
+| **Image**                | A packaged, layered filesystem with your app and its runtime    | An npm package tarball         |
+| **Tag**                  | A human-readable label pointing to a specific image version     | A version string like `18.2.0` |
+| **Registry**             | The server that stores and serves images                        | `registry.npmjs.org`           |
+| **Repository**           | A collection of related image tags under one name               | A package name like `react`    |
+| **Digest**               | A content-addressable SHA256 hash uniquely identifying an image | An npm integrity hash          |
+| **`latest` tag**         | A mutable tag that conventionally points to the newest image    | `@latest` dist-tag in npm      |
+| **Semantic version tag** | An immutable tag like `v1.2.3` following semver                 | `react@18.2.0`                 |
 
 **Key insight:** A tag is a pointer that can be moved. A digest is permanent. `my-app:latest` might point to different images over time; `my-app@sha256:abc123...` always points to the same one.
 
@@ -164,21 +167,22 @@ Both pull images from registries:
 
 ### 1.6 Comparison With Other Registries
 
-| Dimension | GitLab Container Registry | Docker Hub | GitHub Container Registry (GHCR) | Amazon ECR | Google Artifact Registry | npm Registry |
-|---|---|---|---|---|---|---|
-| **Type** | Docker/OCI images | Docker/OCI images | Docker/OCI images | Docker/OCI images | Docker/OCI + others | JavaScript packages |
-| **Integrated with** | GitLab projects | Standalone | GitHub repos | AWS ecosystem | GCP ecosystem | Node.js ecosystem |
-| **Auth** | GitLab tokens, CI variables | Docker Hub account | GitHub tokens | IAM roles | Google IAM | npm tokens |
-| **Private images** | Free (unlimited) | 1 free, then paid | Free (unlimited) | Free (with AWS) | Free tier then paid | Paid on npmjs |
-| **CI integration** | Native (`$CI_REGISTRY_*` vars) | Manual config | Native (`GITHUB_TOKEN`) | AWS CLI setup | gcloud setup | `npm publish` |
-| **Vulnerability scanning** | Built-in (GitLab Ultimate) | Docker Scout | Dependabot | Inspector | On-Demand Scanning | `npm audit` |
-| **Best for** | GitLab-native teams | Public images, OSS | GitHub-native teams | AWS-deployed apps | GCP-deployed apps | JS packages |
-| **Biggest advantage** | Zero-config with GitLab CI | Largest public catalog | GitHub ecosystem | IAM integration | Multi-format support | Huge JS ecosystem |
-| **Biggest weakness** | GitLab-only ecosystem | Rate limits on free tier | GitHub-only ecosystem | AWS lock-in | GCP lock-in | Not for Docker images |
+| Dimension                  | GitLab Container Registry      | Docker Hub               | GitHub Container Registry (GHCR) | Amazon ECR        | Google Artifact Registry | npm Registry          |
+| -------------------------- | ------------------------------ | ------------------------ | -------------------------------- | ----------------- | ------------------------ | --------------------- |
+| **Type**                   | Docker/OCI images              | Docker/OCI images        | Docker/OCI images                | Docker/OCI images | Docker/OCI + others      | JavaScript packages   |
+| **Integrated with**        | GitLab projects                | Standalone               | GitHub repos                     | AWS ecosystem     | GCP ecosystem            | Node.js ecosystem     |
+| **Auth**                   | GitLab tokens, CI variables    | Docker Hub account       | GitHub tokens                    | IAM roles         | Google IAM               | npm tokens            |
+| **Private images**         | Free (unlimited)               | 1 free, then paid        | Free (unlimited)                 | Free (with AWS)   | Free tier then paid      | Paid on npmjs         |
+| **CI integration**         | Native (`$CI_REGISTRY_*` vars) | Manual config            | Native (`GITHUB_TOKEN`)          | AWS CLI setup     | gcloud setup             | `npm publish`         |
+| **Vulnerability scanning** | Built-in (GitLab Ultimate)     | Docker Scout             | Dependabot                       | Inspector         | On-Demand Scanning       | `npm audit`           |
+| **Best for**               | GitLab-native teams            | Public images, OSS       | GitHub-native teams              | AWS-deployed apps | GCP-deployed apps        | JS packages           |
+| **Biggest advantage**      | Zero-config with GitLab CI     | Largest public catalog   | GitHub ecosystem                 | IAM integration   | Multi-format support     | Huge JS ecosystem     |
+| **Biggest weakness**       | GitLab-only ecosystem          | Rate limits on free tier | GitHub-only ecosystem            | AWS lock-in       | GCP lock-in              | Not for Docker images |
 
 ### 1.7 When GitLab Container Registry Is the Best Choice
 
 **Choose GitLab Container Registry when:**
+
 - Your source code lives on GitLab.
 - You want zero-config CI integration (`$CI_REGISTRY` variables are auto-injected).
 - You want private images at no extra cost.
@@ -186,6 +190,7 @@ Both pull images from registries:
 - Your team doesn't use AWS/GCP as primary cloud (no lock-in).
 
 **Choose something else when:**
+
 - Your code is on GitHub → use GHCR.
 - You deploy exclusively to AWS → ECR has tighter IAM integration.
 - You deploy exclusively to GCP → Artifact Registry is native.
@@ -322,14 +327,14 @@ registry.gitlab.com/thaison/my-app/backend:v1.0.0     ← another sub-image
 
 #### Common Docker login mistakes
 
-| Mistake | Symptom | Fix |
-|---|---|---|
-| Wrong registry URL | `unauthorized: authentication required` | Use `registry.gitlab.com` exactly |
-| Expired token | `unauthorized` | Generate a new PAT |
-| Wrong scopes on PAT | `denied: access forbidden` | Include `read_registry` and `write_registry` |
-| Using password instead of PAT | Login fails | Use a PAT, not your GitLab password |
-| Not logged in before push | `denied: requested access to the resource is denied` | Run `docker login` first |
-| Typo in image name | `repository does not exist` | Match the exact GitLab namespace/project |
+| Mistake                       | Symptom                                              | Fix                                          |
+| ----------------------------- | ---------------------------------------------------- | -------------------------------------------- |
+| Wrong registry URL            | `unauthorized: authentication required`              | Use `registry.gitlab.com` exactly            |
+| Expired token                 | `unauthorized`                                       | Generate a new PAT                           |
+| Wrong scopes on PAT           | `denied: access forbidden`                           | Include `read_registry` and `write_registry` |
+| Using password instead of PAT | Login fails                                          | Use a PAT, not your GitLab password          |
+| Not logged in before push     | `denied: requested access to the resource is denied` | Run `docker login` first                     |
+| Typo in image name            | `repository does not exist`                          | Match the exact GitLab namespace/project     |
 
 #### 5 beginner exercises
 
@@ -365,6 +370,7 @@ docker push --all-tags registry.gitlab.com/org/app
 ```
 
 **Why multiple tags?**
+
 - `:v1.2.0` — human-readable release version.
 - `:latest` — convenient default for development.
 - `:<commit-sha>` — exact traceability to source code.
@@ -379,6 +385,7 @@ build:
 ```
 
 `$CI_COMMIT_REF_SLUG` converts branch names to URL-safe strings:
+
 - `feature/login` → `feature-login`
 - `main` → `main`
 
@@ -409,7 +416,7 @@ build:
   services:
     - docker:24-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
@@ -424,12 +431,12 @@ deploy:
 
 **Key CI variables (auto-injected by GitLab):**
 
-| Variable | Value | Example |
-|---|---|---|
-| `$CI_REGISTRY` | Registry hostname | `registry.gitlab.com` |
-| `$CI_REGISTRY_IMAGE` | Project image path | `registry.gitlab.com/org/app` |
-| `$CI_REGISTRY_USER` | CI user for auth | `gitlab-ci-token` |
-| `$CI_REGISTRY_PASSWORD` | CI token for auth | (auto-generated) |
+| Variable                | Value              | Example                       |
+| ----------------------- | ------------------ | ----------------------------- |
+| `$CI_REGISTRY`          | Registry hostname  | `registry.gitlab.com`         |
+| `$CI_REGISTRY_IMAGE`    | Project image path | `registry.gitlab.com/org/app` |
+| `$CI_REGISTRY_USER`     | CI user for auth   | `gitlab-ci-token`             |
+| `$CI_REGISTRY_PASSWORD` | CI token for auth  | (auto-generated)              |
 
 #### Pulling images in Docker Compose
 
@@ -439,7 +446,7 @@ services:
   app:
     image: registry.gitlab.com/org/app:v1.2.0
     ports:
-      - "3000:3000"
+      - '3000:3000'
 ```
 
 For private images, log in first:
@@ -457,6 +464,7 @@ Images accumulate quickly. Clean up with:
 
 **Bulk cleanup policy (GitLab settings):**
 Settings → Packages & Registries → Clean up image tags:
+
 - Keep the most recent N tags.
 - Remove tags older than N days.
 - Match tags by regex pattern.
@@ -475,35 +483,35 @@ cleanup:
 
 #### Registry permissions
 
-| Role | Read (pull) | Write (push) | Delete |
-|---|---|---|---|
-| Guest | ❌ | ❌ | ❌ |
-| Reporter | ✅ | ❌ | ❌ |
-| Developer | ✅ | ✅ | ❌ |
-| Maintainer | ✅ | ✅ | ✅ |
-| Owner | ✅ | ✅ | ✅ |
+| Role       | Read (pull) | Write (push) | Delete |
+| ---------- | ----------- | ------------ | ------ |
+| Guest      | ❌          | ❌           | ❌     |
+| Reporter   | ✅          | ❌           | ❌     |
+| Developer  | ✅          | ✅           | ❌     |
+| Maintainer | ✅          | ✅           | ✅     |
+| Owner      | ✅          | ✅           | ✅     |
 
 #### Private vs. public images
 
-| Setting | Who can pull | Use case |
-|---|---|---|
-| Private project | Only authenticated project members | Internal apps |
-| Public project | Anyone | Open source |
-| Deploy token (read-only) | Specific external systems | Production servers |
+| Setting                  | Who can pull                       | Use case           |
+| ------------------------ | ---------------------------------- | ------------------ |
+| Private project          | Only authenticated project members | Internal apps      |
+| Public project           | Anyone                             | Open source        |
+| Deploy token (read-only) | Specific external systems          | Production servers |
 
 **Recommendation:** Keep images private. Use deploy tokens for production servers.
 
 #### Common mistakes and anti-patterns
 
-| Mistake | Why it's bad | Fix |
-|---|---|---|
-| Only using `:latest` | Can't trace which version is deployed | Always tag with SHA or semver |
-| Never cleaning up images | Storage grows unbounded | Set cleanup policies |
-| Hardcoding registry URL | Breaks on forks/moves | Use `$CI_REGISTRY_IMAGE` |
-| Using personal PAT in CI | Tied to one person, security risk | Use `$CI_REGISTRY_PASSWORD` (CI job token) |
-| No `.dockerignore` | Images contain `node_modules`, `.git`, etc. | Create `.dockerignore` |
-| Building without `--no-cache` when debugging | Stale layers | Use `--no-cache` selectively |
-| Pushing images on every branch | Storage waste | Only push on main/tags, or clean up branch images |
+| Mistake                                      | Why it's bad                                | Fix                                               |
+| -------------------------------------------- | ------------------------------------------- | ------------------------------------------------- |
+| Only using `:latest`                         | Can't trace which version is deployed       | Always tag with SHA or semver                     |
+| Never cleaning up images                     | Storage grows unbounded                     | Set cleanup policies                              |
+| Hardcoding registry URL                      | Breaks on forks/moves                       | Use `$CI_REGISTRY_IMAGE`                          |
+| Using personal PAT in CI                     | Tied to one person, security risk           | Use `$CI_REGISTRY_PASSWORD` (CI job token)        |
+| No `.dockerignore`                           | Images contain `node_modules`, `.git`, etc. | Create `.dockerignore`                            |
+| Building without `--no-cache` when debugging | Stale layers                                | Use `--no-cache` selectively                      |
+| Pushing images on every branch               | Storage waste                               | Only push on main/tags, or clean up branch images |
 
 #### 5 mini project ideas
 
@@ -528,13 +536,13 @@ cleanup:
 
 #### Production tagging strategy
 
-| Strategy | Example tags | Traceability | Rollback | Complexity |
-|---|---|---|---|---|
-| SHA only | `:abc1234` | Excellent | By SHA | Low |
-| Semver only | `:v1.2.3` | Good | By version | Medium |
-| SHA + semver | `:abc1234`, `:v1.2.3` | Excellent | Both | Medium |
-| SHA + semver + latest | `:abc1234`, `:v1.2.3`, `:latest` | Excellent | Both | Medium |
-| Branch + SHA | `:main-abc1234` | Excellent | By SHA | Low |
+| Strategy              | Example tags                     | Traceability | Rollback   | Complexity |
+| --------------------- | -------------------------------- | ------------ | ---------- | ---------- |
+| SHA only              | `:abc1234`                       | Excellent    | By SHA     | Low        |
+| Semver only           | `:v1.2.3`                        | Good         | By version | Medium     |
+| SHA + semver          | `:abc1234`, `:v1.2.3`            | Excellent    | Both       | Medium     |
+| SHA + semver + latest | `:abc1234`, `:v1.2.3`, `:latest` | Excellent    | Both       | Medium     |
+| Branch + SHA          | `:main-abc1234`                  | Excellent    | By SHA     | Low        |
 
 **Senior recommendation:** SHA + semver for releases. SHA-only for non-release builds. Never rely solely on `:latest`.
 
@@ -569,6 +577,7 @@ release:
 **Rule:** Once a versioned tag like `:v1.2.3` is pushed, it must never be overwritten.
 
 **Enforcement:**
+
 1. CI validation — check if tag exists before pushing:
    ```bash
    if docker manifest inspect $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG > /dev/null 2>&1; then
@@ -591,6 +600,7 @@ v2.0.0  → breaking change
 ```
 
 **Floating tags for convenience (mutable):**
+
 - `:v1` → latest `v1.x.x`
 - `:v1.2` → latest `v1.2.x`
 - `:v1.2.3` → immutable, specific
@@ -637,13 +647,13 @@ Tag v1.2.0 → :v1.2.0 (re-tag same SHA image) → deploy to production
 
 #### Secure authentication
 
-| Method | Use case | Security |
-|---|---|---|
-| CI job token (`$CI_REGISTRY_PASSWORD`) | GitLab CI jobs | Auto-scoped, short-lived ✅ |
-| Deploy token | Production servers pulling images | Read-only, long-lived, auditable ✅ |
-| Personal access token (PAT) | Local development | Personal, should not be shared ⚠️ |
-| Group access token | Cross-project automation | Scoped to group ✅ |
-| OIDC | Cloud platforms (K8s, AWS) | No static secrets ✅✅ |
+| Method                                 | Use case                          | Security                            |
+| -------------------------------------- | --------------------------------- | ----------------------------------- |
+| CI job token (`$CI_REGISTRY_PASSWORD`) | GitLab CI jobs                    | Auto-scoped, short-lived ✅         |
+| Deploy token                           | Production servers pulling images | Read-only, long-lived, auditable ✅ |
+| Personal access token (PAT)            | Local development                 | Personal, should not be shared ⚠️   |
+| Group access token                     | Cross-project automation          | Scoped to group ✅                  |
+| OIDC                                   | Cloud platforms (K8s, AWS)        | No static secrets ✅✅              |
 
 **Senior recommendation:** CI job tokens for pipelines. Deploy tokens for servers. Never embed PATs in scripts or Dockerfiles.
 
@@ -674,6 +684,7 @@ cleanup-old-images:
 
 **GitLab built-in cleanup policy (recommended):**
 Settings → Packages & Registries → Clean up image tags:
+
 - Regex for tags to remove: `.*` (match all)
 - Regex for tags to keep: `^v\d+\.\d+\.\d+$` (keep semver)
 - Keep the most recent: 10 tags
@@ -714,11 +725,11 @@ build-backend:
 services:
   frontend:
     image: registry.gitlab.com/org/app/frontend:v1.2.0
-    ports: ["3000:3000"]
+    ports: ['3000:3000']
 
   backend:
     image: registry.gitlab.com/org/app/backend:v3.1.0
-    ports: ["8080:8080"]
+    ports: ['8080:8080']
 
   worker:
     image: registry.gitlab.com/org/app/worker:v2.0.1
@@ -737,26 +748,26 @@ Rollback: redeploy app:v1.2.0
 
 **Strategies:**
 
-| Strategy | Speed | Risk |
-|---|---|---|
-| Re-deploy previous tag | Fast (minutes) | Low — same tested image |
-| Re-deploy by digest | Fast | Lowest — immutable reference |
-| Git revert + rebuild | Slow (5-15 min) | Medium — new build |
-| Feature flag disable | Instant | Low — no deployment needed |
+| Strategy               | Speed           | Risk                         |
+| ---------------------- | --------------- | ---------------------------- |
+| Re-deploy previous tag | Fast (minutes)  | Low — same tested image      |
+| Re-deploy by digest    | Fast            | Lowest — immutable reference |
+| Git revert + rebuild   | Slow (5-15 min) | Medium — new build           |
+| Feature flag disable   | Instant         | Low — no deployment needed   |
 
 **Senior recommendation:** Always keep the last N version tags. Rollback = re-deploy the previous tag. Use digests in production manifests for maximum safety.
 
 #### Cost optimization
 
-| Technique | Impact |
-|---|---|
-| Multi-stage Docker builds | Smaller images (100MB vs 1GB) |
-| `.dockerignore` | Exclude `node_modules`, `.git`, test files |
-| Alpine-based images | 5-50MB vs 200MB+ |
-| Layer caching in CI | Faster builds |
-| Cleanup old images | Reduce storage cost |
-| Don't push branch images for every commit | Reduce storage and transfer |
-| Compress layers | Smaller push/pull |
+| Technique                                 | Impact                                     |
+| ----------------------------------------- | ------------------------------------------ |
+| Multi-stage Docker builds                 | Smaller images (100MB vs 1GB)              |
+| `.dockerignore`                           | Exclude `node_modules`, `.git`, test files |
+| Alpine-based images                       | 5-50MB vs 200MB+                           |
+| Layer caching in CI                       | Faster builds                              |
+| Cleanup old images                        | Reduce storage cost                        |
+| Don't push branch images for every commit | Reduce storage and transfer                |
+| Compress layers                           | Smaller push/pull                          |
 
 #### Observability
 
@@ -817,6 +828,7 @@ org/infrastructure/
 ```
 
 **Key patterns:**
+
 - **Shared base images:** Platform team maintains hardened, scanned base images. All teams build FROM these.
 - **Per-project registries:** Each project owns its images.
 - **Naming convention:** Enforced by CI templates.
@@ -837,19 +849,20 @@ deploy:
 ```
 
 **Authentication for cross-project pulls:**
+
 - Use deploy tokens scoped to the source project.
 - Use group access tokens for intra-group access.
 
 #### Supply chain security
 
-| Threat | Mitigation |
-|---|---|
-| Compromised base image | Pin base images by digest, scan regularly |
-| Malicious layer injection | Review Dockerfile changes in MR |
-| Dependency vulnerability | SAST + dependency scanning in CI |
-| Unauthorized push | Protected branches + protected tags |
+| Threat                     | Mitigation                                  |
+| -------------------------- | ------------------------------------------- |
+| Compromised base image     | Pin base images by digest, scan regularly   |
+| Malicious layer injection  | Review Dockerfile changes in MR             |
+| Dependency vulnerability   | SAST + dependency scanning in CI            |
+| Unauthorized push          | Protected branches + protected tags         |
 | Image tampering in transit | Docker Content Trust (DCT) / Cosign signing |
-| Unknown image provenance | SLSA provenance attestation |
+| Unknown image provenance   | SLSA provenance attestation                 |
 
 #### Image signing and verification
 
@@ -908,7 +921,7 @@ container_scanning:
 scan:
   image:
     name: aquasec/trivy:latest
-    entrypoint: [""]
+    entrypoint: ['']
   script:
     - trivy image --severity HIGH,CRITICAL --exit-code 1 $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 ```
@@ -919,12 +932,12 @@ scan:
 
 GitLab SaaS stores images in a single region. For multi-region needs:
 
-| Strategy | Complexity | Latency improvement |
-|---|---|---|
-| GitLab Geo (self-managed) | High | Automatic replication |
-| Push to multiple registries | Medium | Manual in CI |
-| Cloud-native registry with replication (ECR, GAR) | Medium | Cloud-native |
-| Pull-through cache (Harbor) | Medium | Transparent caching |
+| Strategy                                          | Complexity | Latency improvement   |
+| ------------------------------------------------- | ---------- | --------------------- |
+| GitLab Geo (self-managed)                         | High       | Automatic replication |
+| Push to multiple registries                       | Medium     | Manual in CI          |
+| Cloud-native registry with replication (ECR, GAR) | Medium     | Cloud-native          |
+| Pull-through cache (Harbor)                       | Medium     | Transparent caching   |
 
 ```yaml
 # Push to GitLab + ECR for multi-region
@@ -938,27 +951,27 @@ build:
 
 #### Disaster recovery
 
-| Risk | Mitigation |
-|---|---|
-| Registry outage | Mirror critical images to a secondary registry |
-| Accidental tag deletion | Protect semver tags, backup digests |
-| Corrupted image | Verify digests, sign images |
-| Lost registry credentials | Document rotation procedure, store securely |
-| Need to rebuild old version | Keep Dockerfile + lockfile in source control |
+| Risk                        | Mitigation                                     |
+| --------------------------- | ---------------------------------------------- |
+| Registry outage             | Mirror critical images to a secondary registry |
+| Accidental tag deletion     | Protect semver tags, backup digests            |
+| Corrupted image             | Verify digests, sign images                    |
+| Lost registry credentials   | Document rotation procedure, store securely    |
+| Need to rebuild old version | Keep Dockerfile + lockfile in source control   |
 
 **Recovery strategy:** Store a manifest of production image digests in version control. If the registry fails, rebuild from source using pinned dependency lockfiles.
 
 #### Advanced governance
 
-| Policy | Implementation |
-|---|---|
-| All images must be scanned | Include container scanning template at group level |
-| Only signed images in production | Kubernetes admission controller |
-| Base images approved by platform team | Shared base image project, enforce in Dockerfiles |
-| Tags follow naming convention | CI validation step |
-| Images cleaned up after N days | Cleanup policy per project |
-| No `latest` in production manifests | Linting in CI |
-| Cross-project access audited | Deploy token audit log |
+| Policy                                | Implementation                                     |
+| ------------------------------------- | -------------------------------------------------- |
+| All images must be scanned            | Include container scanning template at group level |
+| Only signed images in production      | Kubernetes admission controller                    |
+| Base images approved by platform team | Shared base image project, enforce in Dockerfiles  |
+| Tags follow naming convention         | CI validation step                                 |
+| Images cleaned up after N days        | Cleanup policy per project                         |
+| No `latest` in production manifests   | Linting in CI                                      |
+| Cross-project access audited          | Deploy token audit log                             |
 
 #### Lifecycle policy architecture
 
@@ -1003,18 +1016,18 @@ Latest image (:latest)
 
 #### What expert engineers care about that juniors miss
 
-| Expert concern | Junior blind spot |
-|---|---|
-| Image immutability | "Just overwrite the tag" |
-| Digest-based references | "Tags are fine" |
-| Build reproducibility | "Just rebuild it" |
-| Supply chain security | "Docker Hub images are safe" |
-| Registry storage costs | "Storage is cheap" |
-| Base image hygiene | "Use whatever FROM image" |
-| Cleanup automation | "We'll clean up later" |
-| Cross-project auth model | "Use my personal token" |
-| Provenance and signing | "Who would tamper with our images?" |
-| Multi-region availability | "One registry is enough" |
+| Expert concern            | Junior blind spot                   |
+| ------------------------- | ----------------------------------- |
+| Image immutability        | "Just overwrite the tag"            |
+| Digest-based references   | "Tags are fine"                     |
+| Build reproducibility     | "Just rebuild it"                   |
+| Supply chain security     | "Docker Hub images are safe"        |
+| Registry storage costs    | "Storage is cheap"                  |
+| Base image hygiene        | "Use whatever FROM image"           |
+| Cleanup automation        | "We'll clean up later"              |
+| Cross-project auth model  | "Use my personal token"             |
+| Provenance and signing    | "Who would tamper with our images?" |
+| Multi-region availability | "One registry is enough"            |
 
 #### 10 advanced engineering discussion topics
 
@@ -1113,13 +1126,13 @@ registry.gitlab.com/thaison/monorepo/backend:v3.0.0
 
 ### Step 5: Recommended tag naming conventions
 
-| Context | Tag format | Example |
-|---|---|---|
-| Every CI build | Commit SHA | `:abc1234def` |
-| Main branch | Branch slug | `:main` |
-| Feature branch | Branch slug | `:feature-login` |
-| Release | Semver | `:v1.2.0` |
-| Latest stable | Mutable | `:latest` |
+| Context                | Tag format       | Example                    |
+| ---------------------- | ---------------- | -------------------------- |
+| Every CI build         | Commit SHA       | `:abc1234def`              |
+| Main branch            | Branch slug      | `:main`                    |
+| Feature branch         | Branch slug      | `:feature-login`           |
+| Release                | Semver           | `:v1.2.0`                  |
+| Latest stable          | Mutable          | `:latest`                  |
 | Production (manifests) | Digest or semver | `:v1.2.0` or `@sha256:...` |
 
 ### Step 6: Example commands
@@ -1149,7 +1162,7 @@ stages:
   - deploy
 
 variables:
-  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_CERTDIR: '/certs'
 
 build:
   stage: build
@@ -1171,7 +1184,7 @@ scan:
   stage: scan
   image:
     name: aquasec/trivy:latest
-    entrypoint: [""]
+    entrypoint: ['']
   script:
     - trivy image --severity HIGH,CRITICAL $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
 
@@ -1252,6 +1265,7 @@ CMD ["node", "server.js"]
 ```
 
 **Requires** in `next.config.js`:
+
 ```javascript
 module.exports = {
   output: 'standalone',
@@ -1281,13 +1295,13 @@ services:
   frontend:
     image: registry.gitlab.com/org/app/frontend:v1.2.0
     ports:
-      - "3000:80"
+      - '3000:80'
     restart: unless-stopped
 
   backend:
     image: registry.gitlab.com/org/app/backend:v3.0.0
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       - DATABASE_URL=postgres://db:5432/app
     restart: unless-stopped
@@ -1345,26 +1359,27 @@ spec:
 
 ### Step 10: Private registry authentication
 
-| Method | Command / Config |
-|---|---|
-| **Terminal (PAT)** | `docker login registry.gitlab.com -u user -p pat` |
-| **CI (auto)** | `docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY` |
-| **Deploy token** | Create in Settings → Repository → Deploy Tokens (read_registry) |
-| **Docker Compose** | `docker login` before `docker compose pull` |
-| **Kubernetes** | `kubectl create secret docker-registry` + `imagePullSecrets` |
+| Method             | Command / Config                                                          |
+| ------------------ | ------------------------------------------------------------------------- |
+| **Terminal (PAT)** | `docker login registry.gitlab.com -u user -p pat`                         |
+| **CI (auto)**      | `docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY` |
+| **Deploy token**   | Create in Settings → Repository → Deploy Tokens (read_registry)           |
+| **Docker Compose** | `docker login` before `docker compose pull`                               |
+| **Kubernetes**     | `kubectl create secret docker-registry` + `imagePullSecrets`              |
 
 ### Step 11: Cleanup strategy
 
 **Recommended policy:**
 
-| Image type | Retention | Method |
-|---|---|---|
-| Branch tags | 14 days after MR merge | GitLab cleanup policy |
-| SHA tags on main | Last 20 | GitLab cleanup policy |
-| Semver release tags | Forever (or until EOL) | Manual |
-| `:latest` | Always exists, overwritten | N/A |
+| Image type          | Retention                  | Method                |
+| ------------------- | -------------------------- | --------------------- |
+| Branch tags         | 14 days after MR merge     | GitLab cleanup policy |
+| SHA tags on main    | Last 20                    | GitLab cleanup policy |
+| Semver release tags | Forever (or until EOL)     | Manual                |
+| `:latest`           | Always exists, overwritten | N/A                   |
 
 **Setup:** Settings → Packages & Registries → Clean up image tags:
+
 - Remove tags matching: `.*`
 - Keep tags matching: `^v\d+\.\d+\.\d+$`
 - Keep N most recent: 20
@@ -1419,27 +1434,27 @@ docker manifest inspect registry.gitlab.com/org/app:v1.0.0
 
 ### GitLab CI variables
 
-| Variable | Value | Use |
-|---|---|---|
-| `$CI_REGISTRY` | `registry.gitlab.com` | Docker login host |
-| `$CI_REGISTRY_IMAGE` | `registry.gitlab.com/org/app` | Image base path |
-| `$CI_REGISTRY_USER` | `gitlab-ci-token` | Login username |
-| `$CI_REGISTRY_PASSWORD` | Auto-generated job token | Login password |
-| `$CI_COMMIT_SHA` | Full commit hash | Traceable image tag |
-| `$CI_COMMIT_SHORT_SHA` | Short commit hash (8 chars) | Shorter image tag |
-| `$CI_COMMIT_REF_SLUG` | Branch name (URL-safe) | Branch-based tag |
-| `$CI_COMMIT_TAG` | Git tag name | Release tag |
+| Variable                | Value                         | Use                 |
+| ----------------------- | ----------------------------- | ------------------- |
+| `$CI_REGISTRY`          | `registry.gitlab.com`         | Docker login host   |
+| `$CI_REGISTRY_IMAGE`    | `registry.gitlab.com/org/app` | Image base path     |
+| `$CI_REGISTRY_USER`     | `gitlab-ci-token`             | Login username      |
+| `$CI_REGISTRY_PASSWORD` | Auto-generated job token      | Login password      |
+| `$CI_COMMIT_SHA`        | Full commit hash              | Traceable image tag |
+| `$CI_COMMIT_SHORT_SHA`  | Short commit hash (8 chars)   | Shorter image tag   |
+| `$CI_COMMIT_REF_SLUG`   | Branch name (URL-safe)        | Branch-based tag    |
+| `$CI_COMMIT_TAG`        | Git tag name                  | Release tag         |
 
 ### Common tag strategies
 
-| Strategy | Tag format | When to use |
-|---|---|---|
-| SHA | `:abc1234def` | Every build (traceability) |
-| Branch | `:main`, `:feature-login` | Branch previews |
-| Semver | `:v1.2.0` | Releases |
-| Latest | `:latest` | Development convenience |
-| Date | `:2026-04-16` | Nightly builds |
-| SHA + semver | Both on release | Production (best) |
+| Strategy     | Tag format                | When to use                |
+| ------------ | ------------------------- | -------------------------- |
+| SHA          | `:abc1234def`             | Every build (traceability) |
+| Branch       | `:main`, `:feature-login` | Branch previews            |
+| Semver       | `:v1.2.0`                 | Releases                   |
+| Latest       | `:latest`                 | Development convenience    |
+| Date         | `:2026-04-16`             | Nightly builds             |
+| SHA + semver | Both on release           | Production (best)          |
 
 ### Common registry naming patterns
 
@@ -1481,51 +1496,51 @@ docker system prune -a --volumes # Remove everything unused
 
 ### Common error messages
 
-| Error | Cause | Fix |
-|---|---|---|
-| `unauthorized: authentication required` | Not logged in or wrong credentials | `docker login` with correct token |
-| `denied: requested access to the resource is denied` | Wrong scope or no push permission | Check PAT scopes and project role |
-| `manifest unknown` | Tag doesn't exist | Verify tag name, check registry UI |
-| `name unknown: repository name not known` | Wrong image path | Match exact namespace/project path |
-| `error parsing HTTP 413 response body` | Image too large for proxy/gateway | Check max upload size settings |
-| `toomanyrequests` | Rate limit hit (Docker Hub) | Use GitLab registry or authenticate |
-| `denied: access forbidden` | IP restriction or project visibility | Check project settings and network |
+| Error                                                | Cause                                | Fix                                 |
+| ---------------------------------------------------- | ------------------------------------ | ----------------------------------- |
+| `unauthorized: authentication required`              | Not logged in or wrong credentials   | `docker login` with correct token   |
+| `denied: requested access to the resource is denied` | Wrong scope or no push permission    | Check PAT scopes and project role   |
+| `manifest unknown`                                   | Tag doesn't exist                    | Verify tag name, check registry UI  |
+| `name unknown: repository name not known`            | Wrong image path                     | Match exact namespace/project path  |
+| `error parsing HTTP 413 response body`               | Image too large for proxy/gateway    | Check max upload size settings      |
+| `toomanyrequests`                                    | Rate limit hit (Docker Hub)          | Use GitLab registry or authenticate |
+| `denied: access forbidden`                           | IP restriction or project visibility | Check project settings and network  |
 
 ### Security tips
 
-| Tip | Priority |
-|---|---|
-| Use `$CI_REGISTRY_PASSWORD`, not personal tokens, in CI | Critical |
-| Create deploy tokens with minimal scope (read-only) | Critical |
-| Pin base images by digest in Dockerfiles | High |
-| Scan images with Trivy or GitLab container scanning | High |
-| Never put secrets in Dockerfiles or image layers | Critical |
-| Use multi-stage builds to exclude build tools from final image | High |
-| Sign production images with Cosign | Medium |
-| Review Dockerfile changes in MRs | High |
+| Tip                                                            | Priority |
+| -------------------------------------------------------------- | -------- |
+| Use `$CI_REGISTRY_PASSWORD`, not personal tokens, in CI        | Critical |
+| Create deploy tokens with minimal scope (read-only)            | Critical |
+| Pin base images by digest in Dockerfiles                       | High     |
+| Scan images with Trivy or GitLab container scanning            | High     |
+| Never put secrets in Dockerfiles or image layers               | Critical |
+| Use multi-stage builds to exclude build tools from final image | High     |
+| Sign production images with Cosign                             | Medium   |
+| Review Dockerfile changes in MRs                               | High     |
 
 ### Performance tips
 
-| Tip | Impact |
-|---|---|
-| Use multi-stage builds | 50-90% smaller images |
-| Order Dockerfile layers by change frequency | Better cache hits |
-| Use `--cache-from` in CI | Faster builds |
-| Use `.dockerignore` | Smaller build context |
-| Use Alpine-based images | 5-50MB vs 200MB+ |
-| Build with Kaniko or Buildx | No DinD overhead |
-| Pull only needed layers | Faster deployments |
+| Tip                                         | Impact                |
+| ------------------------------------------- | --------------------- |
+| Use multi-stage builds                      | 50-90% smaller images |
+| Order Dockerfile layers by change frequency | Better cache hits     |
+| Use `--cache-from` in CI                    | Faster builds         |
+| Use `.dockerignore`                         | Smaller build context |
+| Use Alpine-based images                     | 5-50MB vs 200MB+      |
+| Build with Kaniko or Buildx                 | No DinD overhead      |
+| Pull only needed layers                     | Faster deployments    |
 
 ### Cost optimization tips
 
-| Tip | Savings |
-|---|---|
-| Cleanup policy for old tags | Reduce storage 50-80% |
-| Don't push branch images for every commit | Reduce push volume |
-| Multi-stage builds (smaller images) | Less storage and transfer |
-| Clean up untagged manifests | Remove orphaned layers |
-| Limit artifact retention | Reduce GitLab storage |
-| Monitor registry usage | Visibility into growth |
+| Tip                                       | Savings                   |
+| ----------------------------------------- | ------------------------- |
+| Cleanup policy for old tags               | Reduce storage 50-80%     |
+| Don't push branch images for every commit | Reduce push volume        |
+| Multi-stage builds (smaller images)       | Less storage and transfer |
+| Clean up untagged manifests               | Remove orphaned layers    |
+| Limit artifact retention                  | Reduce GitLab storage     |
+| Monitor registry usage                    | Visibility into growth    |
 
 ---
 
@@ -1535,13 +1550,13 @@ docker system prune -a --volumes # Remove everything unused
 
 **Problem:** Without a strategy, you end up with hundreds of randomly named tags and no way to know what's deployed.
 
-| Strategy | Traceability | Rollback | Simplicity | Best for |
-|---|---|---|---|---|
-| `:latest` only | ❌ None | ❌ Impossible | ✅ Simple | Hobby projects |
-| Branch slug | ⚠️ Weak | ⚠️ Hard | ✅ Simple | Preview environments |
-| Commit SHA | ✅ Excellent | ✅ Easy | ⚠️ Not human-readable | CI builds |
-| Semver | ✅ Good | ✅ Easy | ✅ Readable | Releases |
-| SHA + semver | ✅ Excellent | ✅ Easy | ⚠️ Two tags | Production (best) |
+| Strategy       | Traceability | Rollback      | Simplicity            | Best for             |
+| -------------- | ------------ | ------------- | --------------------- | -------------------- |
+| `:latest` only | ❌ None      | ❌ Impossible | ✅ Simple             | Hobby projects       |
+| Branch slug    | ⚠️ Weak      | ⚠️ Hard       | ✅ Simple             | Preview environments |
+| Commit SHA     | ✅ Excellent | ✅ Easy       | ⚠️ Not human-readable | CI builds            |
+| Semver         | ✅ Good      | ✅ Easy       | ✅ Readable           | Releases             |
+| SHA + semver   | ✅ Excellent | ✅ Easy       | ⚠️ Two tags           | Production (best)    |
 
 **Senior choice:** Commit SHA for every CI build. Add semver tag on release. Keep `:latest` as a convenience pointer but never reference it in production manifests.
 
@@ -1551,11 +1566,11 @@ docker system prune -a --volumes # Remove everything unused
 
 **Problem:** Reviewers want to run the MR's Docker image locally or in a preview environment.
 
-| Strategy | Cleanup | Storage | DX |
-|---|---|---|---|
-| Don't push branch images | N/A | None | ❌ No preview |
-| Push with branch slug tag | Need cleanup policy | Medium | ✅ Good |
-| Push only on MR label/comment | On demand | Low | ✅ Good |
+| Strategy                      | Cleanup             | Storage | DX            |
+| ----------------------------- | ------------------- | ------- | ------------- |
+| Don't push branch images      | N/A                 | None    | ❌ No preview |
+| Push with branch slug tag     | Need cleanup policy | Medium  | ✅ Good       |
+| Push only on MR label/comment | On demand           | Low     | ✅ Good       |
 
 **Senior choice:** Push `:$CI_COMMIT_REF_SLUG` on MR pipelines. Auto-delete branch tags 7 days after MR merge. Use GitLab's environment cleanup with `on_stop`.
 
@@ -1584,12 +1599,12 @@ promote:
 
 **Problem:** Production is broken after deploying `:v1.3.0`. You need to go back to `:v1.2.0` immediately.
 
-| Strategy | Speed | Reliability |
-|---|---|---|
-| Re-deploy previous semver tag | Minutes | High — tested image |
-| Re-deploy by digest | Minutes | Highest — immutable |
-| Git revert + rebuild | 5-15 minutes | Medium — new build |
-| Feature flag | Seconds | High — no redeployment |
+| Strategy                      | Speed        | Reliability            |
+| ----------------------------- | ------------ | ---------------------- |
+| Re-deploy previous semver tag | Minutes      | High — tested image    |
+| Re-deploy by digest           | Minutes      | Highest — immutable    |
+| Git revert + rebuild          | 5-15 minutes | Medium — new build     |
+| Feature flag                  | Seconds      | High — no redeployment |
 
 **Senior choice:** Re-deploy the previous tag. Keep a manifest of `{ environment: tag, digest }` in version control or deployment tool. Test rollback procedures quarterly.
 
@@ -1599,12 +1614,12 @@ promote:
 
 **Problem:** Project B needs to use an image built by Project A.
 
-| Strategy | Auth | Complexity |
-|---|---|---|
-| Deploy token on source project | Read-only token | Low |
-| Group access token | Group-scoped | Medium |
-| Public project | No auth needed | Low (but public) |
-| Mirror to external registry | Depends | High |
+| Strategy                       | Auth            | Complexity       |
+| ------------------------------ | --------------- | ---------------- |
+| Deploy token on source project | Read-only token | Low              |
+| Group access token             | Group-scoped    | Medium           |
+| Public project                 | No auth needed  | Low (but public) |
+| Mirror to external registry    | Depends         | High             |
 
 **Senior choice:** Deploy token with `read_registry` scope. Created in the source project, used by consumers. Rotate annually.
 
@@ -1646,12 +1661,12 @@ Build: app:sha-abc123
 
 ### Private vs. public images
 
-| Factor | Private | Public |
-|---|---|---|
-| Access | Auth required | Anyone can pull |
-| Use case | Internal apps | OSS, public tools |
-| Cost | Free on GitLab | Free on GitLab |
-| DX | Need login/tokens | Just `docker pull` |
+| Factor   | Private           | Public             |
+| -------- | ----------------- | ------------------ |
+| Access   | Auth required     | Anyone can pull    |
+| Use case | Internal apps     | OSS, public tools  |
+| Cost     | Free on GitLab    | Free on GitLab     |
+| DX       | Need login/tokens | Just `docker pull` |
 
 **Senior choice:** Private by default. Public only for open-source projects. Use deploy tokens for external access.
 
@@ -1662,6 +1677,7 @@ Build: app:sha-abc123
 **Problem:** After 6 months, you have 2,000 tags consuming 50GB.
 
 **Senior choice:** Automated cleanup policy:
+
 - Branch tags: delete 14 days after merge.
 - SHA tags: keep last 20.
 - Semver tags: keep forever (or until EOL).
@@ -1677,12 +1693,12 @@ Build: app:sha-abc123
 
 ### Using `:latest` vs. immutable tag
 
-| Factor | `:latest` | `:v1.2.0` | `@sha256:...` |
-|---|---|---|---|
-| Mutability | Mutable (changes) | Should be immutable | Immutable (guaranteed) |
-| Debugging | "Which version is latest?" | Clear | Exact |
-| Rollback | Impossible | Easy | Easiest |
-| Caching | Unpredictable | Predictable | Predictable |
+| Factor     | `:latest`                  | `:v1.2.0`           | `@sha256:...`          |
+| ---------- | -------------------------- | ------------------- | ---------------------- |
+| Mutability | Mutable (changes)          | Should be immutable | Immutable (guaranteed) |
+| Debugging  | "Which version is latest?" | Clear               | Exact                  |
+| Rollback   | Impossible                 | Easy                | Easiest                |
+| Caching    | Unpredictable              | Predictable         | Predictable            |
 
 **Senior choice:** Use `:latest` for local development only. Use semver or digest for staging and production.
 
@@ -1705,12 +1721,12 @@ include:
 
 **Problem:** Your Node.js image is 1.2GB. Pulls take 60 seconds. Storage costs add up.
 
-| Technique | Before | After |
-|---|---|---|
-| Multi-stage build | 1.2GB | 150MB |
-| Alpine base | 200MB | 50MB |
-| `.dockerignore` | +200MB junk | Clean context |
-| Fewer layers | Many small layers | Consolidated |
+| Technique         | Before            | After         |
+| ----------------- | ----------------- | ------------- |
+| Multi-stage build | 1.2GB             | 150MB         |
+| Alpine base       | 200MB             | 50MB          |
+| `.dockerignore`   | +200MB junk       | Clean context |
+| Fewer layers      | Many small layers | Consolidated  |
 
 **Senior choice:** Multi-stage build with Alpine. Measure image size in CI. Alert if image exceeds threshold.
 
@@ -1839,12 +1855,12 @@ check-size:
 
 **Q5. Matching:** Match each command to its purpose.
 
-| Command | Purpose |
-|---|---|
-| A. `docker build` | 1. Download image from registry |
-| B. `docker tag` | 2. Upload image to registry |
-| C. `docker push` | 3. Create image from Dockerfile |
-| D. `docker pull` | 4. Label an image with a new name |
+| Command           | Purpose                           |
+| ----------------- | --------------------------------- |
+| A. `docker build` | 1. Download image from registry   |
+| B. `docker tag`   | 2. Upload image to registry       |
+| C. `docker push`  | 3. Create image from Dockerfile   |
+| D. `docker pull`  | 4. Label an image with a new name |
 
 <details><summary>Answer</summary>A→3, B→4, C→2, D→1</details>
 
@@ -1951,11 +1967,11 @@ check-size:
 
 **Q18. Matching:** Match the CI variable to its value.
 
-| Variable | Value |
-|---|---|
-| A. `$CI_REGISTRY` | 1. `gitlab-ci-token` |
-| B. `$CI_REGISTRY_IMAGE` | 2. Auto-generated job token |
-| C. `$CI_REGISTRY_USER` | 3. `registry.gitlab.com` |
+| Variable                   | Value                            |
+| -------------------------- | -------------------------------- |
+| A. `$CI_REGISTRY`          | 1. `gitlab-ci-token`             |
+| B. `$CI_REGISTRY_IMAGE`    | 2. Auto-generated job token      |
+| C. `$CI_REGISTRY_USER`     | 3. `registry.gitlab.com`         |
 | D. `$CI_REGISTRY_PASSWORD` | 4. `registry.gitlab.com/org/app` |
 
 <details><summary>Answer</summary>A→3, B→4, C→1, D→2</details>
@@ -2040,7 +2056,7 @@ check-size:
 
 ---
 
-**Q27. Fill in the blank:** To verify an image hasn't been tampered with after build, you can sign it with _______ and verify at deployment time.
+**Q27. Fill in the blank:** To verify an image hasn't been tampered with after build, you can sign it with **\_\_\_** and verify at deployment time.
 
 <details><summary>Answer</summary><code>Cosign</code> (from Sigstore). Cosign generates a cryptographic signature tied to the image digest. Kubernetes admission controllers (Kyverno, OPA) can verify signatures before allowing pods to run.</details>
 
@@ -2093,43 +2109,43 @@ As a React/Next.js/Astro developer, your primary container use cases are:
 
 ### What to learn first
 
-| Priority | Topic |
-|---|---|
-| 1 | Docker basics: build, tag, push, pull |
-| 2 | Multi-stage Dockerfiles for frontend apps |
-| 3 | GitLab CI variables ($CI_REGISTRY_*) |
-| 4 | Pushing images from CI pipeline |
-| 5 | Tag strategies: SHA + semver |
-| 6 | .dockerignore for clean builds |
-| 7 | Image size optimization |
-| 8 | Cleanup policies |
-| 9 | Deploy tokens for server pulls |
-| 10 | Security scanning (Trivy) |
+| Priority | Topic                                     |
+| -------- | ----------------------------------------- |
+| 1        | Docker basics: build, tag, push, pull     |
+| 2        | Multi-stage Dockerfiles for frontend apps |
+| 3        | GitLab CI variables ($CI*REGISTRY*\*)     |
+| 4        | Pushing images from CI pipeline           |
+| 5        | Tag strategies: SHA + semver              |
+| 6        | .dockerignore for clean builds            |
+| 7        | Image size optimization                   |
+| 8        | Cleanup policies                          |
+| 9        | Deploy tokens for server pulls            |
+| 10       | Security scanning (Trivy)                 |
 
 ### Which image/tagging workflows to build first
 
-| Order | Workflow | Why |
-|---|---|---|
-| 1st | Build + push on main (SHA tag) | Foundation |
-| 2nd | Semver tag on git tag | Release process |
-| 3rd | Cleanup policy | Prevent storage bloat |
-| 4th | Branch preview images | Better code review |
-| 5th | Docker Compose with registry images | Local dev parity |
-| 6th | Vulnerability scanning in CI | Security baseline |
-| 7th | Image promotion (staging → production) | Production safety |
+| Order | Workflow                               | Why                   |
+| ----- | -------------------------------------- | --------------------- |
+| 1st   | Build + push on main (SHA tag)         | Foundation            |
+| 2nd   | Semver tag on git tag                  | Release process       |
+| 3rd   | Cleanup policy                         | Prevent storage bloat |
+| 4th   | Branch preview images                  | Better code review    |
+| 5th   | Docker Compose with registry images    | Local dev parity      |
+| 6th   | Vulnerability scanning in CI           | Security baseline     |
+| 7th   | Image promotion (staging → production) | Production safety     |
 
 ### Common mistakes frontend engineers make with registries
 
-| Mistake | Why it happens | Fix |
-|---|---|---|
-| Shipping `node_modules` in image | No `.dockerignore` | Create `.dockerignore`, use multi-stage |
-| 1GB+ images | Single-stage build | Multi-stage: build stage + tiny runtime stage |
-| Using `:latest` everywhere | "It's the default" | Use SHA/semver tags |
-| Secrets in Dockerfile | `ARG API_KEY=...` | Use build secrets or runtime env vars |
-| Not caching Docker layers | Copies everything before `npm ci` | Order: COPY lockfile → install → COPY source |
-| Never cleaning up | "Storage is cheap" | Set cleanup policies from day 1 |
-| Using personal token in CI | Quick and dirty | Use `$CI_REGISTRY_PASSWORD` |
-| Rebuilding for each environment | "Staging and production are different" | Build once, configure with env vars |
+| Mistake                          | Why it happens                         | Fix                                           |
+| -------------------------------- | -------------------------------------- | --------------------------------------------- |
+| Shipping `node_modules` in image | No `.dockerignore`                     | Create `.dockerignore`, use multi-stage       |
+| 1GB+ images                      | Single-stage build                     | Multi-stage: build stage + tiny runtime stage |
+| Using `:latest` everywhere       | "It's the default"                     | Use SHA/semver tags                           |
+| Secrets in Dockerfile            | `ARG API_KEY=...`                      | Use build secrets or runtime env vars         |
+| Not caching Docker layers        | Copies everything before `npm ci`      | Order: COPY lockfile → install → COPY source  |
+| Never cleaning up                | "Storage is cheap"                     | Set cleanup policies from day 1               |
+| Using personal token in CI       | Quick and dirty                        | Use `$CI_REGISTRY_PASSWORD`                   |
+| Rebuilding for each environment  | "Staging and production are different" | Build once, configure with env vars           |
 
 ### How to evolve from local Docker to production-grade registry
 
@@ -2163,53 +2179,53 @@ Phase 8: Advanced
 
 #### Week 1: Docker Foundations (Days 1–7)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 1 | Write a Dockerfile for your React/Astro app | Working Dockerfile |
-| 2 | Build and run the image locally | Container running on localhost |
-| 3 | Create multi-stage Dockerfile (build + nginx) | Image under 100MB |
-| 4 | Create `.dockerignore`, measure size difference | Optimized build context |
-| 5 | Log in to GitLab registry, push manually | Image visible in GitLab UI |
-| 6 | Tag with multiple tags (`:v1.0.0`, `:latest`) | Multi-tag push |
-| 7 | Pull on a different machine or clean Docker | Verify registry works end-to-end |
+| Day | Task                                            | Deliverable                      |
+| --- | ----------------------------------------------- | -------------------------------- |
+| 1   | Write a Dockerfile for your React/Astro app     | Working Dockerfile               |
+| 2   | Build and run the image locally                 | Container running on localhost   |
+| 3   | Create multi-stage Dockerfile (build + nginx)   | Image under 100MB                |
+| 4   | Create `.dockerignore`, measure size difference | Optimized build context          |
+| 5   | Log in to GitLab registry, push manually        | Image visible in GitLab UI       |
+| 6   | Tag with multiple tags (`:v1.0.0`, `:latest`)   | Multi-tag push                   |
+| 7   | Pull on a different machine or clean Docker     | Verify registry works end-to-end |
 
 #### Week 2: CI Integration (Days 8–14)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 8 | Add Docker build+push to `.gitlab-ci.yml` | CI pushes image on main |
-| 9 | Use `$CI_REGISTRY_*` variables | No hardcoded paths |
-| 10 | Add commit SHA tagging | Traceable builds |
-| 11 | Add semver tag on git tag push | Release workflow |
-| 12 | Set up GitLab cleanup policy | Auto-cleanup old tags |
-| 13 | Add `--cache-from` for faster CI builds | Faster pipelines |
-| 14 | Review and document your image workflow | Clear team documentation |
+| Day | Task                                      | Deliverable              |
+| --- | ----------------------------------------- | ------------------------ |
+| 8   | Add Docker build+push to `.gitlab-ci.yml` | CI pushes image on main  |
+| 9   | Use `$CI_REGISTRY_*` variables            | No hardcoded paths       |
+| 10  | Add commit SHA tagging                    | Traceable builds         |
+| 11  | Add semver tag on git tag push            | Release workflow         |
+| 12  | Set up GitLab cleanup policy              | Auto-cleanup old tags    |
+| 13  | Add `--cache-from` for faster CI builds   | Faster pipelines         |
+| 14  | Review and document your image workflow   | Clear team documentation |
 
 #### Week 3: Deployment (Days 15–21)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 15 | Create Docker Compose file using registry images | Local dev from registry |
-| 16 | Create a deploy token for server access | Secure server pulls |
-| 17 | Deploy image to a staging environment | Staging running from registry |
-| 18 | Implement image promotion (staging → production tag) | Build once, deploy many |
-| 19 | Add branch preview images on MR | Reviewer previews |
-| 20 | Add environment tracking in GitLab | Deployment history |
-| 21 | Practice rollback by re-deploying previous tag | Rollback confidence |
+| Day | Task                                                 | Deliverable                   |
+| --- | ---------------------------------------------------- | ----------------------------- |
+| 15  | Create Docker Compose file using registry images     | Local dev from registry       |
+| 16  | Create a deploy token for server access              | Secure server pulls           |
+| 17  | Deploy image to a staging environment                | Staging running from registry |
+| 18  | Implement image promotion (staging → production tag) | Build once, deploy many       |
+| 19  | Add branch preview images on MR                      | Reviewer previews             |
+| 20  | Add environment tracking in GitLab                   | Deployment history            |
+| 21  | Practice rollback by re-deploying previous tag       | Rollback confidence           |
 
 #### Week 4: Security & Advanced (Days 22–30)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 22 | Add Trivy or GitLab container scanning | Vulnerability reports |
-| 23 | Pin base image by digest | Reproducible builds |
-| 24 | Add image size check in CI | Size gate |
-| 25 | Study monorepo sub-path image organization | Architecture knowledge |
-| 26 | Study Cosign image signing | Security knowledge |
-| 27 | Study SBOM generation with Syft | Compliance knowledge |
-| 28 | Audit your registry for unused images | Storage optimization |
-| 29 | Create a shared base image project | Org-wide reuse |
-| 30 | Write architecture decision record for your registry strategy | Documentation |
+| Day | Task                                                          | Deliverable            |
+| --- | ------------------------------------------------------------- | ---------------------- |
+| 22  | Add Trivy or GitLab container scanning                        | Vulnerability reports  |
+| 23  | Pin base image by digest                                      | Reproducible builds    |
+| 24  | Add image size check in CI                                    | Size gate              |
+| 25  | Study monorepo sub-path image organization                    | Architecture knowledge |
+| 26  | Study Cosign image signing                                    | Security knowledge     |
+| 27  | Study SBOM generation with Syft                               | Compliance knowledge   |
+| 28  | Audit your registry for unused images                         | Storage optimization   |
+| 29  | Create a shared base image project                            | Org-wide reuse         |
+| 30  | Write architecture decision record for your registry strategy | Documentation          |
 
 ---
 
@@ -2239,20 +2255,20 @@ The key mindset: **an image tag is a deployment contract.** Treat it with the sa
 
 ### Suggested Advanced Topics
 
-| Topic | Why it matters |
-|---|---|
-| OCI image specification | Understand what images actually are |
-| Buildx and multi-platform builds | ARM support (Apple Silicon, AWS Graviton) |
-| Cosign and Sigstore | Supply chain security standard |
-| SLSA provenance | Build attestation for compliance |
-| Harbor as a registry proxy | Caching, replication, scanning |
-| Kubernetes admission controllers | Enforce image policies at deploy time |
-| Distroless images | Minimal attack surface (no shell, no package manager) |
-| Docker layer analysis (dive) | Inspect and optimize layers |
-| GitLab Dependency Proxy | Cache Docker Hub images to avoid rate limits |
-| OCI artifacts (Helm, WASM) | Registries for non-Docker artifacts |
-| Image attestation and SBOM | Full software supply chain visibility |
-| Registry migration strategies | Moving between registry providers |
-| Ephemeral build environments | Hermetic builds for reproducibility |
-| GitLab Geo for registry replication | Self-managed multi-region |
-| Policy-as-code for registries | OPA/Kyverno for enforcement |
+| Topic                               | Why it matters                                        |
+| ----------------------------------- | ----------------------------------------------------- |
+| OCI image specification             | Understand what images actually are                   |
+| Buildx and multi-platform builds    | ARM support (Apple Silicon, AWS Graviton)             |
+| Cosign and Sigstore                 | Supply chain security standard                        |
+| SLSA provenance                     | Build attestation for compliance                      |
+| Harbor as a registry proxy          | Caching, replication, scanning                        |
+| Kubernetes admission controllers    | Enforce image policies at deploy time                 |
+| Distroless images                   | Minimal attack surface (no shell, no package manager) |
+| Docker layer analysis (dive)        | Inspect and optimize layers                           |
+| GitLab Dependency Proxy             | Cache Docker Hub images to avoid rate limits          |
+| OCI artifacts (Helm, WASM)          | Registries for non-Docker artifacts                   |
+| Image attestation and SBOM          | Full software supply chain visibility                 |
+| Registry migration strategies       | Moving between registry providers                     |
+| Ephemeral build environments        | Hermetic builds for reproducibility                   |
+| GitLab Geo for registry replication | Self-managed multi-region                             |
+| Policy-as-code for registries       | OPA/Kyverno for enforcement                           |

@@ -3,20 +3,20 @@ title: React Core — Complete Deep-Dive Engineering Guide
 description: A comprehensive exploration of React internals and modern application architecture. Understand rendering, reconciliation, Fiber, hooks, state management, concurrency, server rendering, performance optimization, component patterns, and how React works under the hood in production-scale systems.
 slug: core-react
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- react
-- core
+  - react
+  - core
 categories:
-- react
+  - react
 seo:
   title: React Core — Complete Deep-Dive Engineering Guide
   description: A comprehensive exploration of React internals and modern application architecture. Understand rendering, reconciliation, Fiber, hooks, state management, concurrency, server rendering, performance optimization, component patterns, and how React works under the hood in production-scale systems.
   canonical: https://feel-free.com/blogs/core-react
   keywords:
-  - react
-  - core
+    - react
+    - core
 author: lazarus2019
 lang: en
 ---
@@ -48,9 +48,9 @@ lang: en
 
 React is a **JavaScript library for building user interfaces through composable, declarative components**. It is not a framework — it doesn't include routing, data fetching, or state management. It does one thing: given state, produce UI. Everything else is the ecosystem's job.
 
-At its core, React is a **reconciler** — an engine that compares what your UI *should* look like (based on current state) with what it *currently* looks like (in the DOM), and applies the minimal set of changes. You describe the destination; React figures out the journey.
+At its core, React is a **reconciler** — an engine that compares what your UI _should_ look like (based on current state) with what it _currently_ looks like (in the DOM), and applies the minimal set of changes. You describe the destination; React figures out the journey.
 
-**Why this matters:** React decoupled *what* you want from *how* to get there. Before React, you wrote imperative instructions ("find this DOM node, change its text, add this class"). With React, you write a function that returns what the UI should look like, and React handles the DOM mutations.
+**Why this matters:** React decoupled _what_ you want from _how_ to get there. Before React, you wrote imperative instructions ("find this DOM node, change its text, add this class"). With React, you write a function that returns what the UI should look like, and React handles the DOM mutations.
 
 ### 1.2 Why React Exists — The Problems It Solves
 
@@ -64,13 +64,13 @@ At its core, React is a **reconciler** — an engine that compares what your UI 
 
 ### 1.3 Programming Model Comparison
 
-| Approach | Mental model | State sync | Composition | Scaling |
-|---|---|---|---|---|
-| **Vanilla DOM** | `document.querySelector` + manual mutation | You track everything | Functions, but no UI abstraction | Breaks quickly |
-| **jQuery** | Select → mutate → hope it's consistent | Manual, error-prone | Plugins, no component model | Spaghetti at scale |
-| **React** | State → render function → virtual DOM → minimal DOM updates | Automatic via reconciliation | Components (functions) | Designed for large apps |
-| **Declarative** | "Here's what it should look like" | Framework handles sync | Natural composition | Scales well |
-| **Imperative** | "Here's the steps to change it" | Manual tracking | Procedural | Breaks at scale |
+| Approach        | Mental model                                                | State sync                   | Composition                      | Scaling                 |
+| --------------- | ----------------------------------------------------------- | ---------------------------- | -------------------------------- | ----------------------- |
+| **Vanilla DOM** | `document.querySelector` + manual mutation                  | You track everything         | Functions, but no UI abstraction | Breaks quickly          |
+| **jQuery**      | Select → mutate → hope it's consistent                      | Manual, error-prone          | Plugins, no component model      | Spaghetti at scale      |
+| **React**       | State → render function → virtual DOM → minimal DOM updates | Automatic via reconciliation | Components (functions)           | Designed for large apps |
+| **Declarative** | "Here's what it should look like"                           | Framework handles sync       | Natural composition              | Scales well             |
+| **Imperative**  | "Here's the steps to change it"                             | Manual tracking              | Procedural                       | Breaks at scale         |
 
 ### 1.4 Core Internal Concepts
 
@@ -104,6 +104,7 @@ Reconciliation is React's diffing algorithm. When you call `setState` or a compo
 4. Applies those changes in the commit phase.
 
 **Key rules:**
+
 - Elements of **different types** → destroy old tree, build new tree.
 - Elements of **same type** → update attributes, recurse on children.
 - **Keys** on list items → stable identity for efficient reordering.
@@ -136,7 +137,7 @@ Phase 2: COMMIT (synchronous, cannot be interrupted)
   └── Runs useEffect callbacks
 ```
 
-**Why this matters:** Your component function may be called multiple times without the DOM ever updating. In concurrent mode, React may *start* rendering, *pause*, and *restart*. If your render function has side effects, things break.
+**Why this matters:** Your component function may be called multiple times without the DOM ever updating. In concurrent mode, React may _start_ rendering, _pause_, and _restart_. If your render function has side effects, things break.
 
 #### Fiber Architecture
 
@@ -162,15 +163,15 @@ FiberNode {
 
 #### Scheduler
 
-React's scheduler decides *when* and *in what order* to process updates. Not all updates are equal:
+React's scheduler decides _when_ and _in what order_ to process updates. Not all updates are equal:
 
-| Priority | Example | Urgency |
-|---|---|---|
-| Immediate (Sync) | Text input typing | Must not lag |
-| User-blocking | Click handler result | High, but can batch |
-| Normal | Data fetch result | Can defer briefly |
-| Low | Off-screen update | Can defer significantly |
-| Idle | Prefetch, analytics | Whenever |
+| Priority         | Example              | Urgency                 |
+| ---------------- | -------------------- | ----------------------- |
+| Immediate (Sync) | Text input typing    | Must not lag            |
+| User-blocking    | Click handler result | High, but can batch     |
+| Normal           | Data fetch result    | Can defer briefly       |
+| Low              | Off-screen update    | Can defer significantly |
+| Idle             | Prefetch, analytics  | Whenever                |
 
 The scheduler uses the browser's `MessageChannel` (not `requestIdleCallback`) to schedule work in small chunks between frames, keeping the main thread responsive.
 
@@ -192,6 +193,7 @@ Without concurrent rendering:
 ```
 
 **Opt-in via:**
+
 - `useTransition` — marks a state update as non-urgent.
 - `useDeferredValue` — defers a value to a lower priority.
 - `startTransition` — wraps a state update as a transition.
@@ -256,25 +258,27 @@ Client: Parse HTML → display (fast!) → load JS → React hydrates
 
 ### 1.6 Comparison With Other Frameworks
 
-| Dimension | React | Vue | Svelte | SolidJS | Angular |
-|---|---|---|---|---|---|
-| **Model** | Virtual DOM + reconciliation | Virtual DOM + reactivity | Compile-time, no virtual DOM | Fine-grained reactivity, no VDOM | Zone.js + change detection |
-| **Reactivity** | Pull-based (re-render whole subtree) | Push-based (dependency tracking) | Compile-time assignments | Push-based (signals) | Zone.js-based dirty checking |
-| **Update granularity** | Component-level | Component-level | Statement-level | DOM node-level | Component-level |
-| **Bundle size** | ~45KB (react + react-dom) | ~33KB | ~2-5KB (compiled) | ~7KB | ~65KB+ |
-| **Learning curve** | Medium (hooks, mental model) | Low (options API) / Medium (composition) | Low | Medium (different paradigm) | High (DI, RxJS, modules) |
-| **Ecosystem** | Massive, fragmented | Large, cohesive | Growing | Small | Large, opinionated |
-| **Concurrent rendering** | Yes (unique) | No (planned) | N/A (no runtime) | N/A (fine-grained) | No |
-| **SSR story** | Next.js, Remix | Nuxt | SvelteKit | SolidStart | Angular Universal |
-| **Philosophy** | Library — bring your own stack | Progressive framework | Disappearing framework | Reactive primitives | Full framework |
+| Dimension                | React                                | Vue                                      | Svelte                       | SolidJS                          | Angular                      |
+| ------------------------ | ------------------------------------ | ---------------------------------------- | ---------------------------- | -------------------------------- | ---------------------------- |
+| **Model**                | Virtual DOM + reconciliation         | Virtual DOM + reactivity                 | Compile-time, no virtual DOM | Fine-grained reactivity, no VDOM | Zone.js + change detection   |
+| **Reactivity**           | Pull-based (re-render whole subtree) | Push-based (dependency tracking)         | Compile-time assignments     | Push-based (signals)             | Zone.js-based dirty checking |
+| **Update granularity**   | Component-level                      | Component-level                          | Statement-level              | DOM node-level                   | Component-level              |
+| **Bundle size**          | ~45KB (react + react-dom)            | ~33KB                                    | ~2-5KB (compiled)            | ~7KB                             | ~65KB+                       |
+| **Learning curve**       | Medium (hooks, mental model)         | Low (options API) / Medium (composition) | Low                          | Medium (different paradigm)      | High (DI, RxJS, modules)     |
+| **Ecosystem**            | Massive, fragmented                  | Large, cohesive                          | Growing                      | Small                            | Large, opinionated           |
+| **Concurrent rendering** | Yes (unique)                         | No (planned)                             | N/A (no runtime)             | N/A (fine-grained)               | No                           |
+| **SSR story**            | Next.js, Remix                       | Nuxt                                     | SvelteKit                    | SolidStart                       | Angular Universal            |
+| **Philosophy**           | Library — bring your own stack       | Progressive framework                    | Disappearing framework       | Reactive primitives              | Full framework               |
 
 **React's unique advantages:**
+
 - Concurrent rendering (no other major framework has this).
 - Largest ecosystem and hiring pool.
 - Server Components architecture (unique).
 - Battle-tested at Facebook/Meta scale.
 
 **React's weaknesses:**
+
 - Re-renders entire subtrees by default (Vue/Solid are more precise).
 - Requires memoization discipline (useMemo, useCallback, React.memo).
 - Larger bundle than Svelte/Solid.
@@ -283,6 +287,7 @@ Client: Parse HTML → display (fast!) → load JS → React hydrates
 ### 1.7 When React Is a Good Fit
 
 **Good fit:**
+
 - Large, long-lived applications with many engineers.
 - Complex, interactive UIs with frequent state changes.
 - Teams that want a massive ecosystem and hiring pool.
@@ -291,6 +296,7 @@ Client: Parse HTML → display (fast!) → load JS → React hydrates
 - Cross-platform needs (React Native).
 
 **Problematic:**
+
 - Simple static sites (Astro is better — you already know this).
 - Performance-critical UIs where every kilobyte and millisecond matters (SolidJS, Svelte).
 - Small teams that want conventions over configuration (Vue, Angular).
@@ -320,6 +326,7 @@ const element = React.createElement('h1', { className: 'title' }, 'Hello');
 ```
 
 **Key rules:**
+
 - `className` not `class` (it's JavaScript, `class` is reserved).
 - `htmlFor` not `for`.
 - Self-closing tags required: `<img />`, `<br />`.
@@ -337,7 +344,7 @@ function Greeting({ name }: { name: string }) {
 }
 
 // Usage
-<Greeting name="Thaison" />
+<Greeting name="Thaison" />;
 ```
 
 **Mental model:** A component is a function. Props are arguments. JSX is the return value. React calls your function, gets back a description of UI, and renders it.
@@ -379,7 +386,7 @@ function Counter() {
     <div>
       <p>Count: {count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
-      <button onClick={() => setCount(prev => prev + 1)}>
+      <button onClick={() => setCount((prev) => prev + 1)}>
         Increment (functional update — safer)
       </button>
     </div>
@@ -387,7 +394,7 @@ function Counter() {
 }
 ```
 
-**Critical mental model:** `setState` does NOT mutate the variable immediately. It *schedules* a re-render. The new value is available on the *next* render.
+**Critical mental model:** `setState` does NOT mutate the variable immediately. It _schedules_ a re-render. The new value is available on the _next_ render.
 
 ```tsx
 const [count, setCount] = useState(0);
@@ -400,8 +407,8 @@ function handleClick() {
 
 // Fix: use functional updates
 function handleClickCorrect() {
-  setCount(prev => prev + 1); // prev=0 → 1
-  setCount(prev => prev + 1); // prev=1 → 2
+  setCount((prev) => prev + 1); // prev=0 → 1
+  setCount((prev) => prev + 1); // prev=1 → 2
 }
 ```
 
@@ -433,10 +440,14 @@ function Form() {
 
 ```tsx
 // Short-circuit
-{isLoggedIn && <Dashboard />}
+{
+  isLoggedIn && <Dashboard />;
+}
 
 // Ternary
-{isLoggedIn ? <Dashboard /> : <LoginForm />}
+{
+  isLoggedIn ? <Dashboard /> : <LoginForm />;
+}
 
 // Early return
 function Page({ user }: { user: User | null }) {
@@ -453,7 +464,7 @@ function Page({ user }: { user: User | null }) {
 function TodoList({ items }: { items: Todo[] }) {
   return (
     <ul>
-      {items.map(item => (
+      {items.map((item) => (
         <li key={item.id}>{item.text}</li>
       ))}
     </ul>
@@ -463,19 +474,19 @@ function TodoList({ items }: { items: Todo[] }) {
 
 **Keys are critical.** They tell React which items changed, were added, or removed. Without stable keys, React can't efficiently reconcile lists.
 
-| Key approach | Result |
-|---|---|
+| Key approach                     | Result                             |
+| -------------------------------- | ---------------------------------- |
 | `key={item.id}` (stable, unique) | ✅ Correct — React tracks identity |
-| `key={index}` | ⚠️ Breaks on reorder/insert/delete |
-| No key | ❌ Warning + buggy behavior |
+| `key={index}`                    | ⚠️ Breaks on reorder/insert/delete |
+| No key                           | ❌ Warning + buggy behavior        |
 
 #### Basic hooks
 
-| Hook | Purpose | Example |
-|---|---|---|
-| `useState` | Local state | `const [x, setX] = useState(0)` |
-| `useEffect` | Side effects after render | `useEffect(() => { fetch(...) }, [])` |
-| `useRef` | Mutable ref that doesn't trigger re-render | `const ref = useRef(null)` |
+| Hook        | Purpose                                    | Example                               |
+| ----------- | ------------------------------------------ | ------------------------------------- |
+| `useState`  | Local state                                | `const [x, setX] = useState(0)`       |
+| `useEffect` | Side effects after render                  | `useEffect(() => { fetch(...) }, [])` |
+| `useRef`    | Mutable ref that doesn't trigger re-render | `const ref = useRef(null)`            |
 
 #### Component lifecycle (hooks mental model)
 
@@ -487,14 +498,14 @@ Unmount:  useEffect cleanup runs → DOM removed
 
 #### Common beginner mistakes
 
-| Mistake | Why it's wrong | Fix |
-|---|---|---|
-| Mutating state directly | React won't re-render | Create new object/array: `setItems([...items, newItem])` |
-| Using index as key in dynamic lists | Breaks identity on reorder | Use stable, unique IDs |
-| Side effects in render | Unpredictable, can cause infinite loops | Put side effects in `useEffect` |
-| `{0 && <Component />}` rendering `0` | `0` is falsy but renderable | Use `{count > 0 && <Component />}` |
-| Forgetting dependency array in useEffect | Effect runs every render | Always specify dependencies |
-| Setting state in a loop | Causes multiple re-renders | Batch into one state update |
+| Mistake                                  | Why it's wrong                          | Fix                                                      |
+| ---------------------------------------- | --------------------------------------- | -------------------------------------------------------- |
+| Mutating state directly                  | React won't re-render                   | Create new object/array: `setItems([...items, newItem])` |
+| Using index as key in dynamic lists      | Breaks identity on reorder              | Use stable, unique IDs                                   |
+| Side effects in render                   | Unpredictable, can cause infinite loops | Put side effects in `useEffect`                          |
+| `{0 && <Component />}` rendering `0`     | `0` is falsy but renderable             | Use `{count > 0 && <Component />}`                       |
+| Forgetting dependency array in useEffect | Effect runs every render                | Always specify dependencies                              |
+| Setting state in a loop                  | Causes multiple re-renders              | Batch into one state update                              |
 
 #### 5 beginner exercises
 
@@ -520,7 +531,7 @@ Unmount:  useEffect cleanup runs → DOM removed
 
 #### useEffect
 
-`useEffect` runs *after* the browser paints. It's for side effects: data fetching, subscriptions, DOM measurements, timers.
+`useEffect` runs _after_ the browser paints. It's for side effects: data fetching, subscriptions, DOM measurements, timers.
 
 ```tsx
 useEffect(() => {
@@ -528,8 +539,8 @@ useEffect(() => {
   const controller = new AbortController();
 
   fetch(`/api/users/${userId}`, { signal: controller.signal })
-    .then(res => res.json())
-    .then(data => setUser(data));
+    .then((res) => res.json())
+    .then((data) => setUser(data));
 
   // Cleanup: runs before next effect or unmount
   return () => controller.abort();
@@ -538,22 +549,22 @@ useEffect(() => {
 
 **Dependency array rules:**
 
-| Pattern | Behavior |
-|---|---|
-| `useEffect(fn)` | Runs after every render (rarely what you want) |
-| `useEffect(fn, [])` | Runs once after mount (like componentDidMount) |
-| `useEffect(fn, [a, b])` | Runs when `a` or `b` changes |
+| Pattern                 | Behavior                                       |
+| ----------------------- | ---------------------------------------------- |
+| `useEffect(fn)`         | Runs after every render (rarely what you want) |
+| `useEffect(fn, [])`     | Runs once after mount (like componentDidMount) |
+| `useEffect(fn, [a, b])` | Runs when `a` or `b` changes                   |
 
 **Common mistake:** Missing dependencies. If your effect uses `count` but `[count]` isn't in the dependency array, the effect captures a stale `count`.
 
 **When NOT to use useEffect:**
 
-| Situation | Instead of useEffect | Use |
-|---|---|---|
-| Transform data for rendering | Effect + state | Compute during render |
-| Respond to user event | Effect triggered by state | Event handler directly |
-| Initialize state from props | Effect + setState | `useState(initialValue)` or derive |
-| Fetch on mount | useEffect | React Query / useSWR (better error/loading/cache) |
+| Situation                    | Instead of useEffect      | Use                                               |
+| ---------------------------- | ------------------------- | ------------------------------------------------- |
+| Transform data for rendering | Effect + state            | Compute during render                             |
+| Respond to user event        | Effect triggered by state | Event handler directly                            |
+| Initialize state from props  | Effect + setState         | `useState(initialValue)` or derive                |
+| Fetch on mount               | useEffect                 | React Query / useSWR (better error/loading/cache) |
 
 [React docs: You Might Not Need an Effect](https://react.dev/learn/you-might-not-need-an-effect)
 
@@ -563,21 +574,23 @@ useEffect(() => {
 // useMemo: cache an expensive computation
 const sortedItems = useMemo(
   () => items.sort((a, b) => a.name.localeCompare(b.name)),
-  [items]
+  [items],
 );
 
 // useCallback: cache a function reference
 const handleClick = useCallback(
   (id: string) => setSelected(id),
-  [] // no dependencies — function never changes
+  [], // no dependencies — function never changes
 );
 ```
 
 **When to use:**
+
 - `useMemo`: Expensive computations (sorting, filtering large lists). NOT for trivial operations.
 - `useCallback`: When passing callbacks to memoized children (`React.memo`). Without it, new function references defeat memoization.
 
 **When NOT to use:**
+
 - Trivial computations (adding two numbers). The memoization overhead exceeds the savings.
 - When there's no child component relying on reference equality.
 - Premature optimization — profile first.
@@ -615,16 +628,16 @@ function Timer() {
 
 #### Controlled vs. uncontrolled components
 
-| Type | State lives in | Use case |
-|---|---|---|
-| **Controlled** | React state (`value={state}`) | Validation, formatting, derived state |
-| **Uncontrolled** | DOM (`ref` to access value) | Simple forms, file inputs |
+| Type             | State lives in                | Use case                              |
+| ---------------- | ----------------------------- | ------------------------------------- |
+| **Controlled**   | React state (`value={state}`) | Validation, formatting, derived state |
+| **Uncontrolled** | DOM (`ref` to access value)   | Simple forms, file inputs             |
 
 ```tsx
 // Controlled
 function ControlledInput() {
   const [value, setValue] = useState('');
-  return <input value={value} onChange={e => setValue(e.target.value)} />;
+  return <input value={value} onChange={(e) => setValue(e.target.value)} />;
 }
 
 // Uncontrolled
@@ -658,20 +671,21 @@ function useTheme() {
 // 3. Provider
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const toggle = useCallback(() =>
-    setTheme(prev => prev === 'light' ? 'dark' : 'light'), []);
+  const toggle = useCallback(
+    () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light')),
+    [],
+  );
 
   const value = useMemo(() => ({ theme, toggle }), [theme, toggle]);
 
   return (
-    <ThemeContext.Provider value={value}>
-      {children}
-    </ThemeContext.Provider>
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
   );
 }
 ```
 
 **Context performance pitfall:** When context value changes, ALL consumers re-render — even if they only use a part of the value. Solutions:
+
 1. Split contexts (one for state, one for dispatch).
 2. Memoize the value object with `useMemo`.
 3. Use external state management (Zustand, Jotai) for frequently-changing state.
@@ -685,7 +699,11 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 // 2. Slot pattern
-function Dialog({ header, body, footer }: {
+function Dialog({
+  header,
+  body,
+  footer,
+}: {
   header: React.ReactNode;
   body: React.ReactNode;
   footer: React.ReactNode;
@@ -700,12 +718,19 @@ function Dialog({ header, body, footer }: {
 }
 
 // 3. Render prop
-function DataFetcher<T>({ url, render }: {
+function DataFetcher<T>({
+  url,
+  render,
+}: {
   url: string;
   render: (data: T) => React.ReactNode;
 }) {
   const [data, setData] = useState<T | null>(null);
-  useEffect(() => { fetch(url).then(r => r.json()).then(setData); }, [url]);
+  useEffect(() => {
+    fetch(url)
+      .then((r) => r.json())
+      .then(setData);
+  }, [url]);
   if (!data) return <Spinner />;
   return <>{render(data)}</>;
 }
@@ -780,12 +805,12 @@ function UserProfile({ userId }: { userId: string }) {
     const controller = new AbortController();
 
     fetch(`/api/users/${userId}`, { signal: controller.signal })
-      .then(res => {
+      .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch');
         return res.json();
       })
       .then(setUser)
-      .catch(err => {
+      .catch((err) => {
         if (err.name !== 'AbortError') setError(err);
       })
       .finally(() => setLoading(false));
@@ -804,15 +829,15 @@ function UserProfile({ userId }: { userId: string }) {
 
 #### Common anti-patterns
 
-| Anti-pattern | Problem | Fix |
-|---|---|---|
-| useEffect for derived state | Unnecessary render + effect cycle | Compute during render |
-| useEffect to respond to events | Indirect, hard to trace | Handle in event handler |
-| Prop drilling 5+ levels | Maintenance nightmare | Context or state management |
-| Giant components (500+ lines) | Hard to test, reason about | Extract sub-components and hooks |
-| `any` in TypeScript | No type safety | Proper types or `unknown` |
-| Fetching in useEffect without cleanup | Race conditions, memory leaks | AbortController or React Query |
-| Sync state from props via useEffect | Extra render cycle | Derive from props or use key |
+| Anti-pattern                          | Problem                           | Fix                              |
+| ------------------------------------- | --------------------------------- | -------------------------------- |
+| useEffect for derived state           | Unnecessary render + effect cycle | Compute during render            |
+| useEffect to respond to events        | Indirect, hard to trace           | Handle in event handler          |
+| Prop drilling 5+ levels               | Maintenance nightmare             | Context or state management      |
+| Giant components (500+ lines)         | Hard to test, reason about        | Extract sub-components and hooks |
+| `any` in TypeScript                   | No type safety                    | Proper types or `unknown`        |
+| Fetching in useEffect without cleanup | Race conditions, memory leaks     | AbortController or React Query   |
+| Sync state from props via useEffect   | Extra render cycle                | Derive from props or use key     |
 
 #### 5 mini project ideas
 
@@ -839,6 +864,7 @@ function UserProfile({ userId }: { userId: string }) {
 #### Rendering optimization
 
 **Rule #1:** A component re-renders when:
+
 1. Its state changes.
 2. Its parent re-renders (even if props are the same).
 3. A context it consumes changes.
@@ -847,14 +873,14 @@ function UserProfile({ userId }: { userId: string }) {
 
 **Optimization toolkit:**
 
-| Tool | What it does | When to use |
-|---|---|---|
-| `React.memo` | Skips re-render if props haven't changed (shallow compare) | Expensive components with frequent parent renders |
-| `useMemo` | Caches computation result | Expensive calculations |
-| `useCallback` | Caches function reference | Callbacks passed to `React.memo` children |
-| `children` prop | Children don't re-render when parent state changes (if passed as props) | Layout components |
-| State colocation | Move state down to where it's used | Prevent unnecessary subtree re-renders |
-| Context splitting | Separate frequently-changing and rarely-changing contexts | Reduce context consumer re-renders |
+| Tool              | What it does                                                            | When to use                                       |
+| ----------------- | ----------------------------------------------------------------------- | ------------------------------------------------- |
+| `React.memo`      | Skips re-render if props haven't changed (shallow compare)              | Expensive components with frequent parent renders |
+| `useMemo`         | Caches computation result                                               | Expensive calculations                            |
+| `useCallback`     | Caches function reference                                               | Callbacks passed to `React.memo` children         |
+| `children` prop   | Children don't re-render when parent state changes (if passed as props) | Layout components                                 |
+| State colocation  | Move state down to where it's used                                      | Prevent unnecessary subtree re-renders            |
+| Context splitting | Separate frequently-changing and rarely-changing contexts               | Reduce context consumer re-renders                |
 
 **The "children as props" pattern:**
 
@@ -864,7 +890,7 @@ function Parent() {
   const [count, setCount] = useState(0);
   return (
     <div>
-      <button onClick={() => setCount(c => c + 1)}>{count}</button>
+      <button onClick={() => setCount((c) => c + 1)}>{count}</button>
       <ExpensiveChild />
     </div>
   );
@@ -882,7 +908,7 @@ function Parent({ children }: { children: React.ReactNode }) {
   const [count, setCount] = useState(0);
   return (
     <div>
-      <button onClick={() => setCount(c => c + 1)}>{count}</button>
+      <button onClick={() => setCount((c) => c + 1)}>{count}</button>
       {children}
     </div>
   );
@@ -913,6 +939,7 @@ Reconciliation algorithm (simplified):
 ```
 
 **What makes this O(n) instead of O(n³):**
+
 - React assumes elements of different types produce different trees (no cross-type comparison).
 - Keys provide stable identity for list items.
 - These heuristics make the diff linear, at the cost of occasionally over-updating (rebuilding subtrees that could theoretically be reused).
@@ -952,7 +979,7 @@ function SearchResults({ query }: { query: string }) {
 }
 ```
 
-**Key insight:** `useTransition` wraps the *state setter*. `useDeferredValue` wraps the *value consumer*. Use `useTransition` when you control the state update. Use `useDeferredValue` when you receive the value as a prop.
+**Key insight:** `useTransition` wraps the _state setter_. `useDeferredValue` wraps the _value consumer_. Use `useTransition` when you control the state update. Use `useDeferredValue` when you receive the value as a prop.
 
 #### Suspense
 
@@ -1017,14 +1044,14 @@ Streaming SSR (React 18+):
 
 #### State architecture
 
-| Pattern | When to use | Example |
-|---|---|---|
-| Local state (useState) | Component-specific, UI state | Form input, toggle, dropdown open |
-| Lifted state | Shared between siblings | Selected item in sidebar + content |
-| Context | App-wide, rarely-changing | Theme, locale, auth user |
-| URL state | Shareable, bookmarkable | Search params, pagination, filters |
-| External store (Zustand) | Frequently-changing, cross-cutting | Shopping cart, notifications |
-| Server state (React Query) | Remote data with caching | API responses |
+| Pattern                    | When to use                        | Example                            |
+| -------------------------- | ---------------------------------- | ---------------------------------- |
+| Local state (useState)     | Component-specific, UI state       | Form input, toggle, dropdown open  |
+| Lifted state               | Shared between siblings            | Selected item in sidebar + content |
+| Context                    | App-wide, rarely-changing          | Theme, locale, auth user           |
+| URL state                  | Shareable, bookmarkable            | Search params, pagination, filters |
+| External store (Zustand)   | Frequently-changing, cross-cutting | Shopping cart, notifications       |
+| Server state (React Query) | Remote data with caching           | API responses                      |
 
 **Architecture principle:** "State should live as close as possible to where it's used."
 
@@ -1052,13 +1079,13 @@ Streaming SSR (React 18+):
 
 #### Testing strategy
 
-| Layer | Tool | What to test |
-|---|---|---|
-| Unit | Vitest | Utility functions, custom hooks |
-| Component | Testing Library | Component behavior (user interactions, output) |
-| Integration | Testing Library + MSW | Features with mocked API |
-| E2E | Playwright | Critical user flows |
-| Visual | Storybook + Chromatic | Component appearance, responsive layouts |
+| Layer       | Tool                  | What to test                                   |
+| ----------- | --------------------- | ---------------------------------------------- |
+| Unit        | Vitest                | Utility functions, custom hooks                |
+| Component   | Testing Library       | Component behavior (user interactions, output) |
+| Integration | Testing Library + MSW | Features with mocked API                       |
+| E2E         | Playwright            | Critical user flows                            |
+| Visual      | Storybook + Chromatic | Component appearance, responsive layouts       |
 
 **Philosophy:** Test behavior, not implementation. Don't test that `setState` was called — test that the UI changed.
 
@@ -1086,6 +1113,7 @@ test('calls setState', () => {
 5. **Lighthouse:** Overall performance metrics (LCP, FID, CLS).
 
 **Profiling workflow:**
+
 1. Reproduce the slow interaction.
 2. Profile with React DevTools → identify which components re-render unnecessarily.
 3. Profile with Chrome DevTools → identify if the bottleneck is JS, layout, or paint.
@@ -1142,6 +1170,7 @@ Each fiber has:
 ```
 
 **Double buffering:** React maintains two fiber trees:
+
 - **Current:** What's on screen.
 - **Work-in-progress:** What's being rendered.
 
@@ -1183,12 +1212,14 @@ IdleLane:        0b0100000000000000000000000000000
 The React Compiler automatically memoizes components and hooks — removing the need for manual `useMemo`, `useCallback`, and `React.memo`.
 
 **What it does:**
+
 - Analyzes your component at build time.
 - Inserts memoization where beneficial.
 - Tracks dependency relationships automatically.
 - Eliminates "stale closure" bugs from manual memoization.
 
 **What it means for you:**
+
 - Write simple, unmemoized code.
 - The compiler optimizes it.
 - `useMemo` and `useCallback` become optional.
@@ -1202,10 +1233,10 @@ The React Compiler automatically memoizes components and hooks — removing the 
 
 RSC splits components into two types:
 
-| Type | Runs on | Can use | Bundle impact |
-|---|---|---|---|
-| Server Component (default in App Router) | Server only | async/await, DB, file system | Zero JS sent to client |
-| Client Component (`'use client'`) | Server (SSR) + Client | useState, useEffect, events | JS sent to client |
+| Type                                     | Runs on               | Can use                      | Bundle impact          |
+| ---------------------------------------- | --------------------- | ---------------------------- | ---------------------- |
+| Server Component (default in App Router) | Server only           | async/await, DB, file system | Zero JS sent to client |
+| Client Component (`'use client'`)        | Server (SSR) + Client | useState, useEffect, events  | JS sent to client      |
 
 ```tsx
 // Server Component (default) — runs on server, zero client JS
@@ -1213,10 +1244,10 @@ async function UserList() {
   const users = await db.query('SELECT * FROM users');
   return (
     <ul>
-      {users.map(user => (
+      {users.map((user) => (
         <li key={user.id}>
-          <UserCard user={user} />   {/* Server Component */}
-          <LikeButton userId={user.id} />  {/* Client Component */}
+          <UserCard user={user} /> {/* Server Component */}
+          <LikeButton userId={user.id} /> {/* Client Component */}
         </li>
       ))}
     </ul>
@@ -1224,7 +1255,7 @@ async function UserList() {
 }
 
 // Client Component — has interactivity
-'use client';
+('use client');
 function LikeButton({ userId }: { userId: string }) {
   const [liked, setLiked] = useState(false);
   return <button onClick={() => setLiked(!liked)}>❤️</button>;
@@ -1234,6 +1265,7 @@ function LikeButton({ userId }: { userId: string }) {
 **Mental model:** Server Components are the default. You opt into the client with `'use client'`. Think of `'use client'` as a boundary — everything below it becomes client code.
 
 **Why this matters:**
+
 - Massive bundle size reduction (server-only code never ships to client).
 - Direct database/file access in components (no API routes needed).
 - Automatic code splitting at the component level.
@@ -1259,12 +1291,12 @@ Streaming SSR (React 18+):
 
 #### Framework comparison philosophy
 
-| Philosophy | React | Vue | Svelte | SolidJS |
-|---|---|---|---|---|
-| **Core belief** | UI = f(state), composition over convention | Progressive enhancement, approachable | Less code, compile-time | Fine-grained reactivity |
-| **Trade-off** | Freedom + ecosystem vs. decision fatigue | Cohesion vs. smaller ecosystem | Small bundles vs. less flexibility | Performance vs. smaller community |
-| **Rendering** | Coarse (component-level), optimize with memo | Coarse (component-level), auto-tracking | Fine (surgical DOM updates) | Fine (signal-based) |
-| **Future bet** | Compiler will solve memoization; RSC for server-first | Vapor mode (compile-time) | Already compiled | Already fine-grained |
+| Philosophy      | React                                                 | Vue                                     | Svelte                             | SolidJS                           |
+| --------------- | ----------------------------------------------------- | --------------------------------------- | ---------------------------------- | --------------------------------- |
+| **Core belief** | UI = f(state), composition over convention            | Progressive enhancement, approachable   | Less code, compile-time            | Fine-grained reactivity           |
+| **Trade-off**   | Freedom + ecosystem vs. decision fatigue              | Cohesion vs. smaller ecosystem          | Small bundles vs. less flexibility | Performance vs. smaller community |
+| **Rendering**   | Coarse (component-level), optimize with memo          | Coarse (component-level), auto-tracking | Fine (surgical DOM updates)        | Fine (signal-based)               |
+| **Future bet**  | Compiler will solve memoization; RSC for server-first | Vapor mode (compile-time)               | Already compiled                   | Already fine-grained              |
 
 **Expert insight:** React's "re-render everything" model is a deliberate trade-off. It's simple to reason about (predictable) at the cost of performance (addressed by memoization and the compiler). Solid's fine-grained model is more performant but harder to compose and debug. React bets that a compiler can bridge the gap.
 
@@ -1288,20 +1320,20 @@ Streaming SSR (React 18+):
 
 #### What expert engineers care about that juniors miss
 
-| Expert concern | Junior blind spot |
-|---|---|
-| Render count under real conditions | "It works" |
-| Bundle size per route | "We'll optimize later" |
-| Hydration mismatch in SSR | "Works in dev" |
-| State ownership and boundaries | "Just use global state" |
-| Accessibility from day one | "We'll add it later" |
-| Error boundaries for resilience | "It won't crash" |
-| Component API design (props surface area) | "Just add another prop" |
-| Key stability in dynamic lists | "Index works fine" |
-| Effect cleanup and race conditions | "It fetches data" |
-| Concurrent rendering compatibility | "We don't use transitions" |
-| Server/client component boundary | "Everything is a client component" |
-| Testing behavior, not implementation | "Mock everything" |
+| Expert concern                            | Junior blind spot                  |
+| ----------------------------------------- | ---------------------------------- |
+| Render count under real conditions        | "It works"                         |
+| Bundle size per route                     | "We'll optimize later"             |
+| Hydration mismatch in SSR                 | "Works in dev"                     |
+| State ownership and boundaries            | "Just use global state"            |
+| Accessibility from day one                | "We'll add it later"               |
+| Error boundaries for resilience           | "It won't crash"                   |
+| Component API design (props surface area) | "Just add another prop"            |
+| Key stability in dynamic lists            | "Index works fine"                 |
+| Effect cleanup and race conditions        | "It fetches data"                  |
+| Concurrent rendering compatibility        | "We don't use transitions"         |
+| Server/client component boundary          | "Everything is a client component" |
+| Testing behavior, not implementation      | "Mock everything"                  |
 
 #### 10 advanced engineering discussion topics
 
@@ -1355,16 +1387,16 @@ npm run dev
 {
   "compilerOptions": {
     "strict": true,
-    "noUncheckedIndexedAccess": true,  // arrays[i] returns T | undefined
+    "noUncheckedIndexedAccess": true, // arrays[i] returns T | undefined
     "exactOptionalPropertyTypes": true, // distinguishes undefined from missing
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "paths": {
-      "@/*": ["./src/*"]
-    }
-  }
+      "@/*": ["./src/*"],
+    },
+  },
 }
 ```
 
@@ -1375,6 +1407,7 @@ npm install -D eslint @eslint/js typescript-eslint eslint-plugin-react-hooks esl
 ```
 
 Essential rules:
+
 - `react-hooks/rules-of-hooks` — enforces hook call rules.
 - `react-hooks/exhaustive-deps` — catches missing effect dependencies.
 - `react-refresh/only-export-components` — ensures HMR works.
@@ -1482,8 +1515,9 @@ interface CartStore {
 
 const useCartStore = create<CartStore>((set, get) => ({
   items: [],
-  addItem: (item) => set(state => ({ items: [...state.items, item] })),
-  removeItem: (id) => set(state => ({ items: state.items.filter(i => i.id !== id) })),
+  addItem: (item) => set((state) => ({ items: [...state.items, item] })),
+  removeItem: (id) =>
+    set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
   total: () => get().items.reduce((sum, item) => sum + item.price, 0),
 }));
 ```
@@ -1491,13 +1525,17 @@ const useCartStore = create<CartStore>((set, get) => ({
 #### React Query (recommended for server state)
 
 ```tsx
-import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 5 * 60 * 1000,   // 5 minutes
-      gcTime: 10 * 60 * 1000,     // 10 minutes
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes
       retry: 1,
       refetchOnWindowFocus: false,
     },
@@ -1507,7 +1545,7 @@ const queryClient = new QueryClient({
 function useUsers() {
   return useQuery({
     queryKey: ['users'],
-    queryFn: () => fetch('/api/users').then(r => r.json()),
+    queryFn: () => fetch('/api/users').then((r) => r.json()),
   });
 }
 ```
@@ -1536,13 +1574,13 @@ import '@testing-library/jest-dom/vitest';
 
 ### Step 7: Debugging tooling
 
-| Tool | Purpose |
-|---|---|
-| React DevTools | Component tree, props, state, profiler |
-| React DevTools Profiler | Render timing, commit chart |
-| Chrome DevTools Performance | JS execution, layout, paint |
-| `why-did-you-render` | Log unnecessary re-renders |
-| React strict mode | Detect impure renders, missing cleanups |
+| Tool                        | Purpose                                 |
+| --------------------------- | --------------------------------------- |
+| React DevTools              | Component tree, props, state, profiler  |
+| React DevTools Profiler     | Render timing, commit chart             |
+| Chrome DevTools Performance | JS execution, layout, paint             |
+| `why-did-you-render`        | Log unnecessary re-renders              |
+| React strict mode           | Detect impure renders, missing cleanups |
 
 ---
 
@@ -1550,63 +1588,66 @@ import '@testing-library/jest-dom/vitest';
 
 ### Hooks reference
 
-| Hook | Signature | Purpose |
-|---|---|---|
-| `useState` | `const [val, set] = useState(init)` | Local state |
-| `useReducer` | `const [state, dispatch] = useReducer(reducer, init)` | Complex state logic |
-| `useEffect` | `useEffect(() => { ... return cleanup }, [deps])` | Side effects after paint |
-| `useLayoutEffect` | Same as useEffect | Side effects before paint (DOM measurements) |
-| `useRef` | `const ref = useRef(init)` | Mutable value / DOM ref |
-| `useMemo` | `const val = useMemo(() => compute, [deps])` | Cache computation |
-| `useCallback` | `const fn = useCallback(fn, [deps])` | Cache function reference |
-| `useContext` | `const val = useContext(MyContext)` | Read context value |
-| `useId` | `const id = useId()` | Unique ID for accessibility |
-| `useTransition` | `const [pending, start] = useTransition()` | Non-urgent state updates |
-| `useDeferredValue` | `const deferred = useDeferredValue(val)` | Defer a value |
-| `useImperativeHandle` | `useImperativeHandle(ref, () => api)` | Customize ref exposed to parent |
-| `useSyncExternalStore` | `useSyncExternalStore(sub, getSnap)` | Subscribe to external store |
+| Hook                   | Signature                                             | Purpose                                      |
+| ---------------------- | ----------------------------------------------------- | -------------------------------------------- |
+| `useState`             | `const [val, set] = useState(init)`                   | Local state                                  |
+| `useReducer`           | `const [state, dispatch] = useReducer(reducer, init)` | Complex state logic                          |
+| `useEffect`            | `useEffect(() => { ... return cleanup }, [deps])`     | Side effects after paint                     |
+| `useLayoutEffect`      | Same as useEffect                                     | Side effects before paint (DOM measurements) |
+| `useRef`               | `const ref = useRef(init)`                            | Mutable value / DOM ref                      |
+| `useMemo`              | `const val = useMemo(() => compute, [deps])`          | Cache computation                            |
+| `useCallback`          | `const fn = useCallback(fn, [deps])`                  | Cache function reference                     |
+| `useContext`           | `const val = useContext(MyContext)`                   | Read context value                           |
+| `useId`                | `const id = useId()`                                  | Unique ID for accessibility                  |
+| `useTransition`        | `const [pending, start] = useTransition()`            | Non-urgent state updates                     |
+| `useDeferredValue`     | `const deferred = useDeferredValue(val)`              | Defer a value                                |
+| `useImperativeHandle`  | `useImperativeHandle(ref, () => api)`                 | Customize ref exposed to parent              |
+| `useSyncExternalStore` | `useSyncExternalStore(sub, getSnap)`                  | Subscribe to external store                  |
 
 ### Rendering rules
 
-| Rule | Details |
-|---|---|
-| Components re-render when state changes | `setState` triggers re-render of component + children |
-| Parent re-render → children re-render | Unless children are memoized (`React.memo`) |
-| Context change → all consumers re-render | Even if they use only part of the value |
-| Props change alone doesn't cause re-render | Parent re-rendering does (props change is a consequence) |
-| `setState` with same value → no re-render | React bails out (but the function may still be called once) |
-| Render must be pure | No side effects, no DOM mutation, no subscriptions |
+| Rule                                       | Details                                                     |
+| ------------------------------------------ | ----------------------------------------------------------- |
+| Components re-render when state changes    | `setState` triggers re-render of component + children       |
+| Parent re-render → children re-render      | Unless children are memoized (`React.memo`)                 |
+| Context change → all consumers re-render   | Even if they use only part of the value                     |
+| Props change alone doesn't cause re-render | Parent re-rendering does (props change is a consequence)    |
+| `setState` with same value → no re-render  | React bails out (but the function may still be called once) |
+| Render must be pure                        | No side effects, no DOM mutation, no subscriptions          |
 
 ### State update rules
 
 ```tsx
 // Batching: multiple setStates = one re-render (React 18+)
 function handleClick() {
-  setCount(c => c + 1);
-  setFlag(f => !f);
+  setCount((c) => c + 1);
+  setFlag((f) => !f);
   // One re-render, not two
 }
 
 // Object state: always create new object
-setUser({ ...user, name: 'New' });       // ✅
-user.name = 'New'; setUser(user);         // ❌ Same reference, no re-render
+setUser({ ...user, name: 'New' }); // ✅
+user.name = 'New';
+setUser(user); // ❌ Same reference, no re-render
 
 // Array state: always create new array
-setItems([...items, newItem]);             // ✅ Add
-setItems(items.filter(i => i.id !== id));  // ✅ Remove
-setItems(items.map(i => i.id === id ? { ...i, done: true } : i)); // ✅ Update
-items.push(newItem); setItems(items);      // ❌ Mutates original
+setItems([...items, newItem]); // ✅ Add
+setItems(items.filter((i) => i.id !== id)); // ✅ Remove
+setItems(items.map((i) => (i.id === id ? { ...i, done: true } : i))); // ✅ Update
+items.push(newItem);
+setItems(items); // ❌ Mutates original
 ```
 
 ### useEffect dependency rules
 
-| Dependency | Effect runs |
-|---|---|
-| `[a, b]` | When `a` or `b` changes (Object.is comparison) |
-| `[]` | Once after mount |
-| omitted | Every render (almost never correct) |
+| Dependency | Effect runs                                    |
+| ---------- | ---------------------------------------------- |
+| `[a, b]`   | When `a` or `b` changes (Object.is comparison) |
+| `[]`       | Once after mount                               |
+| omitted    | Every render (almost never correct)            |
 
 **Object/array dependencies:** Objects and arrays are compared by reference. `{ a: 1 }` !== `{ a: 1 }`. Solutions:
+
 1. Destructure: `[obj.a, obj.b]` instead of `[obj]`.
 2. Stabilize with `useMemo`.
 3. Use a primitive derived value.
@@ -1634,14 +1675,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => (
 
 ### Common React warnings
 
-| Warning | Cause | Fix |
-|---|---|---|
-| "Each child in a list should have a unique key" | Missing or non-unique `key` prop | Add stable `key={item.id}` |
-| "Cannot update a component while rendering another" | Calling setState of parent during child render | Move to useEffect or event handler |
-| "Maximum update depth exceeded" | Infinite re-render loop | Fix useEffect deps or conditional setState |
-| "Hydration mismatch" | Server/client render different output | Remove Date.now(), Math.random() from render |
-| "Can't perform a React state update on an unmounted component" | setState in async callback after unmount | Use AbortController or check mounted ref |
-| "React Hook useEffect has a missing dependency" | Effect uses a value not in deps array | Add it to deps or restructure |
+| Warning                                                        | Cause                                          | Fix                                          |
+| -------------------------------------------------------------- | ---------------------------------------------- | -------------------------------------------- |
+| "Each child in a list should have a unique key"                | Missing or non-unique `key` prop               | Add stable `key={item.id}`                   |
+| "Cannot update a component while rendering another"            | Calling setState of parent during child render | Move to useEffect or event handler           |
+| "Maximum update depth exceeded"                                | Infinite re-render loop                        | Fix useEffect deps or conditional setState   |
+| "Hydration mismatch"                                           | Server/client render different output          | Remove Date.now(), Math.random() from render |
+| "Can't perform a React state update on an unmounted component" | setState in async callback after unmount       | Use AbortController or check mounted ref     |
+| "React Hook useEffect has a missing dependency"                | Effect uses a value not in deps array          | Add it to deps or restructure                |
 
 ### TypeScript patterns
 
@@ -1661,11 +1702,20 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 // Generic component
-function List<T>({ items, renderItem }: {
+function List<T>({
+  items,
+  renderItem,
+}: {
   items: T[];
   renderItem: (item: T) => React.ReactNode;
 }) {
-  return <ul>{items.map((item, i) => <li key={i}>{renderItem(item)}</li>)}</ul>;
+  return (
+    <ul>
+      {items.map((item, i) => (
+        <li key={i}>{renderItem(item)}</li>
+      ))}
+    </ul>
+  );
 }
 
 // Discriminated union for component states
@@ -1682,29 +1732,29 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
 
 ### Performance tips
 
-| Tip | When |
-|---|---|
-| Colocate state | Always — move state down to where it's used |
-| `React.memo` | When profiling shows unnecessary re-renders of expensive components |
-| `useMemo` | Expensive computations (sorting, filtering large arrays) |
-| `useCallback` | Callbacks passed to `React.memo` children |
-| Virtualize long lists | > 100 items visible, use `@tanstack/react-virtual` |
-| Lazy load routes | Always — `React.lazy` + `Suspense` for route-level code splitting |
-| Debounce search input | User-typed input triggering expensive operations |
-| Avoid inline objects in JSX | `style={{ color: 'red' }}` creates new object every render |
+| Tip                         | When                                                                |
+| --------------------------- | ------------------------------------------------------------------- |
+| Colocate state              | Always — move state down to where it's used                         |
+| `React.memo`                | When profiling shows unnecessary re-renders of expensive components |
+| `useMemo`                   | Expensive computations (sorting, filtering large arrays)            |
+| `useCallback`               | Callbacks passed to `React.memo` children                           |
+| Virtualize long lists       | > 100 items visible, use `@tanstack/react-virtual`                  |
+| Lazy load routes            | Always — `React.lazy` + `Suspense` for route-level code splitting   |
+| Debounce search input       | User-typed input triggering expensive operations                    |
+| Avoid inline objects in JSX | `style={{ color: 'red' }}` creates new object every render          |
 
 ### Accessibility tips
 
-| Practice | How |
-|---|---|
-| Semantic HTML | Use `<button>`, `<nav>`, `<main>`, `<article>` |
-| ARIA labels | `aria-label`, `aria-labelledby`, `aria-describedby` |
-| Keyboard navigation | `onKeyDown`, `tabIndex`, focus management |
-| Focus management | `useRef` + `.focus()` for modals, dialogs |
-| Live regions | `aria-live="polite"` for dynamic content |
-| Color contrast | 4.5:1 minimum for text |
-| `useId` for form labels | Unique IDs for `htmlFor` / `id` pairs |
-| Skip navigation link | Hidden link to skip to main content |
+| Practice                | How                                                 |
+| ----------------------- | --------------------------------------------------- |
+| Semantic HTML           | Use `<button>`, `<nav>`, `<main>`, `<article>`      |
+| ARIA labels             | `aria-label`, `aria-labelledby`, `aria-describedby` |
+| Keyboard navigation     | `onKeyDown`, `tabIndex`, focus management           |
+| Focus management        | `useRef` + `.focus()` for modals, dialogs           |
+| Live regions            | `aria-live="polite"` for dynamic content            |
+| Color contrast          | 4.5:1 minimum for text                              |
+| `useId` for form labels | Unique IDs for `htmlFor` / `id` pairs               |
+| Skip navigation link    | Hidden link to skip to main content                 |
 
 ---
 
@@ -1714,13 +1764,13 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {};
 
 **Problem:** Forms need validation, error display, submission handling, and state management. Simple forms are easy; complex forms (multi-step, dynamic fields, async validation) are hard.
 
-| Strategy | Complexity it handles | Bundle size | DX |
-|---|---|---|---|
-| `useState` + manual | Simple forms | 0KB | Tedious at scale |
-| `useReducer` + manual | Medium forms | 0KB | More structured |
-| React Hook Form | Complex forms | ~9KB | Excellent |
-| Formik | Complex forms | ~13KB | Good but heavier |
-| Conform (for RSC) | Server-validated forms | ~5KB | Next.js native |
+| Strategy              | Complexity it handles  | Bundle size | DX               |
+| --------------------- | ---------------------- | ----------- | ---------------- |
+| `useState` + manual   | Simple forms           | 0KB         | Tedious at scale |
+| `useReducer` + manual | Medium forms           | 0KB         | More structured  |
+| React Hook Form       | Complex forms          | ~9KB        | Excellent        |
+| Formik                | Complex forms          | ~13KB       | Good but heavier |
+| Conform (for RSC)     | Server-validated forms | ~5KB        | Next.js native   |
 
 **Senior choice:** React Hook Form + Zod for validation. Uncontrolled by default (performance), with `register` for simple inputs and `Controller` for custom components.
 
@@ -1731,7 +1781,11 @@ const schema = z.object({
 });
 
 function LoginForm() {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(schema),
   });
 
@@ -1750,13 +1804,13 @@ function LoginForm() {
 
 **Problem:** Some state needs to be accessed across many components (auth user, theme, shopping cart).
 
-| Strategy | Re-render scope | DevTools | Persistence | Best for |
-|---|---|---|---|---|
-| Context | All consumers | React DevTools | Manual | Rarely-changing (theme, locale) |
-| Zustand | Selector-based (minimal) | Zustand DevTools | Middleware | Client UI state |
-| Jotai | Atom-based (minimal) | Jotai DevTools | Atom-level | Fine-grained shared atoms |
-| Redux Toolkit | Selector-based | Redux DevTools | RTK middleware | Large teams wanting convention |
-| React Query | Query-based | RQ DevTools | Built-in cache | Server state (NOT global client state) |
+| Strategy      | Re-render scope          | DevTools         | Persistence    | Best for                               |
+| ------------- | ------------------------ | ---------------- | -------------- | -------------------------------------- |
+| Context       | All consumers            | React DevTools   | Manual         | Rarely-changing (theme, locale)        |
+| Zustand       | Selector-based (minimal) | Zustand DevTools | Middleware     | Client UI state                        |
+| Jotai         | Atom-based (minimal)     | Jotai DevTools   | Atom-level     | Fine-grained shared atoms              |
+| Redux Toolkit | Selector-based           | Redux DevTools   | RTK middleware | Large teams wanting convention         |
+| React Query   | Query-based              | RQ DevTools      | Built-in cache | Server state (NOT global client state) |
 
 **Senior choice:** Zustand for client state (small API, minimal re-renders). React Query for server state. Context only for theme/locale/auth. Never Redux for a new project unless the team already knows it.
 
@@ -1766,12 +1820,12 @@ function LoginForm() {
 
 **Problem:** Tables with sorting, filtering, pagination, and many rows are performance-sensitive.
 
-| Strategy | Row limit | Features | Bundle |
-|---|---|---|---|
-| Plain `<table>` | < 100 rows | Manual sorting/filtering | 0KB |
-| TanStack Table (headless) | < 10,000 rows | Full-featured, bring your own UI | ~15KB |
-| Virtualized table (TanStack Virtual) | 100,000+ rows | Only renders visible rows | ~5KB |
-| AG Grid | Unlimited | Enterprise features | 200KB+ |
+| Strategy                             | Row limit     | Features                         | Bundle |
+| ------------------------------------ | ------------- | -------------------------------- | ------ |
+| Plain `<table>`                      | < 100 rows    | Manual sorting/filtering         | 0KB    |
+| TanStack Table (headless)            | < 10,000 rows | Full-featured, bring your own UI | ~15KB  |
+| Virtualized table (TanStack Virtual) | 100,000+ rows | Only renders visible rows        | ~5KB   |
+| AG Grid                              | Unlimited     | Enterprise features              | 200KB+ |
 
 **Senior choice:** TanStack Table for most cases. Add virtualization (`@tanstack/react-virtual`) when rows exceed ~500. AG Grid only for spreadsheet-like requirements.
 
@@ -1799,12 +1853,15 @@ function VirtualList({ items }: { items: Item[] }) {
   return (
     <div ref={parentRef} style={{ height: 400, overflow: 'auto' }}>
       <div style={{ height: virtualizer.getTotalSize() }}>
-        {virtualizer.getVirtualItems().map(row => (
-          <div key={row.key} style={{
-            position: 'absolute',
-            top: row.start,
-            height: row.size,
-          }}>
+        {virtualizer.getVirtualItems().map((row) => (
+          <div
+            key={row.key}
+            style={{
+              position: 'absolute',
+              top: row.start,
+              height: row.size,
+            }}
+          >
             {items[row.index].name}
           </div>
         ))}
@@ -1818,13 +1875,13 @@ function VirtualList({ items }: { items: Item[] }) {
 
 ### SSR vs. CSR vs. SSG
 
-| Rendering | When HTML is generated | SEO | TTFB | Interactivity | Best for |
-|---|---|---|---|---|---|
-| CSR | Client (after JS loads) | Poor | Fast (empty shell) | After JS | Dashboards, internal tools |
-| SSR | Server (per request) | Excellent | Slower | After hydration | Dynamic pages with SEO |
-| SSG | Build time | Excellent | Fastest | After hydration | Marketing, blogs, docs |
-| ISR | Build + revalidation | Excellent | Fast | After hydration | E-commerce, content sites |
-| RSC | Server (streamed) | Excellent | Fast (streaming) | Progressive | Next.js App Router apps |
+| Rendering | When HTML is generated  | SEO       | TTFB               | Interactivity   | Best for                   |
+| --------- | ----------------------- | --------- | ------------------ | --------------- | -------------------------- |
+| CSR       | Client (after JS loads) | Poor      | Fast (empty shell) | After JS        | Dashboards, internal tools |
+| SSR       | Server (per request)    | Excellent | Slower             | After hydration | Dynamic pages with SEO     |
+| SSG       | Build time              | Excellent | Fastest            | After hydration | Marketing, blogs, docs     |
+| ISR       | Build + revalidation    | Excellent | Fast               | After hydration | E-commerce, content sites  |
+| RSC       | Server (streamed)       | Excellent | Fast (streaming)   | Progressive     | Next.js App Router apps    |
 
 **Senior choice:** Default to SSR/RSC (Next.js App Router). Use SSG for truly static content. Use CSR only for authenticated dashboards. ISR for content that changes hourly/daily.
 
@@ -1868,8 +1925,8 @@ const mutation = useMutation({
   onMutate: async (newTodo) => {
     await queryClient.cancelQueries({ queryKey: ['todos'] });
     const previous = queryClient.getQueryData(['todos']);
-    queryClient.setQueryData(['todos'], old =>
-      old.map(t => t.id === newTodo.id ? { ...t, ...newTodo } : t)
+    queryClient.setQueryData(['todos'], (old) =>
+      old.map((t) => (t.id === newTodo.id ? { ...t, ...newTodo } : t)),
     );
     return { previous };
   },
@@ -2007,7 +2064,9 @@ const mutation = useMutation({
 **Q4. Debugging:** This code renders `0` instead of nothing when count is 0. Why?
 
 ```tsx
-{count && <Badge count={count} />}
+{
+  count && <Badge count={count} />;
+}
 ```
 
 <details><summary>Answer</summary><code>0</code> is falsy in JavaScript, so the short-circuit evaluates to <code>0</code>. But <code>0</code> is a valid React child and renders as text. Fix: <code>{count > 0 && &lt;Badge count={count} /&gt;}</code>.</details>
@@ -2057,7 +2116,7 @@ function Greeting({ name }: { name: string }) {
 
 ---
 
-**Q9. Fill in the blank:** Components must start with a _______ letter.
+**Q9. Fill in the blank:** Components must start with a **\_\_\_** letter.
 
 <details><summary>Answer</summary>Capital (uppercase). <code>&lt;myComponent /&gt;</code> is treated as an HTML tag. <code>&lt;MyComponent /&gt;</code> is treated as a React component.</details>
 
@@ -2068,7 +2127,15 @@ function Greeting({ name }: { name: string }) {
 ```tsx
 function Counter() {
   let count = 0;
-  return <button onClick={() => { count++; }}>{count}</button>;
+  return (
+    <button
+      onClick={() => {
+        count++;
+      }}
+    >
+      {count}
+    </button>
+  );
 }
 ```
 
@@ -2095,11 +2162,11 @@ function Counter() {
 
 **Q13. Matching:** Match the hook to its purpose.
 
-| Hook | Purpose |
-|---|---|
-| A. `useState` | 1. Side effects after render |
-| B. `useEffect` | 2. Access DOM element |
-| C. `useRef` | 3. Local mutable state |
+| Hook           | Purpose                      |
+| -------------- | ---------------------------- |
+| A. `useState`  | 1. Side effects after render |
+| B. `useEffect` | 2. Access DOM element        |
+| C. `useRef`    | 3. Local mutable state       |
 
 <details><summary>Answer</summary>A→3, B→1, C→2</details>
 
@@ -2160,7 +2227,7 @@ useEffect(() => {
 
 ---
 
-**Q20. Fill in the blank:** When context value changes, _______ consumers re-render.
+**Q20. Fill in the blank:** When context value changes, **\_\_\_** consumers re-render.
 
 <details><summary>Answer</summary>All. Every component that calls <code>useContext(MyContext)</code> re-renders when the context value changes, regardless of whether they use the specific part that changed.</details>
 
@@ -2243,7 +2310,9 @@ function useWindowWidth() {
 **Q29. Scenario:** You use `useEffect` to set state from props:
 
 ```tsx
-useEffect(() => { setName(props.initialName); }, [props.initialName]);
+useEffect(() => {
+  setName(props.initialName);
+}, [props.initialName]);
 ```
 
 What's wrong?
@@ -2364,7 +2433,7 @@ Profile to identify whether the bottleneck is React render, DOM mutation, or bro
 
 ---
 
-**Q42. Fill in the blank:** React's reconciliation algorithm is O(______) because it uses heuristics: different element types produce different trees, and keys provide stable identity.
+**Q42. Fill in the blank:** React's reconciliation algorithm is O(**\_\_**) because it uses heuristics: different element types produce different trees, and keys provide stable identity.
 
 <details><summary>Answer</summary><code>n</code>. A general tree diff is O(n³). React's heuristic-based approach is O(n) by assuming: 1) different types → different trees, 2) keys provide identity. This is fast at the cost of occasionally unnecessary unmount/remount.</details>
 
@@ -2453,40 +2522,40 @@ Measure with DevTools. If the computation takes > 1 frame (16ms), consider a Wor
 
 ### React Core concepts to master first
 
-| Priority | Concept | Why |
-|---|---|---|
-| 1 | Render/commit lifecycle | Foundation for everything — understand when and why components re-render |
-| 2 | State management patterns | Know when to use local, URL, context, external, and server state |
-| 3 | useEffect correctly | Most misused hook — learn when to use it and when not to |
-| 4 | Composition patterns | Senior-level component design — children, slots, compound components |
-| 5 | Reconciliation and keys | Understand performance at the framework level |
-| 6 | Concurrent rendering | useTransition, Suspense — React's future |
-| 7 | Server Components | The Next.js App Router model — where React is heading |
-| 8 | Performance profiling | DevTools, Profiler, bundle analysis — evidence-based optimization |
+| Priority | Concept                   | Why                                                                      |
+| -------- | ------------------------- | ------------------------------------------------------------------------ |
+| 1        | Render/commit lifecycle   | Foundation for everything — understand when and why components re-render |
+| 2        | State management patterns | Know when to use local, URL, context, external, and server state         |
+| 3        | useEffect correctly       | Most misused hook — learn when to use it and when not to                 |
+| 4        | Composition patterns      | Senior-level component design — children, slots, compound components     |
+| 5        | Reconciliation and keys   | Understand performance at the framework level                            |
+| 6        | Concurrent rendering      | useTransition, Suspense — React's future                                 |
+| 7        | Server Components         | The Next.js App Router model — where React is heading                    |
+| 8        | Performance profiling     | DevTools, Profiler, bundle analysis — evidence-based optimization        |
 
 ### Advanced topics that matter most for your stack
 
-| Topic | Why it matters for you |
-|---|---|
-| React Server Components | Next.js App Router is built on RSC — essential |
-| Streaming SSR | Understand how Next.js renders and hydrates |
-| Code splitting with lazy + Suspense | Bundle optimization for Next.js and Astro |
-| React Query integration | Server state management in any React app |
-| Design system architecture | Scale UI across projects |
-| React Compiler | Will change how you write components (no more manual memoization) |
+| Topic                               | Why it matters for you                                            |
+| ----------------------------------- | ----------------------------------------------------------------- |
+| React Server Components             | Next.js App Router is built on RSC — essential                    |
+| Streaming SSR                       | Understand how Next.js renders and hydrates                       |
+| Code splitting with lazy + Suspense | Bundle optimization for Next.js and Astro                         |
+| React Query integration             | Server state management in any React app                          |
+| Design system architecture          | Scale UI across projects                                          |
+| React Compiler                      | Will change how you write components (no more manual memoization) |
 
 ### Common mistakes frontend engineers make
 
-| Mistake | Why it happens | Fix |
-|---|---|---|
-| Over-using useEffect | Treating it as a lifecycle method | Derive state, handle in events, use React Query |
-| Global state for everything | "It's easier" | Colocate state, use URL state, server state |
-| Not profiling before optimizing | "Memoize everything" | Profile first, optimize measured bottlenecks |
-| Ignoring accessibility | "We'll add it later" | Build accessible from day one |
-| Massive components | "Just add another feature" | Extract hooks and sub-components early |
-| Testing implementation | "Mock useState" | Test behavior with Testing Library |
-| Skipping error boundaries | "It won't crash" | Every route should have an error boundary |
-| Not code-splitting | "The app is small" | Split at route level from the start |
+| Mistake                         | Why it happens                    | Fix                                             |
+| ------------------------------- | --------------------------------- | ----------------------------------------------- |
+| Over-using useEffect            | Treating it as a lifecycle method | Derive state, handle in events, use React Query |
+| Global state for everything     | "It's easier"                     | Colocate state, use URL state, server state     |
+| Not profiling before optimizing | "Memoize everything"              | Profile first, optimize measured bottlenecks    |
+| Ignoring accessibility          | "We'll add it later"              | Build accessible from day one                   |
+| Massive components              | "Just add another feature"        | Extract hooks and sub-components early          |
+| Testing implementation          | "Mock useState"                   | Test behavior with Testing Library              |
+| Skipping error boundaries       | "It won't crash"                  | Every route should have an error boundary       |
+| Not code-splitting              | "The app is small"                | Split at route level from the start             |
 
 ### How to evolve from component developer to frontend architect
 
@@ -2517,53 +2586,53 @@ Phase 7: Cross-Cutting Concerns
 
 #### Week 1: Rendering Internals (Days 1–7)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 1 | Read React docs: "Render and Commit" | Mental model diagram |
-| 2 | Build: component that logs render count | Understanding of re-render triggers |
-| 3 | Profile an app with React DevTools Profiler | Identify unnecessary re-renders |
-| 4 | Study: reconciliation algorithm | Can explain O(n) diff heuristics |
-| 5 | Build: optimize a slow list with React.memo | Before/after profiling comparison |
-| 6 | Study: "children as props" optimization pattern | Implement in a real component |
-| 7 | Study: fiber architecture overview | Can explain double buffering, work loop |
+| Day | Task                                            | Deliverable                             |
+| --- | ----------------------------------------------- | --------------------------------------- |
+| 1   | Read React docs: "Render and Commit"            | Mental model diagram                    |
+| 2   | Build: component that logs render count         | Understanding of re-render triggers     |
+| 3   | Profile an app with React DevTools Profiler     | Identify unnecessary re-renders         |
+| 4   | Study: reconciliation algorithm                 | Can explain O(n) diff heuristics        |
+| 5   | Build: optimize a slow list with React.memo     | Before/after profiling comparison       |
+| 6   | Study: "children as props" optimization pattern | Implement in a real component           |
+| 7   | Study: fiber architecture overview              | Can explain double buffering, work loop |
 
 #### Week 2: Hooks Mastery (Days 8–14)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 8 | Read: "You Might Not Need an Effect" | List of effects to refactor |
-| 9 | Refactor: replace useEffect-based derived state with direct computation | Cleaner code |
-| 10 | Build: custom hook with proper cleanup (useMediaQuery) | Reusable hook |
-| 11 | Study: useCallback/useMemo — when they help vs. hurt | Decision framework |
-| 12 | Build: context + custom hook with memoization | Type-safe, optimized context |
-| 13 | Study: useReducer for complex state | Implement a multi-step form |
-| 14 | Build: form with React Hook Form + Zod | Production-ready form |
+| Day | Task                                                                    | Deliverable                  |
+| --- | ----------------------------------------------------------------------- | ---------------------------- |
+| 8   | Read: "You Might Not Need an Effect"                                    | List of effects to refactor  |
+| 9   | Refactor: replace useEffect-based derived state with direct computation | Cleaner code                 |
+| 10  | Build: custom hook with proper cleanup (useMediaQuery)                  | Reusable hook                |
+| 11  | Study: useCallback/useMemo — when they help vs. hurt                    | Decision framework           |
+| 12  | Build: context + custom hook with memoization                           | Type-safe, optimized context |
+| 13  | Study: useReducer for complex state                                     | Implement a multi-step form  |
+| 14  | Build: form with React Hook Form + Zod                                  | Production-ready form        |
 
 #### Week 3: Concurrent & Server (Days 15–21)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 15 | Study: useTransition and useDeferredValue | Implement search with transition |
-| 16 | Build: Suspense with React Query (useSuspenseQuery) | Suspense-based data loading |
-| 17 | Study: Error Boundaries | Implement route-level error boundaries |
-| 18 | Study: React Server Components model | Mental model of server/client boundary |
-| 19 | Build: Next.js page with Server + Client Components | Working RSC page |
-| 20 | Study: Streaming SSR in Next.js | Understand how loading.tsx works |
-| 21 | Study: hydration — what it is, what goes wrong | Can debug hydration mismatches |
+| Day | Task                                                | Deliverable                            |
+| --- | --------------------------------------------------- | -------------------------------------- |
+| 15  | Study: useTransition and useDeferredValue           | Implement search with transition       |
+| 16  | Build: Suspense with React Query (useSuspenseQuery) | Suspense-based data loading            |
+| 17  | Study: Error Boundaries                             | Implement route-level error boundaries |
+| 18  | Study: React Server Components model                | Mental model of server/client boundary |
+| 19  | Build: Next.js page with Server + Client Components | Working RSC page                       |
+| 20  | Study: Streaming SSR in Next.js                     | Understand how loading.tsx works       |
+| 21  | Study: hydration — what it is, what goes wrong      | Can debug hydration mismatches         |
 
 #### Week 4: Architecture (Days 22–30)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 22 | Design: state architecture for a medium app | Architecture diagram |
-| 23 | Build: Zustand store with selectors | Optimized global state |
-| 24 | Study: code splitting with lazy + Suspense | Implement route-level splitting |
-| 25 | Study: design system patterns (compound components, Radix) | Component API design |
-| 26 | Study: testing strategy (Testing Library + MSW) | Integration test for a feature |
-| 27 | Study: bundle analysis (source-map-explorer) | Bundle size budget |
-| 28 | Study: accessibility audit (axe, keyboard nav) | Accessibility checklist |
-| 29 | Study: React Compiler | Understand what it automates |
-| 30 | Write: architecture decision record for your project | ADR document |
+| Day | Task                                                       | Deliverable                     |
+| --- | ---------------------------------------------------------- | ------------------------------- |
+| 22  | Design: state architecture for a medium app                | Architecture diagram            |
+| 23  | Build: Zustand store with selectors                        | Optimized global state          |
+| 24  | Study: code splitting with lazy + Suspense                 | Implement route-level splitting |
+| 25  | Study: design system patterns (compound components, Radix) | Component API design            |
+| 26  | Study: testing strategy (Testing Library + MSW)            | Integration test for a feature  |
+| 27  | Study: bundle analysis (source-map-explorer)               | Bundle size budget              |
+| 28  | Study: accessibility audit (axe, keyboard nav)             | Accessibility checklist         |
+| 29  | Study: React Compiler                                      | Understand what it automates    |
+| 30  | Write: architecture decision record for your project       | ADR document                    |
 
 ---
 
@@ -2637,15 +2706,15 @@ React is a **declarative UI library** built on a **virtual DOM reconciliation en
 
 ### Suggested Advanced Topics
 
-| Topic | Why it matters |
-|---|---|
-| React Compiler (React Forget) | Will eliminate manual memoization |
-| React Server Actions | Server-side mutations from Client Components |
-| Partial Prerendering (PPR) | Next.js's hybrid static/dynamic rendering |
-| Signals debate | Alternative reactivity model (Preact, Angular, Solid) |
-| View Transitions API | Native browser page transitions |
-| WASM in React | Heavy computation in the browser |
-| React Native cross-platform | Shared logic between web and mobile |
-| Micro-frontends | Scaling React across teams |
-| Module Federation | Sharing code between independently deployed apps |
-| Edge rendering | React on Cloudflare Workers / Deno Deploy |
+| Topic                         | Why it matters                                        |
+| ----------------------------- | ----------------------------------------------------- |
+| React Compiler (React Forget) | Will eliminate manual memoization                     |
+| React Server Actions          | Server-side mutations from Client Components          |
+| Partial Prerendering (PPR)    | Next.js's hybrid static/dynamic rendering             |
+| Signals debate                | Alternative reactivity model (Preact, Angular, Solid) |
+| View Transitions API          | Native browser page transitions                       |
+| WASM in React                 | Heavy computation in the browser                      |
+| React Native cross-platform   | Shared logic between web and mobile                   |
+| Micro-frontends               | Scaling React across teams                            |
+| Module Federation             | Sharing code between independently deployed apps      |
+| Edge rendering                | React on Cloudflare Workers / Deno Deploy             |

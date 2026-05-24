@@ -3,24 +3,24 @@ title: Monorepo Architecture — Complete Engineering Guide
 description: A comprehensive learning path and practical engineering guide for Monorepo architecture, from fundamentals to organization-scale systems.
 slug: monorepo
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- frontend
-- monorepo
+  - frontend
+  - monorepo
 categories:
-- frontend
+  - frontend
 seo:
   title: Monorepo Architecture — Complete Engineering Guide
   description: A comprehensive learning path and practical engineering guide for Monorepo architecture, from fundamentals to organization-scale systems.
   canonical: https://feel-free.com/blogs/monorepo
   keywords:
-  - frontend
-  - monorepo
+    - frontend
+    - monorepo
 author: lazarus2019
 lang: en
 relatedPosts:
-- accessibility
+  - accessibility
 ---
 
 # Monorepo Architecture — Complete Engineering Guide
@@ -45,14 +45,14 @@ A monorepo is a **single repository** containing multiple distinct projects — 
 
 **Problems monorepos solve:**
 
-| Problem | Polyrepo Reality | Monorepo Solution |
-|---------|-----------------|-------------------|
-| Shared code drift | Copy-paste or publish/consume cycle | Single source, direct imports |
-| Breaking change detection | Discover at npm install time | Discover at build/test time immediately |
-| Cross-repo refactoring | PRs across N repos, coordinated merges | One PR, one review, one merge |
-| Tooling inconsistency | Each repo configures its own ESLint, TS, etc. | Shared configs inherited by all packages |
-| CI/CD fragmentation | N pipelines to maintain | One pipeline with intelligent filtering |
-| Dependency version conflicts | Different repos on different React versions | Single version policy (or explicit overrides) |
+| Problem                      | Polyrepo Reality                              | Monorepo Solution                             |
+| ---------------------------- | --------------------------------------------- | --------------------------------------------- |
+| Shared code drift            | Copy-paste or publish/consume cycle           | Single source, direct imports                 |
+| Breaking change detection    | Discover at npm install time                  | Discover at build/test time immediately       |
+| Cross-repo refactoring       | PRs across N repos, coordinated merges        | One PR, one review, one merge                 |
+| Tooling inconsistency        | Each repo configures its own ESLint, TS, etc. | Shared configs inherited by all packages      |
+| CI/CD fragmentation          | N pipelines to maintain                       | One pipeline with intelligent filtering       |
+| Dependency version conflicts | Different repos on different React versions   | Single version policy (or explicit overrides) |
 
 ## Key Terminology
 
@@ -73,16 +73,16 @@ monorepo
 └── turbo.json               ← Build orchestration config
 ```
 
-| Term | Definition |
-|------|-----------|
-| **Monorepo** | Single repository with multiple projects, managed by a build system that understands their relationships |
-| **Polyrepo** | Each project in its own repository. Standard model. |
-| **Workspace** | Package manager feature that links local packages together (pnpm/yarn/npm workspaces) |
-| **Package** | Any folder with a `package.json`. Can be an app or library. |
-| **Application** | A deployable unit (web app, API server, worker) |
-| **Library** | A non-deployable package consumed by other packages |
-| **Shared package** | A library consumed by multiple apps/packages |
-| **Internal package** | A package that is NOT published to npm — consumed only within the monorepo |
+| Term                 | Definition                                                                                               |
+| -------------------- | -------------------------------------------------------------------------------------------------------- |
+| **Monorepo**         | Single repository with multiple projects, managed by a build system that understands their relationships |
+| **Polyrepo**         | Each project in its own repository. Standard model.                                                      |
+| **Workspace**        | Package manager feature that links local packages together (pnpm/yarn/npm workspaces)                    |
+| **Package**          | Any folder with a `package.json`. Can be an app or library.                                              |
+| **Application**      | A deployable unit (web app, API server, worker)                                                          |
+| **Library**          | A non-deployable package consumed by other packages                                                      |
+| **Shared package**   | A library consumed by multiple apps/packages                                                             |
+| **Internal package** | A package that is NOT published to npm — consumed only within the monorepo                               |
 
 ## Core Concepts
 
@@ -99,6 +99,7 @@ api ──→ utils ──→ types
 ```
 
 **Why it matters:** The build system uses this graph to determine:
+
 - Build order (topological sort)
 - What to rebuild when something changes (affected analysis)
 - What to cache and invalidate
@@ -126,6 +127,7 @@ Only rebuild what changed. If `utils` hasn't changed since the last build, skip 
 ### Remote Caching
 
 Store build caches in a shared location (Vercel Remote Cache, Nx Cloud, S3, etc.) so that:
+
 - CI doesn't rebuild what a developer already built locally
 - Developer B doesn't rebuild what Developer A already built
 - Different CI runs share cache
@@ -166,10 +168,10 @@ apps/api/           @backend-team
 
 Two strategies:
 
-| Strategy | How it works | Best for |
-|----------|-------------|----------|
-| **Fixed/locked** | All internal packages at `"workspace:*"` — always use latest | Most monorepos. Simpler. |
-| **Independent** | Each package has its own semver, published to registry | Large orgs with external consumers |
+| Strategy         | How it works                                                 | Best for                           |
+| ---------------- | ------------------------------------------------------------ | ---------------------------------- |
+| **Fixed/locked** | All internal packages at `"workspace:*"` — always use latest | Most monorepos. Simpler.           |
+| **Independent**  | Each package has its own semver, published to registry       | Large orgs with external consumers |
 
 **Recommendation:** Start with `workspace:*`. Move to independent versioning only when you have external consumers or strict API contracts between teams.
 
@@ -207,17 +209,17 @@ Deploy only affected apps (web)
 
 ## Monorepo vs Microfrontend vs Multi-Repo
 
-| Dimension | Monorepo | Microfrontend | Multi-Repo |
-|-----------|----------|---------------|------------|
-| **Code location** | Single repo | Can be mono or multi | Separate repos |
-| **Deployment** | Can deploy independently | Independent by design | Independent by default |
-| **Shared code** | Direct imports | Runtime federation or npm | npm packages |
-| **Dependency management** | Unified | Per-app | Per-repo |
-| **Build complexity** | High (needs orchestration) | Medium (federation config) | Low (per-repo) |
-| **Refactoring** | Easy (atomic changes) | Hard (runtime contracts) | Hard (cross-repo PRs) |
-| **Team autonomy** | Medium (shared constraints) | High | High |
-| **CI complexity** | High (needs filtering) | Medium | Low (per-repo) |
-| **Best for** | 1-30 teams, shared platform | 5+ teams needing deploy independence | Isolated projects |
+| Dimension                 | Monorepo                    | Microfrontend                        | Multi-Repo             |
+| ------------------------- | --------------------------- | ------------------------------------ | ---------------------- |
+| **Code location**         | Single repo                 | Can be mono or multi                 | Separate repos         |
+| **Deployment**            | Can deploy independently    | Independent by design                | Independent by default |
+| **Shared code**           | Direct imports              | Runtime federation or npm            | npm packages           |
+| **Dependency management** | Unified                     | Per-app                              | Per-repo               |
+| **Build complexity**      | High (needs orchestration)  | Medium (federation config)           | Low (per-repo)         |
+| **Refactoring**           | Easy (atomic changes)       | Hard (runtime contracts)             | Hard (cross-repo PRs)  |
+| **Team autonomy**         | Medium (shared constraints) | High                                 | High                   |
+| **CI complexity**         | High (needs filtering)      | Medium                               | Low (per-repo)         |
+| **Best for**              | 1-30 teams, shared platform | 5+ teams needing deploy independence | Isolated projects      |
 
 **Key insight:** Monorepo and microfrontend are NOT mutually exclusive. You can have a monorepo that deploys microfrontends. Module Federation + Turborepo is a real pattern.
 
@@ -290,31 +292,35 @@ Deploy only affected apps (web)
 ```js
 // packages/config-eslint/index.js
 module.exports = {
-  extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+  ],
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
   rules: {
-    "no-console": "warn",
-    "@typescript-eslint/no-unused-vars": "error",
+    'no-console': 'warn',
+    '@typescript-eslint/no-unused-vars': 'error',
   },
 };
 
 // apps/web/.eslintrc.js
 module.exports = {
   root: true,
-  extends: ["@acme/config-eslint"],
+  extends: ['@acme/config-eslint'],
 };
 ```
 
 ### Common Beginner Mistakes
 
-| Mistake | Why it's wrong | Fix |
-|---------|---------------|-----|
-| Installing deps at root for everything | Bloats root, hides what packages actually need | Install deps in the package that uses them |
-| No workspace protocol | Direct `"^1.0.0"` for internal packages | Use `"workspace:*"` |
-| Copy-pasting tsconfig | Drift across packages | Create shared config package |
-| No `.npmrc` with `shamefully-hoist=false` | Phantom dependencies | Set `shamefully-hoist=false` in pnpm |
-| Running all scripts manually | Slow, error-prone | Use Turborepo or Nx for orchestration |
+| Mistake                                   | Why it's wrong                                 | Fix                                        |
+| ----------------------------------------- | ---------------------------------------------- | ------------------------------------------ |
+| Installing deps at root for everything    | Bloats root, hides what packages actually need | Install deps in the package that uses them |
+| No workspace protocol                     | Direct `"^1.0.0"` for internal packages        | Use `"workspace:*"`                        |
+| Copy-pasting tsconfig                     | Drift across packages                          | Create shared config package               |
+| No `.npmrc` with `shamefully-hoist=false` | Phantom dependencies                           | Set `shamefully-hoist=false` in pnpm       |
+| Running all scripts manually              | Slow, error-prone                              | Use Turborepo or Nx for orchestration      |
 
 ### 5 Beginner Exercises
 
@@ -361,22 +367,23 @@ packages/ui/
   "exports": {
     ".": {
       "types": "./src/index.ts",
-      "default": "./src/index.ts"
-    }
+      "default": "./src/index.ts",
+    },
   },
   "dependencies": {
-    "react": "^18.3.0"
+    "react": "^18.3.0",
   },
   "devDependencies": {
     "@acme/config-ts": "workspace:*",
-    "typescript": "^5.5.0"
-  }
+    "typescript": "^5.5.0",
+  },
 }
 ```
 
 **Key insight:** For internal packages consumed only within the monorepo, you can skip the build step entirely by pointing `exports` directly at source `.ts` files. The consuming app's bundler (Next.js, Vite) will compile them. This is the **"internal packages" or "just-in-time" pattern** — massively simplifies DX.
 
 When to add a build step:
+
 - Package has complex build (e.g., CSS extraction, codegen)
 - Package is consumed by tools that can't handle raw TS (e.g., some Node.js scripts)
 - Package will eventually be published to npm
@@ -390,19 +397,19 @@ When to add a build step:
   "globalDependencies": ["**/.env.*local"],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],     // Build dependencies first
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "dependsOn": ["^build"], // Build dependencies first
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
     },
     "dev": {
-      "cache": false,              // Never cache dev
-      "persistent": true           // Long-running process
+      "cache": false, // Never cache dev
+      "persistent": true, // Long-running process
     },
-    "lint": {},                    // No dependencies, run in parallel
+    "lint": {}, // No dependencies, run in parallel
     "test": {
-      "dependsOn": ["build"]      // Test after build
+      "dependsOn": ["build"], // Test after build
     },
-    "type-check": {}               // No dependencies, run in parallel
-  }
+    "type-check": {}, // No dependencies, run in parallel
+  },
 }
 ```
 
@@ -410,13 +417,13 @@ When to add a build step:
 
 ### Common Anti-Patterns
 
-| Anti-pattern | Problem | Solution |
-|-------------|---------|----------|
-| **Mega-package** | One `shared` package with everything | Split into focused packages: `ui`, `utils`, `types` |
-| **Circular dependencies** | A imports B, B imports A | Extract shared code into a third package |
-| **No task caching** | Every CI run rebuilds everything | Configure `outputs` in `turbo.json` |
-| **Root-level everything** | All deps in root `package.json` | Deps belong in the package that uses them |
-| **No filtering** | CI runs all tasks for all packages | Use `--filter` to scope to affected packages |
+| Anti-pattern              | Problem                              | Solution                                            |
+| ------------------------- | ------------------------------------ | --------------------------------------------------- |
+| **Mega-package**          | One `shared` package with everything | Split into focused packages: `ui`, `utils`, `types` |
+| **Circular dependencies** | A imports B, B imports A             | Extract shared code into a third package            |
+| **No task caching**       | Every CI run rebuilds everything     | Configure `outputs` in `turbo.json`                 |
+| **Root-level everything** | All deps in root `package.json`      | Deps belong in the package that uses them           |
+| **No filtering**          | CI runs all tasks for all packages   | Use `--filter` to scope to affected packages        |
 
 ### 5 Mini Project Ideas
 
@@ -461,13 +468,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for affected analysis
+          fetch-depth: 0 # Full history for affected analysis
 
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
+          cache: 'pnpm'
 
       - run: pnpm install --frozen-lockfile
 
@@ -482,6 +489,7 @@ jobs:
 ```
 
 **`--filter="...[origin/main]"` explained:**
+
 - `[origin/main]` = packages with changes since `origin/main`
 - `...` prefix = include all dependents (downstream packages)
 - So if `utils` changed, this runs `utils`, `ui`, `web` — everything that depends on `utils`
@@ -522,11 +530,12 @@ pnpm changeset init
   "access": "restricted",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": []
+  "ignore": [],
 }
 ```
 
 Workflow:
+
 1. Developer runs `pnpm changeset` → creates a changeset file describing the change
 2. PR includes the changeset file
 3. On merge, Changesets bot opens a "Version Packages" PR
@@ -609,18 +618,18 @@ CMD ["node", "apps/web/server.js"]
 
 ### What Expert Engineers Care About That Juniors Miss
 
-| Expert Focus | Junior Blind Spot |
-|-------------|------------------|
-| **Dependency graph shape** | "It works" without understanding build order |
-| **Cache hit rate** | Not measuring cache effectiveness |
-| **Critical path length** | Not understanding what serializes the build |
-| **Package boundary enforcement** | Free-for-all imports |
-| **Build invalidation correctness** | "Just clear the cache" |
-| **Incremental adoption** | "Rewrite everything at once" |
-| **Governance and process** | Technical solution without organizational solution |
-| **Cost of shared code** | "Share everything" without considering coupling |
-| **Migration strategy** | No plan for evolving architecture |
-| **DX measurement** | Not tracking build times, cache hit rates, developer wait times |
+| Expert Focus                       | Junior Blind Spot                                               |
+| ---------------------------------- | --------------------------------------------------------------- |
+| **Dependency graph shape**         | "It works" without understanding build order                    |
+| **Cache hit rate**                 | Not measuring cache effectiveness                               |
+| **Critical path length**           | Not understanding what serializes the build                     |
+| **Package boundary enforcement**   | Free-for-all imports                                            |
+| **Build invalidation correctness** | "Just clear the cache"                                          |
+| **Incremental adoption**           | "Rewrite everything at once"                                    |
+| **Governance and process**         | Technical solution without organizational solution              |
+| **Cost of shared code**            | "Share everything" without considering coupling                 |
+| **Migration strategy**             | No plan for evolving architecture                               |
+| **DX measurement**                 | Not tracking build times, cache hit rates, developer wait times |
 
 ### 10 Advanced Engineering Discussion Topics
 
@@ -654,8 +663,8 @@ git init
 ```yaml
 # pnpm-workspace.yaml
 packages:
-  - "apps/*"
-  - "packages/*"
+  - 'apps/*'
+  - 'packages/*'
 ```
 
 ```ini
@@ -677,12 +686,12 @@ auto-install-peers=true
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "test": "turbo test",
-    "clean": "turbo clean && rm -rf node_modules"
+    "clean": "turbo clean && rm -rf node_modules",
   },
   "devDependencies": {
-    "turbo": "^2.0.0"
+    "turbo": "^2.0.0",
   },
-  "packageManager": "pnpm@9.0.0"
+  "packageManager": "pnpm@9.0.0",
 }
 ```
 
@@ -696,21 +705,21 @@ auto-install-peers=true
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"],
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
     },
     "lint": {},
     "type-check": {},
     "test": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
     },
     "clean": {
-      "cache": false
-    }
-  }
+      "cache": false,
+    },
+  },
 }
 ```
 
@@ -740,15 +749,15 @@ mkdir -p packages/ui/src
   "version": "0.0.0",
   "private": true,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
   },
   "devDependencies": {
     "@acme/config-ts": "workspace:*",
-    "typescript": "^5.5.0"
+    "typescript": "^5.5.0",
   },
   "peerDependencies": {
-    "react": "^18.0.0 || ^19.0.0"
-  }
+    "react": "^18.0.0 || ^19.0.0",
+  },
 }
 ```
 
@@ -759,7 +768,7 @@ mkdir -p packages/ui/src
 {
   "name": "acme-monorepo",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"]
+  "workspaces": ["apps/*", "packages/*"],
 }
 ```
 
@@ -772,7 +781,7 @@ Commands: `npm run build --workspace=apps/web`, `npm install lodash --workspace=
 {
   "name": "acme-monorepo",
   "private": true,
-  "workspaces": ["apps/*", "packages/*"]
+  "workspaces": ["apps/*", "packages/*"],
 }
 ```
 
@@ -865,12 +874,14 @@ Yarn Berry (v4) supports `yarn workspace web build`, PnP for zero-installs.
 
 ```typescript
 // packages/env/src/index.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   NEXT_PUBLIC_API_URL: z.string().url(),
-  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
 });
 
 export const env = envSchema.parse(process.env);
@@ -891,6 +902,7 @@ export type Env = z.infer<typeof envSchema>;
 ```
 
 **Rules:**
+
 - Always use an org scope (`@acme/`)
 - Use lowercase kebab-case
 - Be descriptive but concise
@@ -927,25 +939,26 @@ acme-monorepo/
 
 ## Overview Comparison Table
 
-| Feature | Turborepo | Nx | pnpm workspaces | Yarn workspaces | Lage | Rush | Bazel |
-|---------|-----------|----|-----------------|-----------------| -----|------|-------|
-| **Philosophy** | Simple, fast, convention | Full-featured platform | Package manager feature | Package manager feature | MS task runner | MS enterprise | Google build system |
-| **Learning curve** | Low | Medium-High | Very Low | Very Low | Low | High | Very High |
-| **Task orchestration** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Dependency graph** | Auto (package.json) | Auto + explicit | Manual | Manual | Auto | Explicit | Explicit (BUILD files) |
-| **Remote cache** | ✅ (Vercel) | ✅ (Nx Cloud) | ❌ | ❌ | ❌ | ✅ (custom) | ✅ (RBE) |
-| **Affected builds** | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Code generation** | ❌ | ✅ (generators) | ❌ | ❌ | ❌ | ❌ | ❌ |
-| **Module boundary enforcement** | ❌ | ✅ (lint rules) | ❌ | ❌ | ❌ | ✅ (rush policies) | ✅ (visibility) |
-| **Multi-language** | JS/TS only | Primarily JS/TS | JS/TS only | JS/TS only | JS/TS only | JS/TS only | Any language |
-| **Best for** | Small-large JS monorepos | Medium-large, opinionated | Simple workspaces | Simple workspaces | MS-style monorepos | Enterprise JS | Massive multi-lang |
-| **Scaling limit** | ~500 packages | ~1000 packages | N/A (no orchestration) | N/A | ~500 packages | ~1000 packages | Unlimited |
+| Feature                         | Turborepo                | Nx                        | pnpm workspaces         | Yarn workspaces         | Lage               | Rush               | Bazel                  |
+| ------------------------------- | ------------------------ | ------------------------- | ----------------------- | ----------------------- | ------------------ | ------------------ | ---------------------- |
+| **Philosophy**                  | Simple, fast, convention | Full-featured platform    | Package manager feature | Package manager feature | MS task runner     | MS enterprise      | Google build system    |
+| **Learning curve**              | Low                      | Medium-High               | Very Low                | Very Low                | Low                | High               | Very High              |
+| **Task orchestration**          | ✅                       | ✅                        | ❌                      | ❌                      | ✅                 | ✅                 | ✅                     |
+| **Dependency graph**            | Auto (package.json)      | Auto + explicit           | Manual                  | Manual                  | Auto               | Explicit           | Explicit (BUILD files) |
+| **Remote cache**                | ✅ (Vercel)              | ✅ (Nx Cloud)             | ❌                      | ❌                      | ❌                 | ✅ (custom)        | ✅ (RBE)               |
+| **Affected builds**             | ✅                       | ✅                        | ❌                      | ❌                      | ✅                 | ✅                 | ✅                     |
+| **Code generation**             | ❌                       | ✅ (generators)           | ❌                      | ❌                      | ❌                 | ❌                 | ❌                     |
+| **Module boundary enforcement** | ❌                       | ✅ (lint rules)           | ❌                      | ❌                      | ❌                 | ✅ (rush policies) | ✅ (visibility)        |
+| **Multi-language**              | JS/TS only               | Primarily JS/TS           | JS/TS only              | JS/TS only              | JS/TS only         | JS/TS only         | Any language           |
+| **Best for**                    | Small-large JS monorepos | Medium-large, opinionated | Simple workspaces       | Simple workspaces       | MS-style monorepos | Enterprise JS      | Massive multi-lang     |
+| **Scaling limit**               | ~500 packages            | ~1000 packages            | N/A (no orchestration)  | N/A                     | ~500 packages      | ~1000 packages     | Unlimited              |
 
 ## Turborepo
 
 **Core philosophy:** Zero-config, convention-over-configuration task runner for JS/TS monorepos. "Make it fast by doing less work."
 
 **Pros:**
+
 - Minimal setup (one `turbo.json` file)
 - Excellent cache hit rates
 - Vercel integration for remote caching
@@ -954,6 +967,7 @@ acme-monorepo/
 - Great for React/Next.js ecosystem
 
 **Cons:**
+
 - No code generation
 - No module boundary enforcement (need ESLint plugins)
 - No dependency graph visualization (basic only)
@@ -969,6 +983,7 @@ acme-monorepo/
 **Core philosophy:** Smart, extensible build framework with deep understanding of your workspace. "A build system with knowledge."
 
 **Pros:**
+
 - Rich plugin ecosystem (Next.js, React, Node, etc.)
 - Code generators (`nx generate`)
 - Module boundary enforcement (`@nx/enforce-module-boundaries`)
@@ -978,6 +993,7 @@ acme-monorepo/
 - Affected commands with fine-grained analysis
 
 **Cons:**
+
 - Higher learning curve
 - More configuration needed
 - Opinionated project structure
@@ -993,12 +1009,14 @@ acme-monorepo/
 **Core philosophy:** Fast, disk-efficient package manager with workspace support. Not a build system.
 
 **What it provides:**
+
 - Workspace linking (symlinks via content-addressable store)
 - `--filter` for scoping commands
 - Strict dependency resolution (no phantom deps)
 - `workspace:*` protocol
 
 **What it doesn't provide:**
+
 - Task orchestration
 - Caching
 - Affected builds
@@ -1011,6 +1029,7 @@ acme-monorepo/
 **Core philosophy:** Google's build system. Correct, reproducible, scalable builds for any language.
 
 **Pros:**
+
 - Unlimited scale (Google uses it for billions of lines of code)
 - Multi-language (JS, TS, Go, Java, Python, C++, Rust)
 - Remote execution (distribute builds across machines)
@@ -1018,6 +1037,7 @@ acme-monorepo/
 - Fine-grained caching (file-level, not package-level)
 
 **Cons:**
+
 - Extremely steep learning curve
 - Requires `BUILD` files for every target
 - Poor DX for JS/TS ecosystem
@@ -1030,15 +1050,15 @@ acme-monorepo/
 
 ## Decision Matrix
 
-| Scenario | Recommendation |
-|----------|---------------|
-| Solo/small team, JS/TS, want fast start | **pnpm + Turborepo** |
-| Medium team, want structure and generators | **pnpm + Nx** |
-| Enterprise, need governance and policies | **pnpm + Nx** or **Rush** |
-| Multi-language, massive scale | **Bazel** |
-| Already on Vercel | **pnpm + Turborepo** |
-| Design system library | **pnpm + Turborepo** |
-| Microsoft ecosystem | **Rush** or **Lage** |
+| Scenario                                   | Recommendation            |
+| ------------------------------------------ | ------------------------- |
+| Solo/small team, JS/TS, want fast start    | **pnpm + Turborepo**      |
+| Medium team, want structure and generators | **pnpm + Nx**             |
+| Enterprise, need governance and policies   | **pnpm + Nx** or **Rush** |
+| Multi-language, massive scale              | **Bazel**                 |
+| Already on Vercel                          | **pnpm + Turborepo**      |
+| Design system library                      | **pnpm + Turborepo**      |
+| Microsoft ecosystem                        | **Rush** or **Lage**      |
 
 ---
 
@@ -1046,33 +1066,33 @@ acme-monorepo/
 
 ## Workspace Commands (pnpm)
 
-| Command | Description |
-|---------|-------------|
-| `pnpm install` | Install all deps across all workspaces |
-| `pnpm add <pkg> --filter <workspace>` | Add dep to specific workspace |
-| `pnpm add <pkg> -w` | Add dep to root workspace |
-| `pnpm remove <pkg> --filter <workspace>` | Remove dep from workspace |
-| `pnpm --filter <workspace> <script>` | Run script in specific workspace |
-| `pnpm --filter "./apps/**" build` | Run build in all apps |
-| `pnpm --filter "!./apps/docs" build` | Run build in all except docs |
-| `pnpm ls --filter <workspace>` | List deps for a workspace |
-| `pnpm why <pkg> --filter <workspace>` | Why is this dep installed? |
+| Command                                  | Description                            |
+| ---------------------------------------- | -------------------------------------- |
+| `pnpm install`                           | Install all deps across all workspaces |
+| `pnpm add <pkg> --filter <workspace>`    | Add dep to specific workspace          |
+| `pnpm add <pkg> -w`                      | Add dep to root workspace              |
+| `pnpm remove <pkg> --filter <workspace>` | Remove dep from workspace              |
+| `pnpm --filter <workspace> <script>`     | Run script in specific workspace       |
+| `pnpm --filter "./apps/**" build`        | Run build in all apps                  |
+| `pnpm --filter "!./apps/docs" build`     | Run build in all except docs           |
+| `pnpm ls --filter <workspace>`           | List deps for a workspace              |
+| `pnpm why <pkg> --filter <workspace>`    | Why is this dep installed?             |
 
 ## Turborepo Commands
 
-| Command | Description |
-|---------|-------------|
-| `turbo build` | Build all packages (topological order) |
-| `turbo build --filter=web` | Build only web app + deps |
-| `turbo build --filter=web...` | Build web and all its deps |
-| `turbo build --filter=...web` | Build web and all its dependents |
-| `turbo build --filter="...[HEAD~1]"` | Build packages changed since last commit |
-| `turbo build --filter="...[origin/main]"` | Build packages changed since main |
-| `turbo build --dry` | Show what would run without running it |
-| `turbo build --graph` | Output dependency graph (DOT format) |
-| `turbo build --summarize` | Generate build summary JSON |
-| `turbo prune --scope=web` | Create sparse monorepo for Docker |
-| `turbo daemon status` | Check Turbo daemon status |
+| Command                                   | Description                              |
+| ----------------------------------------- | ---------------------------------------- |
+| `turbo build`                             | Build all packages (topological order)   |
+| `turbo build --filter=web`                | Build only web app + deps                |
+| `turbo build --filter=web...`             | Build web and all its deps               |
+| `turbo build --filter=...web`             | Build web and all its dependents         |
+| `turbo build --filter="...[HEAD~1]"`      | Build packages changed since last commit |
+| `turbo build --filter="...[origin/main]"` | Build packages changed since main        |
+| `turbo build --dry`                       | Show what would run without running it   |
+| `turbo build --graph`                     | Output dependency graph (DOT format)     |
+| `turbo build --summarize`                 | Generate build summary JSON              |
+| `turbo prune --scope=web`                 | Create sparse monorepo for Docker        |
+| `turbo daemon status`                     | Check Turbo daemon status                |
 
 ## Internal Package Pattern
 
@@ -1101,14 +1121,14 @@ acme-monorepo/
 
 ## Common Build Issues & Fixes
 
-| Issue | Cause | Fix |
-|-------|-------|-----|
-| Package not found | Missing `workspace:*` in deps | Add dependency: `pnpm add @acme/utils --filter web` |
-| Type errors in shared package | TS not resolving source | Point `exports` types field to source or build first |
-| Stale builds | Old cached output | `turbo build --force` or `rm -rf node_modules/.cache` |
-| Circular dependency | A→B→A | Extract shared code to C, then A→C, B→C |
-| Phantom dependency | Using undeclared dep | Set `shamefully-hoist=false` in `.npmrc` |
-| Build order wrong | Missing `^` in `dependsOn` | Use `"dependsOn": ["^build"]` in turbo.json |
+| Issue                         | Cause                         | Fix                                                   |
+| ----------------------------- | ----------------------------- | ----------------------------------------------------- |
+| Package not found             | Missing `workspace:*` in deps | Add dependency: `pnpm add @acme/utils --filter web`   |
+| Type errors in shared package | TS not resolving source       | Point `exports` types field to source or build first  |
+| Stale builds                  | Old cached output             | `turbo build --force` or `rm -rf node_modules/.cache` |
+| Circular dependency           | A→B→A                         | Extract shared code to C, then A→C, B→C               |
+| Phantom dependency            | Using undeclared dep          | Set `shamefully-hoist=false` in `.npmrc`              |
+| Build order wrong             | Missing `^` in `dependsOn`    | Use `"dependsOn": ["^build"]` in turbo.json           |
 
 ## Performance Tips
 
@@ -1133,11 +1153,11 @@ acme-monorepo/
 
 **Strategies:**
 
-| Strategy | How | Pros | Cons |
-|----------|-----|------|------|
-| **Internal package (JIT)** | `@acme/ui` exports raw `.tsx`, consumed app bundles it | Zero build step, fast DX | Consumer must handle TS compilation |
-| **Internal package (built)** | `@acme/ui` built with tsup/Vite lib mode | Clean separation, works with any consumer | Extra build step, slower dev |
-| **Published package** | `@acme/ui` published to npm/private registry | External teams can consume | Version management overhead |
+| Strategy                     | How                                                    | Pros                                      | Cons                                |
+| ---------------------------- | ------------------------------------------------------ | ----------------------------------------- | ----------------------------------- |
+| **Internal package (JIT)**   | `@acme/ui` exports raw `.tsx`, consumed app bundles it | Zero build step, fast DX                  | Consumer must handle TS compilation |
+| **Internal package (built)** | `@acme/ui` built with tsup/Vite lib mode               | Clean separation, works with any consumer | Extra build step, slower dev        |
+| **Published package**        | `@acme/ui` published to npm/private registry           | External teams can consume                | Version management overhead         |
 
 **Senior recommendation:** Start with JIT internal package. Add a build step only when you need CSS extraction, have non-TS consumers, or plan to publish externally.
 
@@ -1146,9 +1166,10 @@ acme-monorepo/
 **Problem:** Frontend and BFF/Worker both call the same API. Types and fetch logic duplicated.
 
 **Strategy:**
+
 ```typescript
 // packages/api-client/src/client.ts
-import { z } from "zod";
+import { z } from 'zod';
 
 const UserSchema = z.object({
   id: z.string(),
@@ -1212,17 +1233,27 @@ pnpm-workspace.yaml   @dx-team
 ```
 
 Combined with Nx module boundary rules or ESLint import restrictions:
+
 ```jsonc
 // .eslintrc — enforce that apps/web cannot import from apps/api
 {
   "rules": {
-    "@nx/enforce-module-boundaries": ["error", {
-      "depConstraints": [
-        { "sourceTag": "scope:web", "onlyDependOnLibsWithTags": ["scope:shared"] },
-        { "sourceTag": "scope:api", "onlyDependOnLibsWithTags": ["scope:shared"] }
-      ]
-    }]
-  }
+    "@nx/enforce-module-boundaries": [
+      "error",
+      {
+        "depConstraints": [
+          {
+            "sourceTag": "scope:web",
+            "onlyDependOnLibsWithTags": ["scope:shared"],
+          },
+          {
+            "sourceTag": "scope:api",
+            "onlyDependOnLibsWithTags": ["scope:shared"],
+          },
+        ],
+      },
+    ],
+  },
 }
 ```
 
@@ -1231,11 +1262,13 @@ Combined with Nx module boundary rules or ESLint import restrictions:
 **Small org (1-5 devs):** Run everything, rely on Turborepo cache.
 
 **Medium org (5-30 devs):**
+
 ```yaml
 - run: pnpm turbo build test lint --filter="...[origin/main]"
 ```
 
 **Large org (30+ devs):**
+
 ```yaml
 jobs:
   detect-changes:
@@ -1361,6 +1394,7 @@ jobs:
 ## Beginner (20 Questions)
 
 ### Q1
+
 **Question:** What file defines which folders are part of a pnpm workspace?
 **Type:** Single choice
 **Options:** A) package.json B) turbo.json C) pnpm-workspace.yaml D) tsconfig.json
@@ -1368,12 +1402,14 @@ jobs:
 **Why:** `pnpm-workspace.yaml` declares the workspace package globs. `package.json` can define workspaces for npm/yarn, but for pnpm it's the YAML file.
 
 ### Q2
+
 **Question:** True or False: In a monorepo, all packages must use the same version of React.
 **Type:** True/False
 **Answer:** False
 **Why:** While a single version policy is recommended, it's not technically required. Multiple versions can coexist but will increase bundle sizes and cause subtle bugs.
 
 ### Q3
+
 **Question:** What does `workspace:*` mean in a package.json dependency?
 **Type:** Single choice
 **Options:** A) Install from npm B) Link to the local workspace package at any version C) Install the latest version D) Create a symbolic link
@@ -1381,6 +1417,7 @@ jobs:
 **Why:** `workspace:*` tells the package manager to resolve this dependency from the local workspace, not from the npm registry. It links to whatever version the local package declares.
 
 ### Q4
+
 **Question:** Which command adds `lodash` as a dependency specifically to the `web` app in a pnpm workspace?
 **Type:** Single choice
 **Options:** A) `pnpm add lodash` B) `pnpm add lodash -w` C) `pnpm add lodash --filter web` D) `cd apps/web && npm install lodash`
@@ -1388,18 +1425,21 @@ jobs:
 **Why:** `--filter web` scopes the command to the `web` workspace. `-w` adds to root. Plain `pnpm add` in root fails without `-w` or `--filter`.
 
 ### Q5
+
 **Question:** True or False: A root `node_modules` folder in a pnpm workspace contains all dependencies for all packages.
 **Type:** True/False
 **Answer:** False
 **Why:** pnpm uses a content-addressable store with symlinks. Each package gets only its declared dependencies. This prevents phantom dependencies.
 
 ### Q6
+
 **Question:** What is a "phantom dependency"?
 **Type:** Fill in the blank
 **Answer:** A dependency that a package can use in code but has NOT explicitly declared in its `package.json`. This happens because hoisting makes it available in `node_modules`.
 **Why:** Phantom deps work locally but break in production or when the undeclared transitive dep is removed. pnpm prevents this with strict isolation.
 
 ### Q7
+
 **Question:** You have `apps/web` and `packages/ui`. Web imports from UI. Which `package.json` should declare the dependency on `@acme/ui`?
 **Type:** Single choice
 **Options:** A) Root package.json B) apps/web/package.json C) packages/ui/package.json D) Both root and web
@@ -1407,6 +1447,7 @@ jobs:
 **Why:** Dependencies belong in the package that uses them. Root deps are for workspace-level tooling only.
 
 ### Q8
+
 **Question:** What is the purpose of `"private": true` in a package.json for an internal monorepo package?
 **Type:** Single choice
 **Options:** A) Prevents the package from being imported B) Prevents accidental publishing to npm C) Makes the package invisible to other workspaces D) Hides the package from git
@@ -1414,25 +1455,28 @@ jobs:
 **Why:** `"private": true` tells npm/pnpm to refuse `publish` commands. It's a safety net against accidentally publishing internal code.
 
 ### Q9
+
 **Question:** True or False: You should install TypeScript in every package's devDependencies.
 **Type:** True/False
 **Answer:** It depends, but generally True for correctness.
 **Why:** Each package should declare its own dependencies. However, in practice many monorepos install TypeScript at the root only and rely on hoisting. The strict-correct approach is per-package.
 
 ### Q10
+
 **Question:** Match each term with its definition:
 **Type:** Matching
 
-| Term | Definition |
-|------|-----------|
-| A. Application | 1. A non-deployable reusable module |
-| B. Library | 2. Package manager feature for linking packages |
-| C. Workspace | 3. A deployable unit |
-| D. Package | 4. Any folder with package.json |
+| Term           | Definition                                      |
+| -------------- | ----------------------------------------------- |
+| A. Application | 1. A non-deployable reusable module             |
+| B. Library     | 2. Package manager feature for linking packages |
+| C. Workspace   | 3. A deployable unit                            |
+| D. Package     | 4. Any folder with package.json                 |
 
 **Answer:** A→3, B→1, C→2, D→4
 
 ### Q11
+
 **Question:** What command runs the `dev` script in ALL workspace packages simultaneously?
 **Type:** Single choice
 **Options:** A) `pnpm dev` B) `pnpm --recursive dev` C) `turbo dev` D) `pnpm --filter "*" dev`
@@ -1440,12 +1484,14 @@ jobs:
 **Why:** `turbo dev` runs the dev task across all packages with `persistent: true`, handling parallelism. `pnpm --recursive` works but without orchestration.
 
 ### Q12
+
 **Question:** You created a new `packages/utils` but `apps/web` can't import from it. What's the most likely issue?
 **Type:** Scenario-based
 **Answer:** `apps/web/package.json` is missing `"@acme/utils": "workspace:*"` in its dependencies.
 **Why:** Workspace linking requires explicit dependency declarations. Just having the folder isn't enough.
 
 ### Q13
+
 **Question:** What does `shamefully-hoist=false` do in `.npmrc`?
 **Type:** Single choice
 **Options:** A) Prevents installing dependencies B) Enables strict dependency isolation C) Disables the lockfile D) Removes node_modules
@@ -1453,30 +1499,35 @@ jobs:
 **Why:** It tells pnpm to NOT hoist packages to the root, enforcing that each package can only use its declared dependencies. Prevents phantom deps.
 
 ### Q14
+
 **Question:** True or False: A shared ESLint config package needs to list `eslint` as a dependency.
 **Type:** True/False
 **Answer:** True (as a peer dependency)
 **Why:** The config package expects `eslint` to be available. It should declare it as a `peerDependency` so the consuming package provides the actual version.
 
 ### Q15
+
 **Question:** What is a "barrel export"?
 **Type:** Fill in the blank
 **Answer:** An `index.ts` file that re-exports everything from a package's modules, e.g., `export * from './Button'; export * from './Input';`
 **Why:** Barrels simplify imports (`from '@acme/ui'` instead of `from '@acme/ui/Button'`) but can defeat tree-shaking and slow builds.
 
 ### Q16
+
 **Question:** How do you extend a shared TypeScript config in a consuming package?
 **Type:** Code
 **Answer:** `{ "extends": "@acme/config-ts/tsconfig.base.json" }`
 **Why:** TypeScript's `extends` field resolves the path through node_modules, finding the workspace-linked package.
 
 ### Q17
+
 **Question:** True or False: Every internal package in a monorepo needs a build step.
 **Type:** True/False
 **Answer:** False
 **Why:** Internal packages can export raw TypeScript source and let the consuming app's bundler (Next.js, Vite) compile them. This is the "Just-in-Time" pattern.
 
 ### Q18
+
 **Question:** What is the `exports` field in package.json used for?
 **Type:** Single choice
 **Options:** A) Listing all source files B) Defining the public API entry points C) Exporting environment variables D) Publishing to npm
@@ -1484,12 +1535,14 @@ jobs:
 **Why:** `exports` defines what paths consumers can import from, providing encapsulation and enabling conditional exports (types, ESM, CJS).
 
 ### Q19
+
 **Question:** You run `pnpm install` and get "ERR_PNPM_PEER_DEP_ISSUES". What does this mean?
 **Type:** Scenario-based
 **Answer:** A package requires a peer dependency that isn't installed or is at an incompatible version.
 **Why:** Peer deps must be provided by the consumer. Check which peer dep is missing and add it to the consuming package.
 
 ### Q20
+
 **Question:** What is the purpose of the root `package.json` in a monorepo?
 **Type:** Multiple choice
 **Options:** A) Define workspace scripts B) Declare workspace-level dev tools C) Mark as private D) Specify package manager E) All of the above
@@ -1501,6 +1554,7 @@ jobs:
 ## Junior (20 Questions)
 
 ### Q21
+
 **Question:** What does `"dependsOn": ["^build"]` mean in turbo.json?
 **Type:** Single choice
 **Options:** A) Run build in the same package first B) Run build in dependency packages first C) Skip the build D) Run build in dependent packages first
@@ -1508,6 +1562,7 @@ jobs:
 **Why:** The caret `^` means "my dependencies" (upstream). So `^build` = "build my dependencies before building me." Without `^`, it would mean a self-dependency.
 
 ### Q22
+
 **Question:** You have the dependency chain: `web → ui → utils → types`. You change `types/src/user.ts`. Which packages need to rebuild?
 **Type:** Multiple choice
 **Options:** A) types B) utils C) ui D) web E) All of the above
@@ -1515,18 +1570,21 @@ jobs:
 **Why:** Every package downstream of `types` in the dependency graph is affected. The build runs in topological order: types → utils → ui → web.
 
 ### Q23
+
 **Question:** True or False: `turbo build --filter=web` only builds the `web` package, not its dependencies.
 **Type:** True/False
 **Answer:** False
 **Why:** `--filter=web` builds `web` AND all its transitive dependencies (because of `"dependsOn": ["^build"]`). Use `--filter=web --no-deps` to build only web.
 
 ### Q24
+
 **Question:** What is a circular dependency in a monorepo context?
 **Type:** Fill in the blank
 **Answer:** When package A depends on package B, and package B depends on package A (directly or transitively), creating a cycle in the dependency graph.
 **Why:** Circular deps make topological sort impossible, causing build failures or infinite loops. The fix is extracting shared code into a third package.
 
 ### Q25
+
 **Question:** How does Turborepo determine if a cached build is still valid?
 **Type:** Single choice
 **Options:** A) Checks file timestamps B) Hashes source files, deps, and config C) Compares git commits D) Checks package version numbers
@@ -1534,6 +1592,7 @@ jobs:
 **Why:** Turborepo creates a content hash from: source files, dependency outputs, environment variables, and configuration. If the hash matches a cached entry, it's a cache hit.
 
 ### Q26
+
 **Question:** What is the "Just-in-Time" (JIT) internal package pattern?
 **Type:** Single choice
 **Options:** A) Building packages on demand in CI B) Exporting raw TypeScript source for consumer bundlers to compile C) Lazy-loading packages at runtime D) Publishing packages just before deployment
@@ -1541,35 +1600,40 @@ jobs:
 **Why:** JIT packages skip their own build step by pointing `exports` at `.ts` source files. The consumer's bundler (Next.js, Vite) handles compilation. Dramatically simplifies DX.
 
 ### Q27
+
 **Question:** Your CI takes 20 minutes. All packages rebuild on every PR even though only `apps/web` changed. What's wrong?
 **Type:** Scenario-based
 **Answer:** CI is not using affected filtering. Add `--filter="...[origin/main]"` to only build/test packages changed since main.
 **Why:** Without filtering, Turborepo builds everything. The `[origin/main]` comparator limits work to changed packages and their dependents.
 
 ### Q28
+
 **Question:** What's the difference between `--filter=web...` and `--filter=...web` in Turborepo?
 **Type:** Matching
 
-| Filter | Meaning |
-|--------|---------|
+| Filter            | Meaning                               |
+| ----------------- | ------------------------------------- |
 | `--filter=web...` | web + all its dependencies (upstream) |
 | `--filter=...web` | web + all its dependents (downstream) |
 
 **Answer:** `web...` = web + deps (things web needs). `...web` = web + dependents (things that need web).
 
 ### Q29
+
 **Question:** You add `@acme/analytics` as a dependency to every app. Now every change to `analytics` rebuilds all apps. How do you minimize blast radius?
 **Type:** Scenario-based
 **Answer:** Make `analytics` as stable as possible. Consider: (1) separate its public API from implementation, (2) ensure good caching so rebuilds are cache hits, (3) consider lazy loading, (4) evaluate if all apps actually need it.
 **Why:** A package depended on by everything becomes a "god package." Any change cascades through the entire graph.
 
 ### Q30
+
 **Question:** True or False: `outputs` in turbo.json tells Turborepo which files to include in the input hash.
 **Type:** True/False
 **Answer:** False
 **Why:** `outputs` specifies what files to CACHE (store and restore on hit). `inputs` (or the default — all files) controls the hash. They serve different purposes.
 
 ### Q31
+
 **Question:** What is a task graph?
 **Type:** Single choice
 **Options:** A) A graph of npm packages B) A graph of tasks across packages respecting dependencies C) A visual diagram of the repo D) A dependency tree of node_modules
@@ -1577,6 +1641,7 @@ jobs:
 **Why:** The task graph maps every task (build, test, lint) across every package, with edges representing dependencies. Turborepo traverses this graph for execution.
 
 ### Q32
+
 **Question:** How should React be declared in a shared UI library package?
 **Type:** Single choice
 **Options:** A) `dependencies` B) `devDependencies` C) `peerDependencies` D) `optionalDependencies`
@@ -1584,6 +1649,7 @@ jobs:
 **Why:** React should be a `peerDependency` so the consuming app provides a single React instance. Having React in `dependencies` would create multiple React instances, causing hooks to break.
 
 ### Q33
+
 **Question:** What does `turbo prune --scope=web` produce?
 **Type:** Single choice
 **Options:** A) Deletes all packages except web B) Creates a sparse monorepo with web + its dependencies C) Removes unused dependencies D) Minifies the web app
@@ -1591,30 +1657,35 @@ jobs:
 **Why:** `turbo prune` creates an `out/` directory containing only the target package and its transitive dependencies. Essential for minimal Docker builds.
 
 ### Q34
+
 **Question:** You want to share Zod validation schemas between your Next.js app and Express API. What's the recommended package structure?
 **Type:** Scenario-based
 **Answer:** Create `packages/validation` with Zod schemas. Both `apps/web` and `apps/api` depend on it. Use JIT pattern (export raw TS) since both consumers have TS compilation.
 **Why:** Validation schemas are runtime code shared between frontend and backend. Zod schemas provide both types AND runtime validation, making them ideal for shared packages.
 
 ### Q35
+
 **Question:** What is the `packageManager` field in root package.json?
 **Type:** Fill in the blank
 **Answer:** Declares which package manager and version the project uses (e.g., `"packageManager": "pnpm@9.0.0"`). Corepack uses this to auto-install the correct version.
 **Why:** Ensures all developers and CI use the same package manager version, preventing "works on my machine" issues.
 
 ### Q36
+
 **Question:** True or False: Turborepo can cache the `dev` task.
 **Type:** True/False
 **Answer:** False (and you shouldn't)
 **Why:** `dev` is a long-running persistent process. Caching it makes no sense. In turbo.json, set `"cache": false, "persistent": true`.
 
 ### Q37
+
 **Question:** What happens if two packages in a monorepo depend on different major versions of `lodash`?
 **Type:** Scenario-based
 **Answer:** pnpm will install both versions, isolating them. Each package gets its declared version. However, this increases `node_modules` size and can cause subtle issues if lodash instances are shared across package boundaries.
 **Why:** pnpm's strict isolation handles this correctly, but it's a smell. Prefer a single version policy for shared dependencies.
 
 ### Q38
+
 **Question:** What is "affected analysis" in monorepo CI?
 **Type:** Single choice
 **Options:** A) Analyzing code quality B) Determining which packages changed and their dependents C) Checking for security vulnerabilities D) Measuring build performance
@@ -1622,12 +1693,14 @@ jobs:
 **Why:** Affected analysis compares the current state with a baseline (e.g., main branch) to identify changed packages and everything downstream. Only those packages need building/testing.
 
 ### Q39
+
 **Question:** How do you run a script in ALL packages matching a pattern?
 **Type:** Code
 **Answer:** `pnpm --filter "./packages/**" build` or `pnpm --filter "@acme/*" build`
 **Why:** pnpm's `--filter` supports glob patterns for both directory paths and package names.
 
 ### Q40
+
 **Question:** True or False: Internal packages with `"private": true` can still be imported by other workspace packages.
 **Type:** True/False
 **Answer:** True
@@ -1638,63 +1711,74 @@ jobs:
 ## Senior / Expert (20 Questions)
 
 ### Q41
+
 **Question:** Your Turborepo remote cache hit rate dropped from 85% to 30% after a CI change. What should you investigate?
 **Type:** Scenario-based
 **Answer:** Check: (1) `globalDependencies` in turbo.json — did a new file get added? (2) Environment variables included in hash — did CI environment change? (3) Node.js version change. (4) OS/architecture change in CI runners. (5) New `inputs` glob matching too many files.
 **Why:** Cache keys include source hashes, env vars, and global deps. Any change to these invalidates caches. Use `turbo build --summarize` to compare cache keys between runs.
 
 ### Q42
+
 **Question:** You have 200 packages. TypeScript language server is extremely slow. What architectural changes can improve IDE performance?
 **Type:** Scenario-based
 **Answer:** (1) Use TypeScript project references with composite builds. (2) Reduce unnecessary type-checking scope with `references` in tsconfig. (3) Use `"disableSourceOfProjectReferenceRedirect": true` for built packages. (4) Consider splitting the monorepo into multiple tsconfig solutions. (5) Exclude test files and build outputs from TS project scope.
 **Why:** TS language server loads all referenced projects. Project references enable incremental type-checking and limit the scope of what the language server loads.
 
 ### Q43
+
 **Question:** A team wants to extract their packages from the monorepo into a separate repo. How should you handle this?
 **Type:** Scenario-based
 **Answer:** (1) Identify all dependencies of the packages to extract. (2) Check if other packages depend on them. (3) If they have dependents, publish to a private registry first, then update consumers. (4) Use `git filter-repo` to preserve history. (5) Set up CI in the new repo. (6) Add the published packages to the monorepo's dependencies. (7) Gradual migration with a deprecation period.
 **Why:** Extraction is expensive. Consider whether the pain of the monorepo is worse than the pain of cross-repo coordination. Often the answer is to fix governance, not split repos.
 
 ### Q44
+
 **Question:** True or False: Fine-grained (file-level) caching is always better than coarse-grained (package-level) caching.
 **Type:** True/False
 **Answer:** False
 **Why:** Fine-grained caching (Bazel-style) has higher cache management overhead and complexity. For most JS/TS monorepos, package-level caching (Turborepo/Nx) provides 80% of the benefit with 20% of the complexity. Fine-grained only pays off at massive scale (1000+ packages).
 
 ### Q45
+
 **Question:** How does the "diamond dependency problem" manifest in monorepo builds?
 **Type:** Fill in the blank
 **Answer:** When package A depends on B and C, and both B and C depend on D, D might be built with different configurations or contexts for B vs C, causing inconsistencies.
 **Why:** Build systems must ensure D is built once with consistent inputs. Turborepo handles this via content hashing — same inputs always produce the same hash, so D builds once.
 
 ### Q46
+
 **Question:** Your monorepo has a `@acme/config` package that every package depends on. Changing one line in config rebuilds all 100 packages. How do you fix this?
 **Type:** Scenario-based
 **Answer:** (1) Split `@acme/config` into focused packages: `config-ts`, `config-eslint`, `config-prettier`, `config-test`. (2) Each package depends only on the configs it needs. (3) A TS change only rebuilds packages using TS config. (4) Consider making config packages have NO build step (JIT) so they don't create cache invalidation cascades.
 **Why:** God packages are the #1 cause of poor cache hit rates. Splitting by concern reduces the blast radius of changes.
 
 ### Q47
+
 **Question:** What's the difference between Turborepo's `inputs` and `globalDependencies`?
 **Type:** Matching
 **Answer:**
+
 - `inputs`: Per-task file globs that determine the cache key for THAT task in THAT package
 - `globalDependencies`: Files that, when changed, invalidate ALL task caches across ALL packages
 
 **Why:** `globalDependencies` is for truly global config (root `.env`, `turbo.json`). Use `inputs` to narrow what each task considers, improving cache hit rates.
 
 ### Q48
+
 **Question:** You need to deploy 5 apps from a monorepo. One app's deployment fails. What's your rollback strategy?
 **Type:** Scenario-based
 **Answer:** (1) Each app should be independently deployable with its own rollback. (2) Shared package versions should be pinned at build time, not runtime. (3) Use blue-green or canary deployments per app. (4) Never roll back a shared package version — roll forward with a fix. (5) Keep deployment artifacts (Docker images, build outputs) tagged with git SHA.
 **Why:** Independent deployability is critical. If apps are coupled in deployment, a failure in one blocks all. Design for independent rollback from day one.
 
 ### Q49
+
 **Question:** How do you handle non-deterministic builds that poison the remote cache?
 **Type:** Scenario-based
 **Answer:** (1) Identify non-determinism: timestamps in output, random hashes, environment-specific paths. (2) Strip timestamps from build outputs. (3) Use `outputs` in turbo.json to exclude non-deterministic files. (4) Ensure build tools produce deterministic output (e.g., sorted imports, stable chunk hashes). (5) Use `TURBO_HASH` env var for debugging.
 **Why:** Non-deterministic builds produce different outputs for the same inputs, meaning cache hits restore incorrect artifacts. This causes subtle, hard-to-debug production bugs.
 
 ### Q50
+
 **Question:** What is "remote execution" and how does it differ from "remote caching"?
 **Type:** Single choice
 **Options:** A) They're the same thing B) Remote caching stores results; remote execution runs builds on remote machines C) Remote execution is faster D) Remote caching requires Bazel
@@ -1702,60 +1786,70 @@ jobs:
 **Why:** Remote caching: "I've seen these inputs before, here's the output." Remote execution (Bazel RBE): "Run this build action on a remote machine, send back results." Remote execution enables true distributed builds; caching only skips already-done work.
 
 ### Q51
+
 **Question:** You're setting up a monorepo with Next.js (Vercel), Astro (Cloudflare Pages), and a Cloudflare Worker. What are the deployment challenges?
 **Type:** Scenario-based
 **Answer:** (1) Each app deploys to a different platform with different build systems. (2) Vercel auto-detects Turborepo but builds from repo root. (3) Cloudflare Pages/Workers use `wrangler` with different build configs. (4) Shared packages must be built before each app's deployment build. (5) Need to configure each platform's root directory and build commands correctly. (6) Environment variables differ per platform.
 **Why:** Multi-platform deployment is the hardest operational challenge in monorepos. Each platform has different assumptions about repo structure and build process.
 
 ### Q52
+
 **Question:** True or False: TypeScript project references and Turborepo serve the same purpose and you only need one.
 **Type:** True/False
 **Answer:** False
 **Why:** They complement each other. TS project references enable incremental TYPE-CHECKING (compile-time). Turborepo enables incremental TASK EXECUTION (build, test, lint). Use both: TS references for fast type-checking, Turborepo for fast builds.
 
 ### Q53
+
 **Question:** How should you handle database migrations in a monorepo with multiple services sharing the same database?
 **Type:** Scenario-based
 **Answer:** (1) Create a dedicated `packages/db` or `packages/migrations` package. (2) Migrations run independently of app deployments. (3) Use forward-compatible migrations (additive only). (4) Never couple migration execution to app deployment. (5) Consider separate CI job for migrations with its own approval gate.
 **Why:** Database migrations that are coupled to app deployments create tight coupling between services. A failed migration shouldn't prevent unrelated apps from deploying.
 
 ### Q54
+
 **Question:** What is the "publish from source" pattern and when should you use it?
 **Type:** Fill in the blank
 **Answer:** Publishing npm packages with TypeScript source files instead of compiled JavaScript. Consumers compile the source themselves. Used for internal packages in monorepos where all consumers have TS compilation.
 **Why:** Eliminates the build step for internal packages, dramatically simplifying the development workflow. Not suitable for packages published to public npm (consumers expect compiled JS).
 
 ### Q55
+
 **Question:** Your monorepo's `pnpm-lock.yaml` has constant merge conflicts. What strategies can reduce this?
 **Type:** Scenario-based
 **Answer:** (1) Use `pnpm install --merge-git-branch-lockfiles` in CI. (2) Reduce frequency of dependency additions. (3) Batch dependency updates with Renovate grouping. (4) Use git rerere to auto-resolve repeated conflicts. (5) Consider lock file maintenance bot that auto-resolves conflicts.
 **Why:** Lock file conflicts are the #1 git workflow pain in monorepos. They're auto-generated, so manual resolution is tedious and error-prone.
 
 ### Q56
+
 **Question:** How do you implement "package graduation" — moving a package from internal to published?
 **Type:** Scenario-based
 **Answer:** (1) Add build step if using JIT pattern. (2) Add `exports` with compiled entry points. (3) Remove `"private": true`. (4) Set up Changesets for versioning. (5) Add publishing CI job. (6) Update internal consumers to use the published version OR keep `workspace:*` for internal and publish for external. (7) Add documentation, README, CHANGELOG.
 **Why:** Graduation is a significant lifecycle event. The package now has external consumers and needs stability guarantees, versioning, and documentation.
 
 ### Q57
+
 **Question:** What's the impact of having 50 internal packages with build steps vs 50 JIT packages on CI performance?
 **Type:** Scenario-based
 **Answer:** 50 built packages: CI must execute 50 build tasks in topological order. Even with caching, cache misses cascade. 50 JIT packages: Only app builds run (e.g., 3 apps). Dramatically fewer tasks. CI is 5-10x faster for the common case.
 **Why:** JIT eliminates O(n) package builds. The trade-off is that app build times increase slightly (compiling more source), but this is usually dwarfed by the savings from eliminated package builds.
 
 ### Q58
+
 **Question:** How should you implement feature flags in a monorepo with multiple apps?
 **Type:** Scenario-based
 **Answer:** Create `packages/feature-flags` with: (1) Type-safe flag definitions shared across apps. (2) Runtime evaluation (LaunchDarkly, Unleash, or custom). (3) Build-time flags via environment variables for dead code elimination. (4) Per-app flag overrides. (5) Flag cleanup process to remove stale flags.
 **Why:** Feature flags in monorepos need to be shared (same flag in web + worker) but independently configurable (different defaults per environment/app).
 
 ### Q59
+
 **Question:** At what scale would you recommend migrating from Turborepo to Nx, and from Nx to Bazel?
 **Type:** Scenario-based
 **Answer:** Turborepo → Nx: When you need module boundary enforcement, code generators, or dependency graph visualization (~30-50 packages, 10+ devs). Nx → Bazel: When you have multi-language builds, need hermetic reproducibility, or have 100+ engineers and 1000+ build targets. Most JS/TS monorepos never need Bazel.
 **Why:** Each tool has a scaling sweet spot. Migrating too early adds unnecessary complexity. Migrating too late causes pain. Measure CI times and cache hit rates to know when you've outgrown a tool.
 
 ### Q60
+
 **Question:** Design an internal developer platform for a 50-package monorepo. What components would it include?
 **Type:** Open-ended
 **Answer:** (1) CLI tool (`@acme/cli`): scaffold packages, run common workflows. (2) Package template generator: consistent new package structure. (3) Dependency graph dashboard: visualize and monitor. (4) Build performance tracker: CI times, cache hit rates over time. (5) Automated migration scripts: bulk codemod across packages. (6) Shared CI workflows: reusable GitHub Actions. (7) Documentation generator: auto-generate docs from TSDoc. (8) Health checks: lint for circular deps, unused packages, stale configs.
@@ -1787,14 +1881,14 @@ jobs:
 
 ### Best Tooling Fit
 
-| Tool | Recommendation |
-|------|---------------|
-| **Package manager** | pnpm (strict, fast, disk-efficient) |
-| **Build orchestrator** | Turborepo (simple, Vercel-native, Rust-fast) |
-| **Bundler for packages** | tsup (when build step needed) or none (JIT) |
-| **Framework** | Next.js + Astro (already your stack) |
-| **Versioning** | Changesets (if publishing externally) |
-| **CI** | GitHub Actions with turbo affected filtering |
+| Tool                     | Recommendation                               |
+| ------------------------ | -------------------------------------------- |
+| **Package manager**      | pnpm (strict, fast, disk-efficient)          |
+| **Build orchestrator**   | Turborepo (simple, Vercel-native, Rust-fast) |
+| **Bundler for packages** | tsup (when build step needed) or none (JIT)  |
+| **Framework**            | Next.js + Astro (already your stack)         |
+| **Versioning**           | Changesets (if publishing externally)        |
+| **CI**                   | GitHub Actions with turbo affected filtering |
 
 ### Common Mistakes Frontend Engineers Make
 
@@ -1808,11 +1902,11 @@ jobs:
 
 ### 30-Day Learning Plan
 
-| Week | Focus | Milestone |
-|------|-------|-----------|
-| **Week 1** | Setup pnpm workspace + 2 apps + 1 shared package. Configure Turborepo. | Working monorepo with `turbo build` and `turbo dev` |
-| **Week 2** | Create shared `ui`, `utils`, `config-ts`, `config-eslint` packages. Use JIT pattern. | 4+ internal packages consumed by apps |
-| **Week 3** | Set up CI with GitHub Actions. Implement affected builds. Enable remote caching. | CI under 3 minutes for typical PRs |
+| Week       | Focus                                                                                             | Milestone                                                |
+| ---------- | ------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| **Week 1** | Setup pnpm workspace + 2 apps + 1 shared package. Configure Turborepo.                            | Working monorepo with `turbo build` and `turbo dev`      |
+| **Week 2** | Create shared `ui`, `utils`, `config-ts`, `config-eslint` packages. Use JIT pattern.              | 4+ internal packages consumed by apps                    |
+| **Week 3** | Set up CI with GitHub Actions. Implement affected builds. Enable remote caching.                  | CI under 3 minutes for typical PRs                       |
 | **Week 4** | Docker builds with `turbo prune`. Add Cloudflare Worker sharing types with web. Deploy multi-app. | Full deployment pipeline for 2+ apps across 2+ platforms |
 
 ---
@@ -1880,6 +1974,7 @@ jobs:
 ## Build Graph Theory
 
 A monorepo build is a computation over a **directed acyclic graph (DAG)**:
+
 - **Nodes** = tasks (build:ui, test:web, lint:utils)
 - **Edges** = dependencies between tasks
 - **Execution** = topological sort with maximum parallelism
@@ -1899,6 +1994,7 @@ Critical path: types(2s) → utils(3s) → ui(5s) → web(8s) = 18s minimum
 Build systems implement a form of **incremental computation** — only recompute what changed.
 
 Three levels:
+
 1. **Dirty bit** — Rebuild if any input changed (coarse, Turborepo default)
 2. **Trace-based** — Track which inputs each output depends on, rebuild selectively (Nx)
 3. **Demand-driven** — Only compute what's requested, memoize results (Bazel/Salsa)
@@ -1935,9 +2031,9 @@ packages/
     ".": {
       "worker": "./src/edge.ts",
       "node": "./src/node.ts",
-      "default": "./src/browser.ts"
-    }
-  }
+      "default": "./src/browser.ts",
+    },
+  },
 }
 ```
 
@@ -1945,12 +2041,12 @@ packages/
 
 Not everything needs to be in the monorepo:
 
-| In the monorepo | In separate repos |
-|-----------------|------------------|
-| Apps sharing significant code | Isolated microservices |
-| Shared libraries | Third-party forks |
-| Configs and tooling | Infrastructure (Terraform) |
-| Design system | Mobile apps (different build system) |
+| In the monorepo               | In separate repos                    |
+| ----------------------------- | ------------------------------------ |
+| Apps sharing significant code | Isolated microservices               |
+| Shared libraries              | Third-party forks                    |
+| Configs and tooling           | Infrastructure (Terraform)           |
+| Design system                 | Mobile apps (different build system) |
 
 **Pattern:** Monorepo publishes packages to private registry. Separate repos consume them as npm dependencies. Best of both worlds when organizations are too large for a single repo.
 
@@ -1959,6 +2055,7 @@ Not everything needs to be in the monorepo:
 The monorepo is a product. The DX team is the product team.
 
 **Platform components:**
+
 1. **Package scaffolder** — `pnpm create @acme/package` generates new packages with templates
 2. **Migration runner** — Automated codemods for bulk changes (TS version upgrade, ESLint rule addition)
 3. **Build dashboard** — Track CI times, cache hit rates, package count, dependency graph health

@@ -1,31 +1,33 @@
 ---
 title: GitLab CI/CD — Complete Deep-Dive Engineering Guide
-description: GitLab CI/CD — Complete Deep-Dive Engineering Guide. Practical guide
+description:
+  GitLab CI/CD — Complete Deep-Dive Engineering Guide. Practical guide
   explaining gitlab ci/cd — complete deep-dive engineering guide with clear examples,
   best...
 slug: gitlab-ci
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- gitlab
-- ci
+  - gitlab
+  - ci
 categories:
-- gitlab
+  - gitlab
 seo:
   title: GitLab CI/CD — Complete Deep-Dive Engineering Guide
-  description: GitLab CI/CD — Complete Deep-Dive Engineering Guide. Practical guide
+  description:
+    GitLab CI/CD — Complete Deep-Dive Engineering Guide. Practical guide
     explaining gitlab ci/cd — complete deep-dive engineering guide with clear examples,
     best...
   canonical: https://feel-free.com/blogs/gitlab-ci
   keywords:
-  - gitlab
-  - ci
+    - gitlab
+    - ci
 author: lazarus2019
 lang: en
 relatedPosts:
-- gitlab-ci-roadmap
-- gitlab-registry
+  - gitlab-ci-roadmap
+  - gitlab-registry
 ---
 
 # GitLab CI/CD — Complete Deep-Dive Engineering Guide
@@ -67,6 +69,7 @@ The Git repository hosted on GitLab. It contains your source code and the `.gitl
 #### GitLab Runner
 
 The agent that executes your jobs. Runners can be:
+
 - **Shared runners:** Provided by GitLab (SaaS) or your GitLab admin. Available to all projects.
 - **Group runners:** Shared across all projects in a GitLab group.
 - **Project runners:** Dedicated to a single project.
@@ -108,6 +111,7 @@ Stored data (typically `node_modules` or package manager caches) that persists a
 #### Variable
 
 A key-value pair available to jobs as environment variables. Variables can be:
+
 - **Predefined:** `CI_COMMIT_SHA`, `CI_PIPELINE_ID`, `CI_MERGE_REQUEST_IID`, etc.
 - **Custom:** Defined in `.gitlab-ci.yml`, project settings, group settings, or instance settings.
 - **Protected:** Only available on protected branches/tags.
@@ -174,21 +178,22 @@ The act of releasing your application to an environment. GitLab tracks deploymen
 
 ### 1.4 Comparison With Other CI/CD Systems
 
-| Dimension | GitLab CI/CD | GitHub Actions | Jenkins | CircleCI | Azure DevOps |
-|---|---|---|---|---|---|
-| **Config** | `.gitlab-ci.yml` | YAML per workflow | Jenkinsfile (Groovy) | `.circleci/config.yml` | `azure-pipelines.yml` |
-| **Pipeline model** | Stage-based (sequential stages, parallel jobs within) | Job-based DAG with `needs` | Pipeline/stage/step | Workflow → jobs → steps | Stage → job → step |
-| **Runner model** | Separate installable runner (gitlab-runner) | Built into platform or self-hosted | Always self-hosted | Cloud or self-hosted | Cloud or self-hosted |
-| **Container registry** | Built-in | GitHub Packages (GHCR) | Plugin-based | None built-in | Azure Container Registry |
-| **Environments** | First-class with deployment history and rollback | Environments with protection rules | Plugin-based | None built-in | Environments with approvals |
-| **Marketplace/reuse** | CI/CD templates, `include` | 20,000+ actions marketplace | 1,800+ plugins | Orbs | Extensions |
-| **Merge request integration** | Deep — CI status, test reports, security scans, code quality inline | PR checks and status | Via webhooks/plugins | PR checks | PR policies |
-| **Best for** | GitLab-centric teams wanting all-in-one | GitHub-centric teams | Custom/legacy infra | Fast CI for product teams | Microsoft-centric enterprises |
-| **Biggest weakness** | YAML complexity, less community reuse than Actions | Less integrated platform | Maintenance burden | Separate platform | Heavier UX |
+| Dimension                     | GitLab CI/CD                                                        | GitHub Actions                     | Jenkins              | CircleCI                  | Azure DevOps                  |
+| ----------------------------- | ------------------------------------------------------------------- | ---------------------------------- | -------------------- | ------------------------- | ----------------------------- |
+| **Config**                    | `.gitlab-ci.yml`                                                    | YAML per workflow                  | Jenkinsfile (Groovy) | `.circleci/config.yml`    | `azure-pipelines.yml`         |
+| **Pipeline model**            | Stage-based (sequential stages, parallel jobs within)               | Job-based DAG with `needs`         | Pipeline/stage/step  | Workflow → jobs → steps   | Stage → job → step            |
+| **Runner model**              | Separate installable runner (gitlab-runner)                         | Built into platform or self-hosted | Always self-hosted   | Cloud or self-hosted      | Cloud or self-hosted          |
+| **Container registry**        | Built-in                                                            | GitHub Packages (GHCR)             | Plugin-based         | None built-in             | Azure Container Registry      |
+| **Environments**              | First-class with deployment history and rollback                    | Environments with protection rules | Plugin-based         | None built-in             | Environments with approvals   |
+| **Marketplace/reuse**         | CI/CD templates, `include`                                          | 20,000+ actions marketplace        | 1,800+ plugins       | Orbs                      | Extensions                    |
+| **Merge request integration** | Deep — CI status, test reports, security scans, code quality inline | PR checks and status               | Via webhooks/plugins | PR checks                 | PR policies                   |
+| **Best for**                  | GitLab-centric teams wanting all-in-one                             | GitHub-centric teams               | Custom/legacy infra  | Fast CI for product teams | Microsoft-centric enterprises |
+| **Biggest weakness**          | YAML complexity, less community reuse than Actions                  | Less integrated platform           | Maintenance burden   | Separate platform         | Heavier UX                    |
 
 ### 1.5 When GitLab CI/CD Is a Better Choice
 
 **Choose GitLab CI/CD when:**
+
 - Your team already uses GitLab for source code.
 - You want an all-in-one platform (SCM + CI/CD + registry + environments + monitoring).
 - You need strong self-hosted/on-premise support.
@@ -197,6 +202,7 @@ The act of releasing your application to an environment. GitLab tracks deploymen
 - Your organization requires strong compliance and audit features.
 
 **Choose something else when:**
+
 - Your code lives on GitHub (use GitHub Actions).
 - You need a massive ecosystem of community-maintained actions (GitHub Actions wins here).
 - You want zero-config deployment for Next.js/frontend (Vercel is better DX).
@@ -272,6 +278,7 @@ test:
 ```
 
 **Key YAML rules:**
+
 - Indentation: spaces only (2-space recommended), never tabs.
 - Job names cannot be GitLab reserved keywords (`stages`, `variables`, `include`, `default`, `workflow`, etc.).
 - Each job must have a `script` keyword.
@@ -342,14 +349,14 @@ If you don't specify `image`, the runner uses its default image (often `ruby:lat
 
 #### Common mistakes
 
-| Mistake | What happens | Fix |
-|---|---|---|
-| No `stages` definition | Jobs may run in unexpected order | Always define `stages` explicitly |
-| Missing `image` | Uses runner default (often wrong) | Always specify `image: node:20-alpine` |
-| `npm install` instead of `npm ci` | Non-deterministic builds | Use `npm ci` for lockfile-based installs |
-| Wrong indentation | YAML parse error | Use spaces (2-space), never tabs |
-| Job name is a reserved keyword | Confusing errors | Avoid `stages`, `variables`, `include`, `default` as job names |
-| Not specifying `stage` | Job goes to `test` stage by default | Assign every job to a stage |
+| Mistake                           | What happens                        | Fix                                                            |
+| --------------------------------- | ----------------------------------- | -------------------------------------------------------------- |
+| No `stages` definition            | Jobs may run in unexpected order    | Always define `stages` explicitly                              |
+| Missing `image`                   | Uses runner default (often wrong)   | Always specify `image: node:20-alpine`                         |
+| `npm install` instead of `npm ci` | Non-deterministic builds            | Use `npm ci` for lockfile-based installs                       |
+| Wrong indentation                 | YAML parse error                    | Use spaces (2-space), never tabs                               |
+| Job name is a reserved keyword    | Confusing errors                    | Avoid `stages`, `variables`, `include`, `default` as job names |
+| Not specifying `stage`            | Job goes to `test` stage by default | Assign every job to a stage                                    |
 
 #### 5 beginner exercises
 
@@ -443,14 +450,14 @@ test:
 
 build:
   stage: build
-  needs: [lint, test]    # ← starts as soon as lint AND test finish
+  needs: [lint, test] # ← starts as soon as lint AND test finish
   script: npm run build
   artifacts:
     paths: [dist/]
 
 deploy:
   stage: deploy
-  needs: [build]         # ← doesn't wait for entire build stage
+  needs: [build] # ← doesn't wait for entire build stage
   script: echo "Deploy"
 ```
 
@@ -458,13 +465,13 @@ deploy:
 
 #### Artifacts vs. cache
 
-| Feature | Artifacts | Cache |
-|---|---|---|
-| Purpose | Pass files between jobs/stages | Speed up repeated installs |
-| Reliability | Guaranteed (stored by GitLab) | Best-effort (may be missing) |
-| Scope | Within one pipeline (or downloadable) | Across pipelines |
-| Example | `dist/`, test reports | `node_modules/`, `.npm/` |
-| Keyword | `artifacts:` | `cache:` |
+| Feature     | Artifacts                             | Cache                        |
+| ----------- | ------------------------------------- | ---------------------------- |
+| Purpose     | Pass files between jobs/stages        | Speed up repeated installs   |
+| Reliability | Guaranteed (stored by GitLab)         | Best-effort (may be missing) |
+| Scope       | Within one pipeline (or downloadable) | Across pipelines             |
+| Example     | `dist/`, test reports                 | `node_modules/`, `.npm/`     |
+| Keyword     | `artifacts:`                          | `cache:`                     |
 
 #### Cache configuration
 
@@ -474,10 +481,10 @@ default:
   cache:
     key:
       files:
-        - package-lock.json     # Cache key based on lockfile hash
+        - package-lock.json # Cache key based on lockfile hash
     paths:
       - node_modules/
-    policy: pull-push            # pull on start, push on success
+    policy: pull-push # pull on start, push on success
 
 # Job that only reads cache (faster)
 deploy:
@@ -487,7 +494,7 @@ deploy:
         - package-lock.json
     paths:
       - node_modules/
-    policy: pull                 # Don't update the cache
+    policy: pull # Don't update the cache
 ```
 
 **pnpm cache:**
@@ -516,7 +523,7 @@ default:
 # In .gitlab-ci.yml
 variables:
   NODE_ENV: production
-  CI: "true"
+  CI: 'true'
 
 # Use predefined variables
 build:
@@ -528,6 +535,7 @@ build:
 ```
 
 **Secret variables:** Set in GitLab UI under **Settings → CI/CD → Variables**.
+
 - Mark as **Protected** → only available on protected branches.
 - Mark as **Masked** → hidden in logs.
 
@@ -627,7 +635,7 @@ build-image:
   services:
     - docker:24-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
@@ -646,15 +654,15 @@ GitLab provides built-in variables for its container registry (`$CI_REGISTRY`, `
 
 #### Common mistakes and anti-patterns
 
-| Anti-pattern | Why it's bad | Better approach |
-|---|---|---|
-| Using `only/except` | Deprecated, confusing precedence | Use `rules` |
-| No caching | Every job reinstalls dependencies | Cache `node_modules` or package store |
-| Artifacts without `expire_in` | Storage bloat | Set `expire_in: 1 week` or appropriate duration |
-| One massive job | Slow feedback, hard to debug | Split into stages and jobs |
-| Duplicating job config | Drift, maintenance pain | Use `.templates` and `extends` |
-| No `workflow:rules` | Duplicate pipelines on MRs | Define `workflow:rules` to control pipeline creation |
-| Secrets in `.gitlab-ci.yml` | Committed to repo history | Use CI/CD variables in project settings |
+| Anti-pattern                  | Why it's bad                      | Better approach                                      |
+| ----------------------------- | --------------------------------- | ---------------------------------------------------- |
+| Using `only/except`           | Deprecated, confusing precedence  | Use `rules`                                          |
+| No caching                    | Every job reinstalls dependencies | Cache `node_modules` or package store                |
+| Artifacts without `expire_in` | Storage bloat                     | Set `expire_in: 1 week` or appropriate duration      |
+| One massive job               | Slow feedback, hard to debug      | Split into stages and jobs                           |
+| Duplicating job config        | Drift, maintenance pain           | Use `.templates` and `extends`                       |
+| No `workflow:rules`           | Duplicate pipelines on MRs        | Define `workflow:rules` to control pipeline creation |
+| Secrets in `.gitlab-ci.yml`   | Committed to repo history         | Use CI/CD variables in project settings              |
 
 #### Level 2 success criteria
 
@@ -714,19 +722,19 @@ trigger-child:
     include:
       - artifact: child-pipeline.yml
         job: generate-pipeline
-    strategy: depend    # Parent waits for child to finish
+    strategy: depend # Parent waits for child to finish
 ```
 
 ```javascript
 // scripts/generate-pipeline.js
 // Detect changed packages and generate jobs only for them
 const changedPackages = detectChanges();
-const jobs = changedPackages.map(pkg => ({
+const jobs = changedPackages.map((pkg) => ({
   [`build-${pkg}`]: {
     stage: 'build',
     script: [`cd packages/${pkg}`, 'npm ci', 'npm run build'],
     rules: [{ when: 'always' }],
-  }
+  },
 }));
 
 const pipeline = {
@@ -792,12 +800,12 @@ deploy:
 
 **`include` sources:**
 
-| Source | Syntax | Use case |
-|---|---|---|
-| Local file | `include: local: '/path.yml'` | Split large pipelines |
-| Another project | `include: project: 'org/repo'` | Shared templates across repos |
-| Remote URL | `include: remote: 'https://...'` | External templates |
-| Template | `include: template: 'name.yml'` | GitLab-provided templates |
+| Source          | Syntax                           | Use case                      |
+| --------------- | -------------------------------- | ----------------------------- |
+| Local file      | `include: local: '/path.yml'`    | Split large pipelines         |
+| Another project | `include: project: 'org/repo'`   | Shared templates across repos |
+| Remote URL      | `include: remote: 'https://...'` | External templates            |
+| Template        | `include: template: 'name.yml'`  | GitLab-provided templates     |
 
 #### Deployment strategy
 
@@ -822,7 +830,7 @@ deploy-production:
   rules:
     - if: $CI_COMMIT_TAG =~ /^v\d+/
       when: manual
-      allow_failure: false    # Pipeline waits for manual approval
+      allow_failure: false # Pipeline waits for manual approval
 ```
 
 #### Environment promotion
@@ -849,21 +857,21 @@ release:
     - echo "Creating release for $CI_COMMIT_TAG"
   release:
     tag_name: $CI_COMMIT_TAG
-    name: "Release $CI_COMMIT_TAG"
-    description: "Automated release"
+    name: 'Release $CI_COMMIT_TAG'
+    description: 'Automated release'
 ```
 
 #### CI optimization
 
-| Technique | Impact | How |
-|---|---|---|
-| Cache dependencies | 30-60% faster installs | `cache:` with lockfile key |
-| Use `needs` (DAG) | Skip stage barriers | `needs: [job-name]` |
-| Parallel keyword | Split test suites | `parallel: 4` |
-| Interruptible jobs | Cancel on new push | `interruptible: true` |
-| `changes` rules | Skip unchanged packages | `rules: changes:` |
-| Smaller Docker images | Faster pull times | Use `alpine` variants |
-| Artifacts only what's needed | Less upload/download | Precise `paths:` |
+| Technique                    | Impact                  | How                        |
+| ---------------------------- | ----------------------- | -------------------------- |
+| Cache dependencies           | 30-60% faster installs  | `cache:` with lockfile key |
+| Use `needs` (DAG)            | Skip stage barriers     | `needs: [job-name]`        |
+| Parallel keyword             | Split test suites       | `parallel: 4`              |
+| Interruptible jobs           | Cancel on new push      | `interruptible: true`      |
+| `changes` rules              | Skip unchanged packages | `rules: changes:`          |
+| Smaller Docker images        | Faster pull times       | Use `alpine` variants      |
+| Artifacts only what's needed | Less upload/download    | Precise `paths:`           |
 
 #### Parallel and matrix-like patterns
 
@@ -895,7 +903,7 @@ test:
 
 ```yaml
 variables:
-  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_CERTDIR: '/certs'
 
 build-image:
   stage: build
@@ -916,18 +924,19 @@ build-image:
 
 #### Secure secrets management
 
-| Practice | Priority |
-|---|---|
+| Practice                                       | Priority |
+| ---------------------------------------------- | -------- |
 | Use protected variables for production secrets | Critical |
-| Mask variables in logs | High |
-| Limit variable scope to environments | High |
-| Use OIDC for cloud access (no static keys) | High |
-| Rotate secrets regularly | Medium |
-| Audit variable access | Medium |
+| Mask variables in logs                         | High     |
+| Limit variable scope to environments           | High     |
+| Use OIDC for cloud access (no static keys)     | High     |
+| Rotate secrets regularly                       | Medium   |
+| Audit variable access                          | Medium   |
 
 #### Self-hosted runners
 
 Use when you need:
+
 - Private network access
 - Custom hardware (GPU, ARM)
 - Cost control at high scale
@@ -935,12 +944,12 @@ Use when you need:
 
 **Runner executors:**
 
-| Executor | Use case | Isolation |
-|---|---|---|
-| Docker | Most common — each job in a container | Container-level |
-| Kubernetes | Auto-scaling on K8s | Pod-level |
-| Shell | Direct on host (avoid for shared runners) | None |
-| Docker Machine | Auto-scale VMs (legacy) | VM-level |
+| Executor       | Use case                                  | Isolation       |
+| -------------- | ----------------------------------------- | --------------- |
+| Docker         | Most common — each job in a container     | Container-level |
+| Kubernetes     | Auto-scaling on K8s                       | Pod-level       |
+| Shell          | Direct on host (avoid for shared runners) | None            |
+| Docker Machine | Auto-scale VMs (legacy)                   | VM-level        |
 
 #### Rollback strategy
 
@@ -957,6 +966,7 @@ deploy:
 GitLab tracks every deployment per environment. You can re-deploy any previous successful deployment from the Environments UI.
 
 **Additional strategies:**
+
 - Re-deploy previous image tag.
 - Git revert + push → pipeline re-deploys.
 - Feature flag disable.
@@ -1027,14 +1037,14 @@ include:
 
 #### Pipeline governance
 
-| Policy | Implementation |
-|---|---|
-| All repos must run CI | Enforce via group-level compliance pipelines |
-| Templates cannot be modified locally | Use `include` with strict overrides |
-| Production deploys require approval | Protected environments with required approvers |
-| Secrets scoped to protected branches | Protected variables |
-| Pipeline changes reviewed | Require MR approval for `.gitlab-ci.yml` |
-| Security scans mandatory | Include security templates at group level |
+| Policy                               | Implementation                                 |
+| ------------------------------------ | ---------------------------------------------- |
+| All repos must run CI                | Enforce via group-level compliance pipelines   |
+| Templates cannot be modified locally | Use `include` with strict overrides            |
+| Production deploys require approval  | Protected environments with required approvers |
+| Secrets scoped to protected branches | Protected variables                            |
+| Pipeline changes reviewed            | Require MR approval for `.gitlab-ci.yml`       |
+| Security scans mandatory             | Include security templates at group level      |
 
 **Compliance pipelines** (GitLab Premium+): Force specific jobs to run regardless of what the project defines.
 
@@ -1091,14 +1101,14 @@ deploy-production:
 
 #### Security hardening
 
-| Threat | Mitigation |
-|---|---|
-| Secret leakage in logs | Mask all sensitive variables |
-| Compromised dependency | SAST, dependency scanning, container scanning |
-| Unauthorized production deploy | Protected environments with required approvers |
-| Runner compromise | Use ephemeral runners, least-privilege |
-| Pipeline injection | Validate all external inputs, avoid `eval` |
-| Supply chain attack | Pin dependencies, sign images, verify provenance |
+| Threat                         | Mitigation                                       |
+| ------------------------------ | ------------------------------------------------ |
+| Secret leakage in logs         | Mask all sensitive variables                     |
+| Compromised dependency         | SAST, dependency scanning, container scanning    |
+| Unauthorized production deploy | Protected environments with required approvers   |
+| Runner compromise              | Use ephemeral runners, least-privilege           |
+| Pipeline injection             | Validate all external inputs, avoid `eval`       |
+| Supply chain attack            | Pin dependencies, sign images, verify provenance |
 
 **GitLab built-in security scanning:**
 
@@ -1134,35 +1144,35 @@ deploy-aws:
 
 #### Scaling runners
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| GitLab SaaS shared runners | Zero maintenance | Cost at scale, shared resources |
-| Self-hosted on VMs | Control, private network | Manual scaling and patching |
-| Kubernetes executor | Auto-scaling pods | K8s complexity |
-| Docker Machine (legacy) | Auto-scale VMs | Being deprecated |
-| Fleeting plugin | Modern auto-scaling for cloud VMs | Newer, less battle-tested |
+| Strategy                   | Pros                              | Cons                            |
+| -------------------------- | --------------------------------- | ------------------------------- |
+| GitLab SaaS shared runners | Zero maintenance                  | Cost at scale, shared resources |
+| Self-hosted on VMs         | Control, private network          | Manual scaling and patching     |
+| Kubernetes executor        | Auto-scaling pods                 | K8s complexity                  |
+| Docker Machine (legacy)    | Auto-scale VMs                    | Being deprecated                |
+| Fleeting plugin            | Modern auto-scaling for cloud VMs | Newer, less battle-tested       |
 
 #### Cost optimization
 
-| Technique | Savings |
-|---|---|
-| Cache dependencies | Reduce install time 30-60% |
-| Use `needs` (DAG) | Reduce total pipeline time |
-| `interruptible: true` | Cancel superseded pipelines |
-| Skip jobs on unchanged paths | Reduce unnecessary jobs |
-| Use smaller runner instance types | Lower per-minute cost |
-| Right-size parallelism | Avoid over-provisioning |
-| Artifact retention policies | Reduce storage cost |
+| Technique                         | Savings                     |
+| --------------------------------- | --------------------------- |
+| Cache dependencies                | Reduce install time 30-60%  |
+| Use `needs` (DAG)                 | Reduce total pipeline time  |
+| `interruptible: true`             | Cancel superseded pipelines |
+| Skip jobs on unchanged paths      | Reduce unnecessary jobs     |
+| Use smaller runner instance types | Lower per-minute cost       |
+| Right-size parallelism            | Avoid over-provisioning     |
+| Artifact retention policies       | Reduce storage cost         |
 
 #### Disaster recovery for CI/CD
 
-| Risk | Mitigation |
-|---|---|
-| GitLab outage | Document manual deploy procedure |
-| Lost pipeline config | `.gitlab-ci.yml` is in version control |
-| Runner fleet failure | Multi-provider runner fleet, fallback to shared |
-| Secret rotation failure | Documented rotation procedure, monitoring |
-| Broken shared template | Version pinning, canary rollout of template updates |
+| Risk                    | Mitigation                                          |
+| ----------------------- | --------------------------------------------------- |
+| GitLab outage           | Document manual deploy procedure                    |
+| Lost pipeline config    | `.gitlab-ci.yml` is in version control              |
+| Runner fleet failure    | Multi-provider runner fleet, fallback to shared     |
+| Secret rotation failure | Documented rotation procedure, monitoring           |
+| Broken shared template  | Version pinning, canary rollout of template updates |
 
 #### Architecture review checklist
 
@@ -1181,18 +1191,18 @@ deploy-aws:
 
 #### What expert engineers care about that juniors miss
 
-| Expert concern | Junior blind spot |
-|---|---|
-| Pipeline cost per deployment | "CI is free" |
-| Template versioning and migration | Copy-paste YAML everywhere |
-| Compliance enforcement | "Trust the team" |
-| Secret sprawl and rotation | "Just add another variable" |
-| Runner security boundaries | "Shared runners are fine" |
-| Artifact storage growth | No expiration set |
-| Pipeline observability | No alerts on failure |
-| Reproducible builds | Version drift across runs |
-| Recovery time for CI/CD failures | No disaster recovery plan |
-| Policy as code | Manual enforcement |
+| Expert concern                    | Junior blind spot           |
+| --------------------------------- | --------------------------- |
+| Pipeline cost per deployment      | "CI is free"                |
+| Template versioning and migration | Copy-paste YAML everywhere  |
+| Compliance enforcement            | "Trust the team"            |
+| Secret sprawl and rotation        | "Just add another variable" |
+| Runner security boundaries        | "Shared runners are fine"   |
+| Artifact storage growth           | No expiration set           |
+| Pipeline observability            | No alerts on failure        |
+| Reproducible builds               | Version drift across runs   |
+| Recovery time for CI/CD failures  | No disaster recovery plan   |
+| Policy as code                    | Manual enforcement          |
 
 #### 10 advanced engineering discussion topics
 
@@ -1516,14 +1526,15 @@ default:
 
 ### Step 6: Cache strategy
 
-| What to cache | Cache key | Path |
-|---|---|---|
-| npm | `package-lock.json` hash | `node_modules/` |
-| pnpm | `pnpm-lock.yaml` hash | `.pnpm-store/` |
-| yarn | `yarn.lock` hash | `node_modules/` |
-| Next.js build | lockfile + source hash | `.next/cache/` |
+| What to cache | Cache key                | Path            |
+| ------------- | ------------------------ | --------------- |
+| npm           | `package-lock.json` hash | `node_modules/` |
+| pnpm          | `pnpm-lock.yaml` hash    | `.pnpm-store/`  |
+| yarn          | `yarn.lock` hash         | `node_modules/` |
+| Next.js build | lockfile + source hash   | `.next/cache/`  |
 
 **Cache policies:**
+
 - `pull-push` (default): Restore and update cache.
 - `pull`: Only restore (for jobs that shouldn't update).
 - `push`: Only update (for a dedicated cache-warming job).
@@ -1553,7 +1564,7 @@ build-and-push:
   services:
     - docker:24-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
@@ -1688,25 +1699,25 @@ deploy-production:
 ### Common `.gitlab-ci.yml` syntax
 
 ```yaml
-stages:              # Define execution order
+stages: # Define execution order
   - validate
   - build
   - deploy
 
-default:             # Defaults for all jobs
+default: # Defaults for all jobs
   image: node:20-alpine
   before_script:
     - npm ci
 
-variables:           # Global variables
+variables: # Global variables
   NODE_ENV: production
 
-workflow:            # Control when pipelines run
+workflow: # Control when pipelines run
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == "main"
 
-include:             # Import external configs
+include: # Import external configs
   - local: '/ci/templates.yml'
   - project: 'org/templates'
     ref: v1.0
@@ -1715,33 +1726,33 @@ include:             # Import external configs
 
 ### Keyword reference
 
-| Keyword | Purpose | Example |
-|---|---|---|
-| `stages` | Define stage order | `stages: [lint, test, build]` |
-| `image` | Docker image for the job | `image: node:20-alpine` |
-| `script` | Commands to run | `script: [npm ci, npm test]` |
-| `before_script` | Commands before `script` | `before_script: [npm ci]` |
-| `after_script` | Commands after `script` (always runs) | `after_script: [echo "done"]` |
-| `stage` | Assign job to stage | `stage: build` |
-| `rules` | Conditional execution | See rules section |
-| `needs` | DAG dependencies | `needs: [lint, test]` |
-| `dependencies` | Which artifacts to download | `dependencies: [build]` |
-| `artifacts` | Files to preserve | `artifacts: paths: [dist/]` |
-| `cache` | Files to cache across runs | See cache section |
-| `variables` | Job-level variables | `variables: NODE_ENV: test` |
-| `environment` | Deployment target | `environment: name: staging` |
-| `extends` | Inherit from template | `extends: .node-setup` |
-| `include` | Import external YAML | See include section |
-| `trigger` | Trigger child/downstream pipeline | `trigger: project: org/repo` |
-| `parallel` | Split job into parallel instances | `parallel: 4` |
-| `interruptible` | Allow cancellation on new push | `interruptible: true` |
-| `retry` | Retry on failure | `retry: max: 2` |
-| `timeout` | Job timeout | `timeout: 10 minutes` |
-| `allow_failure` | Don't fail pipeline if this fails | `allow_failure: true` |
-| `when` | When to run | `when: manual`, `on_success`, `on_failure`, `always` |
-| `resource_group` | Prevent concurrent deploys | `resource_group: production` |
-| `services` | Sidecar containers | `services: [docker:24-dind]` |
-| `tags` | Select specific runners | `tags: [docker, linux]` |
+| Keyword          | Purpose                               | Example                                              |
+| ---------------- | ------------------------------------- | ---------------------------------------------------- |
+| `stages`         | Define stage order                    | `stages: [lint, test, build]`                        |
+| `image`          | Docker image for the job              | `image: node:20-alpine`                              |
+| `script`         | Commands to run                       | `script: [npm ci, npm test]`                         |
+| `before_script`  | Commands before `script`              | `before_script: [npm ci]`                            |
+| `after_script`   | Commands after `script` (always runs) | `after_script: [echo "done"]`                        |
+| `stage`          | Assign job to stage                   | `stage: build`                                       |
+| `rules`          | Conditional execution                 | See rules section                                    |
+| `needs`          | DAG dependencies                      | `needs: [lint, test]`                                |
+| `dependencies`   | Which artifacts to download           | `dependencies: [build]`                              |
+| `artifacts`      | Files to preserve                     | `artifacts: paths: [dist/]`                          |
+| `cache`          | Files to cache across runs            | See cache section                                    |
+| `variables`      | Job-level variables                   | `variables: NODE_ENV: test`                          |
+| `environment`    | Deployment target                     | `environment: name: staging`                         |
+| `extends`        | Inherit from template                 | `extends: .node-setup`                               |
+| `include`        | Import external YAML                  | See include section                                  |
+| `trigger`        | Trigger child/downstream pipeline     | `trigger: project: org/repo`                         |
+| `parallel`       | Split job into parallel instances     | `parallel: 4`                                        |
+| `interruptible`  | Allow cancellation on new push        | `interruptible: true`                                |
+| `retry`          | Retry on failure                      | `retry: max: 2`                                      |
+| `timeout`        | Job timeout                           | `timeout: 10 minutes`                                |
+| `allow_failure`  | Don't fail pipeline if this fails     | `allow_failure: true`                                |
+| `when`           | When to run                           | `when: manual`, `on_success`, `on_failure`, `always` |
+| `resource_group` | Prevent concurrent deploys            | `resource_group: production`                         |
+| `services`       | Sidecar containers                    | `services: [docker:24-dind]`                         |
+| `tags`           | Select specific runners               | `tags: [docker, linux]`                              |
 
 ### Rules syntax
 
@@ -1826,7 +1837,7 @@ build-image:
   services:
     - docker:24-dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_TLS_CERTDIR: '/certs'
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA .
@@ -1836,7 +1847,7 @@ build-image:
 build-image-kaniko:
   image:
     name: gcr.io/kaniko-project/executor:v1.21.0-debug
-    entrypoint: [""]
+    entrypoint: ['']
   script:
     - |
       /kaniko/executor \
@@ -1896,43 +1907,43 @@ deploy-ssh:
 
 ### Common pipeline failures
 
-| Error | Cause | Fix |
-|---|---|---|
-| YAML syntax error | Indentation or structure issue | Use GitLab CI Lint (CI/CD → Editor → Lint) |
-| `job: script not found` | Missing `script` keyword | Every job needs `script:` |
-| Job stuck / pending | No runner available with matching tags | Check runner tags and availability |
-| `npm ERR! could not determine executable` | Wrong image or missing deps | Verify `image:` and `before_script` |
-| Artifact not found in downstream job | Wrong `dependencies` or `needs` | Verify artifact paths and job references |
-| Cache not restoring | Key mismatch or cache expired | Verify `cache:key` matches across jobs |
-| Protected variable missing | Job running on unprotected branch | Use protected branches or unprotect the variable |
-| Docker build fails | DinD not configured | Add `services: [docker:24-dind]` and TLS cert dir |
+| Error                                     | Cause                                  | Fix                                               |
+| ----------------------------------------- | -------------------------------------- | ------------------------------------------------- |
+| YAML syntax error                         | Indentation or structure issue         | Use GitLab CI Lint (CI/CD → Editor → Lint)        |
+| `job: script not found`                   | Missing `script` keyword               | Every job needs `script:`                         |
+| Job stuck / pending                       | No runner available with matching tags | Check runner tags and availability                |
+| `npm ERR! could not determine executable` | Wrong image or missing deps            | Verify `image:` and `before_script`               |
+| Artifact not found in downstream job      | Wrong `dependencies` or `needs`        | Verify artifact paths and job references          |
+| Cache not restoring                       | Key mismatch or cache expired          | Verify `cache:key` matches across jobs            |
+| Protected variable missing                | Job running on unprotected branch      | Use protected branches or unprotect the variable  |
+| Docker build fails                        | DinD not configured                    | Add `services: [docker:24-dind]` and TLS cert dir |
 
 ### Performance optimization
 
-| Technique | Impact |
-|---|---|
-| Cache with lockfile key | 30-60% faster installs |
-| `needs` (DAG mode) | Jobs start sooner |
-| `interruptible: true` | Cancel old pipelines |
-| `parallel:` | Split tests across runners |
-| `changes:` rules | Skip unchanged packages |
-| Smaller images | Faster container pull |
-| `expire_in` on artifacts | Reduce storage |
-| `policy: pull` on deploy jobs | Don't re-upload cache |
+| Technique                     | Impact                     |
+| ----------------------------- | -------------------------- |
+| Cache with lockfile key       | 30-60% faster installs     |
+| `needs` (DAG mode)            | Jobs start sooner          |
+| `interruptible: true`         | Cancel old pipelines       |
+| `parallel:`                   | Split tests across runners |
+| `changes:` rules              | Skip unchanged packages    |
+| Smaller images                | Faster container pull      |
+| `expire_in` on artifacts      | Reduce storage             |
+| `policy: pull` on deploy jobs | Don't re-upload cache      |
 
 ### Security best practices
 
-| Practice | Priority |
-|---|---|
-| Use `rules` not `only/except` | High |
-| Mask and protect sensitive variables | Critical |
-| Pin Docker image versions | High |
+| Practice                                  | Priority |
+| ----------------------------------------- | -------- |
+| Use `rules` not `only/except`             | High     |
+| Mask and protect sensitive variables      | Critical |
+| Pin Docker image versions                 | High     |
 | Use protected environments for production | Critical |
-| Enable SAST and dependency scanning | High |
-| Use OIDC for cloud access | High |
-| Audit variable access regularly | Medium |
-| Use `resource_group` for deploy jobs | Medium |
-| Review `.gitlab-ci.yml` changes in MRs | High |
+| Enable SAST and dependency scanning       | High     |
+| Use OIDC for cloud access                 | High     |
+| Audit variable access regularly           | Medium   |
+| Use `resource_group` for deploy jobs      | Medium   |
+| Review `.gitlab-ci.yml` changes in MRs    | High     |
 
 ---
 
@@ -1944,13 +1955,14 @@ deploy-ssh:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Single job: lint → test → build | Simple | Slower, sequential feedback |
-| Parallel jobs with `needs` | Fast feedback per check | More YAML, repeated installs |
-| Template-based with `extends` | DRY, maintainable | Slight learning curve |
+| Strategy                        | Pros                    | Cons                         |
+| ------------------------------- | ----------------------- | ---------------------------- |
+| Single job: lint → test → build | Simple                  | Slower, sequential feedback  |
+| Parallel jobs with `needs`      | Fast feedback per check | More YAML, repeated installs |
+| Template-based with `extends`   | DRY, maintainable       | Slight learning curve        |
 
 **By team size:**
+
 - **Small:** Single job or two stages (validate + build).
 - **Medium:** Parallel validation jobs, shared template, cache.
 - **Large:** Reusable templates from shared project, child pipelines for monorepo.
@@ -1965,12 +1977,12 @@ deploy-ssh:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| GitLab Pages | Free, integrated, zero config | GitLab-hosted only |
-| Cloudflare Pages (via CLI) | Edge CDN, fast | Requires API token |
-| AWS S3 + CloudFront | Full control | More setup |
-| Vercel (via CLI) | Great DX | External platform |
+| Strategy                   | Pros                          | Cons               |
+| -------------------------- | ----------------------------- | ------------------ |
+| GitLab Pages               | Free, integrated, zero config | GitLab-hosted only |
+| Cloudflare Pages (via CLI) | Edge CDN, fast                | Requires API token |
+| AWS S3 + CloudFront        | Full control                  | More setup         |
+| Vercel (via CLI)           | Great DX                      | External platform  |
 
 **Senior choice:** GitLab Pages for simple static sites (Astro, Vite React). Cloudflare Pages for edge performance. Vercel for Next.js with SSR.
 
@@ -1982,18 +1994,18 @@ deploy-ssh:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Docker-in-Docker (DinD) | Standard, well-documented | Privileged mode needed |
-| Kaniko | No privileged mode, more secure | Slightly different build behavior |
-| Buildah | Rootless, OCI-compliant | Less common in GitLab CI |
+| Strategy                | Pros                            | Cons                              |
+| ----------------------- | ------------------------------- | --------------------------------- |
+| Docker-in-Docker (DinD) | Standard, well-documented       | Privileged mode needed            |
+| Kaniko                  | No privileged mode, more secure | Slightly different build behavior |
+| Buildah                 | Rootless, OCI-compliant         | Less common in GitLab CI          |
 
 ```yaml
 # Kaniko — no DinD required
 build:
   image:
     name: gcr.io/kaniko-project/executor:v1.21.0-debug
-    entrypoint: [""]
+    entrypoint: ['']
   script:
     - |
       /kaniko/executor \
@@ -2014,11 +2026,11 @@ build:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| `rules: changes:` | Simple | Doesn't handle transitive deps |
-| Dynamic child pipelines | Most flexible | More complex setup |
-| Turborepo/Nx integration | Build-tool aware | Tool-specific |
+| Strategy                 | Pros             | Cons                           |
+| ------------------------ | ---------------- | ------------------------------ |
+| `rules: changes:`        | Simple           | Doesn't handle transitive deps |
+| Dynamic child pipelines  | Most flexible    | More complex setup             |
+| Turborepo/Nx integration | Build-tool aware | Tool-specific                  |
 
 **Senior choice:** `rules: changes:` for simple monorepos. Dynamic child pipelines with change detection scripts for complex ones.
 
@@ -2070,11 +2082,11 @@ stop-preview:
 
 **Strategies:**
 
-| Strategy | Risk level | Trade-off |
-|---|---|---|
-| Migrate before deploy | Medium | Migration applied even if deploy fails |
-| Deploy then migrate | Medium | App may error if schema mismatch |
-| Expand/contract (backward-compatible) | Low | Requires discipline |
+| Strategy                              | Risk level | Trade-off                              |
+| ------------------------------------- | ---------- | -------------------------------------- |
+| Migrate before deploy                 | Medium     | Migration applied even if deploy fails |
+| Deploy then migrate                   | Medium     | App may error if schema mismatch       |
+| Expand/contract (backward-compatible) | Low        | Requires discipline                    |
 
 **Senior choice:** Expand/contract. Make migrations backward-compatible so old and new code coexist. Always test migrations in staging first.
 
@@ -2092,8 +2104,8 @@ release:
     - echo "Creating release"
   release:
     tag_name: $CI_COMMIT_TAG
-    name: "Release $CI_COMMIT_TAG"
-    description: "Automated release for $CI_COMMIT_TAG"
+    name: 'Release $CI_COMMIT_TAG'
+    description: 'Automated release for $CI_COMMIT_TAG'
 ```
 
 **Senior choice:** Tag-based releases with automated changelog from conventional commits.
@@ -2122,12 +2134,12 @@ release:
 
 **Strategies:**
 
-| Strategy | Recovery time |
-|---|---|
-| GitLab environment rollback | Minutes |
-| Re-deploy previous image tag | Minutes |
-| Git revert + pipeline | 5-10 minutes |
-| Feature flag disable | Seconds |
+| Strategy                     | Recovery time |
+| ---------------------------- | ------------- |
+| GitLab environment rollback  | Minutes       |
+| Re-deploy previous image tag | Minutes       |
+| Git revert + pipeline        | 5-10 minutes  |
+| Feature flag disable         | Seconds       |
 
 **Senior choice:** Use GitLab's built-in environment rollback for immediate recovery. Test rollback procedures regularly.
 
@@ -2305,11 +2317,11 @@ include:
 
 **Q7. Matching:** Match each concept to its meaning.
 
-| Concept | Meaning |
-|---|---|
-| A. Pipeline | 1. A file produced by a job for downstream use |
-| B. Stage | 2. The agent that executes jobs |
-| C. Runner | 3. A logical grouping of parallel jobs |
+| Concept     | Meaning                                              |
+| ----------- | ---------------------------------------------------- |
+| A. Pipeline | 1. A file produced by a job for downstream use       |
+| B. Stage    | 2. The agent that executes jobs                      |
+| C. Runner   | 3. A logical grouping of parallel jobs               |
 | D. Artifact | 4. The full execution of .gitlab-ci.yml for a commit |
 
 <details><summary>Answer</summary>A→4, B→3, C→2, D→1</details>
@@ -2386,11 +2398,11 @@ Your <code>workflow:rules</code> or job <code>rules</code> are filtering out the
 
 **Q17. Matching:** Match the cache policy to its behavior.
 
-| Policy | Behavior |
-|---|---|
-| A. `pull-push` | 1. Only upload cache at end |
-| B. `pull` | 2. Download at start, upload at end |
-| C. `push` | 3. Only download cache at start |
+| Policy         | Behavior                            |
+| -------------- | ----------------------------------- |
+| A. `pull-push` | 1. Only upload cache at end         |
+| B. `pull`      | 2. Download at start, upload at end |
+| C. `push`      | 3. Only download cache at start     |
 
 <details><summary>Answer</summary>A→2, B→3, C→1</details>
 
@@ -2537,43 +2549,43 @@ Check environment protection settings and job rules.
 
 ### What to learn first
 
-| Priority | Topic |
-|---|---|
-| 1 | Basic `.gitlab-ci.yml` structure, stages, jobs |
-| 2 | Cache and artifacts |
-| 3 | `rules` for conditional execution |
-| 4 | `extends` for DRY templates |
-| 5 | `needs` for DAG mode |
-| 6 | MR pipelines (`workflow:rules`) |
-| 7 | Environments and deployment |
-| 8 | Variables and secrets |
-| 9 | Docker integration |
-| 10 | `include` for shared templates |
+| Priority | Topic                                          |
+| -------- | ---------------------------------------------- |
+| 1        | Basic `.gitlab-ci.yml` structure, stages, jobs |
+| 2        | Cache and artifacts                            |
+| 3        | `rules` for conditional execution              |
+| 4        | `extends` for DRY templates                    |
+| 5        | `needs` for DAG mode                           |
+| 6        | MR pipelines (`workflow:rules`)                |
+| 7        | Environments and deployment                    |
+| 8        | Variables and secrets                          |
+| 9        | Docker integration                             |
+| 10       | `include` for shared templates                 |
 
 ### Which pipelines to build first
 
-| Order | Pipeline | Why |
-|---|---|---|
-| 1st | Basic CI: lint + test + build | Foundation |
-| 2nd | MR pipeline with `workflow:rules` | Prevent duplicates, MR integration |
-| 3rd | Deploy to staging on main | Close the loop |
-| 4th | Deploy to production on tag | Release process |
-| 5th | Preview deployment on MR | Better code review |
-| 6th | Nightly/scheduled security scan | Security posture |
-| 7th | Release automation | Professional releases |
+| Order | Pipeline                          | Why                                |
+| ----- | --------------------------------- | ---------------------------------- |
+| 1st   | Basic CI: lint + test + build     | Foundation                         |
+| 2nd   | MR pipeline with `workflow:rules` | Prevent duplicates, MR integration |
+| 3rd   | Deploy to staging on main         | Close the loop                     |
+| 4th   | Deploy to production on tag       | Release process                    |
+| 5th   | Preview deployment on MR          | Better code review                 |
+| 6th   | Nightly/scheduled security scan   | Security posture                   |
+| 7th   | Release automation                | Professional releases              |
 
 ### Common mistakes frontend engineers make
 
-| Mistake | Why it happens | Fix |
-|---|---|---|
-| Not defining `stages` | Seems optional | Always define stages explicitly |
-| Using `only/except` | Found in old tutorials | Use `rules` instead |
-| No `workflow:rules` | Don't know about duplicate pipelines | Define workflow rules |
-| Not caching | "It works without it" | Cache on lockfile hash |
-| No `expire_in` on artifacts | Seems harmless | Set expiration to avoid storage bloat |
-| Using `npm install` | Habit | Use `npm ci` |
-| Secrets in YAML | Quick and dirty | Use CI/CD variables in settings |
-| Ignoring MR pipeline features | Not aware | Use test reports, code quality integration |
+| Mistake                       | Why it happens                       | Fix                                        |
+| ----------------------------- | ------------------------------------ | ------------------------------------------ |
+| Not defining `stages`         | Seems optional                       | Always define stages explicitly            |
+| Using `only/except`           | Found in old tutorials               | Use `rules` instead                        |
+| No `workflow:rules`           | Don't know about duplicate pipelines | Define workflow rules                      |
+| Not caching                   | "It works without it"                | Cache on lockfile hash                     |
+| No `expire_in` on artifacts   | Seems harmless                       | Set expiration to avoid storage bloat      |
+| Using `npm install`           | Habit                                | Use `npm ci`                               |
+| Secrets in YAML               | Quick and dirty                      | Use CI/CD variables in settings            |
+| Ignoring MR pipeline features | Not aware                            | Use test reports, code quality integration |
 
 ### How to evolve from simple to production-grade
 
@@ -2607,53 +2619,53 @@ Phase 8: Platform
 
 #### Week 1: Foundations (Days 1–7)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 1 | Read Big Picture section, understand concepts | Mental model |
-| 2 | Create first `.gitlab-ci.yml` with one job | Working pipeline |
-| 3 | Add lint, test, and build in separate stages | Multi-stage pipeline |
-| 4 | Add caching on lockfile hash | Faster installs |
-| 5 | Add `needs` to skip stage barriers | DAG pipeline |
-| 6 | Break a job intentionally, study failure logs | Debugging confidence |
-| 7 | Add `extends` for shared setup template | DRY pipeline |
+| Day | Task                                          | Deliverable          |
+| --- | --------------------------------------------- | -------------------- |
+| 1   | Read Big Picture section, understand concepts | Mental model         |
+| 2   | Create first `.gitlab-ci.yml` with one job    | Working pipeline     |
+| 3   | Add lint, test, and build in separate stages  | Multi-stage pipeline |
+| 4   | Add caching on lockfile hash                  | Faster installs      |
+| 5   | Add `needs` to skip stage barriers            | DAG pipeline         |
+| 6   | Break a job intentionally, study failure logs | Debugging confidence |
+| 7   | Add `extends` for shared setup template       | DRY pipeline         |
 
 #### Week 2: Team workflows (Days 8–14)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 8 | Add `workflow:rules` for MR pipelines | No duplicate pipelines |
-| 9 | Add `rules` for conditional execution | Branch/event-based jobs |
-| 10 | Set up CI/CD variables (secrets) | Secure config |
-| 11 | Add artifacts for build output | Build passed between stages |
-| 12 | Add test reports (JUnit format) | Reports in MR widget |
-| 13 | Add `interruptible: true` | Cancel old pipelines |
-| 14 | Review and document your pipeline | Maintainable system |
+| Day | Task                                  | Deliverable                 |
+| --- | ------------------------------------- | --------------------------- |
+| 8   | Add `workflow:rules` for MR pipelines | No duplicate pipelines      |
+| 9   | Add `rules` for conditional execution | Branch/event-based jobs     |
+| 10  | Set up CI/CD variables (secrets)      | Secure config               |
+| 11  | Add artifacts for build output        | Build passed between stages |
+| 12  | Add test reports (JUnit format)       | Reports in MR widget        |
+| 13  | Add `interruptible: true`             | Cancel old pipelines        |
+| 14  | Review and document your pipeline     | Maintainable system         |
 
 #### Week 3: Deployment (Days 15–21)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 15 | Deploy to GitLab Pages (Astro/React) | Working deployment |
-| 16 | Add staging environment on main | Environment tracking |
-| 17 | Add production environment with manual gate | Safe production deploy |
-| 18 | Add Slack/notification on failure | Team awareness |
-| 19 | Add Docker image build and push | Container pipeline |
-| 20 | Add scheduled pipeline for security scan | Nightly scans |
-| 21 | Add release automation on tag | Versioned releases |
+| Day | Task                                        | Deliverable            |
+| --- | ------------------------------------------- | ---------------------- |
+| 15  | Deploy to GitLab Pages (Astro/React)        | Working deployment     |
+| 16  | Add staging environment on main             | Environment tracking   |
+| 17  | Add production environment with manual gate | Safe production deploy |
+| 18  | Add Slack/notification on failure           | Team awareness         |
+| 19  | Add Docker image build and push             | Container pipeline     |
+| 20  | Add scheduled pipeline for security scan    | Nightly scans          |
+| 21  | Add release automation on tag               | Versioned releases     |
 
 #### Week 4: Advanced (Days 22–30)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 22 | Study `include` from shared templates | Reusable patterns |
-| 23 | Create a shared template project | Org-wide reuse |
-| 24 | Add `rules: changes:` for monorepo | Selective CI |
-| 25 | Study child pipelines | Dynamic pipeline generation |
-| 26 | Study self-hosted runners | Architecture knowledge |
-| 27 | Add OIDC for cloud authentication | Better security |
-| 28 | Audit pipeline for security checklist | Hardened pipeline |
-| 29 | Calculate and optimize pipeline cost | Cost awareness |
-| 30 | Write architecture decision record | Documentation |
+| Day | Task                                  | Deliverable                 |
+| --- | ------------------------------------- | --------------------------- |
+| 22  | Study `include` from shared templates | Reusable patterns           |
+| 23  | Create a shared template project      | Org-wide reuse              |
+| 24  | Add `rules: changes:` for monorepo    | Selective CI                |
+| 25  | Study child pipelines                 | Dynamic pipeline generation |
+| 26  | Study self-hosted runners             | Architecture knowledge      |
+| 27  | Add OIDC for cloud authentication     | Better security             |
+| 28  | Audit pipeline for security checklist | Hardened pipeline           |
+| 29  | Calculate and optimize pipeline cost  | Cost awareness              |
+| 30  | Write architecture decision record    | Documentation               |
 
 ---
 
@@ -2683,20 +2695,20 @@ The key mindset: your pipeline is production infrastructure. Treat `.gitlab-ci.y
 
 ### Suggested Advanced Topics
 
-| Topic | Why it matters |
-|---|---|
-| Dynamic child pipelines for monorepos | Scale CI for large codebases |
-| GitLab compliance pipelines | Enforce standards across projects |
-| Multi-project pipeline orchestration | Coordinate dependent services |
-| OIDC-based cloud authentication | Eliminate static credentials |
-| Kubernetes executor for runners | Auto-scaling runner fleet |
-| GitLab Container Registry integration | Built-in image management |
-| Review Apps with dynamic environments | Per-MR preview environments |
-| Merge trains | Safe continuous delivery to main |
-| Feature flags (GitLab) | Decouple deployment from release |
-| Pipeline analytics and insights | Data-driven pipeline optimization |
-| Kaniko and rootless image builds | Secure container builds |
-| GitLab Pages advanced usage | Custom domains, redirects, SPA routing |
-| Vault integration for secrets | Enterprise secret management |
-| Auto DevOps | Zero-config CI/CD for standard apps |
-| Pipeline efficiency dashboard | Monitor cost and duration trends |
+| Topic                                 | Why it matters                         |
+| ------------------------------------- | -------------------------------------- |
+| Dynamic child pipelines for monorepos | Scale CI for large codebases           |
+| GitLab compliance pipelines           | Enforce standards across projects      |
+| Multi-project pipeline orchestration  | Coordinate dependent services          |
+| OIDC-based cloud authentication       | Eliminate static credentials           |
+| Kubernetes executor for runners       | Auto-scaling runner fleet              |
+| GitLab Container Registry integration | Built-in image management              |
+| Review Apps with dynamic environments | Per-MR preview environments            |
+| Merge trains                          | Safe continuous delivery to main       |
+| Feature flags (GitLab)                | Decouple deployment from release       |
+| Pipeline analytics and insights       | Data-driven pipeline optimization      |
+| Kaniko and rootless image builds      | Secure container builds                |
+| GitLab Pages advanced usage           | Custom domains, redirects, SPA routing |
+| Vault integration for secrets         | Enterprise secret management           |
+| Auto DevOps                           | Zero-config CI/CD for standard apps    |
+| Pipeline efficiency dashboard         | Monitor cost and duration trends       |

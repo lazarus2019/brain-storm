@@ -5,16 +5,16 @@ description: CORS & PROXY — Quiz & Practice. Practical guide explaining cors &
   for...
 slug: cors-and-proxy-quizs
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- security
-- cors
-- and
-- proxy
-- quizs
+  - security
+  - cors
+  - and
+  - proxy
+  - quizs
 categories:
-- security
+  - security
 seo:
   title: CORS & PROXY — Quiz & Practice
   description: CORS & PROXY — Quiz & Practice. Practical guide explaining cors
@@ -22,17 +22,17 @@ seo:
     for...
   canonical: https://feel-free.com/blogs/cors-and-proxy-quizs
   keywords:
-  - security
-  - cors
-  - and
-  - proxy
-  - quizs
+    - security
+    - cors
+    - and
+    - proxy
+    - quizs
 author: lazarus2019
 lang: en
 relatedPosts:
-- cors-and-proxy
-- csp
-- csrf
+  - cors-and-proxy
+  - csp
+  - csrf
 ---
 
 # 🧠 CORS & PROXY — Quiz & Practice
@@ -132,15 +132,15 @@ URL 2: https://www.feelfree.com/api/v1/data
 
 ```typescript
 export default defineConfig({
-	server: {
-		proxy: {
-			'/api': {
-				target: 'https://api.example.com',
-				changeOrigin: false,
-				secure: true,
-			},
-		},
-	},
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://api.example.com',
+        changeOrigin: false,
+        secure: true,
+      },
+    },
+  },
 });
 ```
 
@@ -370,13 +370,13 @@ Vite proxy chỉ hoạt động với `vite dev` (development server). Khi `vite
 
 Origin = **protocol + hostname + port**. Path KHÔNG ảnh hưởng.
 
-| Case | Origin 1                   | Origin 2                        | Cross-origin? | Lý do                          |
-| ---- | -------------------------- | ------------------------------- | ------------- | ------------------------------ |
-| A    | `https://feelfree.com` | `https://api.feelfree.com`  | ✅ **Có**     | Subdomain khác = hostname khác |
-| B    | `https://feelfree.com` | `https://feelfree.com`      | ❌ **Không**  | Cùng origin, chỉ khác path     |
-| C    | `http://feelfree.com`  | `https://feelfree.com`      | ✅ **Có**     | Protocol khác                  |
-| D    | `https://feelfree.com` | `https://feelfree.com:8080` | ✅ **Có**     | Port khác                      |
-| E    | `https://feelfree.com` | `https://public.api.feelfree.com`  | ✅ **Có**     | Hostname hoàn toàn khác        |
+| Case | Origin 1               | Origin 2                          | Cross-origin? | Lý do                          |
+| ---- | ---------------------- | --------------------------------- | ------------- | ------------------------------ |
+| A    | `https://feelfree.com` | `https://api.feelfree.com`        | ✅ **Có**     | Subdomain khác = hostname khác |
+| B    | `https://feelfree.com` | `https://feelfree.com`            | ❌ **Không**  | Cùng origin, chỉ khác path     |
+| C    | `http://feelfree.com`  | `https://feelfree.com`            | ✅ **Có**     | Protocol khác                  |
+| D    | `https://feelfree.com` | `https://feelfree.com:8080`       | ✅ **Có**     | Port khác                      |
+| E    | `https://feelfree.com` | `https://public.api.feelfree.com` | ✅ **Có**     | Hostname hoàn toàn khác        |
 
 ---
 
@@ -451,14 +451,11 @@ Access-Control-Allow-Credentials: true
 Server phải **đọc `Origin` header** từ request và set **exact origin** (sau khi validate) vào response. Dynamic origin matching:
 
 ```javascript
-const allowedOrigins = [
-	'https://www.feelfree.com',
-	'https://dev.feelfree.com',
-];
+const allowedOrigins = ['https://www.feelfree.com', 'https://dev.feelfree.com'];
 const origin = req.headers.origin;
 if (allowedOrigins.includes(origin)) {
-	res.header('Access-Control-Allow-Origin', origin);
-	res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Origin', origin);
+  res.header('Access-Control-Allow-Credentials', 'true');
 }
 ```
 
@@ -594,18 +591,18 @@ Browser → DNS → API Gateway:443
 
 ```javascript
 const ALLOWED_ORIGINS = [
-	'https://www.feelfree.com',
-	'https://dev.feelfree.com',
-	'https://test.feelfree.com',
+  'https://www.feelfree.com',
+  'https://dev.feelfree.com',
+  'https://test.feelfree.com',
 ];
 
 app.use((req, res, next) => {
-	const origin = req.headers.origin;
-	if (ALLOWED_ORIGINS.includes(origin)) {
-		res.header('Access-Control-Allow-Origin', origin);
-		res.header('Vary', 'Origin'); // QUAN TRỌNG: cho CDN cache đúng
-	}
-	next();
+  const origin = req.headers.origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+    res.header('Vary', 'Origin'); // QUAN TRỌNG: cho CDN cache đúng
+  }
+  next();
 });
 ```
 

@@ -3,27 +3,27 @@ title: Web Vitals — Ultimate Deep-Dive Guide
 description: 'A comprehensive engineering guide to Web Vitals: from beginner concepts to browser-engine-level performance architecture and real-world production optimization...'
 slug: web-vitals
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- browser
-- web
-- vitals
+  - browser
+  - web
+  - vitals
 categories:
-- browser
+  - browser
 seo:
   title: Web Vitals — Ultimate Deep-Dive Guide
   description: 'A comprehensive engineering guide to Web Vitals: from beginner concepts to browser-engine-level performance architecture and real-world production optimization...'
   canonical: https://feel-free.com/blogs/web-vitals
   keywords:
-  - browser
-  - web
-  - vitals
+    - browser
+    - web
+    - vitals
 author: lazarus2019
 lang: en
 relatedPosts:
-- critical-render-path
-- layout-paint-composite-layer
+  - critical-render-path
+  - layout-paint-composite-layer
 ---
 
 # Web Vitals — Ultimate Deep-Dive Guide
@@ -59,12 +59,14 @@ A comprehensive engineering guide to Web Vitals: from beginner concepts to brows
 Web Vitals are a set of **user-centric metrics** defined by Google that quantify the real experience users have on web pages. They measure what matters to humans: how fast content appears, how quickly the page responds, and how visually stable it is.
 
 They are NOT:
+
 - Server response benchmarks
 - Bundle size metrics
 - Code quality scores
 - Developer experience metrics
 
 They ARE:
+
 - Proxies for human perception of page quality
 - Measured at the browser level using Performance APIs
 - Collected from real users (field data) and simulated environments (lab data)
@@ -73,12 +75,14 @@ They ARE:
 ## Why Web Vitals Exist
 
 Before Web Vitals, performance measurement was fragmented:
+
 - `DOMContentLoaded` doesn't reflect user perception
 - `load` event fires long after users see content
 - Custom metrics varied across organizations
 - No standard way to compare sites
 
 Google introduced Web Vitals to:
+
 1. **Standardize** user experience measurement
 2. **Incentivize** real-user performance (SEO ranking signal)
 3. **Provide actionable** metrics tied to specific rendering pipeline stages
@@ -86,25 +90,25 @@ Google introduced Web Vitals to:
 
 ## Problems Web Vitals Solve
 
-| Problem | Solution |
-|---------|----------|
-| "My site loads fast on my MacBook" | Field data from real devices |
-| "Lighthouse says 100 but users complain" | RUM captures real conditions |
-| "What should I optimize first?" | Prioritized metrics with clear thresholds |
-| "How do I prove performance matters?" | Business-correlated metrics with Google backing |
-| "Different tools give different numbers" | Standardized measurement methodology |
+| Problem                                  | Solution                                        |
+| ---------------------------------------- | ----------------------------------------------- |
+| "My site loads fast on my MacBook"       | Field data from real devices                    |
+| "Lighthouse says 100 but users complain" | RUM captures real conditions                    |
+| "What should I optimize first?"          | Prioritized metrics with clear thresholds       |
+| "How do I prove performance matters?"    | Business-correlated metrics with Google backing |
+| "Different tools give different numbers" | Standardized measurement methodology            |
 
 ## Core Concepts Differentiation
 
 ### Core Web Vitals vs. Lighthouse Metrics
 
-| Aspect | Core Web Vitals | Lighthouse Metrics |
-|--------|----------------|-------------------|
-| Source | Real users (CrUX) | Simulated environment |
-| Metrics | LCP, CLS, INP | FCP, LCP, TBT, CLS, Speed Index |
-| Conditions | Varied devices, networks | Throttled, controlled |
-| SEO impact | Direct ranking signal | Indirect (diagnostic) |
-| Variability | High (real world) | Low (controlled) |
+| Aspect      | Core Web Vitals          | Lighthouse Metrics              |
+| ----------- | ------------------------ | ------------------------------- |
+| Source      | Real users (CrUX)        | Simulated environment           |
+| Metrics     | LCP, CLS, INP            | FCP, LCP, TBT, CLS, Speed Index |
+| Conditions  | Varied devices, networks | Throttled, controlled           |
+| SEO impact  | Direct ranking signal    | Indirect (diagnostic)           |
+| Variability | High (real world)        | Low (controlled)                |
 
 ### Synthetic Testing vs. Field Data
 
@@ -140,17 +144,18 @@ Image budget:  < 500KB per hero image
 
 ## User-Centric Metric Categories
 
-| Category | Metric | Question Answered |
-|----------|--------|-------------------|
-| Loading | LCP | "When does the main content appear?" |
-| Interactivity | INP | "How fast does the page respond to input?" |
-| Visual Stability | CLS | "Does content jump around?" |
-| Initial Paint | FCP | "When does anything first appear?" |
-| Server Speed | TTFB | "How fast does the server respond?" |
+| Category         | Metric | Question Answered                          |
+| ---------------- | ------ | ------------------------------------------ |
+| Loading          | LCP    | "When does the main content appear?"       |
+| Interactivity    | INP    | "How fast does the page respond to input?" |
+| Visual Stability | CLS    | "Does content jump around?"                |
+| Initial Paint    | FCP    | "When does anything first appear?"         |
+| Server Speed     | TTFB   | "How fast does the server respond?"        |
 
 ## Percentile Measurements
 
 Web Vitals uses the **75th percentile (p75)** from field data. This means:
+
 - 75% of page loads must meet the threshold
 - The slowest 25% are excluded (avoids outlier noise)
 - Mobile and desktop are measured separately
@@ -212,14 +217,14 @@ Navigation Start
 
 ## Comparison: Lab vs. Production Tools
 
-| Tool | Type | Metrics | Real Users | CI/CD | Cost |
-|------|------|---------|------------|-------|------|
-| Lighthouse | Lab | All | No | Yes | Free |
-| CrUX | Field | Core Web Vitals | Yes | API | Free |
-| PageSpeed Insights | Both | Core + Lab | Yes (CrUX) | No | Free |
-| WebPageTest | Lab | All + waterfall | No | Yes | Free/Paid |
-| SpeedCurve | Both | All | Optional | Yes | Paid |
-| Datadog RUM | Field | Custom + Core | Yes | Yes | Paid |
+| Tool               | Type  | Metrics         | Real Users | CI/CD | Cost      |
+| ------------------ | ----- | --------------- | ---------- | ----- | --------- |
+| Lighthouse         | Lab   | All             | No         | Yes   | Free      |
+| CrUX               | Field | Core Web Vitals | Yes        | API   | Free      |
+| PageSpeed Insights | Both  | Core + Lab      | Yes (CrUX) | No    | Free      |
+| WebPageTest        | Lab   | All + waterfall | No         | Yes   | Free/Paid |
+| SpeedCurve         | Both  | All             | Optional   | Yes   | Paid      |
+| Datadog RUM        | Field | Custom + Core   | Yes        | Yes   | Paid      |
 
 ## When Web Vitals Matter Most
 
@@ -247,6 +252,7 @@ Navigation Start
 The render time of the **largest image, video, or text block** visible in the viewport, relative to when the page started loading.
 
 **Thresholds:**
+
 - Good: ≤ 2.5s
 - Needs Improvement: 2.5s – 4.0s
 - Poor: > 4.0s
@@ -254,6 +260,7 @@ The render time of the **largest image, video, or text block** visible in the vi
 ### Why Google Introduced It
 
 Previous metrics (First Paint, First Meaningful Paint) were unreliable and implementation-dependent. LCP is:
+
 - Simpler to define (largest element)
 - More aligned with user perception ("when did I see the main content?")
 - Measurable via standard browser APIs (`PerformanceObserver` with `largest-contentful-paint` entry type)
@@ -261,12 +268,14 @@ Previous metrics (First Paint, First Meaningful Paint) were unreliable and imple
 ### Browser-Level Meaning
 
 The browser tracks candidate LCP elements as the page renders:
+
 1. After each rendering frame, the browser checks if a new largest contentful element appeared
 2. LCP candidates can change (e.g., hero image loads after text)
 3. LCP finalizes when user interacts (click, tap, keydown) or page becomes hidden
 4. Only elements within the viewport count
 
 **Eligible LCP elements:**
+
 - `<img>` elements
 - `<image>` inside `<svg>`
 - `<video>` (poster image)
@@ -275,13 +284,13 @@ The browser tracks candidate LCP elements as the page renders:
 
 ### Common Causes of Poor LCP
 
-| Cause | Why | Fix |
-|-------|-----|-----|
-| Slow server response | High TTFB delays everything | Edge caching, CDN, optimize backend |
-| Render-blocking resources | CSS/JS blocks first paint | Inline critical CSS, defer JS |
-| Slow resource load | Hero image not prioritized | `fetchpriority="high"`, preload |
-| Client-side rendering | Content depends on JS execution | SSR/SSG |
-| Lazy-loading hero image | Browser delays the most important image | Never lazy-load above-fold content |
+| Cause                     | Why                                     | Fix                                 |
+| ------------------------- | --------------------------------------- | ----------------------------------- |
+| Slow server response      | High TTFB delays everything             | Edge caching, CDN, optimize backend |
+| Render-blocking resources | CSS/JS blocks first paint               | Inline critical CSS, defer JS       |
+| Slow resource load        | Hero image not prioritized              | `fetchpriority="high"`, preload     |
+| Client-side rendering     | Content depends on JS execution         | SSR/SSG                             |
+| Lazy-loading hero image   | Browser delays the most important image | Never lazy-load above-fold content  |
 
 ### React/Next.js Implications
 
@@ -289,7 +298,11 @@ The browser tracks candidate LCP elements as the page renders:
 // BAD: Client-side rendered hero — LCP depends on JS + data fetch
 function Hero() {
   const [data, setData] = useState(null);
-  useEffect(() => { fetch('/api/hero').then(r => r.json()).then(setData); }, []);
+  useEffect(() => {
+    fetch('/api/hero')
+      .then((r) => r.json())
+      .then(setData);
+  }, []);
   return data ? <img src={data.image} /> : <Skeleton />;
 }
 
@@ -304,11 +317,13 @@ export default async function Hero() {
 ### SSR Implications
 
 SSR improves LCP by sending rendered HTML, BUT:
+
 - Large HTML payloads increase TTFB
 - Blocking data fetches on the server delay first byte
 - Without streaming, entire page must render before sending
 
 **Streaming SSR** sends HTML progressively:
+
 ```
 [shell HTML + critical CSS] → FCP happens early
 [hero content streamed]     → LCP happens next
@@ -358,15 +373,23 @@ Element Render Delay: Time from resource loaded until rendered
 
 ```html
 <!-- Preload LCP image -->
-<link rel="preload" as="image" href="/hero.avif" fetchpriority="high">
+<link rel="preload" as="image" href="/hero.avif" fetchpriority="high" />
 
 <!-- Critical CSS inlined -->
 <style>
-  .hero { width: 100%; aspect-ratio: 16/9; }
+  .hero {
+    width: 100%;
+    aspect-ratio: 16/9;
+  }
 </style>
 
 <!-- Non-critical CSS deferred -->
-<link rel="stylesheet" href="/styles.css" media="print" onload="this.media='all'">
+<link
+  rel="stylesheet"
+  href="/styles.css"
+  media="print"
+  onload="this.media='all'"
+/>
 ```
 
 ---
@@ -378,6 +401,7 @@ Element Render Delay: Time from resource loaded until rendered
 The sum of all **unexpected layout shift scores** throughout the page's lifespan, using a session window approach (max 5s window, 1s gap).
 
 **Thresholds:**
+
 - Good: ≤ 0.1
 - Needs Improvement: 0.1 – 0.25
 - Poor: > 0.25
@@ -385,6 +409,7 @@ The sum of all **unexpected layout shift scores** throughout the page's lifespan
 ### Why Google Introduced It
 
 Layout shifts are one of the most frustrating user experiences:
+
 - Clicking a button and hitting the wrong element
 - Reading text that jumps as ads load
 - Forms shifting as images render
@@ -399,6 +424,7 @@ Distance Fraction: distance elements moved / viewport height (or width)
 ```
 
 **Session Windows**: CLS uses a "session window" approach:
+
 - Shifts within 1s gap are grouped into a session
 - A session lasts max 5s
 - CLS = the largest session window score
@@ -407,13 +433,13 @@ This means: a page with 50 tiny shifts over 30 seconds may have better CLS than 
 
 ### Common Causes of Poor CLS
 
-| Cause | Why | Fix |
-|-------|-----|-----|
-| Images without dimensions | Browser can't reserve space | Always set `width`/`height` or `aspect-ratio` |
-| Dynamic content injection | Ads, banners, cookie notices | Reserve space with CSS |
-| Web fonts causing FOUT/FOIT | Text reflows when font loads | `font-display: optional` or `size-adjust` |
-| Late-loading components | Hydration reveals different layout | SSR with consistent output |
-| Animations using layout properties | `top`/`left`/`width` trigger layout | Use `transform` instead |
+| Cause                              | Why                                 | Fix                                           |
+| ---------------------------------- | ----------------------------------- | --------------------------------------------- |
+| Images without dimensions          | Browser can't reserve space         | Always set `width`/`height` or `aspect-ratio` |
+| Dynamic content injection          | Ads, banners, cookie notices        | Reserve space with CSS                        |
+| Web fonts causing FOUT/FOIT        | Text reflows when font loads        | `font-display: optional` or `size-adjust`     |
+| Late-loading components            | Hydration reveals different layout  | SSR with consistent output                    |
+| Animations using layout properties | `top`/`left`/`width` trigger layout | Use `transform` instead                       |
 
 ### React Implications
 
@@ -421,7 +447,7 @@ This means: a page with 50 tiny shifts over 30 seconds may have better CLS than 
 // BAD: Component renders different sizes during hydration
 function Ad() {
   const [loaded, setLoaded] = useState(false);
-  return loaded ? <div style={{height: 250}}>Ad</div> : null; // CLS!
+  return loaded ? <div style={{ height: 250 }}>Ad</div> : null; // CLS!
 }
 
 // GOOD: Reserve space always
@@ -445,7 +471,8 @@ function Ad() {
 ```javascript
 new PerformanceObserver((list) => {
   for (const entry of list.getEntries()) {
-    if (!entry.hadRecentInput) { // exclude user-initiated shifts
+    if (!entry.hadRecentInput) {
+      // exclude user-initiated shifts
       console.log('Layout shift:', entry.value, entry.sources);
     }
   }
@@ -476,6 +503,7 @@ new PerformanceObserver((list) => {
 The latency of the **worst interaction** (excluding the very worst outlier) throughout the page's lifespan. Specifically, it's the p98 of all interaction latencies.
 
 **Thresholds:**
+
 - Good: ≤ 200ms
 - Needs Improvement: 200ms – 500ms
 - Poor: > 500ms
@@ -483,6 +511,7 @@ The latency of the **worst interaction** (excluding the very worst outlier) thro
 ### Why Google Introduced It (Replacing FID)
 
 FID (First Input Delay) only measured the **first** interaction's **input delay** (not processing time, not rendering time). INP:
+
 - Measures ALL interactions throughout the page lifecycle
 - Includes input delay + processing time + presentation delay
 - Better represents actual responsiveness
@@ -504,14 +533,14 @@ Presentation Delay: Time from handler completion until next frame painted
 
 ### Common Causes of Poor INP
 
-| Cause | Why | Fix |
-|-------|-----|-----|
-| Long tasks on main thread | Input delay increases | Break up tasks, use `scheduler.yield()` |
-| Expensive event handlers | Processing time increases | Debounce, optimize, offload to worker |
-| Large DOM updates | Presentation delay increases | Virtualize, minimize DOM changes |
-| Hydration blocking | Main thread busy hydrating | Progressive/selective hydration |
-| Third-party scripts | Compete for main thread | Defer, isolate, web workers |
-| Large component re-renders | React reconciliation is expensive | Memoize, split state |
+| Cause                      | Why                               | Fix                                     |
+| -------------------------- | --------------------------------- | --------------------------------------- |
+| Long tasks on main thread  | Input delay increases             | Break up tasks, use `scheduler.yield()` |
+| Expensive event handlers   | Processing time increases         | Debounce, optimize, offload to worker   |
+| Large DOM updates          | Presentation delay increases      | Virtualize, minimize DOM changes        |
+| Hydration blocking         | Main thread busy hydrating        | Progressive/selective hydration         |
+| Third-party scripts        | Compete for main thread           | Defer, isolate, web workers             |
+| Large component re-renders | React reconciliation is expensive | Memoize, split state                    |
 
 ### WHY React Apps Struggle with INP
 
@@ -524,8 +553,8 @@ Presentation Delay: Time from handler completion until next frame painted
 // BAD: Click handler triggers expensive re-render
 function SearchResults({ query }) {
   // This filters 10,000 items synchronously on every keystroke
-  const filtered = items.filter(item => item.name.includes(query));
-  return filtered.map(item => <Card key={item.id} {...item} />);
+  const filtered = items.filter((item) => item.name.includes(query));
+  return filtered.map((item) => <Card key={item.id} {...item} />);
 }
 
 // GOOD: Defer non-urgent updates
@@ -534,16 +563,17 @@ import { useDeferredValue, startTransition } from 'react';
 function SearchResults({ query }) {
   const deferredQuery = useDeferredValue(query);
   const filtered = useMemo(
-    () => items.filter(item => item.name.includes(deferredQuery)),
-    [deferredQuery]
+    () => items.filter((item) => item.name.includes(deferredQuery)),
+    [deferredQuery],
   );
-  return filtered.map(item => <Card key={item.id} {...item} />);
+  return filtered.map((item) => <Card key={item.id} {...item} />);
 }
 ```
 
 ### Mobile Implications
 
 Mobile devices have 4-8x slower CPUs than desktop. A task taking 50ms on desktop takes 200-400ms on a budget Android phone. This means:
+
 - Event handlers that feel instant on desktop may exceed 200ms threshold on mobile
 - Hydration that takes 500ms on desktop takes 2-4 seconds on mobile
 - Layout calculations on large DOMs are significantly slower
@@ -561,7 +591,8 @@ new PerformanceObserver((list) => {
     if (entry.interactionId) {
       const inputDelay = entry.processingStart - entry.startTime;
       const processingTime = entry.processingEnd - entry.processingStart;
-      const presentationDelay = entry.startTime + entry.duration - entry.processingEnd;
+      const presentationDelay =
+        entry.startTime + entry.duration - entry.processingEnd;
       console.log({ inputDelay, processingTime, presentationDelay });
     }
   }
@@ -596,14 +627,15 @@ async function handleClick() {
 **Relationship to LCP**: FCP ≤ LCP always. A large gap means the page shows something early but the main content takes longer. Optimizing FCP without fixing LCP gives a false sense of progress.
 
 **Optimization**:
+
 - Inline critical CSS
 - Remove render-blocking resources
 - Use SSR/SSG for initial HTML
 - Preconnect to required origins
 
 ```html
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://cdn.example.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://cdn.example.com" crossorigin />
 ```
 
 ## TTFB — Time to First Byte
@@ -613,11 +645,13 @@ async function handleClick() {
 **Includes**: DNS, TCP, TLS, server processing, network transit.
 
 **WHY good TTFB doesn't guarantee good LCP**:
+
 - TTFB measures server speed, but LCP depends on render-blocking resources, image loading, and client-side rendering
 - A page with 50ms TTFB but 2MB of render-blocking JS will have terrible LCP
 - Streaming SSR can have "high TTFB" for the full document but great LCP because it sends critical content first
 
 **Optimization**:
+
 - CDN (reduce network distance)
 - Edge computing (compute closer to user)
 - Caching (avoid redundant computation)
@@ -671,6 +705,7 @@ A long task is any task > 50ms. During a long task, the main thread is blocked �
 ## Event Timing API
 
 The foundation of INP measurement. Records all events with their timing breakdown:
+
 - `startTime`: when the event was dispatched
 - `processingStart`: when the event handler began
 - `processingEnd`: when the event handler finished
@@ -692,18 +727,19 @@ CSS bytes  → CSSOM
 
 Each stage has performance implications:
 
-| Stage | Metric Affected | WHY |
-|-------|-----------------|-----|
-| HTML parsing | FCP, LCP | Delayed DOM = delayed content |
-| CSSOM | FCP, LCP | Render-blocking by default |
-| Render tree | FCP, LCP | Can't paint without it |
-| Layout | CLS, INP | Expensive recalculations |
-| Paint | LCP, INP | Large paint areas are costly |
-| Composite | INP | GPU layer management |
+| Stage        | Metric Affected | WHY                           |
+| ------------ | --------------- | ----------------------------- |
+| HTML parsing | FCP, LCP        | Delayed DOM = delayed content |
+| CSSOM        | FCP, LCP        | Render-blocking by default    |
+| Render tree  | FCP, LCP        | Can't paint without it        |
+| Layout       | CLS, INP        | Expensive recalculations      |
+| Paint        | LCP, INP        | Large paint areas are costly  |
+| Composite    | INP             | GPU layer management          |
 
 ## WHY JavaScript Affects INP
 
 JavaScript runs on the **main thread**. The main thread also handles:
+
 - Event dispatch
 - Style recalculation
 - Layout
@@ -717,16 +753,25 @@ CSS is **render-blocking by default**. The browser won't paint anything until CS
 
 ```html
 <!-- BAD: Large CSS blocks all rendering -->
-<link rel="stylesheet" href="/all-styles.css"> <!-- 200KB -->
+<link rel="stylesheet" href="/all-styles.css" />
+<!-- 200KB -->
 
 <!-- GOOD: Critical CSS inline, rest deferred -->
-<style>/* only above-fold styles */</style>
-<link rel="stylesheet" href="/full.css" media="print" onload="this.media='all'">
+<style>
+  /* only above-fold styles */
+</style>
+<link
+  rel="stylesheet"
+  href="/full.css"
+  media="print"
+  onload="this.media='all'"
+/>
 ```
 
 ## WHY Hydration Affects Responsiveness
 
 Hydration = React walks the entire DOM tree to attach event listeners and reconcile state. During this:
+
 - Main thread is blocked (long task)
 - User clicks/taps are queued
 - The page LOOKS interactive but ISN'T
@@ -736,6 +781,7 @@ This is the "uncanny valley" of SSR: the page renders fast (good LCP) but doesn'
 ## WHY Layout Shifts Occur
 
 Layout shifts happen when elements change position **without user interaction**. Common causes:
+
 1. Image loads without reserved space → pushes content down
 2. Font swap changes text metrics → text reflows
 3. Dynamic content inserted above viewport content
@@ -743,26 +789,26 @@ Layout shifts happen when elements change position **without user interaction**.
 
 ## WHY Mobile Devices Struggle More
 
-| Factor | Desktop | Mobile |
-|--------|---------|--------|
-| CPU | Fast (4+ GHz, 8+ cores) | Slow (1-2 GHz, efficiency cores) |
-| Memory | 8-32 GB | 2-6 GB |
-| Network | Wi-Fi/Ethernet (low latency) | 4G/3G (high latency, variable) |
-| Thermal | Fan-cooled | Throttles under load |
-| Viewport | Large | Small (different LCP elements) |
+| Factor   | Desktop                      | Mobile                           |
+| -------- | ---------------------------- | -------------------------------- |
+| CPU      | Fast (4+ GHz, 8+ cores)      | Slow (1-2 GHz, efficiency cores) |
+| Memory   | 8-32 GB                      | 2-6 GB                           |
+| Network  | Wi-Fi/Ethernet (low latency) | 4G/3G (high latency, variable)   |
+| Thermal  | Fan-cooled                   | Throttles under load             |
+| Viewport | Large                        | Small (different LCP elements)   |
 
 A task that takes 50ms on desktop can take **200-400ms on a budget Android phone** due to CPU differences. This is why mobile field data often shows much worse INP than lab testing on developer machines.
 
 ## Rendering Architecture Comparison
 
-| Architecture | LCP | INP | CLS | Trade-offs |
-|-------------|-----|-----|-----|------------|
-| CSR (SPA) | Poor | Poor initially | Low (after load) | Simple deploy, poor initial perf |
-| SSR | Good | Medium (hydration) | Low-Medium | Server cost, TTFB matters |
-| SSG | Excellent | Medium (hydration) | Low | Build time, stale data |
-| Streaming SSR | Good-Excellent | Medium | Low | Complexity, infra requirements |
-| Islands | Excellent | Excellent | Low | Framework-specific (Astro) |
-| Partial Hydration | Good | Good | Low | Complexity, framework support |
+| Architecture      | LCP            | INP                | CLS              | Trade-offs                       |
+| ----------------- | -------------- | ------------------ | ---------------- | -------------------------------- |
+| CSR (SPA)         | Poor           | Poor initially     | Low (after load) | Simple deploy, poor initial perf |
+| SSR               | Good           | Medium (hydration) | Low-Medium       | Server cost, TTFB matters        |
+| SSG               | Excellent      | Medium (hydration) | Low              | Build time, stale data           |
+| Streaming SSR     | Good-Excellent | Medium             | Low              | Complexity, infra requirements   |
+| Islands           | Excellent      | Excellent          | Low              | Framework-specific (Astro)       |
+| Partial Hydration | Good           | Good               | Low              | Complexity, framework support    |
 
 ---
 
@@ -773,6 +819,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 **Goal**: Understand what Web Vitals are and perform basic optimizations.
 
 ### Learn:
+
 - What LCP, CLS, INP mean
 - How to run Lighthouse in Chrome DevTools
 - Image optimization: formats (WebP/AVIF), compression, sizing
@@ -781,6 +828,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - Why `width` and `height` on images matter
 
 ### Common Beginner Mistakes:
+
 1. Lazy-loading the hero image (hurts LCP)
 2. Not setting image dimensions (causes CLS)
 3. Loading all JS synchronously in `<head>`
@@ -793,6 +841,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 10. Not compressing assets (gzip/brotli)
 
 ### 10 Beginner Exercises:
+
 1. Run Lighthouse on your site and identify the LCP element
 2. Add `width`/`height` to all images and measure CLS improvement
 3. Convert images to WebP/AVIF and compare file sizes
@@ -809,6 +858,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 **Goal**: Diagnose common performance issues and understand the rendering pipeline.
 
 ### Learn:
+
 - INP measurement and optimization
 - `preload` / `prefetch` / `preconnect` differences
 - Code splitting with dynamic imports
@@ -821,6 +871,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - Common anti-patterns (below)
 
 ### Anti-Patterns:
+
 - Preloading everything (bandwidth contention)
 - Over-splitting code (request waterfalls)
 - Synchronous third-party scripts in critical path
@@ -830,6 +881,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - Not prioritizing above-fold resources
 
 ### 10 Mini Project Ideas:
+
 1. Build a RUM snippet that reports LCP, CLS, INP to an endpoint
 2. Implement code splitting for a route-based React app and measure TBT
 3. Create an image gallery with optimized loading (priority for first visible)
@@ -846,6 +898,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 **Goal**: Architect systems for performance and implement organization-wide optimization strategies.
 
 ### Learn:
+
 - Full rendering pipeline optimization (each stage)
 - Advanced hydration: selective, progressive, resumable
 - Streaming SSR (React 18 `renderToPipeableStream`)
@@ -860,6 +913,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - CI/CD performance gates (Lighthouse CI, automated alerts)
 
 ### 10 Production-Grade Project Examples:
+
 1. Implement streaming SSR with Suspense boundaries and progressive loading
 2. Build a CI pipeline with Lighthouse CI that blocks PRs exceeding budgets
 3. Create an edge-rendered page with personalized content and good LCP
@@ -876,6 +930,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 **Goal**: Deep understanding of browser internals and organization-scale performance strategy.
 
 ### Learn:
+
 - Browser scheduler internals (task queues, microtasks, rendering steps)
 - Rendering invalidation (what triggers style/layout recalculation)
 - Advanced profiling with `chrome://tracing` and Perfetto
@@ -886,6 +941,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - Organization-scale strategy (platform teams, shared infra, developer guardrails)
 
 ### Architecture Review Checklist:
+
 - [ ] LCP element identified and prioritized (preload, fetchpriority)
 - [ ] No render-blocking resources in critical path
 - [ ] Images have explicit dimensions or aspect-ratio
@@ -898,6 +954,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - [ ] CDN caching strategy documented
 
 ### What Experts Care About That Juniors Miss:
+
 - Field data percentiles, not lab scores
 - INP across the entire page lifecycle, not just initial load
 - Mobile device performance (4x CPU slowdown)
@@ -908,6 +965,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - Business metric correlation with performance
 
 ### 15 Advanced Discussion Topics:
+
 1. Why might a site with 100 Lighthouse score have poor real-user INP?
 2. How does React concurrent rendering affect INP measurements?
 3. When does edge rendering hurt more than help?
@@ -929,6 +987,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 **Goal**: Think like Chrome/Blink engineers. Understand why metrics exist, how they're measured, and where the web platform is heading.
 
 ### Learn:
+
 - **Blink metric internals**: How LCP/CLS/INP are actually implemented in Chromium
 - **Event Timing internals**: How `interactionId` groups events, how duration is calculated
 - **Rendering engine scheduling**: Main thread task queue, microtask checkpoint, rendering steps
@@ -941,6 +1000,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 - **Future direction**: Long Animation Frames API, soft navigations, element timing improvements
 
 ### Browser-Engine Performance Philosophy:
+
 - The browser is an OS running untrusted code
 - Every frame is a deadline (16.67ms)
 - The main thread is a shared resource — JS must yield
@@ -955,6 +1015,7 @@ A task that takes 50ms on desktop can take **200-400ms on a budget Android phone
 ## React Hydration Cost
 
 Hydration is React's most expensive operation for INP:
+
 1. Downloads all component JS
 2. Executes all component code to build virtual DOM
 3. Walks real DOM to attach event listeners
@@ -972,6 +1033,7 @@ Hydration cost on mobile (approximate):
 ## React Server Components (RSC)
 
 RSC reduces hydration cost by keeping components on the server:
+
 - Server Components: zero client JS, no hydration needed
 - Client Components: traditional hydration, only where needed
 - Boundary: `'use client'` directive
@@ -990,7 +1052,7 @@ async function ProductPage({ id }) {
 }
 
 // Only AddToCartButton hydrates on client
-'use client';
+('use client');
 function AddToCartButton({ product }) {
   return <button onClick={() => addToCart(product)}>Add to Cart</button>;
 }
@@ -998,18 +1060,19 @@ function AddToCartButton({ product }) {
 
 ## Next.js Rendering Strategies
 
-| Strategy | LCP | INP | Use Case |
-|----------|-----|-----|----------|
-| Static (SSG) | Excellent | Depends on hydration | Content that rarely changes |
-| ISR | Excellent | Depends on hydration | Content that changes periodically |
-| SSR | Good (TTFB dependent) | Depends on hydration | Personalized/real-time content |
-| Streaming | Good-Excellent | Better (progressive) | Large pages with data dependencies |
-| Edge Runtime | Excellent (low TTFB) | Depends on hydration | Global audience, simple logic |
-| PPR (Partial Prerendering) | Excellent | Good | Static shell + dynamic holes |
+| Strategy                   | LCP                   | INP                  | Use Case                           |
+| -------------------------- | --------------------- | -------------------- | ---------------------------------- |
+| Static (SSG)               | Excellent             | Depends on hydration | Content that rarely changes        |
+| ISR                        | Excellent             | Depends on hydration | Content that changes periodically  |
+| SSR                        | Good (TTFB dependent) | Depends on hydration | Personalized/real-time content     |
+| Streaming                  | Good-Excellent        | Better (progressive) | Large pages with data dependencies |
+| Edge Runtime               | Excellent (low TTFB)  | Depends on hydration | Global audience, simple logic      |
+| PPR (Partial Prerendering) | Excellent             | Good                 | Static shell + dynamic holes       |
 
 ## Astro Islands Architecture
 
 Astro's approach is optimal for Web Vitals:
+
 - Default: **zero client JS** (all components are static HTML)
 - Interactive components: opt-in hydration with `client:*` directives
 
@@ -1029,6 +1092,7 @@ import AddToCart from './AddToCart.tsx'; // React component
 ```
 
 **Hydration directives:**
+
 - `client:load` — hydrate immediately (use sparingly)
 - `client:idle` — hydrate when browser is idle
 - `client:visible` — hydrate when in viewport
@@ -1056,13 +1120,16 @@ function handleFilter(value) {
 
 // 3. React.memo for expensive sub-trees
 const ExpensiveList = React.memo(function ExpensiveList({ items }) {
-  return items.map(item => <ExpensiveItem key={item.id} {...item} />);
+  return items.map((item) => <ExpensiveItem key={item.id} {...item} />);
 });
 
 // 4. Virtualization for large lists
 import { useVirtualizer } from '@tanstack/react-virtual';
 function VirtualList({ items }) {
-  const virtualizer = useVirtualizer({ count: items.length, estimateSize: () => 50 });
+  const virtualizer = useVirtualizer({
+    count: items.length,
+    estimateSize: () => 50,
+  });
   // Only renders visible items — drastically reduces DOM size
 }
 
@@ -1226,19 +1293,19 @@ const inter = Inter({
 
 # 8. Performance Tooling Comparison
 
-| Tool | Type | Best For | Cost | CI/CD | Learning Curve |
-|------|------|----------|------|-------|---------------|
-| **Lighthouse** | Lab | Quick audits, PR checks | Free | ✅ | Low |
-| **WebPageTest** | Lab | Detailed waterfalls, comparison | Free/Paid | ✅ | Medium |
-| **Chrome DevTools** | Lab | Deep debugging, profiling | Free | ❌ | Medium-High |
-| **PageSpeed Insights** | Both | Quick field + lab overview | Free | ❌ | Low |
-| **CrUX** | Field | Real-user data, trends | Free | API | Low |
-| **Perfetto** | Lab | Thread-level analysis | Free | ❌ | High |
-| **SpeedCurve** | Both | Monitoring, competition | Paid | ✅ | Medium |
-| **Calibre** | Both | Team performance budgets | Paid | ✅ | Medium |
-| **Datadog RUM** | Field | Full-stack observability | Paid | ✅ | Medium |
-| **Sentry Performance** | Field | Error + performance correlation | Paid | ✅ | Low |
-| **New Relic** | Both | Enterprise observability | Paid | ✅ | Medium-High |
+| Tool                   | Type  | Best For                        | Cost      | CI/CD | Learning Curve |
+| ---------------------- | ----- | ------------------------------- | --------- | ----- | -------------- |
+| **Lighthouse**         | Lab   | Quick audits, PR checks         | Free      | ✅    | Low            |
+| **WebPageTest**        | Lab   | Detailed waterfalls, comparison | Free/Paid | ✅    | Medium         |
+| **Chrome DevTools**    | Lab   | Deep debugging, profiling       | Free      | ❌    | Medium-High    |
+| **PageSpeed Insights** | Both  | Quick field + lab overview      | Free      | ❌    | Low            |
+| **CrUX**               | Field | Real-user data, trends          | Free      | API   | Low            |
+| **Perfetto**           | Lab   | Thread-level analysis           | Free      | ❌    | High           |
+| **SpeedCurve**         | Both  | Monitoring, competition         | Paid      | ✅    | Medium         |
+| **Calibre**            | Both  | Team performance budgets        | Paid      | ✅    | Medium         |
+| **Datadog RUM**        | Field | Full-stack observability        | Paid      | ✅    | Medium         |
+| **Sentry Performance** | Field | Error + performance correlation | Paid      | ✅    | Low            |
+| **New Relic**          | Both  | Enterprise observability        | Paid      | ✅    | Medium-High    |
 
 ### When to Use What:
 
@@ -1256,24 +1323,37 @@ const inter = Inter({
 
 ```html
 <!-- Preload hero image -->
-<link rel="preload" as="image" href="/hero.avif" fetchpriority="high">
+<link rel="preload" as="image" href="/hero.avif" fetchpriority="high" />
 
 <!-- Priority hint on LCP image -->
-<img src="/hero.avif" fetchpriority="high" decoding="async"
-     width="1200" height="600" alt="Hero">
+<img
+  src="/hero.avif"
+  fetchpriority="high"
+  decoding="async"
+  width="1200"
+  height="600"
+  alt="Hero"
+/>
 
 <!-- Next.js: priority prop -->
-<Image src="/hero.jpg" priority fill sizes="100vw" alt="Hero" />
+<image src="/hero.jpg" priority fill sizes="100vw" alt="Hero" />
 ```
 
 ## CLS Prevention
 
 ```css
 /* Reserve space for images */
-img, video { aspect-ratio: attr(width) / attr(height); max-width: 100%; height: auto; }
+img,
+video {
+  aspect-ratio: attr(width) / attr(height);
+  max-width: 100%;
+  height: auto;
+}
 
 /* Reserve space for ads/dynamic content */
-.ad-slot { min-height: 250px; }
+.ad-slot {
+  min-height: 250px;
+}
 
 /* Font swap without shift */
 @font-face {
@@ -1284,8 +1364,12 @@ img, video { aspect-ratio: attr(width) / attr(height); max-width: 100%; height: 
 }
 
 /* Animations: use transform, not layout properties */
-.animate { transform: translateX(100px); } /* ✅ */
-.animate { left: 100px; }                  /* ❌ causes layout shift */
+.animate {
+  transform: translateX(100px);
+} /* ✅ */
+.animate {
+  left: 100px;
+} /* ❌ causes layout shift */
 ```
 
 ## INP Optimization
@@ -1312,10 +1396,14 @@ function handleInput(e) {
 ## Script Loading Patterns
 
 ```html
-<script src="critical.js"></script>          <!-- Blocks parsing -->
-<script src="main.js" defer></script>        <!-- After parsing, before DOMContentLoaded -->
-<script src="analytics.js" async></script>   <!-- When available, doesn't block -->
-<script type="module" src="app.js"></script> <!-- Deferred by default -->
+<script src="critical.js"></script>
+<!-- Blocks parsing -->
+<script src="main.js" defer></script>
+<!-- After parsing, before DOMContentLoaded -->
+<script src="analytics.js" async></script>
+<!-- When available, doesn't block -->
+<script type="module" src="app.js"></script>
+<!-- Deferred by default -->
 ```
 
 ## Performance Budget Example
@@ -1372,6 +1460,7 @@ Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400
 **Problem**: Thousands of components, heavy hydration, complex state management, frequent re-renders.
 
 **Strategy**:
+
 1. **Component-level code splitting**: Only load code for visible features
 2. **Selective hydration**: React 18 `<Suspense>` boundaries for progressive hydration
 3. **State colocation**: Keep state close to where it's used (avoid global re-renders)
@@ -1385,6 +1474,7 @@ Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400
 **Problem**: Traditional SSR blocks on slowest data source before sending any HTML.
 
 **Strategy**:
+
 ```jsx
 // Next.js App Router with streaming
 export default async function Page() {
@@ -1409,6 +1499,7 @@ export default async function Page() {
 # 11. Brainstorm / Open Questions
 
 ## Rendering Pipeline (10)
+
 1. Why does good TTFB not guarantee good LCP?
 2. What's the performance cost of 10,000 DOM nodes vs 1,000?
 3. When does `will-change` hurt performance instead of helping?
@@ -1421,6 +1512,7 @@ export default async function Page() {
 10. What's the relationship between DOM depth and layout cost?
 
 ## Networking (10)
+
 11. Why might preload hurt performance?
 12. When does HTTP/2 multiplexing not help?
 13. How does priority signaling affect resource loading order?
@@ -1433,6 +1525,7 @@ export default async function Page() {
 20. What's the cost of too many preload hints?
 
 ## Hydration (10)
+
 21. Should hydration happen immediately?
 22. Why does hydration delay interactivity on mobile?
 23. What's the trade-off between eager and lazy hydration?
@@ -1445,6 +1538,7 @@ export default async function Page() {
 30. How does resumability (Qwik) differ from hydration?
 
 ## Responsiveness (10)
+
 31. What causes poor INP on low-end Android devices?
 32. Should this interaction block the main thread?
 33. When does `requestAnimationFrame` hurt INP?
@@ -1457,6 +1551,7 @@ export default async function Page() {
 40. What's the cost of synchronous state updates in React?
 
 ## Mobile Performance (10)
+
 41. Why do budget Android phones struggle with Web Vitals?
 42. How does thermal throttling affect performance over time?
 43. What's the memory impact of large React component trees?
@@ -1469,6 +1564,7 @@ export default async function Page() {
 50. What's the relationship between JS bundle size and mobile CPU cost?
 
 ## Browser Behavior (10)
+
 51. How does the preload scanner work?
 52. Why does speculative parsing improve performance?
 53. How does the browser prioritize resources?
@@ -1481,6 +1577,7 @@ export default async function Page() {
 60. How does the browser decide when to GC?
 
 ## React Architecture (10)
+
 61. Why might `React.memo` hurt performance?
 62. How does Context propagation affect INP?
 63. What's the rendering cost of deeply nested providers?
@@ -1493,6 +1590,7 @@ export default async function Page() {
 70. How do React DevTools affect performance measurements?
 
 ## CDN Strategy (10)
+
 71. When should you bypass CDN cache?
 72. How does stale-while-revalidate affect Web Vitals?
 73. What's the performance impact of CDN cache miss storms?
@@ -1505,6 +1603,7 @@ export default async function Page() {
 80. What's the performance difference between push and pull CDN models?
 
 ## CI/CD Performance (10)
+
 81. How do you prevent performance regressions in CI?
 82. What's the right threshold for failing a build on performance?
 83. How do you handle flaky performance tests?
@@ -1517,6 +1616,7 @@ export default async function Page() {
 90. What's the right cadence for performance reviews?
 
 ## Product Trade-offs (12)
+
 91. When should you ship faster at the cost of performance?
 92. How do you convince stakeholders performance matters?
 93. What's the ROI of performance optimization?
@@ -1526,9 +1626,9 @@ export default async function Page() {
 97. How do you prioritize which pages to optimize first?
 98. When should you remove features for performance?
 99. What's the relationship between Core Web Vitals and SEO ranking?
-100. How do you build a performance culture in an organization?
-101. When does perfect performance hurt developer velocity?
-102. How do you measure the business impact of improved INP?
+100.  How do you build a performance culture in an organization?
+101.  When does perfect performance hurt developer velocity?
+102.  How do you measure the business impact of improved INP?
 
 ---
 
@@ -1537,173 +1637,203 @@ export default async function Page() {
 ## Beginner (30 Questions)
 
 ### Q1
+
 **Question**: What does LCP stand for and what does it measure?
 **Type**: Short answer
 **Answer**: Largest Contentful Paint — the time until the largest image or text block visible in the viewport is rendered.
 **Why**: LCP approximates when the "main content" of a page has loaded from the user's perspective.
 
 ### Q2
+
 **Question**: True or False: Adding `loading="lazy"` to all images improves LCP.
 **Type**: True/False
 **Answer**: **False**
 **Why**: Lazy-loading the hero/LCP image delays its load because the browser won't fetch it until it's near the viewport. Never lazy-load above-fold content.
 
 ### Q3
+
 **Question**: What causes CLS when images load?
 **Type**: Short answer
 **Answer**: Images without explicit `width`/`height` attributes or CSS `aspect-ratio` cause the browser to allocate 0px height initially, then shift content when the image dimensions become known.
 
 ### Q4
+
 **Question**: Which image formats provide the best compression for web? (Select all that apply)
-A) PNG  B) AVIF  C) BMP  D) WebP  E) GIF
+A) PNG B) AVIF C) BMP D) WebP E) GIF
 **Type**: Multiple choice
 **Answer**: B, D
 **Why**: AVIF and WebP provide significantly better compression than PNG/GIF/BMP for photographic content.
 
 ### Q5
+
 **Question**: What is the LCP threshold for "Good" performance?
 **Type**: Single choice
-A) ≤ 1.0s  B) ≤ 2.5s  C) ≤ 4.0s  D) ≤ 5.0s
+A) ≤ 1.0s B) ≤ 2.5s C) ≤ 4.0s D) ≤ 5.0s
 **Answer**: B) ≤ 2.5s
 
 ### Q6
+
 **Question**: What is `font-display: swap` and what Web Vital does it affect?
 **Type**: Short answer
 **Answer**: It tells the browser to use a fallback font immediately and swap to the custom font when loaded. It can cause CLS because the text may reflow when fonts swap due to different metrics.
 
 ### Q7
+
 **Question**: What HTML attribute should you add to your hero image to tell the browser it's high priority?
 **Type**: Fill in the blank
 **Answer**: `fetchpriority="high"`
 
 ### Q8
+
 **Question**: True or False: A Lighthouse score of 100 guarantees good real-user Web Vitals.
 **Type**: True/False
 **Answer**: **False**
 **Why**: Lighthouse runs in controlled conditions. Real users have varying devices, networks, and conditions that Lighthouse doesn't simulate.
 
 ### Q9
+
 **Question**: What does `<link rel="preconnect">` do?
 **Type**: Short answer
 **Answer**: It establishes early connections (DNS + TCP + TLS) to third-party origins before they're needed, reducing connection overhead when resources are later requested.
 
 ### Q10
+
 **Question**: Which script loading attribute should you use for non-critical JavaScript?
-A) No attribute  B) `async`  C) `defer`  D) `type="module"`
+A) No attribute B) `async` C) `defer` D) `type="module"`
 **Type**: Single choice
 **Answer**: C) `defer` — executes after parsing, in order, before DOMContentLoaded.
 
 ### Q11
+
 **Question**: What is the CLS threshold for "Good"?
 **Type**: Single choice
-A) ≤ 0.05  B) ≤ 0.1  C) ≤ 0.25  D) ≤ 0.5
+A) ≤ 0.05 B) ≤ 0.1 C) ≤ 0.25 D) ≤ 0.5
 **Answer**: B) ≤ 0.1
 
 ### Q12
+
 **Question**: Why should you set explicit `width` and `height` on `<img>` elements?
 **Type**: Short answer
 **Answer**: The browser uses these to calculate the aspect ratio and reserve space before the image loads, preventing layout shifts (CLS).
 
 ### Q13
+
 **Question**: What does render-blocking mean?
 **Type**: Short answer
 **Answer**: A render-blocking resource prevents the browser from painting any content until it's fully downloaded and processed. CSS is render-blocking by default; synchronous JS in `<head>` is parser-blocking.
 
 ### Q14
+
 **Question**: What is the difference between `loading="lazy"` and `loading="eager"`?
 **Type**: Short answer
 **Answer**: `lazy` defers loading until the element approaches the viewport. `eager` (default) loads immediately. Use `lazy` only for below-fold content.
 
 ### Q15
+
 **Question**: What tool shows you which element is the LCP element on a page?
 **Type**: Multiple choice
-A) Lighthouse  B) Web Vitals Chrome extension  C) DevTools Performance panel  D) All of the above
+A) Lighthouse B) Web Vitals Chrome extension C) DevTools Performance panel D) All of the above
 **Answer**: D) All of the above
 
 ### Q16
+
 **Question**: True or False: CSS is render-blocking by default.
 **Type**: True/False
 **Answer**: **True**
 **Why**: The browser won't paint until CSSOM is constructed, because rendering without styles would cause a flash of unstyled content and massive CLS.
 
 ### Q17
+
 **Question**: What is the recommended image format hierarchy for web performance?
 **Type**: Short answer
 **Answer**: AVIF > WebP > optimized JPEG/PNG. Use `<picture>` with `<source>` for format negotiation.
 
 ### Q18
+
 **Question**: What does `<link rel="preload" as="image" href="/hero.avif">` do?
 **Type**: Short answer
 **Answer**: Tells the browser to fetch the hero image early with high priority, before the parser naturally discovers it. Helps LCP when the image is referenced in CSS or loaded via JS.
 
 ### Q19
+
 **Question**: Which Web Vital measures visual stability?
 **Type**: Single choice
-A) LCP  B) INP  C) CLS  D) FCP
+A) LCP B) INP C) CLS D) FCP
 **Answer**: C) CLS
 
 ### Q20
+
 **Question**: What is TTFB and why doesn't a fast TTFB guarantee fast LCP?
 **Type**: Short answer
 **Answer**: TTFB is Time to First Byte (server response time). LCP depends on additional factors: render-blocking resources, image loading, client-side rendering — all happen after first byte.
 
 ### Q21
+
 **Question**: What is the difference between `async` and `defer` on script tags?
 **Type**: Short answer
 **Answer**: `async`: downloads in parallel, executes immediately when ready (may interrupt parsing). `defer`: downloads in parallel, executes after parsing completes, maintains order.
 
 ### Q22
+
 **Question**: True or False: Inline CSS always improves performance.
 **Type**: True/False
 **Answer**: **False**
 **Why**: Inline CSS can't be cached separately. Small critical CSS should be inlined; large stylesheets should remain external and cached.
 
 ### Q23
+
 **Question**: What is a CDN and how does it help Web Vitals?
 **Type**: Short answer
 **Answer**: Content Delivery Network — serves content from edge servers geographically close to users, reducing latency (TTFB) and improving resource load times (LCP).
 
 ### Q24
+
 **Question**: What compression algorithms should you enable on your server?
 **Type**: Short answer
 **Answer**: Brotli (preferred, ~20% better than gzip) and gzip (fallback). Applied to text resources: HTML, CSS, JS, SVG, JSON.
 
 ### Q25
+
 **Question**: What is the viewport and why does it matter for LCP?
 **Type**: Short answer
 **Answer**: The viewport is the visible area of the page. LCP only considers elements within the initial viewport — elements below the fold don't count as LCP candidates.
 
 ### Q26
+
 **Question**: True or False: Adding more `<link rel="preload">` always improves performance.
 **Type**: True/False
 **Answer**: **False**
 **Why**: Too many preloads cause bandwidth contention — everything becomes high priority, so nothing is truly prioritized. Preload only critical resources.
 
 ### Q27
+
 **Question**: What is the `<picture>` element used for?
 **Type**: Short answer
 **Answer**: Art direction and format negotiation. Allows serving different image formats/sizes based on browser support and viewport conditions.
 
 ```html
 <picture>
-  <source srcset="/hero.avif" type="image/avif">
-  <source srcset="/hero.webp" type="image/webp">
-  <img src="/hero.jpg" alt="Hero" width="1200" height="600">
+  <source srcset="/hero.avif" type="image/avif" />
+  <source srcset="/hero.webp" type="image/webp" />
+  <img src="/hero.jpg" alt="Hero" width="1200" height="600" />
 </picture>
 ```
 
 ### Q28
+
 **Question**: What is the 75th percentile and why does Google use it for Web Vitals?
 **Type**: Short answer
 **Answer**: p75 means 75% of page loads meet the threshold. It's more demanding than median (captures slower experiences) but avoids extreme outliers (p99 would be too noisy).
 
 ### Q29
+
 **Question**: What Web Vital replaced FID in 2024?
 **Type**: Single choice
-A) TBT  B) INP  C) TTI  D) FCP
+A) TBT B) INP C) TTI D) FCP
 **Answer**: B) INP (Interaction to Next Paint)
 
 ### Q30
+
 **Question**: What is the difference between field data and lab data?
 **Type**: Short answer
 **Answer**: Field data comes from real users on real devices/networks (RUM, CrUX). Lab data comes from controlled simulated environments (Lighthouse, WebPageTest). Field data reflects actual user experience; lab data is reproducible for debugging.
@@ -1713,38 +1843,46 @@ A) TBT  B) INP  C) TTI  D) FCP
 ## Junior (30 Questions)
 
 ### Q31
+
 **Question**: What does INP measure and what are its three components?
 **Type**: Short answer
 **Answer**: INP measures the worst interaction latency (p98). Components: Input Delay (main thread busy), Processing Time (event handler execution), Presentation Delay (rendering the next frame).
 
 ### Q32
+
 **Question**: Your page has 800ms INP. The Performance panel shows a 600ms long task running when the user clicks. Which INP component is the problem?
 **Type**: Scenario-based
 **Answer**: **Input Delay** — the main thread was occupied with a long task when the user interacted, so the event handler couldn't start until the task finished.
 
 ### Q33
+
 **Question**: What is hydration and why does it affect INP?
 **Type**: Short answer
 **Answer**: Hydration is React attaching event listeners and reconciling state with server-rendered HTML. It's a long task that blocks the main thread — during hydration, user interactions are queued (increased input delay).
 
 ### Q34
+
 **Question**: What is the difference between `<link rel="preload">` and `<link rel="prefetch">`?
 **Type**: Short answer
 **Answer**: `preload`: high priority, needed for current page, fetched immediately. `prefetch`: low priority, needed for future navigation, fetched when browser is idle.
 
 ### Q35
+
 **Question**: True or False: Code splitting always improves performance.
 **Type**: True/False
 **Answer**: **False**
 **Why**: Over-splitting creates request waterfalls (chunk A → chunk B → chunk C). Each chunk adds a round trip. Optimal splitting balances parallelism with waterfall depth.
 
 ### Q36
+
 **Question**: What is a Long Task and what threshold defines it?
 **Type**: Short answer
 **Answer**: A Long Task is any task on the main thread exceeding 50ms. During a long task, the browser cannot respond to user input, causing increased INP.
 
 ### Q37
+
 **Question**: You see this waterfall. What's the problem?
+
 ```
 [HTML] ─────────
          [CSS] ──────
@@ -1752,35 +1890,42 @@ A) TBT  B) INP  C) TTI  D) FCP
                                 [API call] ────
                                          [Image] ───
 ```
+
 **Type**: Scenario-based
 **Answer**: **Serial waterfall** — each resource is discovered only after the previous one loads. Fix: preload critical resources, inline critical CSS, fetch data on the server (SSR), preload LCP image.
 
 ### Q38
+
 **Question**: How do you use Chrome DevTools to identify layout shifts?
 **Type**: Short answer
 **Answer**: Performance panel → enable "Layout Shift Regions" or Rendering tab → check "Layout Shift Regions". Blue rectangles highlight shifted elements. Also check the "Experience" lane in the Performance panel.
 
 ### Q39
+
 **Question**: What is `scheduler.yield()` and why does it help INP?
 **Type**: Short answer
 **Answer**: `scheduler.yield()` voluntarily gives control back to the browser mid-task, allowing it to process pending user interactions. It breaks long tasks into smaller ones, reducing input delay.
 
 ### Q40
+
 **Question**: True or False: `requestAnimationFrame` callbacks count toward INP.
 **Type**: True/False
 **Answer**: **True** — if a rAF callback runs as part of the interaction's rendering update, it's included in the presentation delay of that INP measurement.
 
 ### Q41
+
 **Question**: What is the "waterfall" problem with client-side data fetching?
 **Type**: Short answer
 **Answer**: Component renders → fetches data → renders children → children fetch their data → creates sequential request chains. Each step adds latency. Fix: parallel fetching, SSR, or data preloading.
 
 ### Q42
+
 **Question**: How does `content-visibility: auto` help performance?
 **Type**: Short answer
 **Answer**: It tells the browser to skip rendering (layout, paint) for off-screen content until it's near the viewport. Reduces initial rendering cost, improving LCP and INP.
 
 ### Q43
+
 **Question**: What causes layout thrashing?
 **Type**: Short answer
 **Answer**: Reading layout properties (offsetHeight, getBoundingClientRect) after writing style changes forces the browser to synchronously recalculate layout. Repeated read-write cycles in a loop are extremely expensive.
@@ -1793,86 +1938,103 @@ for (const el of elements) {
 ```
 
 ### Q44
+
 **Question**: Your Next.js page has good LCP (1.8s) but poor INP (450ms). What should you investigate?
 **Type**: Scenario-based
 **Answer**: Hydration cost (large component tree), third-party scripts blocking main thread, expensive event handlers, large DOM causing slow re-renders. Profile with DevTools Performance panel → look for long tasks after page load.
 
 ### Q45
+
 **Question**: What is the difference between `display: none` and `content-visibility: hidden`?
 **Type**: Short answer
 **Answer**: `display: none` removes from layout but still exists in DOM. `content-visibility: hidden` keeps the element in layout flow but skips its rendering work. For performance, `content-visibility: auto` is better for off-screen content.
 
 ### Q46
+
 **Question**: What does `fetchpriority` do and when should you use it?
 **Type**: Short answer
 **Answer**: It hints the browser about resource priority. Use `fetchpriority="high"` on LCP images to boost their download priority. Use `fetchpriority="low"` on non-critical resources.
 
 ### Q47
+
 **Question**: How do you identify which third-party scripts affect INP?
 **Type**: Short answer
 **Answer**: Performance panel → look for long tasks with third-party attribution. Long Tasks API provides `attribution` field. Also check: Event Timing entries where `processingStart - startTime` is large (input delay from third-party tasks).
 
 ### Q48
+
 **Question**: What is the "uncanny valley" of SSR?
 **Type**: Short answer
 **Answer**: The page renders quickly (looks interactive) but doesn't respond to clicks because hydration hasn't completed. Users see buttons but can't use them — frustrating and poor INP.
 
 ### Q49
+
 **Question**: True or False: `React.lazy()` with `Suspense` helps reduce initial hydration cost.
 **Type**: True/False
 **Answer**: **True** — lazy-loaded components don't need to hydrate until their code loads. Combined with `Suspense`, React can progressively hydrate the page.
 
 ### Q50
+
 **Question**: What is RUM and why is it necessary alongside Lighthouse?
 **Type**: Short answer
 **Answer**: Real User Monitoring collects performance data from actual users. It's necessary because Lighthouse doesn't capture: device diversity, network variability, third-party script behavior, user interaction patterns, or real-world INP.
 
 ### Q51
+
 **Question**: How does `will-change` affect browser rendering?
 **Type**: Short answer
 **Answer**: It hints the browser to promote an element to its own compositing layer in advance. Improves animation performance but increases memory usage. Overuse hurts performance.
 
 ### Q52
+
 **Question**: What is the difference between paint and composite?
 **Type**: Short answer
 **Answer**: Paint: draws pixels for elements (CPU, per-layer). Composite: combines painted layers into the final image (GPU, cheap). Animations using `transform`/`opacity` only trigger composite — much cheaper.
 
 ### Q53
+
 **Question**: You add `<link rel="preload" as="script" href="/analytics.js">`. Performance gets worse. Why?
 **Type**: Scenario-based
 **Answer**: Preloading a non-critical script gives it high priority, competing with critical resources (CSS, hero image, fonts) for bandwidth. The LCP resource downloads slower because analytics is now prioritized.
 
 ### Q54
+
 **Question**: What is the Long Animation Frames (LoAF) API?
 **Type**: Short answer
 **Answer**: A newer API that provides more detailed information about long frames (>50ms) including script attribution, making it easier to identify what's causing poor INP. It replaces the Long Tasks API with richer data.
 
 ### Q55
+
 **Question**: How does React 18's `startTransition` help INP?
 **Type**: Short answer
 **Answer**: It marks state updates as non-urgent. React can interrupt these renders to handle user input. The urgent interaction gets processed first, then React continues the transition — reducing input delay.
 
 ### Q56
+
 **Question**: What is `stale-while-revalidate` and how does it help performance?
 **Type**: Short answer
 **Answer**: A cache strategy that serves stale content immediately while fetching fresh content in the background. Users get instant responses (good TTFB/LCP) while content stays eventually fresh.
 
 ### Q57
+
 **Question**: What causes a "request chain" in Lighthouse?
 **Type**: Short answer
 **Answer**: Dependent resource loading: HTML → CSS → @import → font, or JS → dynamic import → API call. Each link adds round-trip latency. Fix: flatten chains, preload, inline critical resources.
 
 ### Q58
+
 **Question**: True or False: HTTP/2 eliminates the need for bundling.
 **Type**: True/False
 **Answer**: **False** — while HTTP/2 multiplexing reduces the cost of multiple requests, compression efficiency, parse costs, and request waterfall depth still make strategic bundling valuable.
 
 ### Q59
+
 **Question**: What is the performance impact of a large DOM (>1500 nodes)?
 **Type**: Short answer
 **Answer**: Increases memory usage, slows style recalculation, makes layout more expensive, increases paint area, slows DOM queries, and makes hydration take longer. All affect INP.
 
 ### Q60
+
 **Question**: How do you measure real-user INP in production?
 **Type**: Short answer
 **Answer**: Use the `web-vitals` library's `onINP()` function, which uses the Event Timing API internally. Send data to your analytics endpoint. Monitor p75 from field data.
@@ -1882,158 +2044,188 @@ for (const el of elements) {
 ## Senior (30 Questions)
 
 ### Q61
+
 **Question**: Your React app has p75 INP of 380ms. Performance profiling shows the longest task is React hydration (1.2s on mobile). What architectural changes would you make?
 **Type**: Scenario-based
 **Answer**: 1) Implement selective hydration with Suspense boundaries. 2) Convert data-only components to React Server Components. 3) Use `client:idle` or `client:visible` patterns for non-critical interactive components. 4) Consider islands architecture (Astro) for content-heavy pages. 5) Break the page into smaller route segments with less component tree depth.
 
 ### Q62
+
 **Question**: How would you implement a CI/CD performance budget that prevents regressions without blocking all deployments?
 **Type**: Short answer
 **Answer**: Use Lighthouse CI with `warn` thresholds (alert but don't block) and `error` thresholds (block deployment). Run against multiple URLs. Allow budget overrides with team lead approval. Track trends over time. Use relative budgets (regression from baseline) not just absolute thresholds.
 
 ### Q63
+
 **Question**: Explain the trade-off between streaming SSR and full SSR for caching.
 **Type**: Short answer
 **Answer**: Full SSR: entire page can be cached as one unit (simple, effective CDN caching). Streaming SSR: progressive delivery improves FCP/LCP but makes CDN caching harder (partial responses, dynamic chunks). Solution: cache the static shell, stream dynamic parts, or use edge-side composition.
 
 ### Q64
+
 **Question**: How does React Server Components affect the bundle architecture?
 **Type**: Short answer
 **Answer**: RSC reduces client bundle size because server components never ship JS to the client. This means: less code to download, less to parse, less to hydrate. Bundle strategy shifts from "split everything" to "keep on server by default, only ship client components."
 
 ### Q65
+
 **Question**: What is the performance implication of CSS-in-JS (styled-components, Emotion) at scale?
 **Type**: Short answer
 **Answer**: Runtime CSS-in-JS: generates styles during rendering (CPU cost), inserts `<style>` tags (triggers style recalculation), can't be cached separately, increases JS bundle. At scale: causes longer rendering time, increased INP, larger bundles. Alternatives: CSS Modules, Tailwind, vanilla-extract (zero-runtime).
 
 ### Q66
+
 **Question**: Design a CDN caching strategy for an e-commerce site with personalized recommendations.
 **Type**: Scenario-based
 **Answer**: Cache static shell (header, layout, footer) at edge. Use edge-side includes (ESI) or streaming for personalized content. Cache product pages with `stale-while-revalidate`. Use `Vary` header carefully (or avoid it — fragment cache instead). Cache images aggressively with immutable headers. Use cache tags for targeted invalidation on price/inventory changes.
 
 ### Q67
+
 **Question**: True or False: `React.memo` always improves performance for frequently re-rendering components.
 **Type**: True/False
 **Answer**: **False**
 **Why**: `React.memo` adds comparison overhead. If props change frequently (new objects/arrays every render), the comparison runs but never prevents re-render — pure overhead. Must stabilize prop references first.
 
 ### Q68
+
 **Question**: How would you architect performance monitoring for a 50-person frontend team?
 **Type**: Scenario-based
 **Answer**: 1) RUM library on all pages reporting to centralized dashboard. 2) Per-route performance budgets owned by feature teams. 3) Automated regression alerts (p75 change > threshold). 4) Lighthouse CI in PR pipeline with team-specific budgets. 5) Weekly performance review in team standup. 6) Performance SLOs tied to business metrics. 7) Shared component library with performance-tested components.
 
 ### Q69
+
 **Question**: What is Partial Prerendering (PPR) in Next.js and how does it improve Web Vitals?
 **Type**: Short answer
 **Answer**: PPR prerenders a static shell at build time and streams dynamic content at request time. The static shell serves instantly from CDN (excellent TTFB/LCP for the shell), while dynamic parts stream in via Suspense boundaries. Combines SSG speed with SSR dynamism.
 
 ### Q70
+
 **Question**: How does HTTP/3 (QUIC) affect Web Vitals differently from HTTP/2?
 **Type**: Short answer
 **Answer**: QUIC eliminates head-of-line blocking at transport layer, has 0-RTT connection resumption (faster TTFB), better handles packet loss (streams are independent). Impact: reduced TTFB, more consistent resource loading on lossy mobile networks, better LCP on poor connections.
 
 ### Q71
+
 **Question**: Your site uses ISR with 60s revalidation. During revalidation, TTFB spikes from 50ms to 800ms for some users. Why and how do you fix it?
 **Type**: Scenario-based
 **Answer**: The first request after stale triggers synchronous server-side regeneration (cache miss). Fix: use `stale-while-revalidate` header so CDN serves stale content while revalidating in background. Or use on-demand revalidation instead of time-based.
 
 ### Q72
+
 **Question**: How do you optimize Web Vitals for users in regions far from your origin server?
 **Type**: Short answer
 **Answer**: 1) Multi-region CDN with edge caching. 2) Edge SSR for dynamic content (Cloudflare Workers, Vercel Edge). 3) Regional cache warming. 4) Image CDN with global PoPs. 5) DNS with geographic routing. 6) Minimize origin requests via aggressive caching.
 
 ### Q73
+
 **Question**: What is the rendering cost difference between `transform: translateX(100px)` and `left: 100px`?
 **Type**: Short answer
 **Answer**: `left` triggers layout → paint → composite (expensive, affects other elements). `transform` only triggers composite (GPU-only, doesn't affect other elements). On a 60fps animation, `left` causes jank; `transform` stays smooth.
 
 ### Q74
+
 **Question**: How do you implement performance budgets per route in a Next.js app?
 **Type**: Short answer
 **Answer**: 1) Lighthouse CI with per-URL assertions in `lighthouserc.yml`. 2) Bundle analyzer with per-route chunk size limits. 3) Custom webpack plugin that enforces per-entry-point size limits. 4) `next/bundle-analyzer` for visibility. 5) Automated size comparison in PR checks.
 
 ### Q75
+
 **Question**: Explain how service workers can both help and hurt Web Vitals.
 **Type**: Short answer
 **Answer**: Help: precache critical resources (instant LCP on repeat visits), offline support, background sync. Hurt: service worker boot time adds to TTFB on first request, stale cache can serve outdated content, complex cache strategies can delay responses if poorly implemented.
 
 ### Q76
+
 **Question**: What is the performance architecture of Next.js Image component?
 **Type**: Short answer
 **Answer**: 1) Generates responsive `srcset` at build time. 2) Serves optimized formats (AVIF/WebP) via image optimization API. 3) Lazy loads by default (below fold). 4) `priority` prop disables lazy loading + adds preload. 5) Prevents CLS with required dimensions. 6) CDN-cacheable optimized URLs.
 
 ### Q77
+
 **Question**: How does `useTransition` differ from `useDeferredValue` for INP optimization?
 **Type**: Short answer
 **Answer**: `useTransition`: wraps the state update itself — React can interrupt the render. Use when you control the state setter. `useDeferredValue`: defers a value — React renders with old value first, then updates. Use when you receive a value (prop) you can't control. Both allow React to prioritize urgent updates (user input) over the deferred work.
 
 ### Q78
+
 **Question**: Your team is debating: inline all critical CSS vs. external stylesheet with preload. Compare.
 **Type**: Short answer
 **Answer**: Inline: eliminates one round trip (better FCP/LCP on first visit), can't be cached independently, increases HTML size. External + preload: cacheable on repeat visits, discovered early via preload, adds round trip on first visit. Best practice: inline critical CSS (above-fold only, <14KB), defer rest. For repeat visitors on same site, external cached CSS wins.
 
 ### Q79
+
 **Question**: How would you debug a CLS issue that only appears in production (field data) but not in Lighthouse?
 **Type**: Scenario-based
 **Answer**: 1) CLS in field comes from different conditions: ad loading, A/B test banners, cookie consent, dynamic content. 2) Use RUM with CLS source attribution (Layout Instability API `sources` field). 3) Test with network throttling and delayed third-party responses. 4) Check for elements that load conditionally based on user state/cookies.
 
 ### Q80
+
 **Question**: What is the performance trade-off of micro-frontends?
 **Type**: Short answer
 **Answer**: Pros: independent deployment, team autonomy. Cons: duplicate dependencies (larger bundles), coordination overhead for shared resources, potential style conflicts, multiple hydration boundaries (more long tasks), harder to optimize critical path across boundaries.
 
 ### Q81
+
 **Question**: How does `Speculation Rules API` improve Web Vitals for multi-page apps?
 **Type**: Short answer
 **Answer**: It allows prerendering or prefetching future navigations based on rules. A prerendered page loads instantly on navigation (effectively 0ms LCP). Better than `<link rel="prefetch">` because it fully renders the page in a hidden tab.
 
 ```html
 <script type="speculationrules">
-{ "prerender": [{ "where": { "href_matches": "/products/*" } }] }
+  { "prerender": [{ "where": { "href_matches": "/products/*" } }] }
 </script>
 ```
 
 ### Q82
+
 **Question**: How does React concurrent rendering interact with the browser's rendering pipeline?
 **Type**: Short answer
 **Answer**: Concurrent React can yield to the browser between renders (time-slicing). This means: React renders some components → yields → browser handles pending events/paints → React continues. This keeps the main thread available for interactions, directly improving INP. Without concurrency, React renders synchronously (one long task).
 
 ### Q83
+
 **Question**: Design an image optimization pipeline for a site with 100K+ product images.
 **Type**: Scenario-based
 **Answer**: 1) Image CDN (Cloudinary, imgix) for on-demand transforms. 2) Serve AVIF → WebP → JPEG via content negotiation. 3) Generate responsive sizes (srcset with 3-5 breakpoints). 4) Blur-up placeholder (LQIP) for perceived performance. 5) Priority hints for above-fold images. 6) Lazy load below-fold. 7) Cache transformed images at CDN edge (immutable, 1-year). 8) Monitor image weight in CI (budget per page).
 
 ### Q84
+
 **Question**: What is "layout instability during hydration" and how do you prevent it?
 **Type**: Short answer
 **Answer**: Server HTML renders one layout, then hydration causes React to update the DOM (conditional rendering, client-only state), shifting elements. Fix: ensure server and client render identical initial output. Use `suppressHydrationWarning` only as last resort. Use CSS to reserve space for client-only elements.
 
 ### Q85
+
 **Question**: How do you determine the optimal number of Suspense boundaries for streaming SSR?
 **Type**: Short answer
 **Answer**: Each Suspense boundary is a potential streaming chunk. Too few: back to traditional SSR (slow TTFB for full page). Too many: overhead per boundary, complex loading states, potential CLS from multiple chunks arriving. Optimal: one boundary per independent data source or major page section (hero, content, sidebar).
 
 ### Q86
+
 **Question**: What is the performance difference between `visibility: hidden`, `display: none`, `opacity: 0`, and `content-visibility: hidden`?
 **Type**: Short answer
 **Answer**: `display: none`: no layout/paint (still in DOM). `visibility: hidden`: takes layout space, no paint. `opacity: 0`: full layout + paint + composite (just invisible). `content-visibility: hidden`: skips layout+paint of children (best for performance when hiding off-screen sections).
 
 ### Q87
+
 **Question**: How do you handle third-party scripts that block the main thread for 200ms+?
 **Type**: Short answer
 **Answer**: 1) Load with `async`/`defer`. 2) Delay until after user interaction (`requestIdleCallback`). 3) Move to web worker (Partytown). 4) Use facade pattern (show fake element, load real script on interaction). 5) Negotiate with vendor for lighter script. 6) Measure impact with RUM attribution.
 
 ### Q88
+
 **Question**: What is the relationship between Time to Interactive (TTI) and INP?
 **Type**: Short answer
 **Answer**: TTI measures when the page becomes reliably interactive (no long tasks for 5s). INP measures actual interaction responsiveness throughout the page lifecycle. A page can reach TTI quickly but still have poor INP (e.g., heavy re-renders triggered by interactions later).
 
 ### Q89
+
 **Question**: How would you architect font loading for zero CLS and minimal LCP impact?
 **Type**: Short answer
 **Answer**: 1) `font-display: optional` (no swap = no CLS, may show fallback permanently). 2) OR `font-display: swap` + `size-adjust` + `ascent-override` (matches metrics = minimal shift). 3) Preload the most critical font file. 4) Subset fonts to include only needed characters. 5) Self-host (avoid third-party connection overhead). 6) Use `<link rel="preload" as="font" crossorigin>`.
 
 ### Q90
+
 **Question**: True or False: Edge rendering always improves TTFB compared to origin rendering.
 **Type**: True/False
 **Answer**: **False**
@@ -2044,151 +2236,181 @@ for (const el of elements) {
 ## Expert / Browser Performance Engineer (30 Questions)
 
 ### Q91
+
 **Question**: How does the browser's task scheduler prioritize user input events vs. other tasks?
 **Type**: Short answer
 **Answer**: The browser has multiple task queues with different priorities. User input events are in a high-priority queue. However, once a task starts, it cannot be interrupted (run-to-completion). So if a long task is already running, the input event waits in the queue until it finishes — this is input delay.
 
 ### Q92
+
 **Question**: What is the relationship between `requestAnimationFrame`, the rendering pipeline, and INP?
 **Type**: Short answer
 **Answer**: rAF callbacks run before the browser's rendering steps (style → layout → paint). If an interaction triggers a state change that's rendered in the next rAF, the rAF callback duration is part of the presentation delay. Long rAF callbacks extend INP.
 
 ### Q93
+
 **Question**: Explain how the Event Timing API calculates `interactionId` and groups related events.
 **Type**: Short answer
 **Answer**: A single user interaction (e.g., click) fires multiple events: pointerdown, mousedown, pointerup, mouseup, click. The browser assigns the same `interactionId` to all events from one logical interaction. INP uses the longest event duration within each interaction group.
 
 ### Q94
+
 **Question**: What is forced reflow (forced synchronous layout) and why is it particularly harmful for INP?
 **Type**: Short answer
 **Answer**: When JS reads a layout property (offsetHeight, scrollTop, getBoundingClientRect) after modifying styles, the browser must synchronously calculate layout to return accurate values. This is called forced reflow. In an event handler, it adds directly to processing time, worsening INP.
 
 ### Q95
+
 **Question**: How does the compositor thread work independently from the main thread?
 **Type**: Short answer
 **Answer**: The compositor can scroll, apply transforms, and adjust opacity without involving the main thread. Elements on their own compositing layers can be animated by the compositor alone (GPU). This is why `transform`/`opacity` animations don't cause jank — they bypass the busy main thread.
 
 ### Q96
+
 **Question**: What is "rendering starvation" and how does it affect Web Vitals?
 **Type**: Short answer
 **Answer**: When the main thread is continuously busy with JS tasks, the browser can't run rendering steps (style, layout, paint). Frames are dropped, animations jank, and presentation delay increases. INP worsens because the browser can't paint the response to user input.
 
 ### Q97
+
 **Question**: How does Chrome's preload scanner work and why does it matter for LCP?
 **Type**: Short answer
 **Answer**: While the main HTML parser is blocked (by a synchronous script), a lightweight preload scanner continues scanning ahead in the HTML to discover resources (images, scripts, stylesheets) and start fetching them. Without it, render-blocking scripts would also block resource discovery, dramatically worsening LCP.
 
 ### Q98
+
 **Question**: What is the performance impact of compositing layer explosion?
 **Type**: Short answer
 **Answer**: Each compositing layer consumes GPU memory. Too many layers (from excessive `will-change`, `transform: translateZ(0)`, or overlapping positioned elements) can exhaust GPU memory, cause compositing to fall back to CPU, increase layer management overhead, and paradoxically worsen performance.
 
 ### Q99
+
 **Question**: How does `scheduler.postTask()` differ from `setTimeout(fn, 0)` for yielding?
 **Type**: Short answer
 **Answer**: `scheduler.postTask()` provides explicit priority levels (user-blocking, user-visible, background). `setTimeout(fn, 0)` goes to the regular task queue with no priority control (may be deprioritized by the browser, especially in background tabs). `scheduler.yield()` specifically continues after yielding with the same priority as the calling task.
 
 ### Q100
+
 **Question**: Explain how Chromium calculates INP for a page with 500 interactions.
 **Type**: Short answer
 **Answer**: Chromium tracks all interactions and their durations. INP is the interaction at the 98th percentile (worst excluding top 2%). For 500 interactions: the 10th-worst interaction is the INP value. This avoids one-off outliers while still capturing consistently poor responsiveness.
 
 ### Q101
+
 **Question**: What is the performance impact of `MutationObserver` vs. polling for DOM changes?
 **Type**: Short answer
 **Answer**: `MutationObserver`: efficient (browser notifies only on changes), batches mutations in microtask, minimal CPU when DOM is stable. Polling: constant CPU usage regardless of changes, can miss rapid changes between intervals. However, observing too much DOM with MutationObserver can still cause overhead if mutations are frequent.
 
 ### Q102
+
 **Question**: How does the browser decide when to promote an element to its own compositing layer?
 **Type**: Short answer
 **Answer**: Implicit promotion triggers: element has `transform`/`opacity` animation, `will-change` property, is a `<video>`/`<canvas>`, has a 3D transform, overlaps another composited layer (implicit compositing). The browser's heuristics balance animation smoothness against memory cost.
 
 ### Q103
+
 **Question**: What is "implicit compositing" and why can it cause performance issues?
 **Type**: Short answer
 **Answer**: When an element overlaps a composited layer, the browser must promote it too (to maintain correct paint order). This can cascade: one animated element causes dozens of overlapping elements to be promoted, consuming excessive GPU memory. Fix: use `isolation: isolate` or adjust z-index to prevent unnecessary promotions.
 
 ### Q104
+
 **Question**: How does thermal throttling on mobile devices affect Web Vitals over a session?
 **Type**: Short answer
 **Answer**: After sustained CPU usage (30-60s), mobile chips reduce clock speed to manage heat. Initial interactions may be fast (200ms INP), but after heavy usage (scrolling, animations), the same interactions take 400-600ms. RUM captures this; lab testing doesn't. This is why p75 INP is worse than expected.
 
 ### Q105
+
 **Question**: What is the "rendering budget" per frame and how do you stay within it?
 **Type**: Short answer
 **Answer**: At 60fps: 16.67ms per frame. Within that: JS (event handlers, rAF) + Style + Layout + Paint + Composite must all complete. If JS takes 10ms, only ~6ms remains for rendering work. To stay within budget: minimize JS per frame, avoid forced reflows, reduce paint complexity, use compositor-only animations.
 
 ### Q106
+
 **Question**: How does the Long Animation Frames (LoAF) API improve over the Long Tasks API?
 **Type**: Short answer
 **Answer**: LoAF provides: 1) script attribution (which script caused it), 2) includes rendering time (not just JS), 3) reports blocking duration relative to the frame, 4) identifies whether the frame blocked user input. Long Tasks API only reports task > 50ms without detailed attribution or rendering context.
 
 ### Q107
+
 **Question**: What is the performance difference between `getComputedStyle()` and reading `style` property?
 **Type**: Short answer
 **Answer**: `element.style` only reads inline styles (fast, no computation). `getComputedStyle()` must resolve all CSS rules, inheritance, and potentially trigger style recalculation (slow). If called after DOM mutation, it forces synchronous style resolution.
 
 ### Q108
+
 **Question**: How do "soft navigations" in SPAs affect Web Vitals measurement?
 **Type**: Short answer
 **Answer**: Traditional Web Vitals reset on full navigation only. SPAs use client-side routing (soft navigations) where metrics don't reset. Chrome is developing "soft navigation" heuristics to detect client-side route changes and report LCP/CLS/INP per soft navigation. This is critical for SPA accuracy.
 
 ### Q109
+
 **Question**: Explain the trade-off between speculative prerendering and resource consumption.
 **Type**: Short answer
 **Answer**: Prerendering loads and renders an entire page in a hidden tab (CPU, memory, network bandwidth). If the user navigates there: instant load. If not: wasted resources, potential battery drain on mobile, bandwidth consumption. Must be targeted: only prerender high-confidence next navigations.
 
 ### Q110
+
 **Question**: What is "layout containment" and how does `contain: layout` affect performance?
 **Type**: Short answer
 **Answer**: `contain: layout` tells the browser that an element's contents don't affect layout outside it. The browser can optimize by: not recalculating parent layout when children change, isolating layout invalidation to the contained subtree. Reduces layout cost for complex pages.
 
 ### Q111
+
 **Question**: How does Chrome's V8 code caching affect repeat-visit performance?
 **Type**: Short answer
 **Answer**: V8 caches compiled bytecode/optimized code to disk after first execution. On repeat visits, scripts skip parsing and compilation (saved 20-40% of JS processing time). This is why second-visit performance is better. Service workers can trigger code caching for prefetched scripts.
 
 ### Q112
+
 **Question**: What is the "input delay" caused by the garbage collector, and how do you minimize it?
 **Type**: Short answer
 **Answer**: V8's GC pauses the main thread (minor GC: 1-5ms, major GC: 10-50ms). If GC runs when user interacts, it adds to input delay. Minimize by: reducing object allocation rate, reusing objects, avoiding allocation in hot paths (event handlers), keeping live heap size reasonable.
 
 ### Q113
+
 **Question**: How does `ResizeObserver` interaction with rendering performance differ from window resize events?
 **Type**: Short answer
 **Answer**: `ResizeObserver` is more efficient: fires once per frame after layout (not per pixel), only when observed elements actually change size. Window resize events fire rapidly during resize (can cause layout thrashing if handler reads layout properties). `ResizeObserver` integrates with the rendering pipeline properly.
 
 ### Q114
+
 **Question**: What is "rendering jank" and how does it differ from "interaction jank"?
 **Type**: Short answer
 **Answer**: Rendering jank: dropped frames during animations/scrolling (visual stuttering, not captured by INP). Interaction jank: slow response to user input (captured by INP). You can have smooth animations but slow interactions (or vice versa). Different causes: rendering jank = paint/composite cost, interaction jank = JS processing cost.
 
 ### Q115
+
 **Question**: How would you implement a RUM system that accurately detects performance regressions from deployments?
 **Type**: Scenario-based
 **Answer**: 1) Collect metrics with deployment version tag. 2) Use statistical methods (not just averages): compare p75 distributions between versions. 3) Segment by device class, connection type, geography. 4) Wait for statistical significance (enough samples). 5) Use change-point detection algorithms. 6) Attribute to specific deploy via deployment timestamp correlation. 7) Auto-alert on significant regression with rollback suggestion.
 
 ### Q116
+
 **Question**: What is the "task attribution" problem and why is it hard to know what causes long tasks?
 **Type**: Short answer
 **Answer**: Long Tasks API reports a task exceeded 50ms but attribution is limited (container element, script URL). It doesn't tell you which function, which React component, or which specific operation. LoAF API improves this. For full attribution, you need Chrome DevTools Performance panel or Performance Timeline with call stacks.
 
 ### Q117
+
 **Question**: How does the browser's rendering pipeline handle overlapping animations on the same element?
 **Type**: Short answer
 **Answer**: CSS animations on compositor-only properties (`transform`, `opacity`) run on the compositor thread independently. If an animation also requires main-thread work (e.g., `width` animation), the compositor must wait for main thread, losing independence. Multiple compositor animations on the same element are merged and handled efficiently by the GPU.
 
 ### Q118
+
 **Question**: What is the "rendering deadline" in the browser's event loop and how does it relate to INP?
 **Type**: Short answer
 **Answer**: After processing tasks, the browser checks if it's time to render (usually every ~16.67ms). If tasks keep the main thread busy past the rendering deadline, frames are skipped. For INP, if event handlers finish but the rendering deadline has passed, the "next paint" is delayed to the following frame, adding 16ms+ to presentation delay.
 
 ### Q119
+
 **Question**: How does memory pressure on mobile devices affect rendering performance?
 **Type**: Short answer
 **Answer**: Under memory pressure: browser may evict compositing layers (forces re-paint), GC runs more aggressively (more pauses), background tabs may be killed, the OS may throttle the app. Large DOM trees and many compositing layers worsen this. RUM shows INP degradation that's impossible to reproduce in lab.
 
 ### Q120
+
 **Question**: Design a comprehensive performance observability stack for a team of 100 frontend engineers.
 **Type**: Scenario-based
 **Answer**: 1) **Collection**: web-vitals library on all pages → beacon to ingestion API. 2) **Storage**: time-series DB (ClickHouse/TimescaleDB) with dimensions (route, device, connection, deploy version). 3) **Dashboards**: per-team route ownership with p75 trends. 4) **Alerting**: statistical change-point detection per route, auto-notify owning team. 5) **CI integration**: Lighthouse CI with per-route budgets in PR. 6) **Governance**: quarterly performance reviews, SLOs (p75 LCP < 2.5s), performance champions per team. 7) **Attribution**: deploy tag correlation, A/B test performance segmentation. 8) **Education**: internal performance playbook, on-call rotation for performance incidents.
@@ -2200,12 +2422,14 @@ for (const el of elements) {
 ## For Your Stack (React, Next.js, Astro, Vite, TypeScript)
 
 ### Most Important Concepts:
+
 1. **INP optimization** — React's biggest weakness; hydration and re-renders are the primary cause
 2. **LCP for SSR/SSG** — Next.js gives you tools, but you must use them correctly (priority hints, streaming)
 3. **Hydration architecture** — Deciding what hydrates and when is your highest-leverage optimization
 4. **Bundle architecture** — Vite's code splitting + Next.js's automatic splitting need intentional chunk strategy
 
 ### Priority Learning Path:
+
 1. Master React concurrent features (`useTransition`, `useDeferredValue`, Suspense)
 2. Understand React Server Components deeply (what ships to client, what doesn't)
 3. Learn streaming SSR patterns and Suspense boundary placement
@@ -2213,6 +2437,7 @@ for (const el of elements) {
 5. Build performance monitoring into your CI/CD
 
 ### Common Mistakes to Avoid:
+
 - Using `useEffect` for data fetching (waterfall chains, hurts LCP)
 - Not using `priority` on Next.js `<Image>` for hero images
 - Over-using client components in App Router (ships unnecessary JS)
@@ -2223,36 +2448,42 @@ for (const el of elements) {
 ### 60-Day Learning Plan:
 
 **Week 1-2: Measurement Foundation**
+
 - Set up web-vitals reporting in your app
 - Learn DevTools Performance panel (record interactions, read flame charts)
 - Run Lighthouse CI on your project
 - Identify current LCP/CLS/INP values (field + lab)
 
 **Week 3-4: LCP Mastery**
+
 - Identify and optimize LCP element for key pages
 - Implement preload/priority hints
 - Optimize images (AVIF, responsive, CDN)
 - Implement streaming SSR with Suspense boundaries
 
 **Week 5-6: INP Deep Dive**
+
 - Profile interactions on mobile (4x CPU throttle)
 - Implement `useTransition` for non-urgent updates
 - Audit hydration cost, implement selective hydration
 - Break long tasks with `scheduler.yield()`
 
 **Week 7-8: Architecture & CI**
+
 - Implement performance budgets in CI pipeline
 - Set up automated regression detection
 - Convert components to RSC where possible
 - Implement virtualization for long lists
 
 **Week 9-10: Advanced Optimization**
+
 - Font optimization (subsetting, size-adjust, preload)
 - CDN caching strategy (stale-while-revalidate, cache tags)
 - Third-party script audit and isolation
 - Advanced bundle splitting strategy
 
 **Week 11-12: Production Mastery**
+
 - Build performance dashboard from RUM data
 - Implement alerting on regression
 - Document team performance standards

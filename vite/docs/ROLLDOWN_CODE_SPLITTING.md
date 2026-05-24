@@ -1,33 +1,35 @@
 ---
 title: Rolldown Code Splitting Deep Dive — Vite 8 + React
-description: Rolldown Code Splitting Deep Dive — Vite 8 + React. Practical guide explaining
+description:
+  Rolldown Code Splitting Deep Dive — Vite 8 + React. Practical guide explaining
   rolldown code splitting deep dive — vite 8 + react with clear examples, best...
 slug: rolldown-code-splitting
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- vite
-- rolldown
-- code
-- splitting
-categories:
-- vite
-seo:
-  title: Rolldown Code Splitting Deep Dive — Vite 8 + React
-  description: Rolldown Code Splitting Deep Dive — Vite 8 + React. Practical guide
-    explaining rolldown code splitting deep dive — vite 8 + react with clear examples,
-    best...
-  canonical: https://feel-free.com/blogs/rolldown-code-splitting
-  keywords:
   - vite
   - rolldown
   - code
   - splitting
+categories:
+  - vite
+seo:
+  title: Rolldown Code Splitting Deep Dive — Vite 8 + React
+  description:
+    Rolldown Code Splitting Deep Dive — Vite 8 + React. Practical guide
+    explaining rolldown code splitting deep dive — vite 8 + react with clear examples,
+    best...
+  canonical: https://feel-free.com/blogs/rolldown-code-splitting
+  keywords:
+    - vite
+    - rolldown
+    - code
+    - splitting
 author: lazarus2019
 lang: en
 relatedPosts:
-- vite
+  - vite
 ---
 
 # Rolldown Code Splitting Deep Dive — Vite 8 + React
@@ -533,9 +535,9 @@ HTML head khi vào `/en/request` với manual groups config:
 ```html
 <!-- Static modulepreloads (do Vite generate trong index.html, SAME cho mọi route) -->
 <link
-	rel="modulepreload"
-	crossorigin
-	href="/assets/rolldown-runtime-Dw2cE7zH.js"
+  rel="modulepreload"
+  crossorigin
+  href="/assets/rolldown-runtime-Dw2cE7zH.js"
 />
 <link rel="modulepreload" crossorigin href="/assets/react-vendor-DxOn3MsR.js" />
 <link rel="modulepreload" crossorigin href="/assets/ui-vendor-BtwBoPwK.js" />
@@ -545,29 +547,29 @@ HTML head khi vào `/en/request` với manual groups config:
 <link rel="modulepreload" crossorigin href="/assets/vendor-CwqRuW2m.js" />
 <link rel="modulepreload" crossorigin href="/assets/vendor-Bz2Bo1I1.js" />
 <link
-	rel="modulepreload"
-	crossorigin
-	href="/assets/router-vendor-CKJZouPc.js"
+  rel="modulepreload"
+  crossorigin
+  href="/assets/router-vendor-CKJZouPc.js"
 />
 <link rel="modulepreload" crossorigin href="/assets/vendor-zTBJ1ko0.js" />
 <link
-	rel="modulepreload"
-	crossorigin
-	href="/assets/use-current-breakpoint-DIixPhi9.js"
+  rel="modulepreload"
+  crossorigin
+  href="/assets/use-current-breakpoint-DIixPhi9.js"
 />
 
 <!-- Dynamic modulepreloads (do TanStack Router inject runtime, route-specific) -->
 <link
-	rel="modulepreload"
-	as="script"
-	crossorigin
-	href="/assets/route-DhEPuCHu.js"
+  rel="modulepreload"
+  as="script"
+  crossorigin
+  href="/assets/route-DhEPuCHu.js"
 />
 <link
-	rel="modulepreload"
-	as="script"
-	crossorigin
-	href="/assets/route-5fydGjWl.js"
+  rel="modulepreload"
+  as="script"
+  crossorigin
+  href="/assets/route-5fydGjWl.js"
 />
 ```
 
@@ -704,14 +706,14 @@ Khi enable `autoCodeSplitting`, TanStack Router plugin tự động:
    ```ts
    // Generated code (simplified):
    const aboutRoute = createRoute({
-   	path: '/about',
-   	// Critical: load ngay
-   	loader: fetchAboutData,
-   	// Non-critical: lazy loaded
-   	component: lazyRouteComponent(
-   		() => import('./pages/about/about-page.tsx'),
-   		'component',
-   	),
+     path: '/about',
+     // Critical: load ngay
+     loader: fetchAboutData,
+     // Non-critical: lazy loaded
+     component: lazyRouteComponent(
+       () => import('./pages/about/about-page.tsx'),
+       'component',
+     ),
    });
    ```
 
@@ -757,10 +759,10 @@ Từ HTML head (Vite 8 auto split, view source khi ở `/en/about`):
 ```html
 <!-- Dynamically injected bởi TanStack Router -->
 <link
-	rel="modulepreload"
-	as="script"
-	crossorigin=""
-	href="/assets/about-Dsc5e66H.js"
+  rel="modulepreload"
+  as="script"
+  crossorigin=""
+  href="/assets/about-Dsc5e66H.js"
 />
 <link rel="stylesheet" crossorigin="" href="/assets/about-sTUHqDoP.css" />
 ```
@@ -791,12 +793,12 @@ Default, TanStack Router split route thành 3 nhóm:
 ```ts
 // Default behavior (không cần config):
 codeSplittingOptions: {
-	defaultBehavior: [
-		['component'], // Group 1: lazy loaded
-		['errorComponent'], // Group 2: lazy loaded
-		['notFoundComponent'], // Group 3: lazy loaded
-		// Còn lại (loader, beforeLoad, context, etc.) → KHÔNG split
-	];
+  defaultBehavior: [
+    ['component'], // Group 1: lazy loaded
+    ['errorComponent'], // Group 2: lazy loaded
+    ['notFoundComponent'], // Group 3: lazy loaded
+    // Còn lại (loader, beforeLoad, context, etc.) → KHÔNG split
+  ];
 }
 ```
 
@@ -804,10 +806,10 @@ codeSplittingOptions: {
 
 ```ts
 codeSplittingOptions: {
-	defaultBehavior: [
-		['component', 'errorComponent', 'notFoundComponent', 'pendingComponent'],
-		// → 1 lazy chunk cho TẤT CẢ UI parts thay vì 3 chunks riêng
-	];
+  defaultBehavior: [
+    ['component', 'errorComponent', 'notFoundComponent', 'pendingComponent'],
+    // → 1 lazy chunk cho TẤT CẢ UI parts thay vì 3 chunks riêng
+  ];
 }
 ```
 
@@ -815,19 +817,19 @@ codeSplittingOptions: {
 
 ```ts
 codeSplittingOptions: {
-	splitBehavior: ({ routeId }) => {
-		// About page: gộp tất cả vào 1 chunk (vì Three.js → component lớn,
-		// errorComponent nhỏ → không cần tách riêng)
-		if (routeId === '/$locale/about') {
-			return [['component', 'errorComponent', 'notFoundComponent']];
-		}
-		// Request page: tách loader riêng (nếu cần preload data trước)
-		if (routeId === '/$locale/request') {
-			return [['component'], ['loader'], ['errorComponent']];
-		}
-		// Còn lại: dùng default
-		return undefined;
-	};
+  splitBehavior: ({ routeId }) => {
+    // About page: gộp tất cả vào 1 chunk (vì Three.js → component lớn,
+    // errorComponent nhỏ → không cần tách riêng)
+    if (routeId === '/$locale/about') {
+      return [['component', 'errorComponent', 'notFoundComponent']];
+    }
+    // Request page: tách loader riêng (nếu cần preload data trước)
+    if (routeId === '/$locale/request') {
+      return [['component'], ['loader'], ['errorComponent']];
+    }
+    // Còn lại: dùng default
+    return undefined;
+  };
 }
 ```
 
@@ -838,12 +840,12 @@ codeSplittingOptions: {
 ```ts
 // src/app/routes/$locale/about.tsx
 export const Route = createFileRoute('/$locale/about')({
-	codeSplitGroupings: [
-		['component', 'pendingComponent'], // Lazy chunk 1
-		['errorComponent'], // Lazy chunk 2
-	],
-	component: AboutPage,
-	errorComponent: AboutError,
+  codeSplitGroupings: [
+    ['component', 'pendingComponent'], // Lazy chunk 1
+    ['errorComponent'], // Lazy chunk 2
+  ],
+  component: AboutPage,
+  errorComponent: AboutError,
 });
 ```
 
@@ -993,14 +995,14 @@ Rolldown **không cung cấp `manualChunks(id)` function** vì design philosophy
 - Workaround: Tạo 1 group per package (verbose, không scalable):
   ```ts
   groups: [
-  	{ name: 'react', test: /node_modules[\\/]react[\\/]/, priority: 10 },
-  	{
-  		name: 'react-dom',
-  		test: /node_modules[\\/]react-dom[\\/]/,
-  		priority: 10,
-  	},
-  	{ name: 'three', test: /node_modules[\\/]three[\\/]/, priority: 10 },
-  	// ... 80+ dòng nữa → TERRIBLE DX
+    { name: 'react', test: /node_modules[\\/]react[\\/]/, priority: 10 },
+    {
+      name: 'react-dom',
+      test: /node_modules[\\/]react-dom[\\/]/,
+      priority: 10,
+    },
+    { name: 'three', test: /node_modules[\\/]three[\\/]/, priority: 10 },
+    // ... 80+ dòng nữa → TERRIBLE DX
   ];
   ```
 
@@ -1180,7 +1182,7 @@ const result = /*@__PURE__*/ createContext(defaultValue);
 ```js
 /*@__NO_SIDE_EFFECTS__*/
 function createComponent(options) {
-	return { ...options, __type: 'component' };
+  return { ...options, __type: 'component' };
 }
 
 // MỌI call site của createComponent đều tự động được coi là @__PURE__
@@ -1194,7 +1196,7 @@ function createComponent(options) {
 ```json
 // node_modules/lucide-react/package.json
 {
-	"sideEffects": false
+  "sideEffects": false
 }
 ```
 
@@ -1209,7 +1211,7 @@ Khi `sideEffects: false`:
 ```json
 // node_modules/@radix-ui/react-dialog/package.json
 {
-	"sideEffects": ["*.css"]
+  "sideEffects": ["*.css"]
 }
 ```
 
@@ -1403,17 +1405,17 @@ Nên dùng groups khi:
 
 ```ts
 groups: [
-	// Cao nhất: frameworks core (match đầu tiên, tránh bị catch-all)
-	{ name: 'react-vendor', test: /react|react-dom/, priority: 20 },
+  // Cao nhất: frameworks core (match đầu tiên, tránh bị catch-all)
+  { name: 'react-vendor', test: /react|react-dom/, priority: 20 },
 
-	// Cao: domain-specific large libs
-	{ name: 'three-vendor', test: /three|@react-three/, priority: 20 },
+  // Cao: domain-specific large libs
+  { name: 'three-vendor', test: /three|@react-three/, priority: 20 },
 
-	// Trung: UI/Router frameworks
-	{ name: 'ui-vendor', test: /@radix-ui|@floating-ui/, priority: 15 },
+  // Trung: UI/Router frameworks
+  { name: 'ui-vendor', test: /@radix-ui|@floating-ui/, priority: 15 },
 
-	// Thấp nhất: catch-all
-	{ name: 'vendor', test: /node_modules/, priority: 5 },
+  // Thấp nhất: catch-all
+  { name: 'vendor', test: /node_modules/, priority: 5 },
 ];
 ```
 

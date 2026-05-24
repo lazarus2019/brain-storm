@@ -1,24 +1,26 @@
 ---
 title: Docker & Docker Compose — Complete Deep-Dive Engineering Guide
-description: Docker & Docker Compose — Complete Deep-Dive Engineering Guide. Practical
+description:
+  Docker & Docker Compose — Complete Deep-Dive Engineering Guide. Practical
   guide explaining docker & docker compose — complete deep-dive engineering guide...
 slug: docker-docker-compose
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- docker
-- compose
+  - docker
+  - compose
 categories:
-- docker
+  - docker
 seo:
   title: Docker & Docker Compose — Complete Deep-Dive Engineering Guide
-  description: Docker & Docker Compose — Complete Deep-Dive Engineering Guide. Practical
+  description:
+    Docker & Docker Compose — Complete Deep-Dive Engineering Guide. Practical
     guide explaining docker & docker compose — complete deep-dive engineering guide...
   canonical: https://feel-free.com/blogs/docker-docker-compose
   keywords:
-  - docker
-  - compose
+    - docker
+    - compose
 author: lazarus2019
 lang: en
 ---
@@ -54,6 +56,7 @@ Docker is a platform for building, shipping, and running applications inside **c
 ### 1.2 Why Containers Exist
 
 Before containers, deploying software meant:
+
 - "It works on my machine" — different Node versions, missing system libraries, OS differences.
 - Slow, fragile provisioning — manually installing dependencies on servers.
 - Environment drift — staging doesn't match production.
@@ -65,15 +68,15 @@ Containers solve all of this. A container is a promise: **"This application will
 
 ### 1.3 Key Distinctions
 
-| Concept | What it is | Analogy |
-|---|---|---|
-| **Process** | A running program on your OS | A single function executing |
-| **Container** | An isolated process with its own filesystem, network, and resource limits | A sandboxed iframe — isolated from the host but sharing the kernel |
-| **Virtual Machine** | A full OS running on emulated hardware | A completely separate computer inside your computer |
-| **Docker Engine** | The daemon (background service) that builds and runs containers | Like the Node.js runtime — it interprets and executes |
-| **Docker Desktop** | GUI + Docker Engine + extras (VM on Mac/Windows) | Like VS Code wrapping a language server |
-| **Docker Compose** | A tool for defining and running multi-container apps from a YAML file | Like `package.json` scripts but for containers — declares which services to run together |
-| **Kubernetes** | A container orchestration platform for running containers at scale across many machines | Like Vercel's infrastructure — manages scaling, routing, and failover, but you control it |
+| Concept             | What it is                                                                              | Analogy                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| **Process**         | A running program on your OS                                                            | A single function executing                                                               |
+| **Container**       | An isolated process with its own filesystem, network, and resource limits               | A sandboxed iframe — isolated from the host but sharing the kernel                        |
+| **Virtual Machine** | A full OS running on emulated hardware                                                  | A completely separate computer inside your computer                                       |
+| **Docker Engine**   | The daemon (background service) that builds and runs containers                         | Like the Node.js runtime — it interprets and executes                                     |
+| **Docker Desktop**  | GUI + Docker Engine + extras (VM on Mac/Windows)                                        | Like VS Code wrapping a language server                                                   |
+| **Docker Compose**  | A tool for defining and running multi-container apps from a YAML file                   | Like `package.json` scripts but for containers — declares which services to run together  |
+| **Kubernetes**      | A container orchestration platform for running containers at scale across many machines | Like Vercel's infrastructure — manages scaling, routing, and failover, but you control it |
 
 **Container vs. VM — the critical difference:**
 
@@ -183,26 +186,26 @@ The set of files sent to the Docker daemon when building an image. Controlled by
 
 ### 1.6 Docker vs. Your Current Local Setup
 
-| Dimension | Local Node.js | Docker |
-|---|---|---|
-| Runtime | Whatever Node version is installed | Exact Node version declared in Dockerfile |
-| Dependencies | `node_modules` on your filesystem | Isolated inside the container |
-| OS libraries | Whatever your OS has | Declared and installed in the image |
-| Database | Install PostgreSQL/Redis locally | Run as a container alongside your app |
-| Sharing setup | README with "install these things" | `docker compose up` — done |
-| Reproducibility | "Works on my machine" | Guaranteed identical everywhere |
-| Cleanup | Leftover processes, global installs | `docker compose down` — everything gone |
+| Dimension       | Local Node.js                       | Docker                                    |
+| --------------- | ----------------------------------- | ----------------------------------------- |
+| Runtime         | Whatever Node version is installed  | Exact Node version declared in Dockerfile |
+| Dependencies    | `node_modules` on your filesystem   | Isolated inside the container             |
+| OS libraries    | Whatever your OS has                | Declared and installed in the image       |
+| Database        | Install PostgreSQL/Redis locally    | Run as a container alongside your app     |
+| Sharing setup   | README with "install these things"  | `docker compose up` — done                |
+| Reproducibility | "Works on my machine"               | Guaranteed identical everywhere           |
+| Cleanup         | Leftover processes, global installs | `docker compose down` — everything gone   |
 
 ### 1.7 Why Docker Is Useful for React / Next.js / Astro
 
-| Scenario | Without Docker | With Docker |
-|---|---|---|
-| **Local development** | Install Node, npm, DB, Redis, etc. | `docker compose up` |
-| **Team onboarding** | 2-hour setup guide | `git clone && docker compose up` |
-| **CI/CD** | Configure runner with exact toolchain | Build image, run tests inside it |
-| **Staging/production** | Configure server, install deps, pray | Deploy the same image you tested |
-| **Running Next.js SSR** | Install Node on server, manage process | Container with Node + Next.js, portable |
-| **Full-stack local** | Frontend + API + DB + Redis all manual | One `docker-compose.yml` defines everything |
+| Scenario                | Without Docker                         | With Docker                                 |
+| ----------------------- | -------------------------------------- | ------------------------------------------- |
+| **Local development**   | Install Node, npm, DB, Redis, etc.     | `docker compose up`                         |
+| **Team onboarding**     | 2-hour setup guide                     | `git clone && docker compose up`            |
+| **CI/CD**               | Configure runner with exact toolchain  | Build image, run tests inside it            |
+| **Staging/production**  | Configure server, install deps, pray   | Deploy the same image you tested            |
+| **Running Next.js SSR** | Install Node on server, manage process | Container with Node + Next.js, portable     |
+| **Full-stack local**    | Frontend + API + DB + Redis all manual | One `docker-compose.yml` defines everything |
 
 ### 1.8 Mental Model Diagram
 
@@ -262,12 +265,12 @@ docker run hello-world
 
 #### Understanding image vs. container
 
-| Image | Container |
-|---|---|
-| Blueprint / recipe | Running instance |
-| Read-only | Read-write layer on top |
-| Built from Dockerfile | Created from image |
-| Stored on disk | Running as a process |
+| Image                     | Container                            |
+| ------------------------- | ------------------------------------ |
+| Blueprint / recipe        | Running instance                     |
+| Read-only                 | Read-write layer on top              |
+| Built from Dockerfile     | Created from image                   |
+| Stored on disk            | Running as a process                 |
 | Can exist without running | Exists only while alive (or stopped) |
 
 #### Basic Docker commands
@@ -363,14 +366,14 @@ docker run -v $(pwd)/config:/app/config:ro my-app
 
 #### Common mistakes at this level
 
-| Mistake | What happens | Fix |
-|---|---|---|
-| Forgetting to expose ports | App runs but you can't reach it | Add `-p` flag or `EXPOSE` + `-p` |
-| Not using `.dockerignore` | `node_modules` copied into image, slow build, huge image | Create `.dockerignore` with `node_modules`, `.git`, `dist` |
-| Using `npm install` instead of `npm ci` | Non-deterministic installs, lockfile drift | Always use `npm ci` in Dockerfiles |
-| `COPY . .` before `npm ci` | Breaks layer cache — every code change reinstalls deps | Copy `package.json` + lockfile first, then `npm ci`, then `COPY . .` |
-| Running as root | Security risk | Add `USER node` (or create a non-root user) |
-| Using `node:20` instead of `node:20-alpine` | Image is 1GB+ instead of ~180MB | Use alpine or slim variants |
+| Mistake                                     | What happens                                             | Fix                                                                  |
+| ------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------------------- |
+| Forgetting to expose ports                  | App runs but you can't reach it                          | Add `-p` flag or `EXPOSE` + `-p`                                     |
+| Not using `.dockerignore`                   | `node_modules` copied into image, slow build, huge image | Create `.dockerignore` with `node_modules`, `.git`, `dist`           |
+| Using `npm install` instead of `npm ci`     | Non-deterministic installs, lockfile drift               | Always use `npm ci` in Dockerfiles                                   |
+| `COPY . .` before `npm ci`                  | Breaks layer cache — every code change reinstalls deps   | Copy `package.json` + lockfile first, then `npm ci`, then `COPY . .` |
+| Running as root                             | Security risk                                            | Add `USER node` (or create a non-root user)                          |
+| Using `node:20` instead of `node:20-alpine` | Image is 1GB+ instead of ~180MB                          | Use alpine or slim variants                                          |
 
 #### 5 beginner exercises
 
@@ -424,6 +427,7 @@ CMD ["node", "dist/server.js"]
 ```
 
 **Why multi-stage?**
+
 - Builder stage has devDependencies, source code, build tools — large.
 - Runner stage has only production deps and built output — small.
 - Final image doesn't contain TypeScript, Webpack, test files, etc.
@@ -452,11 +456,11 @@ services:
 
 #### Volumes
 
-| Type | Syntax | Use case |
-|---|---|---|
-| **Named volume** | `my-data:/var/lib/postgresql/data` | Database persistence |
-| **Bind mount** | `./src:/app/src` | Local development — code syncing |
-| **tmpfs** | `tmpfs: /tmp` | Temporary data that shouldn't persist |
+| Type             | Syntax                             | Use case                              |
+| ---------------- | ---------------------------------- | ------------------------------------- |
+| **Named volume** | `my-data:/var/lib/postgresql/data` | Database persistence                  |
+| **Bind mount**   | `./src:/app/src`                   | Local development — code syncing      |
+| **tmpfs**        | `tmpfs: /tmp`                      | Temporary data that shouldn't persist |
 
 ```yaml
 # docker-compose.yml
@@ -464,12 +468,12 @@ services:
   db:
     image: postgres:16-alpine
     volumes:
-      - pgdata:/var/lib/postgresql/data    # Named volume — persists
+      - pgdata:/var/lib/postgresql/data # Named volume — persists
     environment:
       POSTGRES_PASSWORD: secret
 
 volumes:
-  pgdata:    # Declare the named volume
+  pgdata: # Declare the named volume
 ```
 
 #### Networks
@@ -481,16 +485,16 @@ services:
   web:
     build: ./frontend
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - api
 
   api:
     build: ./backend
     ports:
-      - "4000:4000"
+      - '4000:4000'
     environment:
-      DATABASE_URL: postgres://db:5432/mydb    # ← "db" is the service name
+      DATABASE_URL: postgres://db:5432/mydb # ← "db" is the service name
     depends_on:
       - db
 
@@ -512,16 +516,16 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - '3000:3000'
     volumes:
-      - ./frontend/src:/app/src    # Hot reload
+      - ./frontend/src:/app/src # Hot reload
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:4000
 
   api:
     build: ./api
     ports:
-      - "4000:4000"
+      - '4000:4000'
     environment:
       - DATABASE_URL=postgres://postgres:secret@db:5432/mydb
     depends_on:
@@ -531,7 +535,7 @@ services:
   db:
     image: postgres:16-alpine
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
@@ -539,7 +543,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -601,14 +605,14 @@ docker port <container-id>
 
 #### Optimizing image size
 
-| Technique | Impact | Example |
-|---|---|---|
-| Use alpine base | ~900MB → ~180MB | `FROM node:20-alpine` |
-| Multi-stage builds | Remove build tools from final image | See multi-stage example above |
-| `.dockerignore` | Exclude unnecessary files from build context | See .dockerignore section |
-| `npm ci --omit=dev` | Skip devDependencies in production | `RUN npm ci --omit=dev` |
-| Minimize layers | Fewer layers = smaller image | Combine RUN commands with `&&` |
-| Use specific tags | Avoid pulling unexpected updates | `node:20.11-alpine` not `node:latest` |
+| Technique           | Impact                                       | Example                               |
+| ------------------- | -------------------------------------------- | ------------------------------------- |
+| Use alpine base     | ~900MB → ~180MB                              | `FROM node:20-alpine`                 |
+| Multi-stage builds  | Remove build tools from final image          | See multi-stage example above         |
+| `.dockerignore`     | Exclude unnecessary files from build context | See .dockerignore section             |
+| `npm ci --omit=dev` | Skip devDependencies in production           | `RUN npm ci --omit=dev`               |
+| Minimize layers     | Fewer layers = smaller image                 | Combine RUN commands with `&&`        |
+| Use specific tags   | Avoid pulling unexpected updates             | `node:20.11-alpine` not `node:latest` |
 
 #### 5 mini project ideas
 
@@ -620,16 +624,16 @@ docker port <container-id>
 
 #### Common mistakes and anti-patterns
 
-| Anti-pattern | Why it's bad | Better approach |
-|---|---|---|
-| One giant container for everything | Hard to scale, debug, and update | One process per container |
-| Not using multi-stage builds | Images are 1GB+ with dev tools | Separate build and runtime stages |
-| Bind-mounting `node_modules` | Overwrites container's `node_modules` with host's (OS mismatch) | Use anonymous volume: `- /app/node_modules` |
-| Hardcoding secrets in Dockerfile | Secrets baked into image layers permanently | Use env vars or secrets at runtime |
-| Using `latest` tag | Non-reproducible — image changes silently | Pin to specific version tags |
-| No `.dockerignore` | Slow builds, bloated context, accidental secret inclusion | Always create `.dockerignore` |
-| `depends_on` without health check | Service starts before dependency is ready | Use `condition: service_healthy` |
-| Storing data inside containers | Data lost on container removal | Use volumes for persistence |
+| Anti-pattern                       | Why it's bad                                                    | Better approach                             |
+| ---------------------------------- | --------------------------------------------------------------- | ------------------------------------------- |
+| One giant container for everything | Hard to scale, debug, and update                                | One process per container                   |
+| Not using multi-stage builds       | Images are 1GB+ with dev tools                                  | Separate build and runtime stages           |
+| Bind-mounting `node_modules`       | Overwrites container's `node_modules` with host's (OS mismatch) | Use anonymous volume: `- /app/node_modules` |
+| Hardcoding secrets in Dockerfile   | Secrets baked into image layers permanently                     | Use env vars or secrets at runtime          |
+| Using `latest` tag                 | Non-reproducible — image changes silently                       | Pin to specific version tags                |
+| No `.dockerignore`                 | Slow builds, bloated context, accidental secret inclusion       | Always create `.dockerignore`               |
+| `depends_on` without health check  | Service starts before dependency is ready                       | Use `condition: service_healthy`            |
+| Storing data inside containers     | Data lost on container removal                                  | Use volumes for persistence                 |
 
 #### Level 2 success criteria
 
@@ -697,16 +701,16 @@ CMD ["node", "server.js"]
 
 #### Security hardening
 
-| Practice | Why | How |
-|---|---|---|
-| Non-root user | Prevent container escape escalation | `USER node` or create a custom user |
-| Read-only filesystem | Prevent runtime modification | `read_only: true` in Compose |
-| No secrets in image | Secrets persist in layers forever | Use runtime env vars or Docker secrets |
-| Minimal base image | Fewer packages = fewer vulnerabilities | Use `alpine` or `distroless` |
-| Pin image digests | Prevent supply chain attacks | `FROM node:20-alpine@sha256:abc123...` |
-| Scan images | Detect known CVEs | `docker scout`, `trivy`, `snyk container` |
-| Drop capabilities | Reduce kernel surface | `cap_drop: [ALL]` in Compose |
-| No package managers in production | Prevent installing malware at runtime | Remove `apk`/`apt` in final stage or use distroless |
+| Practice                          | Why                                    | How                                                 |
+| --------------------------------- | -------------------------------------- | --------------------------------------------------- |
+| Non-root user                     | Prevent container escape escalation    | `USER node` or create a custom user                 |
+| Read-only filesystem              | Prevent runtime modification           | `read_only: true` in Compose                        |
+| No secrets in image               | Secrets persist in layers forever      | Use runtime env vars or Docker secrets              |
+| Minimal base image                | Fewer packages = fewer vulnerabilities | Use `alpine` or `distroless`                        |
+| Pin image digests                 | Prevent supply chain attacks           | `FROM node:20-alpine@sha256:abc123...`              |
+| Scan images                       | Detect known CVEs                      | `docker scout`, `trivy`, `snyk container`           |
+| Drop capabilities                 | Reduce kernel surface                  | `cap_drop: [ALL]` in Compose                        |
+| No package managers in production | Prevent installing malware at runtime  | Remove `apk`/`apt` in final stage or use distroless |
 
 ```yaml
 # Security-hardened Compose service
@@ -720,7 +724,7 @@ services:
       - ALL
     security_opt:
       - no-new-privileges:true
-    user: "1001:1001"
+    user: '1001:1001'
 ```
 
 #### Build cache optimization
@@ -763,7 +767,7 @@ services:
       dockerfile: Dockerfile
       target: runner
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -773,7 +777,8 @@ services:
           cpus: '1.0'
           memory: 512M
     healthcheck:
-      test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/api/health"]
+      test:
+        ['CMD', 'wget', '--spider', '-q', 'http://localhost:3000/api/health']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -781,8 +786,8 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "10m"
-        max-file: "3"
+        max-size: '10m'
+        max-file: '3'
 ```
 
 #### Monorepo Docker strategy
@@ -891,7 +896,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
 services:
   api:
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:4000/health || exit 1"]
+      test: ['CMD-SHELL', 'curl -f http://localhost:4000/health || exit 1']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -900,7 +905,7 @@ services:
   db:
     image: postgres:16-alpine
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -914,8 +919,9 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "10m"     # Rotate at 10MB
-        max-file: "3"       # Keep 3 files
+        max-size: '10m' # Rotate at 10MB
+        max-file: '3' # Keep 3 files
+
 
     # Alternatively, use a logging driver for centralized logging
     # logging:
@@ -928,24 +934,26 @@ services:
 
 ```typescript
 // Use JSON logging in production
-console.log(JSON.stringify({
-  level: 'info',
-  message: 'Request handled',
-  method: 'GET',
-  path: '/api/users',
-  duration_ms: 42,
-  timestamp: new Date().toISOString(),
-}));
+console.log(
+  JSON.stringify({
+    level: 'info',
+    message: 'Request handled',
+    method: 'GET',
+    path: '/api/users',
+    duration_ms: 42,
+    timestamp: new Date().toISOString(),
+  }),
+);
 ```
 
 #### Secret management
 
-| Method | Security level | Use case |
-|---|---|---|
-| Environment variables | Low-Medium | Non-sensitive config, development |
-| `.env` file | Low | Local development only |
-| Docker secrets (Compose) | Medium | Production Compose deployments |
-| External secrets manager | High | Production (Vault, AWS Secrets Manager) |
+| Method                   | Security level | Use case                                |
+| ------------------------ | -------------- | --------------------------------------- |
+| Environment variables    | Low-Medium     | Non-sensitive config, development       |
+| `.env` file              | Low            | Local development only                  |
+| Docker secrets (Compose) | Medium         | Production Compose deployments          |
+| External secrets manager | High           | Production (Vault, AWS Secrets Manager) |
 
 ```yaml
 # Docker Compose secrets
@@ -958,7 +966,7 @@ services:
 
 secrets:
   db_password:
-    file: ./secrets/db_password.txt    # Development
+    file: ./secrets/db_password.txt # Development
     # external: true                   # Production (pre-created)
 ```
 
@@ -970,8 +978,8 @@ services:
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./certs:/etc/nginx/certs:ro
@@ -982,12 +990,12 @@ services:
   web:
     build: ./frontend
     expose:
-      - "3000"      # Not published to host — only accessible via nginx
+      - '3000' # Not published to host — only accessible via nginx
 
   api:
     build: ./backend
     expose:
-      - "4000"
+      - '4000'
 ```
 
 ```nginx
@@ -1028,18 +1036,18 @@ services:
   traefik:
     image: traefik:v3.0
     command:
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
+      - '--providers.docker=true'
+      - '--entrypoints.web.address=:80'
     ports:
-      - "80:80"
+      - '80:80'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   web:
     build: ./frontend
     labels:
-      - "traefik.http.routers.web.rule=Host(`myapp.localhost`)"
-      - "traefik.http.services.web.loadbalancer.server.port=3000"
+      - 'traefik.http.routers.web.rule=Host(`myapp.localhost`)'
+      - 'traefik.http.services.web.loadbalancer.server.port=3000'
 ```
 
 #### 5 production-grade project examples
@@ -1102,22 +1110,23 @@ CMD ["node", "server.js"]
 ```
 
 **Benefits:**
+
 - Consistent security posture across all services.
 - Centralized patching — update the base image, all child images inherit fixes.
 - Reduced Dockerfile boilerplate.
 
 #### Docker vs. Kubernetes — decision strategy
 
-| Dimension | Docker Compose | Kubernetes |
-|---|---|---|
-| Complexity | Low | High |
-| Learning curve | Days | Weeks to months |
-| Best for | Single host, small teams, dev environments | Multi-host, auto-scaling, large teams |
-| Scaling | Manual (add replicas) | Automatic (HPA) |
-| Networking | Simple service discovery | Complex but powerful (ingress, service mesh) |
-| State management | Volumes on one host | Persistent Volume Claims across nodes |
-| CI/CD | Simple (compose up) | Complex (Helm, ArgoCD, etc.) |
-| When to use | < 10 services, < 5 nodes, < 20 engineers | > 10 services, multi-node, auto-scaling needed |
+| Dimension        | Docker Compose                             | Kubernetes                                     |
+| ---------------- | ------------------------------------------ | ---------------------------------------------- |
+| Complexity       | Low                                        | High                                           |
+| Learning curve   | Days                                       | Weeks to months                                |
+| Best for         | Single host, small teams, dev environments | Multi-host, auto-scaling, large teams          |
+| Scaling          | Manual (add replicas)                      | Automatic (HPA)                                |
+| Networking       | Simple service discovery                   | Complex but powerful (ingress, service mesh)   |
+| State management | Volumes on one host                        | Persistent Volume Claims across nodes          |
+| CI/CD            | Simple (compose up)                        | Complex (Helm, ArgoCD, etc.)                   |
+| When to use      | < 10 services, < 5 nodes, < 20 engineers   | > 10 services, multi-node, auto-scaling needed |
 
 **Rule of thumb:** Start with Docker Compose. Move to Kubernetes when you need multi-node scaling, auto-healing, or complex service mesh. Many production workloads never need Kubernetes.
 
@@ -1137,13 +1146,13 @@ Tag strategy:
 
 #### Supply chain security
 
-| Threat | Mitigation |
-|---|---|
-| Compromised base image | Pin to digest, scan regularly, use official images |
-| Malicious layer injection | Verify image provenance, sign images with `cosign` |
-| Secrets in image layers | Never `COPY .env`, use runtime secrets |
+| Threat                    | Mitigation                                             |
+| ------------------------- | ------------------------------------------------------ |
+| Compromised base image    | Pin to digest, scan regularly, use official images     |
+| Malicious layer injection | Verify image provenance, sign images with `cosign`     |
+| Secrets in image layers   | Never `COPY .env`, use runtime secrets                 |
 | Unpatched vulnerabilities | Automate scanning in CI, rebuild on base image updates |
-| Untrusted registries | Pull only from approved registries |
+| Untrusted registries      | Pull only from approved registries                     |
 
 ```bash
 # Scan an image for vulnerabilities
@@ -1183,7 +1192,7 @@ services:
 
   db:
     networks:
-      - backend    # ← web cannot reach db directly
+      - backend # ← web cannot reach db directly
 
 networks:
   frontend:
@@ -1194,13 +1203,13 @@ networks:
 
 #### Disaster recovery and rollback
 
-| Scenario | Recovery strategy |
-|---|---|
-| Bad image deployed | Redeploy previous image tag |
-| Database corruption | Restore from volume backup |
-| Registry outage | Keep local image cache, mirror critical images |
-| Secret compromise | Rotate secrets, redeploy all affected services |
-| Host failure | Run on multiple hosts, use orchestration |
+| Scenario            | Recovery strategy                              |
+| ------------------- | ---------------------------------------------- |
+| Bad image deployed  | Redeploy previous image tag                    |
+| Database corruption | Restore from volume backup                     |
+| Registry outage     | Keep local image cache, mirror critical images |
+| Secret compromise   | Rotate secrets, redeploy all affected services |
+| Host failure        | Run on multiple hosts, use orchestration       |
 
 **Rollback pattern:**
 
@@ -1235,18 +1244,18 @@ docker compose logs --tail 50 api
 
 #### What expert engineers worry about that juniors miss
 
-| Expert concern | Junior blind spot |
-|---|---|
-| Image provenance and signing | "I just pull from Docker Hub" |
-| Layer cache invalidation in CI | "Why is the CI build so slow?" |
-| Container resource limits | "It works on my machine (with 32GB RAM)" |
-| Log rotation and storage | Logs fill disk, container crashes |
-| Init system (tini/dumb-init) | Zombie processes, signal handling bugs |
-| DNS caching in containers | Stale DNS when a service restarts |
+| Expert concern                   | Junior blind spot                                       |
+| -------------------------------- | ------------------------------------------------------- |
+| Image provenance and signing     | "I just pull from Docker Hub"                           |
+| Layer cache invalidation in CI   | "Why is the CI build so slow?"                          |
+| Container resource limits        | "It works on my machine (with 32GB RAM)"                |
+| Log rotation and storage         | Logs fill disk, container crashes                       |
+| Init system (tini/dumb-init)     | Zombie processes, signal handling bugs                  |
+| DNS caching in containers        | Stale DNS when a service restarts                       |
 | `node_modules` platform mismatch | macOS bind mount + Linux container = broken native deps |
-| Graceful shutdown | App doesn't handle SIGTERM, connections drop |
-| Image size drift | Image grows from 200MB to 2GB over months |
-| Volume backup strategy | "We'll deal with backups later" |
+| Graceful shutdown                | App doesn't handle SIGTERM, connections drop            |
+| Image size drift                 | Image grows from 200MB to 2GB over months               |
+| Volume backup strategy           | "We'll deal with backups later"                         |
 
 #### 10 advanced engineering discussion topics
 
@@ -1268,6 +1277,7 @@ docker compose logs --tail 50 api
 ### Step 1: Install Docker and Docker Compose
 
 **macOS:**
+
 ```bash
 # Install Docker Desktop (includes Docker Engine + Compose)
 brew install --cask docker
@@ -1275,6 +1285,7 @@ brew install --cask docker
 ```
 
 **Linux (Ubuntu/Debian):**
+
 ```bash
 # Install Docker Engine
 curl -fsSL https://get.docker.com | sh
@@ -1287,6 +1298,7 @@ docker compose version
 ```
 
 **Verify:**
+
 ```bash
 docker --version          # Docker version 27.x
 docker compose version    # Docker Compose version v2.x
@@ -1404,11 +1416,11 @@ server {
 
 **Image size comparison:**
 
-| Approach | Image size |
-|---|---|
-| `node:20` + serve | ~1.1 GB |
-| `node:20-alpine` + serve | ~190 MB |
-| Multi-stage + Nginx | ~25 MB |
+| Approach                 | Image size |
+| ------------------------ | ---------- |
+| `node:20` + serve        | ~1.1 GB    |
+| `node:20-alpine` + serve | ~190 MB    |
+| Multi-stage + Nginx      | ~25 MB     |
 
 #### Next.js app — production
 
@@ -1509,14 +1521,14 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:80"
+      - '3000:80'
     depends_on:
       - api
 
   api:
     build: ./backend
     ports:
-      - "4000:4000"
+      - '4000:4000'
     environment:
       - NODE_ENV=production
 ```
@@ -1528,14 +1540,14 @@ services:
   frontend:
     build: ./frontend
     ports:
-      - "3000:80"
+      - '3000:80'
     depends_on:
       - api
 
   api:
     build: ./backend
     ports:
-      - "4000:4000"
+      - '4000:4000'
     environment:
       - DATABASE_URL=postgres://postgres:secret@db:5432/mydb
       - NODE_ENV=production
@@ -1546,7 +1558,7 @@ services:
   db:
     image: postgres:16-alpine
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: secret
@@ -1554,7 +1566,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -1570,7 +1582,7 @@ services:
   web:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       - DATABASE_URL=postgres://postgres:secret@db:5432/mydb
       - REDIS_URL=redis://redis:6379
@@ -1590,7 +1602,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -1600,7 +1612,7 @@ services:
     volumes:
       - redisdata:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -1620,7 +1632,7 @@ services:
   web:
     build: .
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - db
 
@@ -1640,17 +1652,17 @@ volumes:
 services:
   web:
     build:
-      target: deps       # Use early stage with all deps
+      target: deps # Use early stage with all deps
     volumes:
-      - ./src:/app/src   # Hot reload via bind mount
-      - /app/node_modules  # Anonymous volume — don't overwrite
+      - ./src:/app/src # Hot reload via bind mount
+      - /app/node_modules # Anonymous volume — don't overwrite
     environment:
       - NODE_ENV=development
     command: npm run dev
 
   db:
     ports:
-      - "5432:5432"      # Expose DB port for local tools
+      - '5432:5432' # Expose DB port for local tools
 ```
 
 ```yaml
@@ -1658,7 +1670,7 @@ services:
 services:
   web:
     build:
-      target: runner     # Use final minimal stage
+      target: runner # Use final minimal stage
     environment:
       - NODE_ENV=production
     restart: unless-stopped
@@ -1748,88 +1760,88 @@ LICENSE
 
 ### Docker commands
 
-| Command | Purpose |
-|---|---|
-| `docker build -t name .` | Build image from Dockerfile |
-| `docker build -t name --target stage .` | Build specific stage |
-| `docker run -p 3000:3000 name` | Run container with port mapping |
-| `docker run -d name` | Run in background (detached) |
-| `docker run -it name sh` | Run interactive shell |
-| `docker run -v $(pwd):/app name` | Run with bind mount |
-| `docker run -e KEY=val name` | Run with environment variable |
-| `docker run --rm name` | Remove container after exit |
-| `docker ps` | List running containers |
-| `docker ps -a` | List all containers |
-| `docker stop <id>` | Stop container |
-| `docker rm <id>` | Remove container |
-| `docker images` | List images |
-| `docker rmi <id>` | Remove image |
-| `docker logs <id>` | View container logs |
-| `docker logs -f <id>` | Follow logs (tail) |
-| `docker exec -it <id> sh` | Shell into running container |
-| `docker inspect <id>` | Detailed container info |
-| `docker stats` | Live resource usage |
-| `docker system prune` | Remove unused data |
-| `docker system prune -a` | Remove all unused images too |
-| `docker system df` | Show disk usage |
+| Command                                 | Purpose                         |
+| --------------------------------------- | ------------------------------- |
+| `docker build -t name .`                | Build image from Dockerfile     |
+| `docker build -t name --target stage .` | Build specific stage            |
+| `docker run -p 3000:3000 name`          | Run container with port mapping |
+| `docker run -d name`                    | Run in background (detached)    |
+| `docker run -it name sh`                | Run interactive shell           |
+| `docker run -v $(pwd):/app name`        | Run with bind mount             |
+| `docker run -e KEY=val name`            | Run with environment variable   |
+| `docker run --rm name`                  | Remove container after exit     |
+| `docker ps`                             | List running containers         |
+| `docker ps -a`                          | List all containers             |
+| `docker stop <id>`                      | Stop container                  |
+| `docker rm <id>`                        | Remove container                |
+| `docker images`                         | List images                     |
+| `docker rmi <id>`                       | Remove image                    |
+| `docker logs <id>`                      | View container logs             |
+| `docker logs -f <id>`                   | Follow logs (tail)              |
+| `docker exec -it <id> sh`               | Shell into running container    |
+| `docker inspect <id>`                   | Detailed container info         |
+| `docker stats`                          | Live resource usage             |
+| `docker system prune`                   | Remove unused data              |
+| `docker system prune -a`                | Remove all unused images too    |
+| `docker system df`                      | Show disk usage                 |
 
 ### Docker Compose commands
 
-| Command | Purpose |
-|---|---|
-| `docker compose up` | Start all services |
-| `docker compose up -d` | Start in background |
-| `docker compose up --build` | Rebuild images then start |
-| `docker compose down` | Stop and remove |
-| `docker compose down -v` | Also remove volumes |
-| `docker compose ps` | List services |
-| `docker compose logs -f` | Follow all logs |
-| `docker compose logs -f api` | Follow specific service |
-| `docker compose exec api sh` | Shell into service |
-| `docker compose run api npm test` | Run one-off command |
-| `docker compose restart api` | Restart a service |
-| `docker compose pull` | Pull latest images |
-| `docker compose build` | Build all images |
-| `docker compose config` | Validate and display config |
-| `docker compose top` | Show running processes |
+| Command                           | Purpose                     |
+| --------------------------------- | --------------------------- |
+| `docker compose up`               | Start all services          |
+| `docker compose up -d`            | Start in background         |
+| `docker compose up --build`       | Rebuild images then start   |
+| `docker compose down`             | Stop and remove             |
+| `docker compose down -v`          | Also remove volumes         |
+| `docker compose ps`               | List services               |
+| `docker compose logs -f`          | Follow all logs             |
+| `docker compose logs -f api`      | Follow specific service     |
+| `docker compose exec api sh`      | Shell into service          |
+| `docker compose run api npm test` | Run one-off command         |
+| `docker compose restart api`      | Restart a service           |
+| `docker compose pull`             | Pull latest images          |
+| `docker compose build`            | Build all images            |
+| `docker compose config`           | Validate and display config |
+| `docker compose top`              | Show running processes      |
 
 ### Dockerfile syntax
 
-| Instruction | Purpose | Example |
-|---|---|---|
-| `FROM` | Base image | `FROM node:20-alpine` |
-| `WORKDIR` | Set working directory | `WORKDIR /app` |
-| `COPY` | Copy files from context | `COPY package.json ./` |
-| `RUN` | Execute a command during build | `RUN npm ci` |
-| `ENV` | Set environment variable | `ENV NODE_ENV=production` |
-| `ARG` | Build-time variable | `ARG NODE_VERSION=20` |
-| `EXPOSE` | Document the port | `EXPOSE 3000` |
-| `CMD` | Default command when container starts | `CMD ["node", "server.js"]` |
-| `ENTRYPOINT` | Main executable (harder to override) | `ENTRYPOINT ["/sbin/tini", "--"]` |
-| `USER` | Set the user | `USER node` |
-| `HEALTHCHECK` | Define health check | See health check section |
-| `LABEL` | Add metadata | `LABEL version="1.0"` |
+| Instruction   | Purpose                               | Example                           |
+| ------------- | ------------------------------------- | --------------------------------- |
+| `FROM`        | Base image                            | `FROM node:20-alpine`             |
+| `WORKDIR`     | Set working directory                 | `WORKDIR /app`                    |
+| `COPY`        | Copy files from context               | `COPY package.json ./`            |
+| `RUN`         | Execute a command during build        | `RUN npm ci`                      |
+| `ENV`         | Set environment variable              | `ENV NODE_ENV=production`         |
+| `ARG`         | Build-time variable                   | `ARG NODE_VERSION=20`             |
+| `EXPOSE`      | Document the port                     | `EXPOSE 3000`                     |
+| `CMD`         | Default command when container starts | `CMD ["node", "server.js"]`       |
+| `ENTRYPOINT`  | Main executable (harder to override)  | `ENTRYPOINT ["/sbin/tini", "--"]` |
+| `USER`        | Set the user                          | `USER node`                       |
+| `HEALTHCHECK` | Define health check                   | See health check section          |
+| `LABEL`       | Add metadata                          | `LABEL version="1.0"`             |
 
 ### Compose syntax
 
 ```yaml
 services:
   name:
-    image: image:tag             # Use existing image
-    build:                        # OR build from Dockerfile
+    image: image:tag # Use existing image
+    build: # OR build from Dockerfile
       context: .
       dockerfile: Dockerfile
-      target: stage              # Multi-stage target
+      target: stage # Multi-stage target
       args:
         NODE_VERSION: 20
     ports:
-      - "host:container"
+      - 'host:container'
     expose:
-      - "3000"                   # Internal only
+      - '3000' # Internal only
     volumes:
-      - ./src:/app/src           # Bind mount
-      - data:/app/data           # Named volume
-      - /app/node_modules        # Anonymous volume
+      - ./src:/app/src # Bind mount
+      - data:/app/data # Named volume
+      - /app/node_modules # Anonymous volume
     environment:
       KEY: value
     env_file:
@@ -1837,12 +1849,12 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    restart: unless-stopped       # Restart policy
-    command: npm run dev          # Override CMD
+    restart: unless-stopped # Restart policy
+    command: npm run dev # Override CMD
     working_dir: /app
-    user: "1001:1001"
+    user: '1001:1001'
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -1857,8 +1869,8 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "10m"
-        max-file: "3"
+        max-size: '10m'
+        max-file: '3'
 
 volumes:
   data:
@@ -1961,44 +1973,44 @@ docker system df -v
 
 ### Common error messages
 
-| Error | Cause | Fix |
-|---|---|---|
-| `port is already allocated` | Another process uses the port | Change the host port or stop the conflicting process |
-| `no space left on device` | Docker disk full | `docker system prune -a` |
-| `COPY failed: file not found` | File not in build context | Check path relative to Dockerfile, check `.dockerignore` |
-| `npm ERR! could not determine executable` | Wrong `WORKDIR` or missing deps | Verify `WORKDIR` and that `npm ci` ran |
-| `ECONNREFUSED localhost` | Container trying to reach another via localhost | Use the service name instead (`db`, `api`, etc.) |
-| `permission denied` | Non-root user can't access files | `chown` in Dockerfile or adjust permissions |
-| `exec format error` | Image built for wrong architecture | Rebuild for the correct platform |
-| `OCI runtime create failed` | Corrupt image or incompatible base | Rebuild the image, check base image |
+| Error                                     | Cause                                           | Fix                                                      |
+| ----------------------------------------- | ----------------------------------------------- | -------------------------------------------------------- |
+| `port is already allocated`               | Another process uses the port                   | Change the host port or stop the conflicting process     |
+| `no space left on device`                 | Docker disk full                                | `docker system prune -a`                                 |
+| `COPY failed: file not found`             | File not in build context                       | Check path relative to Dockerfile, check `.dockerignore` |
+| `npm ERR! could not determine executable` | Wrong `WORKDIR` or missing deps                 | Verify `WORKDIR` and that `npm ci` ran                   |
+| `ECONNREFUSED localhost`                  | Container trying to reach another via localhost | Use the service name instead (`db`, `api`, etc.)         |
+| `permission denied`                       | Non-root user can't access files                | `chown` in Dockerfile or adjust permissions              |
+| `exec format error`                       | Image built for wrong architecture              | Rebuild for the correct platform                         |
+| `OCI runtime create failed`               | Corrupt image or incompatible base              | Rebuild the image, check base image                      |
 
 ### Performance tips
 
-| Tip | Impact |
-|---|---|
-| Order Dockerfile layers by change frequency | Maximize cache hits |
-| Use `.dockerignore` | Smaller build context, faster builds |
-| Use multi-stage builds | Smaller production images |
-| Use Alpine base images | ~900MB → ~180MB |
-| Use BuildKit (`DOCKER_BUILDKIT=1`) | Parallel stage building, cache mounts |
-| Combine `RUN` commands | Fewer layers |
-| Use `npm ci --omit=dev` | Exclude devDependencies |
-| Cache mount for npm | Persist npm cache across builds |
+| Tip                                         | Impact                                |
+| ------------------------------------------- | ------------------------------------- |
+| Order Dockerfile layers by change frequency | Maximize cache hits                   |
+| Use `.dockerignore`                         | Smaller build context, faster builds  |
+| Use multi-stage builds                      | Smaller production images             |
+| Use Alpine base images                      | ~900MB → ~180MB                       |
+| Use BuildKit (`DOCKER_BUILDKIT=1`)          | Parallel stage building, cache mounts |
+| Combine `RUN` commands                      | Fewer layers                          |
+| Use `npm ci --omit=dev`                     | Exclude devDependencies               |
+| Cache mount for npm                         | Persist npm cache across builds       |
 
 ### Security tips
 
-| Tip | Priority |
-|---|---|
-| Run as non-root user | Critical |
-| Use minimal base images | High |
-| Pin image versions | High |
-| Scan images for CVEs | High |
-| Never put secrets in Dockerfile | Critical |
-| Use `.dockerignore` (exclude `.env`) | High |
-| Make filesystem read-only | Medium |
-| Drop all capabilities | Medium |
-| Use `no-new-privileges` | Medium |
-| Set resource limits | Medium |
+| Tip                                  | Priority |
+| ------------------------------------ | -------- |
+| Run as non-root user                 | Critical |
+| Use minimal base images              | High     |
+| Pin image versions                   | High     |
+| Scan images for CVEs                 | High     |
+| Never put secrets in Dockerfile      | Critical |
+| Use `.dockerignore` (exclude `.env`) | High     |
+| Make filesystem read-only            | Medium   |
+| Drop all capabilities                | Medium   |
+| Use `no-new-privileges`              | Medium   |
+| Set resource limits                  | Medium   |
 
 ---
 
@@ -2010,12 +2022,12 @@ docker system df -v
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| README with manual steps | Simple, no Docker knowledge needed | Fragile, OS-dependent, drift |
-| Docker Compose for everything | One command, identical everywhere | Slower feedback loop (build time), Docker knowledge needed |
-| Docker for services only (DB, Redis) | Best of both worlds — native Node.js speed + containerized infrastructure | Slightly more setup |
-| Nix/devbox for toolchain + Docker for services | Reproducible toolchain + containerized services | Higher learning curve |
+| Strategy                                       | Pros                                                                      | Cons                                                       |
+| ---------------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| README with manual steps                       | Simple, no Docker knowledge needed                                        | Fragile, OS-dependent, drift                               |
+| Docker Compose for everything                  | One command, identical everywhere                                         | Slower feedback loop (build time), Docker knowledge needed |
+| Docker for services only (DB, Redis)           | Best of both worlds — native Node.js speed + containerized infrastructure | Slightly more setup                                        |
+| Nix/devbox for toolchain + Docker for services | Reproducible toolchain + containerized services                           | Higher learning curve                                      |
 
 **Senior choice:** Docker for infrastructure (database, Redis, message queue), native Node.js for the application. This gives you hot reload speed while ensuring everyone has identical backing services. Use `docker compose up db redis` alongside `npm run dev`.
 
@@ -2027,11 +2039,11 @@ docker system df -v
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Docker Compose for dev | Identical environment, one command | Slower than native for some workflows |
-| Docker for infra only | Fast dev loop, consistent services | App-level differences still possible |
-| Dev containers (VS Code) | Full IDE + container integration | VS Code-specific, heavier |
+| Strategy                 | Pros                               | Cons                                  |
+| ------------------------ | ---------------------------------- | ------------------------------------- |
+| Docker Compose for dev   | Identical environment, one command | Slower than native for some workflows |
+| Docker for infra only    | Fast dev loop, consistent services | App-level differences still possible  |
+| Dev containers (VS Code) | Full IDE + container integration   | VS Code-specific, heavier             |
 
 **Senior choice:** Commit `docker-compose.dev.yml` to the repo. New engineers run `docker compose -f docker-compose.yml -f docker-compose.dev.yml up` and have a working environment in minutes.
 
@@ -2051,7 +2063,7 @@ services:
       - ./frontend/src:/app/src
       - /app/node_modules
     ports:
-      - "3000:3000"
+      - '3000:3000'
     command: npm run dev
     environment:
       - VITE_API_URL=http://localhost:4000
@@ -2064,7 +2076,7 @@ services:
       - ./backend/src:/app/src
       - /app/node_modules
     ports:
-      - "4000:4000"
+      - '4000:4000'
     command: npm run dev
     environment:
       - DATABASE_URL=postgres://postgres:secret@db:5432/mydb
@@ -2075,14 +2087,14 @@ services:
   db:
     image: postgres:16-alpine
     ports:
-      - "5432:5432"
+      - '5432:5432'
     environment:
       POSTGRES_PASSWORD: secret
       POSTGRES_DB: mydb
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 5s
       retries: 5
@@ -2092,6 +2104,7 @@ volumes:
 ```
 
 **Key patterns:**
+
 - Bind mount `src/` for hot reload.
 - Anonymous volume for `node_modules` to avoid host/container mismatch.
 - `depends_on` with health check condition.
@@ -2105,12 +2118,12 @@ volumes:
 
 **Strategies:**
 
-| Technique | Before | After |
-|---|---|---|
-| Switch from `node` to `node:alpine` | 1.1 GB | 190 MB |
-| Multi-stage: build in Node, serve with Nginx | 190 MB | 25 MB |
-| Add `.dockerignore` | Slow build, bloated context | Fast build |
-| `npm ci --omit=dev` | All deps in image | Only prod deps |
+| Technique                                    | Before                      | After          |
+| -------------------------------------------- | --------------------------- | -------------- |
+| Switch from `node` to `node:alpine`          | 1.1 GB                      | 190 MB         |
+| Multi-stage: build in Node, serve with Nginx | 190 MB                      | 25 MB          |
+| Add `.dockerignore`                          | Slow build, bloated context | Fast build     |
+| `npm ci --omit=dev`                          | All deps in image           | Only prod deps |
 
 **Senior choice:** Multi-stage build. Build with Node, copy `dist/` into Nginx. Result: ~25 MB image that serves static files with proper caching headers.
 
@@ -2141,11 +2154,11 @@ This produces a self-contained `server.js` with bundled dependencies. The Docker
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Bind mount `src/` | Simple, works with Vite/Next.js | File watching can be slow on macOS |
-| Use polling | Works on all OS | CPU overhead |
-| Docker for infra only, app runs natively | Best hot reload performance | Less "containerized" |
+| Strategy                                 | Pros                            | Cons                               |
+| ---------------------------------------- | ------------------------------- | ---------------------------------- |
+| Bind mount `src/`                        | Simple, works with Vite/Next.js | File watching can be slow on macOS |
+| Use polling                              | Works on all OS                 | CPU overhead                       |
+| Docker for infra only, app runs natively | Best hot reload performance     | Less "containerized"               |
 
 ```yaml
 # docker-compose.dev.yml
@@ -2153,9 +2166,9 @@ services:
   web:
     volumes:
       - ./src:/app/src
-      - /app/node_modules    # ← prevent host node_modules from overwriting
+      - /app/node_modules # ← prevent host node_modules from overwriting
     environment:
-      - WATCHPACK_POLLING=true   # For Next.js on macOS
+      - WATCHPACK_POLLING=true # For Next.js on macOS
       - CHOKIDAR_USEPOLLING=true # For Vite/CRA on macOS
     command: npm run dev
 ```
@@ -2182,6 +2195,7 @@ volumes:
 ```
 
 **Rules:**
+
 - `docker compose down` — data persists in the volume.
 - `docker compose down -v` — **deletes the volume** — data is gone.
 - Named volumes survive container recreation.
@@ -2203,11 +2217,11 @@ docker compose exec -T db psql -U postgres mydb < backup.sql
 
 **Problem:** Multiple services on one host, need routing by domain or path.
 
-| Solution | Pros | Cons |
-|---|---|---|
-| Nginx (manual config) | Full control, well understood | Manual config for each service |
-| Traefik (auto-discovery) | Automatic via Docker labels | More complex initial setup |
-| Caddy (auto-HTTPS) | Simple config, auto TLS | Less ecosystem |
+| Solution                 | Pros                          | Cons                           |
+| ------------------------ | ----------------------------- | ------------------------------ |
+| Nginx (manual config)    | Full control, well understood | Manual config for each service |
+| Traefik (auto-discovery) | Automatic via Docker labels   | More complex initial setup     |
+| Caddy (auto-HTTPS)       | Simple config, auto TLS       | Less ecosystem                 |
 
 **Senior choice:** Traefik for development and small production. Nginx for high-traffic production where you need fine-grained control.
 
@@ -2223,11 +2237,11 @@ services:
     build: .
     command: node dist/server.js
     ports:
-      - "3000:3000"
+      - '3000:3000'
 
   worker:
-    build: .                    # Same image!
-    command: node dist/worker.js  # Different entrypoint
+    build: . # Same image!
+    command: node dist/worker.js # Different entrypoint
     environment:
       - REDIS_URL=redis://redis:6379
 
@@ -2243,13 +2257,13 @@ services:
 
 **Strategies:**
 
-| Strategy | Complexity | Best for |
-|---|---|---|
-| `docker compose up` on VPS | Low | Small projects, personal apps |
-| Docker Swarm | Medium | Small-medium production |
-| Kubernetes | High | Large-scale, auto-scaling |
-| Cloud container services (ECS, Cloud Run, Fly.io) | Medium | Managed infrastructure |
-| Coolify / CapRover | Low-Medium | Self-hosted PaaS |
+| Strategy                                          | Complexity | Best for                      |
+| ------------------------------------------------- | ---------- | ----------------------------- |
+| `docker compose up` on VPS                        | Low        | Small projects, personal apps |
+| Docker Swarm                                      | Medium     | Small-medium production       |
+| Kubernetes                                        | High       | Large-scale, auto-scaling     |
+| Cloud container services (ECS, Cloud Run, Fly.io) | Medium     | Managed infrastructure        |
+| Coolify / CapRover                                | Low-Medium | Self-hosted PaaS              |
 
 **Senior choice for a small team:** VPS + Docker Compose + GitHub Actions. Simple, cheap, and sufficient for most apps.
 
@@ -2320,11 +2334,11 @@ jobs:
 
 **Strategies:**
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| One Dockerfile per app, copy workspace | Simple | Large build context |
-| Turbo prune + Docker | Only includes needed packages | Turborepo-specific |
-| Shared base image + app layers | Reuses common deps | More complex image management |
+| Strategy                               | Pros                          | Cons                          |
+| -------------------------------------- | ----------------------------- | ----------------------------- |
+| One Dockerfile per app, copy workspace | Simple                        | Large build context           |
+| Turbo prune + Docker                   | Only includes needed packages | Turborepo-specific            |
+| Shared base image + app layers         | Reuses common deps            | More complex image management |
 
 **Turborepo prune pattern:**
 
@@ -2394,12 +2408,12 @@ docker compose --env-file .env.production up -d
 
 **Problem:** Database passwords, API keys, tokens — where do they go?
 
-| Method | Security | Use case |
-|---|---|---|
-| `.env` file | Low | Local development only |
-| Environment variables | Medium | Simple production |
-| Docker secrets | Medium-High | Docker Swarm / Compose |
-| External manager (Vault, AWS SM) | High | Enterprise production |
+| Method                           | Security    | Use case               |
+| -------------------------------- | ----------- | ---------------------- |
+| `.env` file                      | Low         | Local development only |
+| Environment variables            | Medium      | Simple production      |
+| Docker secrets                   | Medium-High | Docker Swarm / Compose |
+| External manager (Vault, AWS SM) | High        | Enterprise production  |
 
 **Senior choice:** `.env` for local dev (gitignored), environment variables from CI/CD secrets for production, external secrets manager for sensitive production systems.
 
@@ -2416,12 +2430,12 @@ services:
     deploy:
       replicas: 3
     expose:
-      - "4000"
+      - '4000'
 
   nginx:
     image: nginx:alpine
     ports:
-      - "80:80"
+      - '80:80'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
@@ -2568,12 +2582,12 @@ docker compose up -d --scale api=3
 
 **Q7. Matching:** Match the Dockerfile instruction to its purpose.
 
-| Instruction | Purpose |
-|---|---|
-| A. `FROM` | 1. Run a command during build |
-| B. `COPY` | 2. Set the base image |
-| C. `RUN` | 3. Default command when container starts |
-| D. `CMD` | 4. Add files from build context |
+| Instruction | Purpose                                  |
+| ----------- | ---------------------------------------- |
+| A. `FROM`   | 1. Run a command during build            |
+| B. `COPY`   | 2. Set the base image                    |
+| C. `RUN`    | 3. Default command when container starts |
+| D. `CMD`    | 4. Add files from build context          |
 
 <details><summary>Answer</summary>A→2, B→4, C→1, D→3</details>
 
@@ -2591,7 +2605,7 @@ docker compose up -d --scale api=3
 
 ---
 
-**Q10. Fill in the blank:** To use `npm ci` instead of `npm install` in a Dockerfile, you must have a _________ file committed.
+**Q10. Fill in the blank:** To use `npm ci` instead of `npm install` in a Dockerfile, you must have a ****\_**** file committed.
 
 <details><summary>Answer</summary><code>package-lock.json</code> (or equivalent lockfile). <code>npm ci</code> requires a lockfile to perform a deterministic install.</details>
 
@@ -2624,17 +2638,17 @@ docker compose up -d --scale api=3
 
 **Q14. Matching:** Match the volume type to its use case.
 
-| Type | Use case |
-|---|---|
+| Type            | Use case                                 |
+| --------------- | ---------------------------------------- |
 | A. Named volume | 1. Temporary data that shouldn't persist |
-| B. Bind mount | 2. Database persistence across restarts |
-| C. tmpfs | 3. Syncing source code for hot reload |
+| B. Bind mount   | 2. Database persistence across restarts  |
+| C. tmpfs        | 3. Syncing source code for hot reload    |
 
 <details><summary>Answer</summary>A→2, B→3, C→1</details>
 
 ---
 
-**Q15. Fill in the blank:** To prevent the host's `node_modules` from overwriting the container's when using a bind mount, add an _________ volume for `/app/node_modules`.
+**Q15. Fill in the blank:** To prevent the host's `node_modules` from overwriting the container's when using a bind mount, add an ****\_**** volume for `/app/node_modules`.
 
 <details><summary>Answer</summary>Anonymous. Adding <code>- /app/node_modules</code> as a volume (without a host path) creates an anonymous volume that preserves the container's <code>node_modules</code>.</details>
 
@@ -2735,7 +2749,7 @@ The API is on both networks. The web service can reach the API but not the datab
 
 ---
 
-**Q26. Fill in the blank:** To handle SIGTERM properly in a Docker container (for graceful shutdown), you should use an _________ system like `tini` or `dumb-init` as the `ENTRYPOINT`.
+**Q26. Fill in the blank:** To handle SIGTERM properly in a Docker container (for graceful shutdown), you should use an ****\_**** system like `tini` or `dumb-init` as the `ENTRYPOINT`.
 
 <details><summary>Answer</summary>Init. Docker sends SIGTERM to PID 1 when stopping a container. If PID 1 is your Node.js app, it may not handle signals correctly (especially if started via npm scripts). An init system like <code>tini</code> forwards signals properly and reaps zombie processes.</details>
 
@@ -2809,95 +2823,95 @@ Based on React, Next.js, Astro, TypeScript, and static files:
 
 ### What to learn first (priority order)
 
-| Priority | Topic | Why |
-|---|---|---|
-| 1 | Dockerfile basics + `docker build` + `docker run` | Foundation of everything |
-| 2 | `.dockerignore` + layer caching | Prevent pain early |
-| 3 | Multi-stage builds | Image size is the #1 frontend Docker problem |
-| 4 | Docker Compose for local dev (DB, Redis) | Practical daily use |
-| 5 | Environment variables + secrets | Configuration management |
-| 6 | Volumes (named + bind mount) | Data persistence + hot reload |
-| 7 | Networks + service communication | Multi-service architecture |
-| 8 | Health checks | Production readiness |
-| 9 | CI/CD integration (build + push) | Deployment pipeline |
-| 10 | Security hardening | Production safety |
+| Priority | Topic                                             | Why                                          |
+| -------- | ------------------------------------------------- | -------------------------------------------- |
+| 1        | Dockerfile basics + `docker build` + `docker run` | Foundation of everything                     |
+| 2        | `.dockerignore` + layer caching                   | Prevent pain early                           |
+| 3        | Multi-stage builds                                | Image size is the #1 frontend Docker problem |
+| 4        | Docker Compose for local dev (DB, Redis)          | Practical daily use                          |
+| 5        | Environment variables + secrets                   | Configuration management                     |
+| 6        | Volumes (named + bind mount)                      | Data persistence + hot reload                |
+| 7        | Networks + service communication                  | Multi-service architecture                   |
+| 8        | Health checks                                     | Production readiness                         |
+| 9        | CI/CD integration (build + push)                  | Deployment pipeline                          |
+| 10       | Security hardening                                | Production safety                            |
 
 ### Best practice projects
 
-| Project | What you learn |
-|---|---|
-| Dockerize a React app (Vite) | Dockerfile, multi-stage, Nginx serving |
-| Dockerize a Next.js app | Standalone output, SSR in container |
-| Docker Compose: Next.js + PostgreSQL | Compose, volumes, networking, health checks |
-| Full stack: React + Express + Postgres + Redis | Multi-service architecture |
-| CI/CD: Build image in GitHub Actions, deploy to VPS | End-to-end pipeline |
+| Project                                             | What you learn                              |
+| --------------------------------------------------- | ------------------------------------------- |
+| Dockerize a React app (Vite)                        | Dockerfile, multi-stage, Nginx serving      |
+| Dockerize a Next.js app                             | Standalone output, SSR in container         |
+| Docker Compose: Next.js + PostgreSQL                | Compose, volumes, networking, health checks |
+| Full stack: React + Express + Postgres + Redis      | Multi-service architecture                  |
+| CI/CD: Build image in GitHub Actions, deploy to VPS | End-to-end pipeline                         |
 
 ### Common mistakes frontend engineers make with Docker
 
-| Mistake | Why it happens | Fix |
-|---|---|---|
-| 1 GB+ images | Using `node:20` base | Use `node:20-alpine` + multi-stage |
-| Slow builds every time | Wrong layer order | Copy lockfile first, then source |
-| "Works in Docker but not locally" (or vice versa) | Different Node versions, env vars | Match versions, use `.env` consistently |
-| Using `localhost` between containers | Frontend mental model | Use service names in Docker networks |
-| Bind-mounting `node_modules` | Habit from local dev | Use anonymous volume to prevent overwrite |
-| Putting secrets in Dockerfile | Quick and dirty | Use env vars, secrets, or BuildKit mounts |
-| No `.dockerignore` | Didn't know it exists | Always create one with `node_modules`, `.git`, `.env` |
-| Ignoring image scanning | "I trust the base image" | Scan regularly — images have CVEs |
-| No health checks | "It starts, it works" | Add health checks for reliable orchestration |
-| Running as root | Default behavior | Add `USER node` or create a non-root user |
+| Mistake                                           | Why it happens                    | Fix                                                   |
+| ------------------------------------------------- | --------------------------------- | ----------------------------------------------------- |
+| 1 GB+ images                                      | Using `node:20` base              | Use `node:20-alpine` + multi-stage                    |
+| Slow builds every time                            | Wrong layer order                 | Copy lockfile first, then source                      |
+| "Works in Docker but not locally" (or vice versa) | Different Node versions, env vars | Match versions, use `.env` consistently               |
+| Using `localhost` between containers              | Frontend mental model             | Use service names in Docker networks                  |
+| Bind-mounting `node_modules`                      | Habit from local dev              | Use anonymous volume to prevent overwrite             |
+| Putting secrets in Dockerfile                     | Quick and dirty                   | Use env vars, secrets, or BuildKit mounts             |
+| No `.dockerignore`                                | Didn't know it exists             | Always create one with `node_modules`, `.git`, `.env` |
+| Ignoring image scanning                           | "I trust the base image"          | Scan regularly — images have CVEs                     |
+| No health checks                                  | "It starts, it works"             | Add health checks for reliable orchestration          |
+| Running as root                                   | Default behavior                  | Add `USER node` or create a non-root user             |
 
 ### 30-day learning plan
 
 #### Week 1: Foundations (Days 1–7)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 1 | Install Docker, run `hello-world`, explore Docker Desktop | Working installation |
-| 2 | Learn basic commands: `run`, `ps`, `stop`, `rm`, `images`, `logs`, `exec` | Command fluency |
-| 3 | Write first Dockerfile for a simple Express server | Working Dockerfile |
-| 4 | Learn `.dockerignore` and layer caching | Optimized build |
-| 5 | Dockerize a React (Vite) app with multi-stage build + Nginx | ~25 MB production image |
-| 6 | Dockerize a Next.js app with standalone output | Working Next.js container |
-| 7 | Learn port mapping, environment variables, bind mounts | Configuration control |
+| Day | Task                                                                      | Deliverable               |
+| --- | ------------------------------------------------------------------------- | ------------------------- |
+| 1   | Install Docker, run `hello-world`, explore Docker Desktop                 | Working installation      |
+| 2   | Learn basic commands: `run`, `ps`, `stop`, `rm`, `images`, `logs`, `exec` | Command fluency           |
+| 3   | Write first Dockerfile for a simple Express server                        | Working Dockerfile        |
+| 4   | Learn `.dockerignore` and layer caching                                   | Optimized build           |
+| 5   | Dockerize a React (Vite) app with multi-stage build + Nginx               | ~25 MB production image   |
+| 6   | Dockerize a Next.js app with standalone output                            | Working Next.js container |
+| 7   | Learn port mapping, environment variables, bind mounts                    | Configuration control     |
 
 #### Week 2: Docker Compose (Days 8–14)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 8 | Write first `docker-compose.yml` — app + PostgreSQL | Multi-container setup |
-| 9 | Learn volumes — persist database data | Data survives restarts |
-| 10 | Learn networks — service-to-service communication | API connects to DB by name |
-| 11 | Add Redis as a third service | Three-service architecture |
-| 12 | Set up development overrides with bind mounts for hot reload | Fast dev feedback |
-| 13 | Learn `depends_on` with health checks | Reliable service ordering |
-| 14 | Debug a broken Compose setup — practice logs, exec, inspect | Debugging confidence |
+| Day | Task                                                         | Deliverable                |
+| --- | ------------------------------------------------------------ | -------------------------- |
+| 8   | Write first `docker-compose.yml` — app + PostgreSQL          | Multi-container setup      |
+| 9   | Learn volumes — persist database data                        | Data survives restarts     |
+| 10  | Learn networks — service-to-service communication            | API connects to DB by name |
+| 11  | Add Redis as a third service                                 | Three-service architecture |
+| 12  | Set up development overrides with bind mounts for hot reload | Fast dev feedback          |
+| 13  | Learn `depends_on` with health checks                        | Reliable service ordering  |
+| 14  | Debug a broken Compose setup — practice logs, exec, inspect  | Debugging confidence       |
 
 #### Week 3: Production readiness (Days 15–21)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 15 | Security: non-root user, minimal base, read-only filesystem | Hardened Dockerfile |
-| 16 | Add health checks to all services | Observable containers |
-| 17 | Set up Nginx reverse proxy | Production-like routing |
-| 18 | Environment management: `.env` files, Compose overrides | Multi-environment config |
-| 19 | Build and push image in GitHub Actions | CI/CD pipeline |
-| 20 | Deploy to a VPS with `docker compose pull && up` | End-to-end deployment |
-| 21 | Learn image scanning (`docker scout`) | Security awareness |
+| Day | Task                                                        | Deliverable              |
+| --- | ----------------------------------------------------------- | ------------------------ |
+| 15  | Security: non-root user, minimal base, read-only filesystem | Hardened Dockerfile      |
+| 16  | Add health checks to all services                           | Observable containers    |
+| 17  | Set up Nginx reverse proxy                                  | Production-like routing  |
+| 18  | Environment management: `.env` files, Compose overrides     | Multi-environment config |
+| 19  | Build and push image in GitHub Actions                      | CI/CD pipeline           |
+| 20  | Deploy to a VPS with `docker compose pull && up`            | End-to-end deployment    |
+| 21  | Learn image scanning (`docker scout`)                       | Security awareness       |
 
 #### Week 4: Advanced patterns (Days 22–30)
 
-| Day | Task | Deliverable |
-|---|---|---|
-| 22 | Set up a full-stack project: Next.js + API + Postgres + Redis | Complex architecture |
-| 23 | Optimize build times with BuildKit cache mounts | Faster CI builds |
-| 24 | Study monorepo Docker strategy | Scalable structure |
-| 25 | Add background worker service (same image, different command) | Worker pattern |
-| 26 | Set up logging and resource limits | Production observability |
-| 27 | Study Docker vs. Kubernetes decision criteria | Architecture knowledge |
-| 28 | Design a rollback strategy | Recovery mechanism |
-| 29 | Review all Dockerfiles against the security checklist | Hardening pass |
-| 30 | Write an architecture decision record for your Docker setup | Documentation |
+| Day | Task                                                          | Deliverable              |
+| --- | ------------------------------------------------------------- | ------------------------ |
+| 22  | Set up a full-stack project: Next.js + API + Postgres + Redis | Complex architecture     |
+| 23  | Optimize build times with BuildKit cache mounts               | Faster CI builds         |
+| 24  | Study monorepo Docker strategy                                | Scalable structure       |
+| 25  | Add background worker service (same image, different command) | Worker pattern           |
+| 26  | Set up logging and resource limits                            | Production observability |
+| 27  | Study Docker vs. Kubernetes decision criteria                 | Architecture knowledge   |
+| 28  | Design a rollback strategy                                    | Recovery mechanism       |
+| 29  | Review all Dockerfiles against the security checklist         | Hardening pass           |
+| 30  | Write an architecture decision record for your Docker setup   | Documentation            |
 
 ---
 
@@ -2924,20 +2938,20 @@ Docker packages applications into portable, reproducible containers. Docker Comp
 
 ### Suggested Advanced Topics
 
-| Topic | Why it matters |
-|---|---|
-| Kubernetes basics | Next step after outgrowing Docker Compose |
-| Helm charts | Package and version Kubernetes deployments |
-| Service mesh (Istio, Linkerd) | Observability and security between services |
-| Container security scanning (Trivy, Snyk) | Automated vulnerability detection |
-| Image signing and verification (cosign) | Supply chain integrity |
-| Multi-architecture builds (buildx) | ARM support (Apple Silicon, AWS Graviton) |
-| Rootless Docker | Enhanced host security |
-| Distroless images | Absolute minimal attack surface |
-| BuildKit advanced features | Secrets, SSH forwarding, cache mounts |
-| Container observability (Prometheus, Grafana) | Production monitoring and alerting |
-| Docker-in-Docker (DinD) vs. Docker-out-of-Docker | CI/CD container build strategies |
-| Init systems (tini, dumb-init) | Proper signal handling and zombie reaping |
-| Container runtime alternatives (Podman, containerd) | Broader ecosystem understanding |
-| GitOps with containers (ArgoCD, Flux) | Declarative deployment management |
-| Fly.io / Railway / Render | Managed container platforms for small teams |
+| Topic                                               | Why it matters                              |
+| --------------------------------------------------- | ------------------------------------------- |
+| Kubernetes basics                                   | Next step after outgrowing Docker Compose   |
+| Helm charts                                         | Package and version Kubernetes deployments  |
+| Service mesh (Istio, Linkerd)                       | Observability and security between services |
+| Container security scanning (Trivy, Snyk)           | Automated vulnerability detection           |
+| Image signing and verification (cosign)             | Supply chain integrity                      |
+| Multi-architecture builds (buildx)                  | ARM support (Apple Silicon, AWS Graviton)   |
+| Rootless Docker                                     | Enhanced host security                      |
+| Distroless images                                   | Absolute minimal attack surface             |
+| BuildKit advanced features                          | Secrets, SSH forwarding, cache mounts       |
+| Container observability (Prometheus, Grafana)       | Production monitoring and alerting          |
+| Docker-in-Docker (DinD) vs. Docker-out-of-Docker    | CI/CD container build strategies            |
+| Init systems (tini, dumb-init)                      | Proper signal handling and zombie reaping   |
+| Container runtime alternatives (Podman, containerd) | Broader ecosystem understanding             |
+| GitOps with containers (ArgoCD, Flux)               | Declarative deployment management           |
+| Fly.io / Railway / Render                           | Managed container platforms for small teams |

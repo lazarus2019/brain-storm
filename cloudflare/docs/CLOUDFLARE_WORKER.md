@@ -1,26 +1,28 @@
 ---
 title: Cloudflare Workers — Complete Deep-Dive Engineering Guide
-description: Cloudflare Workers — Complete Deep-Dive Engineering Guide. Practical
+description:
+  Cloudflare Workers — Complete Deep-Dive Engineering Guide. Practical
   guide explaining cloudflare workers — complete deep-dive engineering guide with
   clear...
 slug: cloudflare-worker
 modifiedDate: '2026-05-17'
-draft: true
+draft: false
 featured: false
 tags:
-- cloudflare
-- worker
+  - cloudflare
+  - worker
 categories:
-- cloudflare
+  - cloudflare
 seo:
   title: Cloudflare Workers — Complete Deep-Dive Engineering Guide
-  description: Cloudflare Workers — Complete Deep-Dive Engineering Guide. Practical
+  description:
+    Cloudflare Workers — Complete Deep-Dive Engineering Guide. Practical
     guide explaining cloudflare workers — complete deep-dive engineering guide with
     clear...
   canonical: https://feel-free.com/blogs/cloudflare-worker
   keywords:
-  - cloudflare
-  - worker
+    - cloudflare
+    - worker
 author: lazarus2019
 lang: en
 ---
@@ -52,6 +54,7 @@ lang: en
 Cloudflare Workers are **serverless functions that run on Cloudflare's global edge network** — over 300 data centers worldwide. Unlike traditional serverless (AWS Lambda, Vercel Functions) that run in a few regions, Workers execute **at the data center closest to the user**.
 
 **Key mental shift from frontend:**
+
 - In React/Next.js, you think: "code runs in the browser or on a server."
 - In Workers, think: "code runs **between** the browser and the server, at the edge, globally."
 
@@ -101,19 +104,19 @@ Workers use the **V8 isolate model** — not Node.js, not a browser. They spin u
 
 ## 1.3 When Workers Are a Good Fit
 
-| ✅ Good Fit | ❌ Bad Fit |
-|---|---|
-| API proxying / gateway | Heavy computation (ML inference, video encoding) |
-| Authentication / session validation | Long-running background jobs > 30s CPU |
-| Request rewriting / routing | Apps needing full Node.js ecosystem |
-| A/B testing, feature flags | Relational DB heavy operations (use D1 or external) |
-| Edge-side personalization | Apps needing >128MB memory |
-| Rate limiting | Apps requiring filesystem access |
-| Image/content transformation | Stateful WebSocket servers (use Durable Objects) |
-| Webhook processing | Monolithic applications |
-| Cache management | |
-| Static site enhancement | |
-| Geolocation-based routing | |
+| ✅ Good Fit                         | ❌ Bad Fit                                          |
+| ----------------------------------- | --------------------------------------------------- |
+| API proxying / gateway              | Heavy computation (ML inference, video encoding)    |
+| Authentication / session validation | Long-running background jobs > 30s CPU              |
+| Request rewriting / routing         | Apps needing full Node.js ecosystem                 |
+| A/B testing, feature flags          | Relational DB heavy operations (use D1 or external) |
+| Edge-side personalization           | Apps needing >128MB memory                          |
+| Rate limiting                       | Apps requiring filesystem access                    |
+| Image/content transformation        | Stateful WebSocket servers (use Durable Objects)    |
+| Webhook processing                  | Monolithic applications                             |
+| Cache management                    |                                                     |
+| Static site enhancement             |                                                     |
+| Geolocation-based routing           |                                                     |
 
 ## 1.4 Workers vs. Your Current Stack
 
@@ -268,24 +271,28 @@ my-first-worker/
 ```typescript
 // src/index.ts
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: ExecutionContext,
+  ): Promise<Response> {
     const url = new URL(request.url);
 
-    if (url.pathname === "/") {
-      return new Response("Hello from Cloudflare Workers!", {
-        headers: { "content-type": "text/plain" },
+    if (url.pathname === '/') {
+      return new Response('Hello from Cloudflare Workers!', {
+        headers: { 'content-type': 'text/plain' },
       });
     }
 
-    if (url.pathname === "/json") {
+    if (url.pathname === '/json') {
       return Response.json({
-        message: "Hello!",
+        message: 'Hello!',
         timestamp: Date.now(),
         cf: request.cf, // Cloudflare-specific request metadata (country, colo, etc.)
       });
     }
 
-    return new Response("Not Found", { status: 404 });
+    return new Response('Not Found', { status: 404 });
   },
 } satisfies ExportedHandler<Env>;
 ```
@@ -301,13 +308,13 @@ export default {
 
 ### 5 Practice Exercises
 
-| # | Exercise | What You Learn |
-|---|---|---|
-| 1 | Return different responses based on URL path (`/hello`, `/time`, `/404`) | Routing fundamentals |
-| 2 | Return the user's country from `request.cf.country` | CF request metadata |
-| 3 | Proxy a request to `https://jsonplaceholder.typicode.com/posts` | `fetch()` from a Worker |
-| 4 | Set a custom header `X-Powered-By: my-worker` on the response | Header manipulation |
-| 5 | Return HTML with inline CSS that shows "Hello, {country}!" | HTML responses |
+| #   | Exercise                                                                 | What You Learn          |
+| --- | ------------------------------------------------------------------------ | ----------------------- |
+| 1   | Return different responses based on URL path (`/hello`, `/time`, `/404`) | Routing fundamentals    |
+| 2   | Return the user's country from `request.cf.country`                      | CF request metadata     |
+| 3   | Proxy a request to `https://jsonplaceholder.typicode.com/posts`          | `fetch()` from a Worker |
+| 4   | Set a custom header `X-Powered-By: my-worker` on the response            | Header manipulation     |
+| 5   | Return HTML with inline CSS that shows "Hello, {country}!"               | HTML responses          |
 
 ---
 
@@ -320,28 +327,30 @@ export default {
 Workers don't have a built-in router. You have three options:
 
 **Option A: Manual routing (small projects)**
+
 ```typescript
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
     const { pathname } = url;
 
-    if (pathname === "/api/users" && request.method === "GET") {
+    if (pathname === '/api/users' && request.method === 'GET') {
       return handleGetUsers(env);
     }
-    if (pathname === "/api/users" && request.method === "POST") {
+    if (pathname === '/api/users' && request.method === 'POST') {
       return handleCreateUser(request, env);
     }
-    return new Response("Not Found", { status: 404 });
+    return new Response('Not Found', { status: 404 });
   },
 };
 ```
 
 **Option B: Hono framework (recommended for most projects)**
+
 ```typescript
-import { Hono } from "hono";
-import { cors } from "hono/cors";
-import { logger } from "hono/logger";
+import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { logger } from 'hono/logger';
 
 type Bindings = {
   MY_KV: KVNamespace;
@@ -350,15 +359,15 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-app.use("*", logger());
-app.use("/api/*", cors());
+app.use('*', logger());
+app.use('/api/*', cors());
 
-app.get("/api/users", async (c) => {
-  const users = await c.env.DB.prepare("SELECT * FROM users").all();
+app.get('/api/users', async (c) => {
+  const users = await c.env.DB.prepare('SELECT * FROM users').all();
   return c.json(users.results);
 });
 
-app.post("/api/users", async (c) => {
+app.post('/api/users', async (c) => {
   const body = await c.req.json();
   // ... handle creation
   return c.json({ success: true }, 201);
@@ -368,10 +377,11 @@ export default app;
 ```
 
 **Option C: itty-router (ultra-lightweight)**
+
 ```typescript
-import { Router } from "itty-router";
+import { Router } from 'itty-router';
 const router = Router();
-router.get("/api/health", () => new Response("OK"));
+router.get('/api/health', () => new Response('OK'));
 export default { fetch: router.handle };
 ```
 
@@ -381,18 +391,18 @@ KV is **eventually consistent**, high-read, low-write storage. Think of it as a 
 
 ```typescript
 // Write
-await env.MY_KV.put("user:123", JSON.stringify({ name: "Thai Son" }));
-await env.MY_KV.put("session:abc", "data", { expirationTtl: 3600 }); // TTL in seconds
+await env.MY_KV.put('user:123', JSON.stringify({ name: 'Thai Son' }));
+await env.MY_KV.put('session:abc', 'data', { expirationTtl: 3600 }); // TTL in seconds
 
 // Read
-const value = await env.MY_KV.get("user:123", "json"); // auto-parse JSON
-const raw = await env.MY_KV.get("config", "text");
+const value = await env.MY_KV.get('user:123', 'json'); // auto-parse JSON
+const raw = await env.MY_KV.get('config', 'text');
 
 // Delete
-await env.MY_KV.delete("user:123");
+await env.MY_KV.delete('user:123');
 
 // List keys
-const keys = await env.MY_KV.list({ prefix: "user:" });
+const keys = await env.MY_KV.list({ prefix: 'user:' });
 ```
 
 **When to use KV:** Configuration, feature flags, session tokens, cached API responses, A/B test configs.
@@ -404,13 +414,13 @@ const keys = await env.MY_KV.list({ prefix: "user:" });
 Durable Objects provide **strongly consistent, single-threaded, stateful** compute. Each DO instance has a unique ID and handles requests serially.
 
 ```typescript
-import { DurableObject } from "cloudflare:workers";
+import { DurableObject } from 'cloudflare:workers';
 
 export class Counter extends DurableObject {
   async fetch(request: Request): Promise<Response> {
-    let count = (await this.ctx.storage.get<number>("count")) || 0;
+    let count = (await this.ctx.storage.get<number>('count')) || 0;
     count++;
-    await this.ctx.storage.put("count", count);
+    await this.ctx.storage.put('count', count);
     return Response.json({ count });
   }
 }
@@ -418,7 +428,7 @@ export class Counter extends DurableObject {
 // In your main Worker:
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
-    const id = env.COUNTER.idFromName("global-counter");
+    const id = env.COUNTER.idFromName('global-counter');
     const stub = env.COUNTER.get(id);
     return stub.fetch(request);
   },
@@ -434,8 +444,8 @@ export default {
 {
   "vars": {
     "API_URL": "https://api.example.com",
-    "ENVIRONMENT": "production"
-  }
+    "ENVIRONMENT": "production",
+  },
 }
 ```
 
@@ -453,29 +463,33 @@ env.API_URL  // the plain variable
 
 ```typescript
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: ExecutionContext,
+  ): Promise<Response> {
     try {
       return await handleRequest(request, env, ctx);
     } catch (error) {
-      console.error("Unhandled error:", error);
+      console.error('Unhandled error:', error);
 
       if (error instanceof HttpError) {
         return Response.json(
           { error: error.message },
-          { status: error.status }
+          { status: error.status },
         );
       }
 
-      return Response.json(
-        { error: "Internal Server Error" },
-        { status: 500 }
-      );
+      return Response.json({ error: 'Internal Server Error' }, { status: 500 });
     }
   },
 };
 
 class HttpError extends Error {
-  constructor(public status: number, message: string) {
+  constructor(
+    public status: number,
+    message: string,
+  ) {
     super(message);
   }
 }
@@ -488,28 +502,28 @@ type Middleware = (
   request: Request,
   env: Env,
   ctx: ExecutionContext,
-  next: () => Promise<Response>
+  next: () => Promise<Response>,
 ) => Promise<Response>;
 
 const withCors: Middleware = async (req, env, ctx, next) => {
-  if (req.method === "OPTIONS") {
+  if (req.method === 'OPTIONS') {
     return new Response(null, {
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       },
     });
   }
   const response = await next();
-  response.headers.set("Access-Control-Allow-Origin", "*");
+  response.headers.set('Access-Control-Allow-Origin', '*');
   return response;
 };
 
 const withAuth: Middleware = async (req, env, ctx, next) => {
-  const token = req.headers.get("Authorization")?.replace("Bearer ", "");
+  const token = req.headers.get('Authorization')?.replace('Bearer ', '');
   if (!token || token !== env.API_TOKEN) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
   return next();
 };
@@ -517,13 +531,13 @@ const withAuth: Middleware = async (req, env, ctx, next) => {
 
 ### 5 Mini Project Ideas
 
-| # | Project | Bindings Used | Skills Practiced |
-|---|---|---|---|
-| 1 | URL shortener (create + redirect) | KV | CRUD, routing, redirects |
-| 2 | API proxy with caching + rate limiting | KV, Cache API | fetch, cache, headers |
-| 3 | Markdown pastebin | KV or R2 | File storage, content types |
-| 4 | Webhook receiver that logs to R2 | R2, Queue | Async processing, storage |
-| 5 | Simple auth API (register/login/verify) | KV, Secrets | Crypto, JWT, sessions |
+| #   | Project                                 | Bindings Used | Skills Practiced            |
+| --- | --------------------------------------- | ------------- | --------------------------- |
+| 1   | URL shortener (create + redirect)       | KV            | CRUD, routing, redirects    |
+| 2   | API proxy with caching + rate limiting  | KV, Cache API | fetch, cache, headers       |
+| 3   | Markdown pastebin                       | KV or R2      | File storage, content types |
+| 4   | Webhook receiver that logs to R2        | R2, Queue     | Async processing, storage   |
+| 5   | Simple auth API (register/login/verify) | KV, Secrets   | Crypto, JWT, sessions       |
 
 ### Common Architecture Mistakes (Junior)
 
@@ -543,6 +557,7 @@ const withAuth: Middleware = async (req, env, ctx, next) => {
 ### Scalable Architecture Patterns
 
 **Pattern 1: API Gateway**
+
 ```
                     ┌─────────────┐
 Browser ──────────► │   Gateway   │ ──────► Auth Worker (Service Binding)
@@ -552,6 +567,7 @@ Browser ──────────► │   Gateway   │ ──────
 ```
 
 **Pattern 2: Worker + Static Assets (SPA)**
+
 ```jsonc
 // wrangler.jsonc
 {
@@ -560,12 +576,13 @@ Browser ──────────► │   Gateway   │ ──────
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*"]
-  }
+    "run_worker_first": ["/api/*"],
+  },
 }
 ```
 
 **Pattern 3: Event-Driven Pipeline**
+
 ```
 Request → Worker → Queue → Consumer Worker → R2 / D1 / External API
                                      ↓
@@ -581,8 +598,8 @@ Request → Worker → Queue → Consumer Worker → R2 / D1 / External API
   "main": "src/index.ts",
   "services": [
     { "binding": "AUTH_SERVICE", "service": "auth-worker" },
-    { "binding": "USER_SERVICE", "service": "user-worker" }
-  ]
+    { "binding": "USER_SERVICE", "service": "user-worker" },
+  ],
 }
 ```
 
@@ -591,43 +608,46 @@ Request → Worker → Queue → Consumer Worker → R2 / D1 / External API
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    if (url.pathname.startsWith("/api/auth")) {
+    if (url.pathname.startsWith('/api/auth')) {
       return env.AUTH_SERVICE.fetch(request);
     }
-    if (url.pathname.startsWith("/api/users")) {
+    if (url.pathname.startsWith('/api/users')) {
       return env.USER_SERVICE.fetch(request);
     }
-    return new Response("Not Found", { status: 404 });
+    return new Response('Not Found', { status: 404 });
   },
 };
 ```
 
 ### Worker + KV + DO + R2 Strategy (Decision Matrix)
 
-| Need | Use | Why |
-|---|---|---|
-| Configuration / feature flags | **KV** | Read-heavy, rarely written, eventually consistent is fine |
-| User sessions / tokens | **KV** with TTL | Expiration built-in, global reads |
-| Counters / rate limiting | **Durable Objects** | Strong consistency, atomic operations |
-| Real-time collaboration | **Durable Objects** with WebSocket | Stateful, single-threaded coordination |
-| File storage | **R2** | S3-compatible, no egress fees, up to 5TB per object |
-| Relational data | **D1** | SQLite at the edge, SQL queries |
-| Caching API responses | **Cache API** | Free, automatic, respects headers |
-| Job queues | **Queues** | Guaranteed delivery, retries, dead-letter |
-| Transactional state | **Durable Object Storage** | ACID-like within a single DO |
+| Need                          | Use                                | Why                                                       |
+| ----------------------------- | ---------------------------------- | --------------------------------------------------------- |
+| Configuration / feature flags | **KV**                             | Read-heavy, rarely written, eventually consistent is fine |
+| User sessions / tokens        | **KV** with TTL                    | Expiration built-in, global reads                         |
+| Counters / rate limiting      | **Durable Objects**                | Strong consistency, atomic operations                     |
+| Real-time collaboration       | **Durable Objects** with WebSocket | Stateful, single-threaded coordination                    |
+| File storage                  | **R2**                             | S3-compatible, no egress fees, up to 5TB per object       |
+| Relational data               | **D1**                             | SQLite at the edge, SQL queries                           |
+| Caching API responses         | **Cache API**                      | Free, automatic, respects headers                         |
+| Job queues                    | **Queues**                         | Guaranteed delivery, retries, dead-letter                 |
+| Transactional state           | **Durable Object Storage**         | ACID-like within a single DO                              |
 
 ### Rate Limiting with Durable Objects
 
 ```typescript
 export class RateLimiter extends DurableObject {
   async fetch(request: Request): Promise<Response> {
-    const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     const now = Date.now();
     const windowMs = 60_000; // 1 minute
     const maxRequests = 100;
 
     const key = `rate:${ip}`;
-    const data = (await this.ctx.storage.get<{ count: number; resetAt: number }>(key)) || {
+    const data = (await this.ctx.storage.get<{
+      count: number;
+      resetAt: number;
+    }>(key)) || {
       count: 0,
       resetAt: now + windowMs,
     };
@@ -641,13 +661,15 @@ export class RateLimiter extends DurableObject {
     await this.ctx.storage.put(key, data);
 
     if (data.count > maxRequests) {
-      return new Response("Too Many Requests", {
+      return new Response('Too Many Requests', {
         status: 429,
-        headers: { "Retry-After": String(Math.ceil((data.resetAt - now) / 1000)) },
+        headers: {
+          'Retry-After': String(Math.ceil((data.resetAt - now) / 1000)),
+        },
       });
     }
 
-    return new Response("OK");
+    return new Response('OK');
   }
 }
 ```
@@ -668,7 +690,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: '20'
       - run: npm ci
       - run: npm test
       - run: npx wrangler deploy
@@ -678,6 +700,7 @@ jobs:
 ```
 
 **Multi-environment deployment:**
+
 ```bash
 # Deploy to staging
 wrangler deploy --env staging
@@ -695,13 +718,13 @@ wrangler deploy --env production
     "enabled": true,
     "logs": {
       "invocation_logs": true,
-      "head_sampling_rate": 1  // 1 = 100%, 0.01 = 1%
+      "head_sampling_rate": 1, // 1 = 100%, 0.01 = 1%
     },
     "traces": {
       "enabled": true,
-      "head_sampling_rate": 0.01  // Sample 1% for high-traffic
-    }
-  }
+      "head_sampling_rate": 0.01, // Sample 1% for high-traffic
+    },
+  },
 }
 ```
 
@@ -719,6 +742,7 @@ wrangler tail --search "timeout"
 ### Performance Optimization
 
 1. **Use Cache API aggressively**
+
    ```typescript
    const cache = caches.default;
    const cached = await cache.match(request);
@@ -726,7 +750,7 @@ wrangler tail --search "timeout"
 
    const response = await fetch(origin);
    const resp = new Response(response.body, response);
-   resp.headers.set("Cache-Control", "s-maxage=3600");
+   resp.headers.set('Cache-Control', 's-maxage=3600');
    ctx.waitUntil(cache.put(request, resp.clone()));
    return resp;
    ```
@@ -738,13 +762,14 @@ wrangler tail --search "timeout"
 
 ### Cost Optimization
 
-| Tier | Requests | CPU Time | KV Reads | KV Writes |
-|---|---|---|---|---|
-| Free | 100K/day | 10ms/req | 100K/day | 1K/day |
-| Paid ($5/mo) | 10M included | 30s/req | 10M incl. | 1M incl. |
-| Over | $0.30/M | $0.02/M ms | $0.50/M | $5.00/M |
+| Tier         | Requests     | CPU Time   | KV Reads  | KV Writes |
+| ------------ | ------------ | ---------- | --------- | --------- |
+| Free         | 100K/day     | 10ms/req   | 100K/day  | 1K/day    |
+| Paid ($5/mo) | 10M included | 30s/req    | 10M incl. | 1M incl.  |
+| Over         | $0.30/M      | $0.02/M ms | $0.50/M   | $5.00/M   |
 
 **Tips:**
+
 - Cache API is **free** — use it to reduce KV reads
 - Queue batching reduces consumer invocations
 - Use `head_sampling_rate` for logs on high-traffic Workers
@@ -752,23 +777,23 @@ wrangler tail --search "timeout"
 
 ### Migration Strategy from React/Next.js/Astro
 
-| From | To | Strategy |
-|---|---|---|
-| Next.js API Routes | Worker with Hono | Port route handlers; replace `process.env` with `env`; replace Node APIs with Web APIs |
-| Next.js Edge Runtime | Worker | Nearly 1:1; remove Next.js-specific imports |
-| Astro SSR | Astro + CF adapter | `@astrojs/cloudflare` adapter; SSR pages become Worker-rendered |
-| Static site | Workers Static Assets | Set `assets.directory` in wrangler config; add Worker for dynamic routes |
-| Express middleware | Hono middleware | Replace `req`/`res` with `c` (context); replace `next()` pattern |
+| From                 | To                    | Strategy                                                                               |
+| -------------------- | --------------------- | -------------------------------------------------------------------------------------- |
+| Next.js API Routes   | Worker with Hono      | Port route handlers; replace `process.env` with `env`; replace Node APIs with Web APIs |
+| Next.js Edge Runtime | Worker                | Nearly 1:1; remove Next.js-specific imports                                            |
+| Astro SSR            | Astro + CF adapter    | `@astrojs/cloudflare` adapter; SSR pages become Worker-rendered                        |
+| Static site          | Workers Static Assets | Set `assets.directory` in wrangler config; add Worker for dynamic routes               |
+| Express middleware   | Hono middleware       | Replace `req`/`res` with `c` (context); replace `next()` pattern                       |
 
 ### 5 Production-Grade Project Examples
 
-| # | Project | Architecture |
-|---|---|---|
-| 1 | Multi-tenant SaaS API | Gateway Worker → Service Workers → D1 per tenant |
-| 2 | Image processing pipeline | Upload Worker → Queue → Consumer → R2 + Images API |
-| 3 | Real-time collaborative editor | Durable Objects with WebSocket + R2 for persistence |
-| 4 | API gateway with auth + rate limiting | Gateway Worker + DO (rate limit) + KV (sessions) |
-| 5 | E-commerce storefront | Astro SSR on Workers + D1 + R2 + Queue (order processing) |
+| #   | Project                               | Architecture                                              |
+| --- | ------------------------------------- | --------------------------------------------------------- |
+| 1   | Multi-tenant SaaS API                 | Gateway Worker → Service Workers → D1 per tenant          |
+| 2   | Image processing pipeline             | Upload Worker → Queue → Consumer → R2 + Images API        |
+| 3   | Real-time collaborative editor        | Durable Objects with WebSocket + R2 for persistence       |
+| 4   | API gateway with auth + rate limiting | Gateway Worker + DO (rate limit) + KV (sessions)          |
+| 5   | E-commerce storefront                 | Astro SSR on Workers + D1 + R2 + Queue (order processing) |
 
 ---
 
@@ -784,10 +809,13 @@ Build **Worker libraries** that other teams compose:
 // packages/edge-auth/src/index.ts
 export function createAuthMiddleware(config: AuthConfig) {
   return async (c: Context, next: Next) => {
-    const token = c.req.header("Authorization")?.slice(7);
-    const session = await c.env[config.kvBinding].get(`session:${token}`, "json");
-    if (!session) return c.json({ error: "Unauthorized" }, 401);
-    c.set("user", session);
+    const token = c.req.header('Authorization')?.slice(7);
+    const session = await c.env[config.kvBinding].get(
+      `session:${token}`,
+      'json',
+    );
+    if (!session) return c.json({ error: 'Unauthorized' }, 401);
+    c.set('user', session);
     return next();
   };
 }
@@ -814,17 +842,18 @@ export function createAuthMiddleware(config: AuthConfig) {
 
 ### Global Consistency vs. Latency Trade-offs
 
-| Storage | Consistency | Read Latency | Write Latency | Use When |
-|---|---|---|---|---|
-| KV | Eventual (~60s) | <10ms global | <50ms | Read-heavy, stale OK |
-| DO Storage | Strong | <1ms (colocated) | <1ms (colocated) | Must be correct |
-| D1 | Strong (per DB) | <10ms (nearest) | <50ms | Relational queries |
-| R2 | Strong (per object) | <50ms | <100ms | Large objects |
-| Cache API | Best-effort | <1ms | <1ms | Ephemeral, CDN-local |
+| Storage    | Consistency         | Read Latency     | Write Latency    | Use When             |
+| ---------- | ------------------- | ---------------- | ---------------- | -------------------- |
+| KV         | Eventual (~60s)     | <10ms global     | <50ms            | Read-heavy, stale OK |
+| DO Storage | Strong              | <1ms (colocated) | <1ms (colocated) | Must be correct      |
+| D1         | Strong (per DB)     | <10ms (nearest)  | <50ms            | Relational queries   |
+| R2         | Strong (per object) | <50ms            | <100ms           | Large objects        |
+| Cache API  | Best-effort         | <1ms             | <1ms             | Ephemeral, CDN-local |
 
 **The Expert Question:** "If I need strong consistency AND low latency globally, what do I do?"
 
 **Answer:** You can't have both (CAP theorem). Strategies:
+
 1. **Accept eventual consistency** — KV + conflict resolution
 2. **Route to single DO** — Strong consistency, but latency for users far from DO location
 3. **CRDT-based DO** — Distribute state, merge conflicts automatically
@@ -837,7 +866,7 @@ export function createAuthMiddleware(config: AuthConfig) {
 export default {
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext) {
     // Run every hour
-    const staleKeys = await env.MY_KV.list({ prefix: "cache:" });
+    const staleKeys = await env.MY_KV.list({ prefix: 'cache:' });
     for (const key of staleKeys.keys) {
       await env.REFRESH_QUEUE.send({ key: key.name });
     }
@@ -860,15 +889,15 @@ export default {
 
 ### Failure Scenarios and Recovery
 
-| Scenario | Impact | Recovery Strategy |
-|---|---|---|
-| Worker throws unhandled exception | 500 to that request | Global error handler + alerting via tail workers |
-| KV read returns stale data | User sees old data | TTL + cache busting + fallback to origin |
-| Durable Object is unavailable | Requests to that DO fail | Retry with backoff; consider DO alarm for self-healing |
-| Queue consumer fails | Message retried | Dead-letter queue + monitoring |
-| R2 write fails | Data loss risk | Retry in `waitUntil`; idempotency keys |
-| Deploy introduces bug | All traffic affected | Gradual rollouts; `wrangler versions deploy` with traffic splitting |
-| Memory limit exceeded | Worker killed | Stream instead of buffer; split work across multiple Workers |
+| Scenario                          | Impact                   | Recovery Strategy                                                   |
+| --------------------------------- | ------------------------ | ------------------------------------------------------------------- |
+| Worker throws unhandled exception | 500 to that request      | Global error handler + alerting via tail workers                    |
+| KV read returns stale data        | User sees old data       | TTL + cache busting + fallback to origin                            |
+| Durable Object is unavailable     | Requests to that DO fail | Retry with backoff; consider DO alarm for self-healing              |
+| Queue consumer fails              | Message retried          | Dead-letter queue + monitoring                                      |
+| R2 write fails                    | Data loss risk           | Retry in `waitUntil`; idempotency keys                              |
+| Deploy introduces bug             | All traffic affected     | Gradual rollouts; `wrangler versions deploy` with traffic splitting |
+| Memory limit exceeded             | Worker killed            | Stream instead of buffer; split work across multiple Workers        |
 
 ### Architecture Review Checklist
 
@@ -962,10 +991,10 @@ npm install --save-dev wrangler typescript @cloudflare/workers-types
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }
 ```
 
@@ -1073,94 +1102,78 @@ my-platform/
   "vars": {
     "ENVIRONMENT": "development",
     "API_VERSION": "v1",
-    "LOG_LEVEL": "debug"
+    "LOG_LEVEL": "debug",
   },
 
   // KV Namespaces
-  "kv_namespaces": [
-    { "binding": "CACHE", "id": "dev-kv-id" }
-  ],
+  "kv_namespaces": [{ "binding": "CACHE", "id": "dev-kv-id" }],
 
   // R2 Buckets
-  "r2_buckets": [
-    { "binding": "UPLOADS", "bucket_name": "my-uploads-dev" }
-  ],
+  "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "my-uploads-dev" }],
 
   // Durable Objects
   "durable_objects": {
-    "bindings": [
-      { "name": "RATE_LIMITER", "class_name": "RateLimiter" }
-    ]
+    "bindings": [{ "name": "RATE_LIMITER", "class_name": "RateLimiter" }],
   },
-  "migrations": [
-    { "tag": "v1", "new_sqlite_classes": ["RateLimiter"] }
-  ],
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RateLimiter"] }],
 
   // Queues
   "queues": {
-    "producers": [
-      { "binding": "JOB_QUEUE", "queue": "my-jobs" }
-    ],
+    "producers": [{ "binding": "JOB_QUEUE", "queue": "my-jobs" }],
     "consumers": [
       {
         "queue": "my-jobs",
         "max_batch_size": 10,
         "max_batch_timeout": 30,
         "max_retries": 3,
-        "dead_letter_queue": "my-jobs-dlq"
-      }
-    ]
+        "dead_letter_queue": "my-jobs-dlq",
+      },
+    ],
   },
 
   // Cron Triggers
   "triggers": {
-    "crons": ["0 * * * *"]  // Every hour
+    "crons": ["0 * * * *"], // Every hour
   },
 
   // Observability
   "observability": {
     "enabled": true,
-    "logs": { "invocation_logs": true, "head_sampling_rate": 1 }
+    "logs": { "invocation_logs": true, "head_sampling_rate": 1 },
   },
 
   // Service Bindings
-  "services": [
-    { "binding": "AUTH_SERVICE", "service": "auth-worker" }
-  ],
+  "services": [{ "binding": "AUTH_SERVICE", "service": "auth-worker" }],
 
   // Production environment
   "env": {
     "production": {
       "vars": {
         "ENVIRONMENT": "production",
-        "LOG_LEVEL": "warn"
+        "LOG_LEVEL": "warn",
       },
-      "kv_namespaces": [
-        { "binding": "CACHE", "id": "prod-kv-id" }
-      ],
+      "kv_namespaces": [{ "binding": "CACHE", "id": "prod-kv-id" }],
       "r2_buckets": [
-        { "binding": "UPLOADS", "bucket_name": "my-uploads-prod" }
+        { "binding": "UPLOADS", "bucket_name": "my-uploads-prod" },
       ],
       "routes": [
-        { "pattern": "api.example.com/*", "zone_name": "example.com" }
+        { "pattern": "api.example.com/*", "zone_name": "example.com" },
       ],
       "observability": {
         "enabled": true,
         "logs": { "head_sampling_rate": 0.1 },
-        "traces": { "enabled": true, "head_sampling_rate": 0.01 }
-      }
+        "traces": { "enabled": true, "head_sampling_rate": 0.01 },
+      },
     },
     "staging": {
       "vars": {
         "ENVIRONMENT": "staging",
-        "LOG_LEVEL": "info"
+        "LOG_LEVEL": "info",
       },
-      "kv_namespaces": [
-        { "binding": "CACHE", "id": "staging-kv-id" }
-      ],
-      "workers_dev": true
-    }
-  }
+      "kv_namespaces": [{ "binding": "CACHE", "id": "staging-kv-id" }],
+      "workers_dev": true,
+    },
+  },
 }
 ```
 
@@ -1182,18 +1195,18 @@ my-platform/
     "test:watch": "vitest",
     "lint": "eslint src/",
     "tail": "wrangler tail",
-    "tail:production": "wrangler tail --env production"
+    "tail:production": "wrangler tail --env production",
   },
   "dependencies": {
-    "hono": "^4.0.0"
+    "hono": "^4.0.0",
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.5.0",
     "@cloudflare/workers-types": "^4.0.0",
     "typescript": "^5.5.0",
     "vitest": "^2.0.0",
-    "wrangler": "^4.0.0"
-  }
+    "wrangler": "^4.0.0",
+  },
 }
 ```
 
@@ -1224,37 +1237,41 @@ npm create cloudflare@latest my-app
 
 ## 4.1 Wrangler CLI Commands
 
-| Command | What It Does |
-|---|---|
-| `wrangler dev` | Start local dev server (hot reload) |
-| `wrangler dev --remote` | Dev server running on Cloudflare (real bindings) |
-| `wrangler deploy` | Deploy to production |
-| `wrangler deploy --env staging` | Deploy to specific environment |
-| `wrangler tail` | Live stream logs from deployed Worker |
-| `wrangler tail --status error` | Stream only error logs |
-| `wrangler types` | Generate TypeScript types from config |
-| `wrangler secret put SECRET_NAME` | Set an encrypted secret |
-| `wrangler secret list` | List all secrets |
-| `wrangler kv namespace create NS` | Create a KV namespace |
-| `wrangler kv key put --binding KV "key" "value"` | Put a KV key |
-| `wrangler kv key get --binding KV "key"` | Get a KV value |
-| `wrangler r2 bucket create my-bucket` | Create an R2 bucket |
-| `wrangler r2 object put bucket/key --file ./f` | Upload to R2 |
-| `wrangler d1 create my-db` | Create a D1 database |
-| `wrangler d1 execute my-db --file schema.sql` | Run SQL on D1 |
-| `wrangler queues create my-queue` | Create a queue |
-| `wrangler login` | Authenticate with Cloudflare |
-| `wrangler whoami` | Check current auth |
-| `wrangler deployments list` | List recent deployments |
-| `wrangler versions deploy` | Gradual rollout / traffic splitting |
+| Command                                          | What It Does                                     |
+| ------------------------------------------------ | ------------------------------------------------ |
+| `wrangler dev`                                   | Start local dev server (hot reload)              |
+| `wrangler dev --remote`                          | Dev server running on Cloudflare (real bindings) |
+| `wrangler deploy`                                | Deploy to production                             |
+| `wrangler deploy --env staging`                  | Deploy to specific environment                   |
+| `wrangler tail`                                  | Live stream logs from deployed Worker            |
+| `wrangler tail --status error`                   | Stream only error logs                           |
+| `wrangler types`                                 | Generate TypeScript types from config            |
+| `wrangler secret put SECRET_NAME`                | Set an encrypted secret                          |
+| `wrangler secret list`                           | List all secrets                                 |
+| `wrangler kv namespace create NS`                | Create a KV namespace                            |
+| `wrangler kv key put --binding KV "key" "value"` | Put a KV key                                     |
+| `wrangler kv key get --binding KV "key"`         | Get a KV value                                   |
+| `wrangler r2 bucket create my-bucket`            | Create an R2 bucket                              |
+| `wrangler r2 object put bucket/key --file ./f`   | Upload to R2                                     |
+| `wrangler d1 create my-db`                       | Create a D1 database                             |
+| `wrangler d1 execute my-db --file schema.sql`    | Run SQL on D1                                    |
+| `wrangler queues create my-queue`                | Create a queue                                   |
+| `wrangler login`                                 | Authenticate with Cloudflare                     |
+| `wrangler whoami`                                | Check current auth                               |
+| `wrangler deployments list`                      | List recent deployments                          |
+| `wrangler versions deploy`                       | Gradual rollout / traffic splitting              |
 
 ## 4.2 Worker Entry Points
 
 ```typescript
 // Standard fetch handler
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-    return new Response("Hello");
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: ExecutionContext,
+  ): Promise<Response> {
+    return new Response('Hello');
   },
 } satisfies ExportedHandler<Env>;
 ```
@@ -1284,7 +1301,7 @@ export default {
 // Email handler
 export default {
   async email(message: EmailMessage, env: Env, ctx: ExecutionContext) {
-    await message.forward("admin@example.com");
+    await message.forward('admin@example.com');
   },
 };
 ```
@@ -1294,9 +1311,9 @@ export default {
 ```typescript
 // Parse URL
 const url = new URL(request.url);
-const path = url.pathname;           // "/api/users"
-const query = url.searchParams;      // ?page=2
-const page = query.get("page");      // "2"
+const path = url.pathname; // "/api/users"
+const query = url.searchParams; // ?page=2
+const page = query.get('page'); // "2"
 
 // Read body
 const json = await request.json();
@@ -1305,23 +1322,23 @@ const form = await request.formData();
 const buffer = await request.arrayBuffer();
 
 // Read headers
-const auth = request.headers.get("Authorization");
-const contentType = request.headers.get("Content-Type");
+const auth = request.headers.get('Authorization');
+const contentType = request.headers.get('Content-Type');
 
 // Cloudflare-specific metadata
-const country = request.cf?.country;     // "US"
-const city = request.cf?.city;           // "San Francisco"
-const colo = request.cf?.colo;           // "SFO"
+const country = request.cf?.country; // "US"
+const city = request.cf?.city; // "San Francisco"
+const colo = request.cf?.colo; // "SFO"
 const tlsVersion = request.cf?.tlsVersion;
 
 // Create responses
-return new Response("text", { status: 200 });
+return new Response('text', { status: 200 });
 return Response.json({ data: [] });
-return Response.json({ error: "Not found" }, { status: 404 });
-return Response.redirect("https://example.com", 301);
+return Response.json({ error: 'Not found' }, { status: 404 });
+return Response.redirect('https://example.com', 301);
 return new Response(null, { status: 204 });
 return new Response(readableStream, {
-  headers: { "Content-Type": "application/octet-stream" },
+  headers: { 'Content-Type': 'application/octet-stream' },
 });
 ```
 
@@ -1337,7 +1354,7 @@ if (cached) return cached;
 // Fetch and cache
 const response = await fetch(request);
 const resp = new Response(response.body, response);
-resp.headers.set("Cache-Control", "s-maxage=3600");
+resp.headers.set('Cache-Control', 's-maxage=3600');
 ctx.waitUntil(cache.put(cacheKey, resp.clone()));
 return resp;
 
@@ -1345,36 +1362,38 @@ return resp;
 await cache.delete(cacheKey);
 
 // Named cache
-const namedCache = await caches.open("my-cache");
+const namedCache = await caches.open('my-cache');
 ```
 
 ## 4.5 KV Snippets
 
 ```typescript
 // String operations
-await env.KV.put("key", "value");
-await env.KV.put("key", "value", { expirationTtl: 3600 });
-await env.KV.put("key", "value", { expiration: Math.floor(Date.now()/1000) + 3600 });
-await env.KV.put("key", "value", { metadata: { created: Date.now() } });
+await env.KV.put('key', 'value');
+await env.KV.put('key', 'value', { expirationTtl: 3600 });
+await env.KV.put('key', 'value', {
+  expiration: Math.floor(Date.now() / 1000) + 3600,
+});
+await env.KV.put('key', 'value', { metadata: { created: Date.now() } });
 
-const val = await env.KV.get("key");                 // string | null
-const json = await env.KV.get("key", "json");         // parsed JSON | null
-const buf = await env.KV.get("key", "arrayBuffer");   // ArrayBuffer | null
-const stream = await env.KV.get("key", "stream");     // ReadableStream | null
+const val = await env.KV.get('key'); // string | null
+const json = await env.KV.get('key', 'json'); // parsed JSON | null
+const buf = await env.KV.get('key', 'arrayBuffer'); // ArrayBuffer | null
+const stream = await env.KV.get('key', 'stream'); // ReadableStream | null
 
 // With metadata
-const { value, metadata } = await env.KV.getWithMetadata("key", "json");
+const { value, metadata } = await env.KV.getWithMetadata('key', 'json');
 
 // Delete
-await env.KV.delete("key");
+await env.KV.delete('key');
 
 // List keys (paginated)
-const list = await env.KV.list({ prefix: "user:", limit: 100 });
+const list = await env.KV.list({ prefix: 'user:', limit: 100 });
 for (const key of list.keys) {
   console.log(key.name, key.metadata);
 }
 if (!list.list_complete) {
-  const more = await env.KV.list({ prefix: "user:", cursor: list.cursor });
+  const more = await env.KV.list({ prefix: 'user:', cursor: list.cursor });
 }
 ```
 
@@ -1382,19 +1401,19 @@ if (!list.list_complete) {
 
 ```typescript
 // Define a Durable Object
-import { DurableObject } from "cloudflare:workers";
+import { DurableObject } from 'cloudflare:workers';
 
 export class MyDO extends DurableObject {
   async fetch(request: Request): Promise<Response> {
     // Storage API
-    await this.ctx.storage.put("key", "value");
-    const val = await this.ctx.storage.get("key");
-    await this.ctx.storage.delete("key");
+    await this.ctx.storage.put('key', 'value');
+    const val = await this.ctx.storage.get('key');
+    await this.ctx.storage.delete('key');
 
     // Atomic transaction
     await this.ctx.storage.transaction(async (txn) => {
-      const current = await txn.get<number>("counter") || 0;
-      await txn.put("counter", current + 1);
+      const current = (await txn.get<number>('counter')) || 0;
+      await txn.put('counter', current + 1);
     });
 
     // Alarm (scheduled callback)
@@ -1405,14 +1424,14 @@ export class MyDO extends DurableObject {
 
   async alarm() {
     // Called when alarm fires
-    console.log("Alarm fired!");
+    console.log('Alarm fired!');
     // Optionally re-schedule
     await this.ctx.storage.setAlarm(Date.now() + 60_000);
   }
 }
 
 // Access from Worker
-const id = env.MY_DO.idFromName("unique-name");
+const id = env.MY_DO.idFromName('unique-name');
 // or: const id = env.MY_DO.newUniqueId();
 const stub = env.MY_DO.get(id);
 const response = await stub.fetch(request);
@@ -1422,42 +1441,42 @@ const response = await stub.fetch(request);
 
 ```typescript
 // Upload
-await env.BUCKET.put("path/file.png", request.body, {
-  httpMetadata: { contentType: "image/png" },
-  customMetadata: { uploadedBy: "user-123" },
+await env.BUCKET.put('path/file.png', request.body, {
+  httpMetadata: { contentType: 'image/png' },
+  customMetadata: { uploadedBy: 'user-123' },
 });
 
 // Download
-const object = await env.BUCKET.get("path/file.png");
-if (!object) return new Response("Not Found", { status: 404 });
+const object = await env.BUCKET.get('path/file.png');
+if (!object) return new Response('Not Found', { status: 404 });
 const headers = new Headers();
 object.writeHttpMetadata(headers);
-headers.set("etag", object.httpEtag);
+headers.set('etag', object.httpEtag);
 return new Response(object.body, { headers });
 
 // Delete
-await env.BUCKET.delete("path/file.png");
+await env.BUCKET.delete('path/file.png');
 
 // List objects
-const listed = await env.BUCKET.list({ prefix: "uploads/", limit: 100 });
+const listed = await env.BUCKET.list({ prefix: 'uploads/', limit: 100 });
 for (const obj of listed.objects) {
   console.log(obj.key, obj.size);
 }
 
 // Head (metadata only)
-const head = await env.BUCKET.head("path/file.png");
+const head = await env.BUCKET.head('path/file.png');
 ```
 
 ## 4.8 Queue Snippets
 
 ```typescript
 // Producer: Send messages
-await env.MY_QUEUE.send({ type: "email", to: "user@example.com" });
-await env.MY_QUEUE.send("simple string message");
+await env.MY_QUEUE.send({ type: 'email', to: 'user@example.com' });
+await env.MY_QUEUE.send('simple string message');
 await env.MY_QUEUE.sendBatch([
   { body: { id: 1 } },
   { body: { id: 2 } },
-  { body: { id: 3 }, delaySeconds: 60 },  // Delay delivery
+  { body: { id: 3 }, delaySeconds: 60 }, // Delay delivery
 ]);
 
 // Consumer: Process messages
@@ -1466,9 +1485,9 @@ export default {
     for (const msg of batch.messages) {
       try {
         await processMessage(msg.body, env);
-        msg.ack();       // Success
+        msg.ack(); // Success
       } catch (error) {
-        msg.retry();     // Will be retried
+        msg.retry(); // Will be retried
       }
     }
   },
@@ -1486,10 +1505,10 @@ export default {
 export default {
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext) {
     switch (event.cron) {
-      case "*/5 * * * *":
+      case '*/5 * * * *':
         ctx.waitUntil(refreshCache(env));
         break;
-      case "0 0 * * *":
+      case '0 0 * * *':
         ctx.waitUntil(dailyCleanup(env));
         break;
     }
@@ -1524,16 +1543,16 @@ interface Env {
 
 ## 4.11 Common Error Messages
 
-| Error | Cause | Fix |
-|---|---|---|
-| `Error: No matching export` | Missing `export default` | Add `export default { fetch() {} }` |
-| `Error: Script startup exceeded CPU limit` | Top-level code too heavy | Move init logic into handler |
-| `Error: Subrequest depth limit` | Worker calling itself | Use Service Bindings instead |
-| `Error: Memory limit exceeded` | Buffering too much data | Stream responses |
-| `NetworkError: connection refused` | `wrangler dev` port conflict | Change port: `wrangler dev --port 8788` |
-| `Error 10021: too many KV operations` | KV rate limit hit | Batch operations, add caching layer |
-| `TypeError: Cannot read properties of undefined` | Accessing binding that isn't configured | Check wrangler.jsonc binding names |
-| `Error: Durable Object migration needed` | New DO class without migration | Add migration tag in config |
+| Error                                            | Cause                                   | Fix                                     |
+| ------------------------------------------------ | --------------------------------------- | --------------------------------------- |
+| `Error: No matching export`                      | Missing `export default`                | Add `export default { fetch() {} }`     |
+| `Error: Script startup exceeded CPU limit`       | Top-level code too heavy                | Move init logic into handler            |
+| `Error: Subrequest depth limit`                  | Worker calling itself                   | Use Service Bindings instead            |
+| `Error: Memory limit exceeded`                   | Buffering too much data                 | Stream responses                        |
+| `NetworkError: connection refused`               | `wrangler dev` port conflict            | Change port: `wrangler dev --port 8788` |
+| `Error 10021: too many KV operations`            | KV rate limit hit                       | Batch operations, add caching layer     |
+| `TypeError: Cannot read properties of undefined` | Accessing binding that isn't configured | Check wrangler.jsonc binding names      |
+| `Error: Durable Object migration needed`         | New DO class without migration          | Add migration tag in config             |
 
 ## 4.12 Performance Tips
 
@@ -1571,12 +1590,12 @@ For each use case: **problem → strategies → trade-offs → recommendation.**
 
 **Problem:** Frontend needs to call a third-party API, but CORS, auth keys, or rate limits prevent direct browser calls.
 
-| Strategy | Pros | Cons | Scale |
-|---|---|---|---|
-| Worker as simple proxy | Zero cold start, global, hides API keys | Single point of failure for proxy | Small–Large |
-| Worker + Cache API | Reduces origin calls, fast | Cache invalidation complexity | Medium–Large |
-| Worker + KV cache | Longer TTL, global cache | Eventually consistent | Large |
-| Worker + Queue for writes | Decouples write latency | Complexity, eventual | Large |
+| Strategy                  | Pros                                    | Cons                              | Scale        |
+| ------------------------- | --------------------------------------- | --------------------------------- | ------------ |
+| Worker as simple proxy    | Zero cold start, global, hides API keys | Single point of failure for proxy | Small–Large  |
+| Worker + Cache API        | Reduces origin calls, fast              | Cache invalidation complexity     | Medium–Large |
+| Worker + KV cache         | Longer TTL, global cache                | Eventually consistent             | Large        |
+| Worker + Queue for writes | Decouples write latency                 | Complexity, eventual              | Large        |
 
 **Senior choice:** Worker + Cache API for reads, Queue for writes. Cache API is free and fast. KV only if you need custom TTL or need to cache across subrequests.
 
@@ -1588,12 +1607,12 @@ For each use case: **problem → strategies → trade-offs → recommendation.**
 
 **Problem:** Store user sessions after login, validate on every request.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| KV with TTL | Simple, global reads, auto-expiry | Eventually consistent (60s replication) |
-| Durable Object | Strongly consistent, instant invalidation | Higher latency for distant users |
-| JWT (stateless) | No storage needed, instant validation | Can't revoke without blocklist |
-| JWT + KV blocklist | Best of both worlds | Extra KV read per request |
+| Strategy           | Pros                                      | Cons                                    |
+| ------------------ | ----------------------------------------- | --------------------------------------- |
+| KV with TTL        | Simple, global reads, auto-expiry         | Eventually consistent (60s replication) |
+| Durable Object     | Strongly consistent, instant invalidation | Higher latency for distant users        |
+| JWT (stateless)    | No storage needed, instant validation     | Can't revoke without blocklist          |
+| JWT + KV blocklist | Best of both worlds                       | Extra KV read per request               |
 
 **Senior choice:** JWT for auth + KV for revocation blocklist. The blocklist is small and rarely changes, perfect for KV.
 
@@ -1605,12 +1624,12 @@ For each use case: **problem → strategies → trade-offs → recommendation.**
 
 **Problem:** Prevent abuse of public APIs.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| CF Rate Limiting rules (dashboard) | Zero code, managed | Less flexible, costs per rule |
-| Durable Object per IP | Precise, strongly consistent | One DO per IP = lots of DOs |
-| KV-based sliding window | Global, simple | Eventually consistent = imprecise |
-| DO per endpoint + sliding window | Balanced precision | Medium complexity |
+| Strategy                           | Pros                         | Cons                              |
+| ---------------------------------- | ---------------------------- | --------------------------------- |
+| CF Rate Limiting rules (dashboard) | Zero code, managed           | Less flexible, costs per rule     |
+| Durable Object per IP              | Precise, strongly consistent | One DO per IP = lots of DOs       |
+| KV-based sliding window            | Global, simple               | Eventually consistent = imprecise |
+| DO per endpoint + sliding window   | Balanced precision           | Medium complexity                 |
 
 **Senior choice:** CF Rate Limiting rules for broad protection + DO-based limiter for sensitive endpoints (login, payment). KV for non-critical soft limits.
 
@@ -1620,11 +1639,11 @@ For each use case: **problem → strategies → trade-offs → recommendation.**
 
 **Problem:** Serve optimized images based on device, format, and size.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Cloudflare Images API | Managed, auto-format (WebP/AVIF) | $5/month + per-image cost |
-| Worker + R2 + CF Image Resizing | Full control, no egress on R2 | More code to maintain |
-| External (Imgix, Cloudinary) | Feature-rich | Egress costs, another vendor |
+| Strategy                        | Pros                             | Cons                         |
+| ------------------------------- | -------------------------------- | ---------------------------- |
+| Cloudflare Images API           | Managed, auto-format (WebP/AVIF) | $5/month + per-image cost    |
+| Worker + R2 + CF Image Resizing | Full control, no egress on R2    | More code to maintain        |
+| External (Imgix, Cloudinary)    | Feature-rich                     | Egress costs, another vendor |
 
 **Senior choice:** Worker + R2 + CF Image Resizing. Store originals in R2 (zero egress), use Image Resizing via `fetch()` with `cf.image` options. Cache transformed images.
 
@@ -1635,8 +1654,8 @@ const response = await fetch(imageUrl, {
     image: {
       width: 400,
       height: 300,
-      fit: "cover",
-      format: "auto", // auto-selects WebP/AVIF based on Accept header
+      fit: 'cover',
+      format: 'auto', // auto-selects WebP/AVIF based on Accept header
     },
   },
 });
@@ -1648,18 +1667,18 @@ const response = await fetch(imageUrl, {
 
 **Problem:** Control feature rollout without deploying.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| KV-stored flags | Global, fast reads, update via API | Eventually consistent (60s lag) |
-| Worker environment variables | Instant, no read cost | Requires redeploy to change |
-| External service (LaunchDarkly) | Full featured | Extra latency, cost, dependency |
-| D1-stored flags with KV cache | Queryable + fast | More complex |
+| Strategy                        | Pros                               | Cons                            |
+| ------------------------------- | ---------------------------------- | ------------------------------- |
+| KV-stored flags                 | Global, fast reads, update via API | Eventually consistent (60s lag) |
+| Worker environment variables    | Instant, no read cost              | Requires redeploy to change     |
+| External service (LaunchDarkly) | Full featured                      | Extra latency, cost, dependency |
+| D1-stored flags with KV cache   | Queryable + fast                   | More complex                    |
 
 **Senior choice:** KV for flags. Read once per request (or cache in global with 30s TTL). Update via Cloudflare API or admin Worker. The 60s eventual consistency is fine for feature flags.
 
 ```typescript
 async function getFlag(env: Env, flag: string): Promise<boolean> {
-  const value = await env.FLAGS_KV.get(`flag:${flag}`, "json");
+  const value = await env.FLAGS_KV.get(`flag:${flag}`, 'json');
   return value?.enabled ?? false;
 }
 ```
@@ -1670,11 +1689,11 @@ async function getFlag(env: Env, flag: string): Promise<boolean> {
 
 **Problem:** Route users to different experiences and track results.
 
-| Strategy | Pros | Cons |
-|---|---|---|
+| Strategy                        | Pros                    | Cons                     |
+| ------------------------------- | ----------------------- | ------------------------ |
 | Worker + KV (experiment config) | Full control, edge-fast | Build your own analytics |
-| Worker + cookie-based bucketing | Sticky sessions, simple | Cookie management |
-| Third-party (Optimizely, etc.) | Feature-rich | Latency, cost |
+| Worker + cookie-based bucketing | Sticky sessions, simple | Cookie management        |
+| Third-party (Optimizely, etc.)  | Feature-rich            | Latency, cost            |
 
 **Senior choice:** Worker assigns bucket via hash of user ID → stores in cookie → reads experiment config from KV → modifies response. Track events via Queue → external analytics.
 
@@ -1684,11 +1703,11 @@ async function getFlag(env: Env, flag: string): Promise<boolean> {
 
 **Problem:** Collect user analytics without blocking the response.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| `ctx.waitUntil()` + fetch to analytics API | Simple, non-blocking | If the analytics API is slow, context held open |
-| Queue → Consumer Worker → external API | Decoupled, batched, reliable | More infra |
-| Queue → Consumer → R2 (batch files) | Zero vendor lock-in, cheap storage | Need to process R2 files later |
+| Strategy                                   | Pros                               | Cons                                            |
+| ------------------------------------------ | ---------------------------------- | ----------------------------------------------- |
+| `ctx.waitUntil()` + fetch to analytics API | Simple, non-blocking               | If the analytics API is slow, context held open |
+| Queue → Consumer Worker → external API     | Decoupled, batched, reliable       | More infra                                      |
+| Queue → Consumer → R2 (batch files)        | Zero vendor lock-in, cheap storage | Need to process R2 files later                  |
 
 **Senior choice:** Queue for important events (conversions), `waitUntil` + direct fetch for lightweight pageview tracking. R2 archival for compliance.
 
@@ -1698,11 +1717,11 @@ async function getFlag(env: Env, flag: string): Promise<boolean> {
 
 **Problem:** Low-latency, multi-user chat.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Durable Object + WebSocket | Native CF, strongly consistent | DO pinned to one region |
-| External WebSocket (Pusher, Ably) | Battle-tested, global | Cost, latency, dependency |
-| DO per chat room | Room-level isolation | Hot rooms = single DO bottleneck |
+| Strategy                          | Pros                           | Cons                             |
+| --------------------------------- | ------------------------------ | -------------------------------- |
+| Durable Object + WebSocket        | Native CF, strongly consistent | DO pinned to one region          |
+| External WebSocket (Pusher, Ably) | Battle-tested, global          | Cost, latency, dependency        |
+| DO per chat room                  | Room-level isolation           | Hot rooms = single DO bottleneck |
 
 **Senior choice:** Durable Object per chat room with WebSocket Hibernation API. This lets the DO sleep when idle (no cost) and wake on message. For truly global chat, consider DO per region + eventual sync.
 
@@ -1726,25 +1745,25 @@ Request → Worker → Queue (notifications) → Consumer Worker → External AP
 
 **Problem:** Your Astro/React site is static, but you want personalized content.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Worker intercepts HTML, injects data | No client JS needed, SEO-friendly | HTML parsing complexity |
-| Worker sets cookies, client JS reads | Simple Worker logic | Requires client JS, FOUC |
-| Edge-side includes (ESI) | Standard pattern | Limited support |
-| `HTMLRewriter` API | Stream-based HTML transform, fast | Learning curve |
+| Strategy                             | Pros                              | Cons                     |
+| ------------------------------------ | --------------------------------- | ------------------------ |
+| Worker intercepts HTML, injects data | No client JS needed, SEO-friendly | HTML parsing complexity  |
+| Worker sets cookies, client JS reads | Simple Worker logic               | Requires client JS, FOUC |
+| Edge-side includes (ESI)             | Standard pattern                  | Limited support          |
+| `HTMLRewriter` API                   | Stream-based HTML transform, fast | Learning curve           |
 
 **Senior choice:** `HTMLRewriter` — Cloudflare's stream-based HTML transformation API. Transforms HTML on the fly without buffering.
 
 ```typescript
 return new HTMLRewriter()
-  .on("#user-name", {
+  .on('#user-name', {
     element(el) {
       el.setInnerContent(userName);
     },
   })
-  .on("#user-country", {
+  .on('#user-country', {
     element(el) {
-      el.setInnerContent(request.cf?.country || "Unknown");
+      el.setInnerContent(request.cf?.country || 'Unknown');
     },
   })
   .transform(await fetch(request));
@@ -1756,11 +1775,11 @@ return new HTMLRewriter()
 
 **Problem:** Accept file uploads from users.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| Worker → R2 (direct) | Simple, zero egress | 128MB Worker memory limit |
-| Presigned URL (R2 → client) | Bypasses Worker memory limit | More complex client |
-| Worker → R2 multipart | Large files, resumable | Complex implementation |
+| Strategy                    | Pros                         | Cons                      |
+| --------------------------- | ---------------------------- | ------------------------- |
+| Worker → R2 (direct)        | Simple, zero egress          | 128MB Worker memory limit |
+| Presigned URL (R2 → client) | Bypasses Worker memory limit | More complex client       |
+| Worker → R2 multipart       | Large files, resumable       | Complex implementation    |
 
 **Senior choice:** For files <100MB, direct Worker → R2. For larger files, generate presigned URLs and let the client upload directly to R2. For very large files, multipart upload API.
 
@@ -1770,12 +1789,12 @@ return new HTMLRewriter()
 
 **Problem:** When data changes, cached responses are stale.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| TTL-based (set short cache times) | Simple | Stale window exists |
-| Purge via API on write | Immediate invalidation | Purge API has rate limits |
-| Cache tags + tag-based purge | Granular | Enterprise feature |
-| KV as cache (manual control) | Full control | More code, KV cost |
+| Strategy                          | Pros                   | Cons                      |
+| --------------------------------- | ---------------------- | ------------------------- |
+| TTL-based (set short cache times) | Simple                 | Stale window exists       |
+| Purge via API on write            | Immediate invalidation | Purge API has rate limits |
+| Cache tags + tag-based purge      | Granular               | Enterprise feature        |
+| KV as cache (manual control)      | Full control           | More code, KV cost        |
 
 **Senior choice:** Short TTL (30–60s) + `stale-while-revalidate` for most cases. Cache tag purge for enterprise. KV + custom invalidation for critical data.
 
@@ -1785,12 +1804,12 @@ return new HTMLRewriter()
 
 **Problem:** Your data needs to be close to users globally.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| KV (global replication) | Auto-replicated, fast reads | Eventually consistent |
-| DO per region | Strong consistency per region | Manual routing |
-| D1 (single primary) | SQL queries, replicas coming | Write latency for distant users |
-| Hyperdrive + external DB | Use existing Postgres | Depends on DB location |
+| Strategy                 | Pros                          | Cons                            |
+| ------------------------ | ----------------------------- | ------------------------------- |
+| KV (global replication)  | Auto-replicated, fast reads   | Eventually consistent           |
+| DO per region            | Strong consistency per region | Manual routing                  |
+| D1 (single primary)      | SQL queries, replicas coming  | Write latency for distant users |
+| Hyperdrive + external DB | Use existing Postgres         | Depends on DB location          |
 
 **Senior choice:** KV for read-heavy global data. D1 for relational. Hyperdrive for existing databases. DO only for coordination that MUST be consistent.
 
@@ -1802,18 +1821,22 @@ return new HTMLRewriter()
 
 ```typescript
 export default {
-  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: ExecutionContext,
+  ): Promise<Response> {
     // Validate webhook signature (important!)
-    const signature = request.headers.get("X-Webhook-Signature");
+    const signature = request.headers.get('X-Webhook-Signature');
     const body = await request.text();
     if (!verifySignature(body, signature, env.WEBHOOK_SECRET)) {
-      return new Response("Invalid signature", { status: 401 });
+      return new Response('Invalid signature', { status: 401 });
     }
 
     // Queue for reliable processing (respond 200 immediately)
     ctx.waitUntil(env.WEBHOOK_QUEUE.send({ payload: JSON.parse(body) }));
 
-    return new Response("OK", { status: 200 });
+    return new Response('OK', { status: 200 });
   },
 };
 ```
@@ -1826,13 +1849,13 @@ export default {
 
 **Problem:** Process tasks that take longer than a request cycle.
 
-| Strategy | Pros | Cons |
-|---|---|---|
-| `ctx.waitUntil()` | Simple, extends request | Still limited to 30s CPU |
-| Queues | Reliable, retries, batching | Async, can't return result to user |
-| Workflows | Multi-step, durable, resumable | Newer API, more complex |
-| DO Alarms | Scheduled, per-entity | Tied to a DO instance |
-| Cron Triggers | Periodic, reliable | Fixed schedule, not on-demand |
+| Strategy          | Pros                           | Cons                               |
+| ----------------- | ------------------------------ | ---------------------------------- |
+| `ctx.waitUntil()` | Simple, extends request        | Still limited to 30s CPU           |
+| Queues            | Reliable, retries, batching    | Async, can't return result to user |
+| Workflows         | Multi-step, durable, resumable | Newer API, more complex            |
+| DO Alarms         | Scheduled, per-entity          | Tied to a DO instance              |
+| Cron Triggers     | Periodic, reliable             | Fixed schedule, not on-demand      |
 
 **Senior choice:** Queues for most background work. Workflows for multi-step processes. DO Alarms for per-entity scheduled tasks (e.g., "send reminder 24h after signup").
 
@@ -1916,15 +1939,15 @@ export default {
 
 Given your React / Next.js / Astro / static files background:
 
-| Pattern | Why It's Useful for You |
-|---|---|
-| **Worker + Static Assets (SPA)** | Deploy your React app as static files + Worker for API — replaces Vercel |
-| **API proxy with caching** | Replace Next.js API routes that proxy third-party APIs |
-| **HTMLRewriter for personalization** | Add dynamic content to your static Astro/Next.js pages at the edge |
-| **Hono-based API** | Feels like Express/Next.js API routes — lowest learning curve |
-| **KV for feature flags** | Replace LaunchDarkly / PostHog feature flag with zero-latency edge reads |
-| **Queue for async processing** | Webhook handlers, email sending, analytics — offload from response path |
-| **R2 for file storage** | Replace S3 with zero egress fees — perfect for user uploads, assets |
+| Pattern                              | Why It's Useful for You                                                  |
+| ------------------------------------ | ------------------------------------------------------------------------ |
+| **Worker + Static Assets (SPA)**     | Deploy your React app as static files + Worker for API — replaces Vercel |
+| **API proxy with caching**           | Replace Next.js API routes that proxy third-party APIs                   |
+| **HTMLRewriter for personalization** | Add dynamic content to your static Astro/Next.js pages at the edge       |
+| **Hono-based API**                   | Feels like Express/Next.js API routes — lowest learning curve            |
+| **KV for feature flags**             | Replace LaunchDarkly / PostHog feature flag with zero-latency edge reads |
+| **Queue for async processing**       | Webhook handlers, email sending, analytics — offload from response path  |
+| **R2 for file storage**              | Replace S3 with zero egress fees — perfect for user uploads, assets      |
 
 ## 7.2 Learning Priority Order
 
@@ -1943,14 +1966,14 @@ Given your React / Next.js / Astro / static files background:
 
 ## 7.3 Ideal Practice Projects
 
-| Week | Project | Skills |
-|---|---|---|
-| 1 | URL shortener | KV, routing, redirects |
-| 2 | Personal API (portfolio data + GitHub proxy) | Hono, fetch, Cache API |
-| 3 | Blog with Astro + CF Workers adapter | Astro SSR on Workers, KV |
-| 4 | File sharing app | R2, presigned URLs, auth |
-| 5-6 | Real-time poll/voting app | Durable Objects, WebSocket |
-| 7-8 | Webhook processing pipeline | Queues, R2, error handling |
+| Week | Project                                      | Skills                     |
+| ---- | -------------------------------------------- | -------------------------- |
+| 1    | URL shortener                                | KV, routing, redirects     |
+| 2    | Personal API (portfolio data + GitHub proxy) | Hono, fetch, Cache API     |
+| 3    | Blog with Astro + CF Workers adapter         | Astro SSR on Workers, KV   |
+| 4    | File sharing app                             | R2, presigned URLs, auth   |
+| 5-6  | Real-time poll/voting app                    | Durable Objects, WebSocket |
+| 7-8  | Webhook processing pipeline                  | Queues, R2, error handling |
 
 ## 7.4 Common Mistakes Frontend Engineers Make
 
@@ -1973,50 +1996,54 @@ Given your React / Next.js / Astro / static files background:
 ## 7.5 30-Day Learning Plan
 
 ### Week 1: Foundations
-| Day | Task | Deliverable |
-|---|---|---|
-| 1 | Install Wrangler, create Hello World, deploy | Live Worker on workers.dev |
-| 2 | Explore `request.cf`, URL routing, response types | Worker that responds differently per path |
-| 3 | Build a JSON API proxy (fetch external API) | Working proxy Worker |
-| 4 | Learn Cache API, add caching to proxy | Cached proxy with headers |
-| 5 | Learn environment variables + secrets | Configured Worker with secrets |
-| 6 | Build URL shortener with KV | Working URL shortener |
-| 7 | Review, refactor, read Cloudflare docs on limits | Clean code, notes on gotchas |
+
+| Day | Task                                              | Deliverable                               |
+| --- | ------------------------------------------------- | ----------------------------------------- |
+| 1   | Install Wrangler, create Hello World, deploy      | Live Worker on workers.dev                |
+| 2   | Explore `request.cf`, URL routing, response types | Worker that responds differently per path |
+| 3   | Build a JSON API proxy (fetch external API)       | Working proxy Worker                      |
+| 4   | Learn Cache API, add caching to proxy             | Cached proxy with headers                 |
+| 5   | Learn environment variables + secrets             | Configured Worker with secrets            |
+| 6   | Build URL shortener with KV                       | Working URL shortener                     |
+| 7   | Review, refactor, read Cloudflare docs on limits  | Clean code, notes on gotchas              |
 
 ### Week 2: Real Framework
-| Day | Task | Deliverable |
-|---|---|---|
-| 8 | Set up Hono, recreate all routes | Hono-based Worker |
-| 9 | Add middleware (CORS, auth, logging) | Production-like middleware stack |
-| 10 | Build CRUD API with KV as storage | Working REST API |
-| 11 | Add input validation (Zod) + error handling | Robust error responses |
-| 12 | Write tests with Vitest + Workers pool | Test suite passing |
-| 13 | Set up CI/CD with GitHub Actions | Auto-deploy on push |
-| 14 | Deploy with staging + production environments | Multi-env setup |
+
+| Day | Task                                          | Deliverable                      |
+| --- | --------------------------------------------- | -------------------------------- |
+| 8   | Set up Hono, recreate all routes              | Hono-based Worker                |
+| 9   | Add middleware (CORS, auth, logging)          | Production-like middleware stack |
+| 10  | Build CRUD API with KV as storage             | Working REST API                 |
+| 11  | Add input validation (Zod) + error handling   | Robust error responses           |
+| 12  | Write tests with Vitest + Workers pool        | Test suite passing               |
+| 13  | Set up CI/CD with GitHub Actions              | Auto-deploy on push              |
+| 14  | Deploy with staging + production environments | Multi-env setup                  |
 
 ### Week 3: Storage Deep-Dive
-| Day | Task | Deliverable |
-|---|---|---|
-| 15 | R2: Build a file upload/download API | Working file storage |
-| 16 | R2: Add presigned URLs for large uploads | Client-side upload flow |
-| 17 | D1: Create a database, run SQL queries | Working D1 queries |
-| 18 | D1: Build a simple blog API (CRUD posts) | Blog API with SQL |
-| 19 | Durable Objects: Build a counter | First DO working |
-| 20 | Durable Objects: Build a rate limiter | DO-based rate limiting |
-| 21 | Compare all storage options, write decision guide | Personal cheatsheet |
+
+| Day | Task                                              | Deliverable             |
+| --- | ------------------------------------------------- | ----------------------- |
+| 15  | R2: Build a file upload/download API              | Working file storage    |
+| 16  | R2: Add presigned URLs for large uploads          | Client-side upload flow |
+| 17  | D1: Create a database, run SQL queries            | Working D1 queries      |
+| 18  | D1: Build a simple blog API (CRUD posts)          | Blog API with SQL       |
+| 19  | Durable Objects: Build a counter                  | First DO working        |
+| 20  | Durable Objects: Build a rate limiter             | DO-based rate limiting  |
+| 21  | Compare all storage options, write decision guide | Personal cheatsheet     |
 
 ### Week 4: Advanced Patterns
-| Day | Task | Deliverable |
-|---|---|---|
-| 22 | Queues: Build a webhook receiver → processor | Queue pipeline working |
-| 23 | Queues: Add dead-letter queue + monitoring | Reliable queue system |
-| 24 | Deploy Astro site on Workers | Astro SSR on CF |
-| 25 | Add HTMLRewriter personalization to static site | Dynamic edge content |
-| 26 | Multi-Worker: Build gateway + 2 service Workers | Service Bindings working |
-| 27 | Add observability (logs, traces, tail) | Monitoring setup |
-| 28 | Cron Triggers: Build a scheduled cleanup job | Cron Worker running |
-| 29 | Performance audit: measure latency, optimize | P50/P99 benchmarks |
-| 30 | Write architecture doc for a real project idea | Architecture diagram + plan |
+
+| Day | Task                                            | Deliverable                 |
+| --- | ----------------------------------------------- | --------------------------- |
+| 22  | Queues: Build a webhook receiver → processor    | Queue pipeline working      |
+| 23  | Queues: Add dead-letter queue + monitoring      | Reliable queue system       |
+| 24  | Deploy Astro site on Workers                    | Astro SSR on CF             |
+| 25  | Add HTMLRewriter personalization to static site | Dynamic edge content        |
+| 26  | Multi-Worker: Build gateway + 2 service Workers | Service Bindings working    |
+| 27  | Add observability (logs, traces, tail)          | Monitoring setup            |
+| 28  | Cron Triggers: Build a scheduled cleanup job    | Cron Worker running         |
+| 29  | Performance audit: measure latency, optimize    | P50/P99 benchmarks          |
+| 30  | Write architecture doc for a real project idea  | Architecture diagram + plan |
 
 ---
 
@@ -2044,18 +2071,18 @@ Given your React / Next.js / Astro / static files background:
 
 ## Advanced Topics to Continue Learning
 
-| Topic | Why |
-|---|---|
-| **WebSocket Hibernation** | Build efficient real-time apps without DO cost when idle |
-| **Workers for Platforms** | Build platforms where YOUR users deploy Workers (like Shopify) |
-| **Smart Placement** | Optimize Worker location relative to your backend |
-| **Cloudflare Containers** | Run containers at the edge for heavier workloads |
-| **Vectorize + Workers AI** | Build RAG/AI search at the edge |
-| **mTLS + Access** | Zero-trust security between Workers and origins |
-| **Tail Workers** | Process logs from other Workers (observability pipeline) |
-| **Trace Workers** | Custom tracing across Service Bindings |
-| **DO WebSocket + SQLite** | Each DO instance gets its own SQLite database |
-| **Gradual Deployments** | `wrangler versions deploy` for canary/blue-green releases |
+| Topic                      | Why                                                            |
+| -------------------------- | -------------------------------------------------------------- |
+| **WebSocket Hibernation**  | Build efficient real-time apps without DO cost when idle       |
+| **Workers for Platforms**  | Build platforms where YOUR users deploy Workers (like Shopify) |
+| **Smart Placement**        | Optimize Worker location relative to your backend              |
+| **Cloudflare Containers**  | Run containers at the edge for heavier workloads               |
+| **Vectorize + Workers AI** | Build RAG/AI search at the edge                                |
+| **mTLS + Access**          | Zero-trust security between Workers and origins                |
+| **Tail Workers**           | Process logs from other Workers (observability pipeline)       |
+| **Trace Workers**          | Custom tracing across Service Bindings                         |
+| **DO WebSocket + SQLite**  | Each DO instance gets its own SQLite database                  |
+| **Gradual Deployments**    | `wrangler versions deploy` for canary/blue-green releases      |
 
 ---
 
