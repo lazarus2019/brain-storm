@@ -2,6 +2,8 @@
 
 Repository for researching and collecting notes on technology, architecture, and system design.
 
+![Brain storm SonixDev](./_assets/images/brain-storm.png)
+
 ## Purpose
 
 This repository is an index of study materials, experiments, and references. Each concept should have its own README, with deeper notes and examples stored beside it.
