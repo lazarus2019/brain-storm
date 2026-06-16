@@ -11,22 +11,22 @@ featured: false
 
 # Taxonomy
 tags:
-	- cap-theorem
-	- distributed-systems
-	- consistency
+  - cap-theorem
+  - distributed-systems
+  - consistency
 categories:
-	- mindset
+  - mindset
 
 # SEO
 seo:
-	title: CAP Theorem
-	description: "Explains the CAP theorem and its implications for distributed system design, trade-offs, and real-world considerations."
-	canonical: https://feel-free.com/blogs/cap-theorem
-	keywords:
-		- cap-theorem
-		- distributed-systems
-		- consistency
-	image: ../assets/cap-theorem.webp
+  title: CAP Theorem
+  description: "Explains the CAP theorem and its implications for distributed system design, trade-offs, and real-world considerations."
+  canonical: https://feel-free.com/blogs/cap-theorem
+  keywords:
+    - cap-theorem
+    - distributed-systems
+    - consistency
+  image: ../assets/cap-theorem.webp
 
 # Author & Localization
 author: lazarus2019

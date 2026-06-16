@@ -11,22 +11,22 @@ featured: false
 
 # Taxonomy
 tags:
-	- cookies
-	- security
-	- http
+  - cookies
+  - security
+  - http
 categories:
-	- security
+  - security
 
 # SEO
 seo:
-	title: Cookies
-	description: "Security best practices for using cookies: flags, expiration, secure storage, and common vulnerabilities to avoid."
-	canonical: https://feel-free.com/blogs/cookies
-	keywords:
-		- cookies
-		- security
-		- http
-	image: ../assets/cookies.webp
+  title: Cookies
+  description: "Security best practices for using cookies: flags, expiration, secure storage, and common vulnerabilities to avoid."
+  canonical: https://feel-free.com/blogs/cookies
+  keywords:
+    - cookies
+    - security
+    - http
+  image: ../assets/cookies.webp
 
 # Author & Localization
 author: lazarus2019

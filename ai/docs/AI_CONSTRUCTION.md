@@ -11,20 +11,20 @@ featured: false
 
 # Taxonomy
 tags:
-	- ai
-	- architecture
+  - ai
+  - architecture
 categories:
-	- ai
+  - ai
 
 # SEO
 seo:
-	title: AI Construction
-	description: "A concise overview of AI Construction, covering core concepts, typical use cases, and implementation considerations for developers and architects."
-	canonical: https://feel-free.com/blogs/ai-construction
-	keywords:
-		- ai
-		- architecture
-	image: ../assets/ai-construction.webp
+  title: AI Construction
+  description: "A concise overview of AI Construction, covering core concepts, typical use cases, and implementation considerations for developers and architects."
+  canonical: https://feel-free.com/blogs/ai-construction
+  keywords:
+    - ai
+    - architecture
+  image: ../assets/ai-construction.webp
 
 # Author & Localization
 author: lazarus2019

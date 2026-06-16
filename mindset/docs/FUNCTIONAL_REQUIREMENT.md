@@ -11,22 +11,22 @@ featured: false
 
 # Taxonomy
 tags:
-	- requirements
-	- functional-requirement
-	- spec
+  - requirements
+  - functional-requirement
+  - spec
 categories:
-	- mindset
+  - mindset
 
 # SEO
 seo:
-	title: Functional Requirement
-	description: "Defines functional requirements: how to write clear, testable feature requirements and map them to implementation concerns."
-	canonical: https://feel-free.com/blogs/functional-requirement
-	keywords:
-		- requirements
-		- functional-requirement
-		- spec
-	image: ../assets/functional-requirement.webp
+  title: Functional Requirement
+  description: "Defines functional requirements: how to write clear, testable feature requirements and map them to implementation concerns."
+  canonical: https://feel-free.com/blogs/functional-requirement
+  keywords:
+    - requirements
+    - functional-requirement
+    - spec
+  image: ../assets/functional-requirement.webp
 
 # Author & Localization
 author: lazarus2019

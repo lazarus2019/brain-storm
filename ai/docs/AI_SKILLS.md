@@ -11,22 +11,22 @@ featured: false
 
 # Taxonomy
 tags:
-	- ai
-	- skills
-	- tooling
+  - ai
+  - skills
+  - tooling
 categories:
-	- ai
+  - ai
 
 # SEO
 seo:
-	title: AI Skills
-	description: "Practical breakdown of AI skills, roles, and tooling developers need to build effective AI products."
-	canonical: https://feel-free.com/blogs/ai-skills
-	keywords:
-		- ai
-		- skills
-		- tooling
-	image: ../assets/ai-skills.webp
+  title: AI Skills
+  description: "Practical breakdown of AI skills, roles, and tooling developers need to build effective AI products."
+  canonical: https://feel-free.com/blogs/ai-skills
+  keywords:
+    - ai
+    - skills
+    - tooling
+  image: ../assets/ai-skills.webp
 
 # Author & Localization
 author: lazarus2019

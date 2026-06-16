@@ -11,20 +11,20 @@ featured: false
 
 # Taxonomy
 tags:
-	- ai
-	- flow
+  - ai
+  - flow
 categories:
-	- ai
+  - ai
 
 # SEO
 seo:
-	title: AI Flow
-	description: "A concise guide to AI Flow, outlining design patterns, data flow, and integration considerations for AI systems."
-	canonical: https://feel-free.com/blogs/ai-flow
-	keywords:
-		- ai
-		- flow
-	image: ../assets/ai-flow.webp
+  title: AI Flow
+  description: "A concise guide to AI Flow, outlining design patterns, data flow, and integration considerations for AI systems."
+  canonical: https://feel-free.com/blogs/ai-flow
+  keywords:
+    - ai
+    - flow
+  image: ../assets/ai-flow.webp
 
 # Author & Localization
 author: lazarus2019

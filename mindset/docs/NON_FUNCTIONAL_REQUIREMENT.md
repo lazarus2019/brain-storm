@@ -11,22 +11,22 @@ featured: false
 
 # Taxonomy
 tags:
-	- requirements
-	- non-functional
-	- scalability
+  - requirements
+  - non-functional
+  - scalability
 categories:
-	- mindset
+  - mindset
 
 # SEO
 seo:
-	title: Non-Functional Requirement
-	description: "Explains non-functional requirements: performance, reliability, scalability, and how to specify them effectively."
-	canonical: https://feel-free.com/blogs/non-functional-requirement
-	keywords:
-		- requirements
-		- non-functional
-		- scalability
-	image: ../assets/non-functional-requirement.webp
+  title: Non-Functional Requirement
+  description: "Explains non-functional requirements: performance, reliability, scalability, and how to specify them effectively."
+  canonical: https://feel-free.com/blogs/non-functional-requirement
+  keywords:
+    - requirements
+    - non-functional
+    - scalability
+  image: ../assets/non-functional-requirement.webp
 
 # Author & Localization
 author: lazarus2019

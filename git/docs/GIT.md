@@ -503,8 +503,8 @@ Records every ref movement:
 
 ```
 .git/logs/HEAD:
-a1b2c3 d4e5f6 Author <email> 1716400000 +0000	commit: Fix bug
-d4e5f6 g7h8i9 Author <email> 1716400100 +0000	checkout: moving from main to feature
+a1b2c3 d4e5f6 Author <email> 1716400000 +0000  commit: Fix bug
+d4e5f6 g7h8i9 Author <email> 1716400100 +0000  checkout: moving from main to feature
 
 Format: <old-hash> <new-hash> <author> <timestamp> <timezone>\t<action>: <message>
 ```

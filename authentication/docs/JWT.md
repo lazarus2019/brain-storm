@@ -11,22 +11,22 @@ featured: false
 
 # Taxonomy
 tags:
-	- jwt
-	- authentication
-	- security
+  - jwt
+  - authentication
+  - security
 categories:
-	- authentication
+  - authentication
 
 # SEO
 seo:
-	title: JWT
-	description: "Explains JSON Web Tokens (JWT): structure, signing, common use cases, and best practices for secure authentication."
-	canonical: https://feel-free.com/blogs/jwt
-	keywords:
-		- jwt
-		- authentication
-		- security
-	image: ../assets/jwt.webp
+  title: JWT
+  description: "Explains JSON Web Tokens (JWT): structure, signing, common use cases, and best practices for secure authentication."
+  canonical: https://feel-free.com/blogs/jwt
+  keywords:
+    - jwt
+    - authentication
+    - security
+  image: ../assets/jwt.webp
 
 # Author & Localization
 author: lazarus2019

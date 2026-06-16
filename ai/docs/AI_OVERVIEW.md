@@ -11,20 +11,20 @@ featured: false
 
 # Taxonomy
 tags:
-	- ai
-	- overview
+  - ai
+  - overview
 categories:
-	- ai
+  - ai
 
 # SEO
 seo:
-	title: AI Overview
-	description: "An approachable overview of AI fundamentals, common architectures, and starting points for building AI features."
-	canonical: https://feel-free.com/blogs/ai-overview
-	keywords:
-		- ai
-		- overview
-	image: ../assets/ai-overview.webp
+  title: AI Overview
+  description: "An approachable overview of AI fundamentals, common architectures, and starting points for building AI features."
+  canonical: https://feel-free.com/blogs/ai-overview
+  keywords:
+    - ai
+    - overview
+  image: ../assets/ai-overview.webp
 
 # Author & Localization
 author: lazarus2019

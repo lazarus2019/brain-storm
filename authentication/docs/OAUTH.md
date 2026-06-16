@@ -11,22 +11,22 @@ featured: false
 
 # Taxonomy
 tags:
-	- oauth
-	- authorization
-	- authentication
+  - oauth
+  - authorization
+  - authentication
 categories:
-	- authentication
+  - authentication
 
 # SEO
 seo:
-	title: OAuth
-	description: "Overview of OAuth: flows, grants, and best practices for delegating authorization between services."
-	canonical: https://feel-free.com/blogs/oauth
-	keywords:
-		- oauth
-		- authorization
-		- authentication
-	image: ../assets/oauth.webp
+  title: OAuth
+  description: "Overview of OAuth: flows, grants, and best practices for delegating authorization between services."
+  canonical: https://feel-free.com/blogs/oauth
+  keywords:
+    - oauth
+    - authorization
+    - authentication
+  image: ../assets/oauth.webp
 
 # Author & Localization
 author: lazarus2019
