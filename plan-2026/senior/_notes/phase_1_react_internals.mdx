@@ -1,0 +1,70 @@
+React recoiciliation:
+
+- thuật toán của react
+- xác định phần thay đổi giữa các lần render và thứ DOM cần làm sau đó
+
+Fiber:
+
+- mô hình xuất hiện từ React 16
+- Giúp recoiciliation xen vào, điều chỉnh sự ưu tiên và xử lý bất đồng bộ
+- Trước đó
+
+Virtual DOM
+
+- React không thay đổi tới DOM trực tiếp
+- React lưu plain JS object là Virtual DOM (vDOM)
+- Mỗi lần state thay đổi, React tạo 1 vDOM tree mới, so sánh với phiên bản cũ và cập nhật tối thiểu những phần DOM thực sự thay đổi.
+- Tiến trình so sánh đó gọi là Reconciliation
+  => DOM thay đổi sẽ trigger layout/paint không tốt cho performance. Việc so sánh 2 JS objects tiết kiếm hơn rất nhiều, và React cũng chỉ chỉnh sửa DOM ở mức tối thiếu với những thay đổi đó
+
+Thuật toán so sánh (O(n) Heuristics)
+
+- Những elements có type khác nhau tương đương toàn bộ tree khác nhau
+- React không dùng lại mà bỏ cả subtree và tạo lại (unmount và remount: mất state)
+- Key prop là tín hiệu tính nhất quán giữa các lần renders
+- Với key prop là index, khi items bị reorder, state của item đó có thể bị mismaps với state cũ
+
+React Fiber Architecture
+
+- Trước khi có Fiber (React <= 15), reconciliation là một quá trình đồng bộ, không thể tạm dừng, không thể hủy bỏ, và không thể ưu tiên. Khi so sánh tree lớn thì gây ra hiện tượng block main thread cho tới khi hoàn tất, dẫn tới UI bị lag, không phản hồi với người dùng.
+
+- Fiber ra đời ra giải quyết vấn đề này bằng cách chia quá trình reconciliation thành những đơn vị công việc nhỏ hơn, gọi là "fiber node", 1 object đại diện như một linked list node.
+
+- React luôn giữ 2 fiber tree
+  - Tree hiện tại: những thứ đang hiển thị trên UI
+  - Work-in-progress (WIP) tree: những thứ React đang tính toán và chuẩn bị cho lần render tiếp theo.
+
+- Đây được gọi là "double buffering" (https://thanhfphan.com/posts/double-buffering/) (giống như double buffering trong game dev). Khi React hoàn tất việc tính toán work-in-progress tree, nó sẽ hoán đổi 2 tree này, và tree mới sẽ được hiển thị trên UI.
+
+2 Phases của Rendering
+
+- Render phase (có thể bị gián đoạn)
+  - React sẽ đia qua fiber tree, chạy qua các component function, tạo ra WIP tree.
+  - Phase này có thể có thể bị gián đoạn bởi các event khác, có thể bị dừng, chạy lại, hoặc hủy bỏ để chạy những task ưu tiên hơn.
+  - React không tương tác với DOM trong phase này
+  - Cho phép bật tính năng Concurrent mode như `useTransition` và `Suspense`
+  - Render phase:
+    - beginWork(fiber) => run component function => produce child fibers
+    - completeWork(fiber) => collect DOM mutations into effect list
+
+- Commit phase (đồng bộ, không thể bị gián đoạn)
+  - React duyệt qua effect list và thực hiện các thay đổi DOM trong cùng 1 lần
+  - Phase này không thể bị gián đoạn
+  - Việc cập nhật 1 phần DOM có thể gây ra UI không nhất quán
+  - Commit phase:
+    - commitBeforeMutationEffects => snapshot
+    - commitMutationEffect => apply DOM mutations
+    - insertions/updates/deletions => fire useLayoutEffect (componentDidMount/Update)
+    - React yields cho trình duyệt => fire useEffect (scheduled async)
+
+=> `useLayoutEffect` chạy đồng bộ trong commit phase, trước khi browser paint, còn `useEffect` chạy bất đồng bộ sau khi brower paint.
+
+Khi nào trigger re-render
+
+- Khi state của component thay đổi
+- Khi component parent re-render
+  => Ngăn re-render thừa thải với `React.memo`, `useMemo`, `useCallback` (đều tốn memorize, performance để so sánh props cũ và mới)
+
+- Khi nào thì dùng `React.memo`:
+  - Component nặng, tốn nhiều thời gian để tính toán và render
+  - Component parent thường xuyên re-render nhưng props của component con hiếm khi thay đổi

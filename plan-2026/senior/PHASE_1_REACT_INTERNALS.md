@@ -44,6 +44,12 @@ When state changes, React produces a **new vDOM tree**, diffs it against the **p
 
 ### 1.2 The Diffing Algorithm (O(n) Heuristics)
 
+React fiber: https://blog.ag-grid.com/inside-fiber-an-in-depth-overview-of-the-new-reconciliation-algorithm-in-react/
+
+React fiber architecture: https://github.com/acdlite/react-fiber-architecture
+
+React Stack reconciler: https://legacy.reactjs.org/docs/implementation-notes.html
+
 A naive tree diff is O(n³). React achieves O(n) using two heuristics:
 
 **Heuristic 1: Elements of different types produce entirely different trees.**
