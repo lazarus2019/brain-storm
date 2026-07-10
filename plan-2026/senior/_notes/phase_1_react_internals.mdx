@@ -39,8 +39,8 @@ React Fiber Architecture
 2 Phases của Rendering
 
 - Render phase (có thể bị gián đoạn)
-  - React sẽ đia qua fiber tree, chạy qua các component function, tạo ra WIP tree.
-  - Phase này có thể có thể bị gián đoạn bởi các event khác, có thể bị dừng, chạy lại, hoặc hủy bỏ để chạy những task ưu tiên hơn.
+  - React sẽ đi qua fiber tree, chạy qua các component function, tạo ra WIP tree.
+  - Phase này có thể bị gián đoạn bởi các event khác, có thể bị dừng, chạy lại, hoặc hủy bỏ để chạy những task ưu tiên hơn.
   - React không tương tác với DOM trong phase này
   - Cho phép bật tính năng Concurrent mode như `useTransition` và `Suspense`
   - Render phase:
@@ -68,3 +68,24 @@ Khi nào trigger re-render
 - Khi nào thì dùng `React.memo`:
   - Component nặng, tốn nhiều thời gian để tính toán và render
   - Component parent thường xuyên re-render nhưng props của component con hiếm khi thay đổi
+
+mô hình useEffect
+
+cốt lõi mô hình useEffect
+
+```typescript
+(componentDidMount) => useEffect(() => {}, []);
+(componentDidUpdate) => useEffect(() => {}, []);
+(componentWillUnmount) =>
+  useEffect(() => {
+    return () => {};
+  }, []);
+```
+
+- useEffect đồng bộ component với hệ thống bên ngoài (event listeners, timer, websocket, api, localstorage, animation,...)
+- dependency không đề cập chạy khi nào. Chỉ đề cập tới effect dựa trên dependency gì. React chạy effect khi list dependencies có sự thay đổi so với lần render trước.
+
+Snapshot và đồng bộ hóa
+
+- Mỗi lần render đều là 1 snapshot
+- Khi render, React gọi component function và lưu lại giá trị của các biến, props, state tại thời điểm đó.
