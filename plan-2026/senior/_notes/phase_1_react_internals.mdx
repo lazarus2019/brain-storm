@@ -89,3 +89,196 @@ Snapshot và đồng bộ hóa
 
 - Mỗi lần render đều là 1 snapshot
 - Khi render, React gọi component function và lưu lại giá trị của các biến, props, state tại thời điểm đó.
+
+```typescript
+function Timer({ delay }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // Thực thi effect với delay từ snapshot hiện tại, không phải snapshot trước đó
+    // Nếu dùng count thay vì setCount, sẽ bị stale closure, luôn lấy giá trị count từ snapshot trước đó
+    const id = setInterval(() => {
+      setCount((c) => c + 1); // functional update avoids stale closure
+    }, delay);
+
+    return () => clearInterval(id);
+  }, [delay]); // Mỗi lần delay thay đổi, effect sẽ clean up và tạo effect mới với delay mới
+}
+```
+
+- cleanup function được gọi trước mỗi lần effect function được execute/re-execute nếu dependencies thay đổi hoặc bị unmount. Mục đích để unsync/undo những gì mà effect đã thực hiện trước đó.
+- Hạn chế memory leak, tránh duplicate event listeners, timers, subscriptions,...
+
+React render và Javascript closure hoạt động cùng nhau
+
+- stale closure: callback dùng cùng 1 giá trị đã "cũ", được snapshot ở lần render đầu tiên.
+
+- tại sao functional update giải quyết được?
+- Đưa 1 callback để React tự xử lý, lúc này React sẽ truyền vào state mới nhất
+
+Có phải do closure đã bị "cũ" không?
+
+- Closure nhớ các biến môi trường nơi nó được tạo ra
+
+- Vấn đề là:
+  - setInternal chỉ được tạo ra 1 lần (effect không chạy lại)
+  - Callback của interval vì thế luôn gắn với snapshot của render đầu tiên
+  - Khi component re-render, React tạo snapshot mới (count = 1, count = 2,...) nhưng interval vẫn giữ callback cũ
+
+```
+Render #1
+count = 0
+        │
+        └────── interval callback ──────► count = 0
+
+Render #2
+count = 1
+
+Render #3
+count = 2
+
+Render #4
+count = 3
+```
+
+interval callback luôn giữ count = 0
+
+Thêm "count" vào dependency cũng hoạt động?
+
+```typecsript
+useEffect(() => {
+  const id = setInterval(() => {
+    setCount(count + 1);
+  }, delay);
+
+  return () => clearInterval(id);
+}, [count, delay]);
+```
+
+- Mỗi lần count thay đổi
+  - Effect cũ bị cleanup (clearInterval)
+  - React tạo interval mới
+  - Callback mới capture "count" mới nhất
+
+```
+Render #1
+count = 0
+→ callback nhớ 0
+
+count thành 1
+
+Render #2
+cleanup interval cũ
+tạo interval mới
+→ callback nhớ 1
+
+count thành 2
+
+Render #3
+cleanup
+tạo callback nhớ 2
+...
+```
+
+Cách này vẫn đúng nhưng không tối ưu bằng functional update vì mỗi lần "count" đổi đề phải cleanup và tạo lại interval, hãy để React tự xử lý state mới nhất.
+
+Summary:
+
+- Mỗi lần render tạo 1 snapshot mới
+- Callback trong setInterval capture snapshot tại thời điểm effect chạy
+- Khi Effect không chạy lại, callback luôn dùng snapshot cũ => slate closure
+- `setCount(count + 1)` phụ thuộc vào giá trị snapshot cũ nên dễ bị stale
+- `setCount(prev => prev + 1)` không dùng count từ closure, React truyền `prev` là state mới nhất khi xử lý update, nên luôn đúng, dù callback được tạo từ render cũ.
+
+Vấn đề Stale Closure
+
+- Bug liên quan tới useEffect
+- empty deps dẫn đến stale closure forever => fix bằng cách thêm deps
+
+```typescript
+function SearchBox() {
+  const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    // BUG: `query` here is captured from the first render only
+    // It will always be '' because the dep array is empty
+    fetchResults(query).then(setResults);
+  }, []); // <- empty deps "works" but reads stale query forever
+}
+```
+
+```typescript
+useEffect(() => {
+  fetchResults(query).then(setResults);
+}, [query]); // correct — re-runs when query changes
+```
+
+Race Conditions trong Effects
+
+- Khi fetch API bên trong useEffect, có thể dính race dontition nếu component re-render trước khi fetch API trả về.
+
+> Race condition: Có nhiều process chạy song song, và task hoàn thành sau chưa chắc là process mới nhất
+
+```typescript
+// BUG: userId thay đổi từ 1 sang 2, trong lúc fetch 1 và 2, thì 2 trả về trước, trigger re-render với data userId 2
+// Khi fetch userId 1 trả về, thì setUser(data) cập nhật với userId 1, dẫn tới hiển thị stale data
+useEffect(() => {
+  fetchUser(userId).then((data) => setUser(data));
+}, [userId]);
+
+// FIX: dùng cleanup flag (ignore pattern)
+useEffect(() => {
+  let ignore = false;
+
+  fetchUser(userId).then((data) => {
+    if (!ignore) setUser(data); // nếu dính ignore thì không setUser nữa
+  });
+
+  return () => {
+    ignore = true;
+  };
+}, [userId]);
+```
+
+- Bản chất FIX
+  - Với mỗi lần userId thay đổi, React sẽ tạo 1 closure mới cho callback => 2 biến ignore sẽ độc lập với nhau
+  - Khi userId thay đổi, effect cũ sẽ chạy cleanup, set ignore = true, nhưng request, server vẫn xử lý, network dẫn chạy, chỉ là React bỏ qua việc setUser.
+  - Vẫn còn hạn chế vì request bị thừa, có thể dùng debounce, cancel request, hoặc abort controller để hủy request cũ.
+
+AbortController API trong useEffect
+
+- Thay vì ignore như trên, hãy cancel request cũ
+
+```typescript
+useEffect(() => {
+  const controller = new AbortController();
+
+  fetch(`/user/${userId}`, {
+    signal: controller.signal,
+  })
+    .then((res) => res.json())
+    .then(setUser)
+    .catch((err) => {
+      if (err.name !== 'AbortError') {
+        console.error(err);
+      }
+    });
+
+  return () => controller.abort();
+}, [userId]);
+```
+
+- Đây cũng là cách mà React Query, SWR,... xử lý stale data
+
+- Một vài tính năng khác của AbortController:
+  - Có thể cancel fetch API, axios, promise, setTimeout,...
+  - Có thể cancel nhiều request cùng lúc
+  - Có thể cancel request khi component unmount
+
+
+Note Race Condition
+- Race condition không chỉ xảy ra khi có nhiều threads
+- JS single-threaded nhưng vẫn có thể dính
+  - Các thao tác bất đồng bộ (async) như, fetch, timer, promise, setTimeout, setInterval,... hoàn thành không theo thứ tu bắt đầu
+  - Callback nào hoàn thành trước sẽ được đưa vào event loop trước, nên kết quả có thể ghi đè lẫn nhau
+- Race condition ở đây không phải do nhiều thread cùng truy cập bộ nhớ, mà do thứ tự hoàn thành của các tác vụ async không được đảm bảo
